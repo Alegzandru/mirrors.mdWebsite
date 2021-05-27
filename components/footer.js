@@ -1,0 +1,192 @@
+import Image from "next/image"
+
+export default function Footer () {
+    return (
+        <div className="bg-ui-black pt-44px mdFooter:pt-88px px-container-sm md:px-container-md lg:px-container-lg font-Ubuntu">
+            <div className="flex flex-row items-center mdFooter:items-start justify-between">
+                <div className="hidden mdFooter:block">
+                    <Image
+                        src="/branding/whiteLogo.png"
+                        width={232}
+                        height={66}
+                    />
+                </div>
+                <div className="mdFooter:hidden">
+                    <img
+                        src="/branding/smallLogo.png"
+                        className="h-14 w-14 mdFooter:w-8 mdFooter:h-8"
+                    />
+                </div>
+                <div className="text-type-grey hidden mdFooter:block">
+                    <div className="text-ui-white font-bold text-sm-h4">
+                        Catalog
+                    </div>
+                    <ul className="text-lg-14 mt-8">
+                        <li className="mb-4">
+                            Catalogul oglinzilor
+                        </li>
+                        <li className="mb-4">
+                            Dulapuri
+                        </li>
+                        <li className="mb-4">
+                            Oglinzi acrilice
+                        </li>
+                        <li className="mb-4">
+                            Mese Make-up
+                        </li>
+                        <li className="mb-4">
+                            Texte acrilice
+                        </li>
+                        <li className="mb-4">
+                            Texte cu iluminare
+                        </li>
+                        <li className="mb-4">
+                            Produse din sticlă
+                        </li>
+                    </ul>
+                </div>
+                <div className="text-type-grey hidden mdFooter:block">
+                    <div className="text-ui-white font-bold text-sm-h4">
+                        Meniu
+                    </div>
+
+                    <ul className="text-lg-14 mt-8">
+                        <li className="mb-4">
+                            Pagina principală
+                        </li>
+                        <li className="mb-4">
+                            Contacte
+                        </li>
+                        <li className="mb-4">
+                            Galeria
+                        </li>
+                        <li className="mb-4">
+                            Întrebări frecvente
+                        </li>
+                        <li className="mb-4">
+                            Plata, livrarea și ambalarea
+                        </li>
+                    </ul>
+                </div>
+                <div className="text-type-grey hidden mdFooter:block">
+                    <div className="text-ui-white font-bold text-sm-h4">
+                        Contacte
+                    </div>
+                    
+                    <ul className="text-lg-14 mt-8">
+                        <li className="mb-4 flex flex-row justify-start items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                            </svg>
+                            +373 69 482 034
+                        </li>
+                        <li className="mb-4 flex flex-row justify-start items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                            str. Ismail 98
+                        </li>
+                    </ul>
+                </div>
+                <div className="flex flex-row items-start justify-between w-80px">
+                    <Image
+                        src="/branding/facebookWhite.png"
+                        width={24}
+                        height={24}
+                    />
+                    <Image
+                        src="/branding/instagramWhite.png"
+                        width={24}
+                        height={24}
+                    />
+                </div>
+            </div>
+
+            <div className="flex flex-col items-start justify-start">
+                <div className="text-type-grey mdFooter:hidden mt-12">
+                    <div className="text-ui-white font-bold text-sm-h4">
+                        Catalog
+                    </div>
+                    <ul className="text-lg-14 mt-8">
+                        <li className="mb-4">
+                            Catalogul oglinzilor
+                        </li>
+                        <li className="mb-4">
+                            Dulapuri
+                        </li>
+                        <li className="mb-4">
+                            Oglinzi acrilice
+                        </li>
+                        <li className="mb-4">
+                            Mese Make-up
+                        </li>
+                        <li className="mb-4">
+                            Texte acrilice
+                        </li>
+                        <li className="mb-4">
+                            Texte cu iluminare
+                        </li>
+                        <li className="mb-4">
+                            Produse din sticlă
+                        </li>
+                    </ul>
+                </div>
+                <div className="text-type-grey mdFooter:hidden mt-12">
+                    <div className="text-ui-white font-bold text-sm-h4">
+                        Meniu
+                    </div>
+
+                    <ul className="text-lg-14 mt-8">
+                        <li className="mb-4">
+                            Pagina principală
+                        </li>
+                        <li className="mb-4">
+                            Contacte
+                        </li>
+                        <li className="mb-4">
+                            Galeria
+                        </li>
+                        <li className="mb-4">
+                            Întrebări frecvente
+                        </li>
+                        <li className="mb-4">
+                            Plata, livrarea și ambalarea
+                        </li>
+                    </ul>
+                </div>
+                <div className="text-type-grey mdFooter:hidden mt-12">
+                    <div className="text-ui-white font-bold text-sm-h4">
+                        Contacte
+                    </div>
+                    
+                    <ul className="text-lg-14 mt-8">
+                        <li className="mb-4 flex flex-row justify-start items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                            </svg>
+                            +373 69 482 034
+                        </li>
+                        <li className="mb-4 flex flex-row justify-start items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                            str. Ismail 98
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div className="w-full h-320px mdFooter:h-560px mt-16 mb-8">
+                <iframe src="https://yandex.com/map-widget/v1/?um=constructor%3A79dbbe95bd2531da704341e99cfe83c018aa307df04f33dd9c1332b1fa43ef0f&amp;source=constructor" width="100%" height="100%" frameborder="0"></iframe>
+            </div>
+
+            <div className="h-px w-full bg-type-grey mb-4"></div>
+
+            <div className="pb-4 mx-auto text-center text-lg-12 text-type-grey">
+                © 2021 Mirrorsmd. Toate drepturile sunt rezervate.
+            </div>
+        </div>
+    )
+}

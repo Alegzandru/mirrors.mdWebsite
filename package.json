@@ -1,0 +1,28 @@
+{
+  "name": "mirrors.md",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "next": "^10.2.0",
+    "react": "^17.0.2",
+    "react-awesome-reveal": "^3.7.1",
+    "react-dom": "^17.0.2",
+    "react-multi-carousel": "^2.6.3",
+    "react-touch-carousel": "^0.9.4",
+    "ua-parser-js": "^0.7.28"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.2.5",
+    "postcss": "^8.2.15",
+    "tailwindcss": "^2.1.2"
+  }
+}
