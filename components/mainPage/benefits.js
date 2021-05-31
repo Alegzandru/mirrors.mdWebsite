@@ -2,7 +2,7 @@ import Image from "next/image"
 
 export default function Benefits(props){
     return(
-        <div className="w-full px-container-sm md:px-container-md lg:px-container-lg font-Ubuntu pt-16 pb-24 md:pt-24 md:pb-20 lg:pt-140px lg:pb-130px bg-ui-grey overflow-hidden">
+        <div className="w-full px-container-sm md:px-container-md lg:px-container-lg xl:px-container-xl font-Ubuntu pt-16 pb-24 md:pt-24 md:pb-20 lg:pt-140px lg:pb-130px bg-ui-grey overflow-hidden">
             <h3 className="text-lg-h3 font-bold text-center w-full mx-auto text-type-manatee mb-46px">
                 Beneficii
             </h3>

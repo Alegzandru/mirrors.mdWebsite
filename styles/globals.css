@@ -61,6 +61,14 @@
     -moz-text-fill-color: transparent;    
 }
 
+.mobileNav{
+    height: calc(100vh - 64px);
+}
+
+/* .w-dropdown{
+    width : calc( (100vw - 64px - 8px) / 4 )
+} */
+
 @media screen and (max-width: 1366px){
     .produseWidth{
         width : calc(100% - 382px - 32px - 24px);

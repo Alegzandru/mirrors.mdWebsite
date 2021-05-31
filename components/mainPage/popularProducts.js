@@ -36,8 +36,8 @@ export default function PopularProducts(props){
     ];
     
     return(
-        <div className="overflow-hidden h-auto bg-ui-darkGrey pt-24 md:pt-24 pb-12 lg:pt-230px lg:pb-156px flex flex-col md:flex-row justify-between items-center font-Ubuntu">
-            <div className="text-center ml-container-sm mr-container-sm md:text-left md:ml-container-mdw-full md:w-348px lg:ml-container-lg lg:w-382px ">
+        <div className="overflow-hidden h-auto bg-ui-darkGrey pt-24 md:pt-24 pb-12 lg:pt-230px lg:pb-156px flex flex-col md:flex-row justify-between items-center font-Ubuntu xl:pl-container-xl">
+            <div className="text-center ml-container-sm mr-container-sm md:text-left md:ml-container-md w-full md:w-348px lg:ml-container-lg lg:w-382px">
                 <h2 className="w-full font-bold text-type-dark text-sm-h2 lg:text-lg-h2 md:text-md-h2 tracking-tighter">
                     Produse populare
                 </h2>

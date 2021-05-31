@@ -1,6 +1,6 @@
 export default function ContacteForm () {
     return(
-        <div className="w-full px-container-sm md:px-container-md lg:px-304px bg-ui-darkGrey pb-240px">
+        <div className="w-full px-container-sm md:px-container-md lg:px-304px xl:px-container-xl bg-ui-darkGrey pb-240px">
             <div className="w-full">
                 <h4 className="text-sm-h4 md:text-md-h4 lg:text-lg-h4 font-medium text-type-dark mx-auto text-center font-Ubuntu mb-12">
                     Lăsați-ne un mesaj

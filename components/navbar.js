@@ -3,6 +3,9 @@ import {useContext, useEffect, useState} from "react"
 import { useRouter } from 'next/router'
 import { WidthContext } from './context';
 import Link from "next/link"
+import { Turn as Hamburger } from 'hamburger-react'
+import { Slide } from "react-awesome-reveal";
+
 
 export function Navbar (props) {
 
@@ -12,6 +15,7 @@ export function Navbar (props) {
     const [galerie, setGalerie] = useState(0)
     const [faq, setFaq] = useState(0)
     const [contacte, setContacte] = useState(0)
+    const [open, setOpen] = useState(0)
 
     const [transparent, setTransparent] = useState(0)
 
@@ -88,11 +92,11 @@ export function Navbar (props) {
         <div className="fixed z-50 w-full lg:-mb-36 font-Ubuntu">
             {scrollUp ?
                 <div className={`h-88px ${transparent ? "bg-transparent" : "bg-ui-white" } hidden lg:block lg:overflow-hidden w-full transition duration-300`}>
-                    <div className="mx-container-lg h-full">
+                    <div className="lg:mx-container-lg xl:mx-container-xl h-full">
                         <div className="h-full w-full flex flex-row justify-between items-center font-14">
                             <div className="w-365px">
                                 <Image
-                                    src="/branding/logo.png"
+                                    src="/branding/logo.svg"
                                     height={34}
                                     width={136}
                                 />
@@ -128,7 +132,7 @@ export function Navbar (props) {
                                 </div>
 
                                 <Image
-                                    src="/branding/instagram.png"
+                                    src="/branding/instagram.svg"
                                     height={16}
                                     width={16}
                                 />
@@ -142,7 +146,7 @@ export function Navbar (props) {
 
             
             <div className={`h-56px hidden ${transparent ? "bg-transparent" : "bg-ui-grey hidden"} lg:block lg:overflow-hidden w-full transition duration-300`}>
-                <div className="mx-container-lg h-full">
+                <div className="lg:mx-container-lg xl:mx-container-xl h-full">
                     <div className={`${transparent ? "text-ui-white" : "text-type-manatee"} font-14px font-medium h-56px w-full flex flex-row justify-between items-center`}>
                         <div className="w-165px flex flex-row justify-start items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -166,7 +170,7 @@ export function Navbar (props) {
                                 </a>
                             </Link>
 
-                            <Link href="intrebari-frecvente">
+                            <Link href="/intrebari-frecvente">
                                 <a className={`${faq ? "border border-b-2 border-t-0 border-r-0 border-l-0 border-accent-accent text-accent-accent" : ""} mx-8 w-auto h-56px flex flex-row justify-center items-center font-normal font-14px hover:text-accent-accent transition duration-300`}>
                                     Întrebări frecvente
                                 </a>
@@ -196,7 +200,7 @@ export function Navbar (props) {
                 <div className="h-full mx-container-md flex flex-row justify-between items-center">
                     <div className="w-112px h-40px">
                         <Image
-                            src="/branding/smallLogo.png"
+                            src="/branding/smallLogo.svg"
                             height={40}
                             width={40}
                         />
@@ -212,12 +216,56 @@ export function Navbar (props) {
                         </svg>
                     </div>
 
-                    <div className="w-112px flex flex-row justify-end">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-type-grey" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                    <div className="w-112px flex flex-row justify-end h-auto">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="my-3 h-6 w-6 mr-28px text-ui-black md:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
+
+                        <Hamburger toggled={open} toggle={setOpen} size={24} duration={0.4} color={`${open ? "#000000" : "#677077"}`} rounded/>
                     </div>
                 </div>
+            </div>
+
+            <div className={`h-screen bg-ui-white ${open ? "block" : "hidden"} pt-16 `}>
+                <Slide left cascade duration={300}>
+                    <ul className="text-sm-p font-medium text-type-manatee">
+                        <Link href="/">
+                            <a>
+                                <li className="w-full p-4">
+                                    Pagina Principală
+                                </li>
+                            </a>
+                        </Link>
+                        <Link href="/">
+                            <a>
+                                <li className="w-full p-4">
+                                    Catalog
+                                </li>
+                            </a>
+                        </Link>
+                        <Link href="/galerie">
+                            <a>
+                                <li className="w-full p-4">
+                                    Galerie
+                                </li>
+                            </a>
+                        </Link>
+                        <Link href="/intrebari-frecvente">
+                            <a>
+                                <li className="w-full p-4">
+                                    Întrebări frecvente
+                                </li>
+                            </a>
+                        </Link>
+                        <Link href="/contacte">
+                            <a>
+                                <li className="w-full p-4">
+                                    Contacte
+                                </li>
+                            </a>
+                        </Link>
+                    </ul>
+                </Slide>
             </div>
         </div>
     )

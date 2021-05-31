@@ -1,11 +1,13 @@
 import Layout from "../components/layout"
 import GalerieComponent from "../components/galerie/galerieComponent"
 import UAParser from "ua-parser-js";
+import RecentProducts from "../components/multiPage/recentProducts"
 
 export function Galerie({deviceType}){
     return (
         <Layout>
             <GalerieComponent deviceType={deviceType}></GalerieComponent>
+            <RecentProducts deviceType={deviceType}></RecentProducts>
         </Layout>
     )
 }

@@ -2,18 +2,18 @@ import Image from "next/image"
 
 export default function Footer () {
     return (
-        <div className="bg-ui-black pt-44px mdFooter:pt-88px px-container-sm md:px-container-md lg:px-container-lg font-Ubuntu">
+        <div className="bg-ui-black pt-44px mdFooter:pt-88px px-container-sm md:px-container-md lg:px-container-lg xl:px-container-xl font-Ubuntu">
             <div className="flex flex-row items-center mdFooter:items-start justify-between">
                 <div className="hidden mdFooter:block">
                     <Image
-                        src="/branding/whiteLogo.png"
+                        src="/branding/whiteLogo.svg"
                         width={232}
                         height={66}
                     />
                 </div>
                 <div className="mdFooter:hidden">
                     <img
-                        src="/branding/smallLogo.png"
+                        src="/branding/smallLogo.svg"
                         className="h-14 w-14 mdFooter:w-8 mdFooter:h-8"
                     />
                 </div>
@@ -91,12 +91,12 @@ export default function Footer () {
                 </div>
                 <div className="flex flex-row items-start justify-between w-80px">
                     <Image
-                        src="/branding/facebookWhite.png"
+                        src="/branding/facebookWhite.svg"
                         width={24}
                         height={24}
                     />
                     <Image
-                        src="/branding/instagramWhite.png"
+                        src="/branding/instagramWhite.svg"
                         width={24}
                         height={24}
                     />

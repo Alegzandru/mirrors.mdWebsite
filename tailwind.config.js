@@ -25,6 +25,11 @@ module.exports = {
         dark : "#03210A",
         manatee : "#505D68",
         grey : "#677077"
+      },
+      option:{
+        border:{
+          color : "#E9E9E9",
+        }
       }
     },
 
@@ -67,6 +72,9 @@ module.exports = {
     },
 
     screens: {
+
+      'smCatalog' : '512px',
+
       'md': '768px',
 
       'mdFooter' : '1088px', 
@@ -87,6 +95,8 @@ module.exports = {
         'container-sm' : '16px',
         'container-md' : '24px',
         'container-lg' : '32px',
+        'container-xl' : 'calc( (100vw - 1656px) / 2 )',
+        'dropdown' : 'calc( (100vw - 64px - 8px) / 5 )',
         '70vh' : '70vh',
         '1.5px' : '1.5px',
         '776px' : '776px',
@@ -130,6 +140,7 @@ module.exports = {
         '204px' : '204px',
         '200px' : '200px',
         '194px' : '194px',
+        '190px' : '190px',
         '165px' : '165px',
         '160px' : '160px',
         '156px' : '156px',
@@ -139,7 +150,10 @@ module.exports = {
         '132px' : '132px',
         '130px' : '130px',
         '128px' : '128px',
+        '124px' : '124px',
         '120px' : '120px',
+        '118px' : '118px',
+        '116px' : '116px',
         '112px' : '112px',
         '88px' : '88px',
         '80px' : '80px',
@@ -152,7 +166,12 @@ module.exports = {
         '48px' : '48px',
         '46px' : '46px',
         '44px' : '44px',
-        '40px' : '40px'
+        '40px' : '40px',
+        '28px' : '28px',
+        '20px' : '20px',
+        '18px' : '18px',
+        '14px' : '14px',
+        '10px' : '10px'
       },
     },
 
