@@ -25,7 +25,7 @@ export default function NewProducts(props) {
           slidesToSlide: 1,
           partialVisibilityGutter: 100
         }
-      };
+    };
 
       const images = [
         "/mainPage/popularProducts/Copy of  Veronica.png",
@@ -44,6 +44,7 @@ export default function NewProducts(props) {
 
             <div className="w-full relative">
                 <Carousel
+                    swipeable={true}
                     ssr
                     partialVisibile
                     deviceType={props.deviceType}

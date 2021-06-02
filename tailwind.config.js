@@ -97,9 +97,11 @@ module.exports = {
         'container-lg' : '32px',
         'container-xl' : 'calc( (100vw - 1656px) / 2 )',
         'dropdown' : 'calc( (100vw - 64px - 8px) / 5 )',
+        'photos' : 'calc( (100vw - 64px - 640px) )',
         '70vh' : '70vh',
         '1.5px' : '1.5px',
         '776px' : '776px',
+        '720px' : '720px',
         '640px' : '640px',
         '632px' : '632px',
         '608px' : '608px',
@@ -140,6 +142,7 @@ module.exports = {
         '204px' : '204px',
         '200px' : '200px',
         '194px' : '194px',
+        '192px' : '192px',
         '190px' : '190px',
         '165px' : '165px',
         '160px' : '160px',
@@ -177,7 +180,13 @@ module.exports = {
 
   },
   variants: {
-    extend: {},
+    extend: {
+      backgroundColor: ['checked'],
+      borderColor: ['checked'],
+    }
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/forms'),
+    // ...
+  ],
 }
