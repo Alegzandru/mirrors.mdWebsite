@@ -4,8 +4,11 @@ import Dropdown2 from "./Dropdown2"
 import FilterPopup from "./FilterPopup"
 import Image from "next/image"
 import {Link as LinkScroll} from 'react-scroll'
+import {API_URL} from "../../utils/urls"
 
-export default function Category() {
+export default function Category({productsApi}) {
+
+    console.log(productsApi)
 
     const [sorting, setSorting] = useState(0)
     const [openFilters, setOpenFilters] = useState(0)
@@ -300,7 +303,6 @@ export default function Category() {
     ]
 
     const pages = Math.trunc(products.length / 32) + 1
-    console.log(pages)
     
     const sortingOptions = [
         {
@@ -326,7 +328,6 @@ export default function Category() {
     }
 
     useEffect(()=>{
-        console.log(sorting)
     })
 
     return (
@@ -424,20 +425,20 @@ export default function Category() {
             </div>
 
             <div className="w-full grid grid-flow-row grid-cols-12 gap-4">
-                {products.slice(showFrom*showNr, showFrom*showNr + showNr).map((product, index) => {
+                {productsApi.slice(showFrom*showNr, showFrom*showNr + showNr).map((product, index) => {
                     return (
                         <div key={index} className="h-auto w-full col-span-12 smCatalog:col-span-6 md:col-span-4 lg:col-span-3">
                             <div className="h-296px md:h-425px bg-ui-white rounded-xl p-5">
                                 <div className="w-auto h-156px md:h-245px relative">
                                     <Image
                                         draggable={false}
-                                        src={product}
+                                        src={product.image.formats.medium.url}
                                         layout="fill"
                                         objectFit="cover"
                                     />
                                 </div>
                                 <div className="text-sm-card-name md:text-lg-card-name-bold text-type-dark mt-6 md:mt-8 font-medium">
-                                    Norma
+                                    {product.name}
                                 </div>
                                 <div className="text-sm-p md:text-lg-p text-type-manatee font-normal mt-2">
                                     Seria Juergen LED

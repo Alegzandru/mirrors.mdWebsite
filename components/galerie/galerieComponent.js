@@ -86,7 +86,7 @@ export default function GalerieComponent (props) {
             </div>
 
             <div 
-                className="h-12 w-fullcmd md:w-238px rounded-lg mx-auto bg-accent-transparent font-bold text-lg-button text-accent-accent flex flex-row justify-center items-center mt-56px md:mt-8"
+                className="h-12 w-full md:w-238px rounded-lg mx-auto bg-accent-transparent font-bold text-lg-button text-accent-accent flex flex-row justify-center items-center mt-56px md:mt-8"
                 onClick={ () => {
                     images.length > photoNr && setPhotoNr(photoNr+10)
                     console.log(photoNr)

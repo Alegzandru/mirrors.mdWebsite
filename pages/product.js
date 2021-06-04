@@ -1,11 +1,11 @@
 import Layout from "../components/layout"
-import ProductComponent from "../components/catalog/productComponent"
 import UAParser from "ua-parser-js";
+import ProductPage from "../components/catalog/productPage"
 
 export function Product ({deviceType}) {
     return (
         <Layout>
-            <ProductComponent deviceType={deviceType}></ProductComponent>
+            <ProductPage deviceType={deviceType}></ProductPage>
         </Layout>
     )
 }
