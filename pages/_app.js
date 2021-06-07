@@ -1,19 +1,34 @@
 import '../styles/globals.css'
 import {useState, useEffect} from "react"
-import {WidthContext} from "../components/context"
+import {DeviceTypeContext} from "../components/context"
+import UAParser from "ua-parser-js";
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps, deviceTypeReq }) {
 
-  // const size = useWindowSize();
-  // const [width, setWidth] = useState(size.width)
-  // const valueWidth = {width, setWidth}
-  // console.log(width)
+  const [deviceType, setDeviceType] = useState(deviceTypeReq)
+  const valueDeviceType = {deviceType, setDeviceType}
 
   return (
-    // <WidthContext.Provider value={valueWidth}>
+    <DeviceTypeContext.Provider value={valueDeviceType}>
       <Component {...pageProps} />
-    // </WidthContext.Provider>
+    </DeviceTypeContext.Provider>
   )
 }
+
+MyApp.getInitialProps = ({ req }) => {
+    let userAgent;
+    if (req) {
+      userAgent = req.headers["user-agent"];
+    } else {
+      if (typeof window !== 'undefined' && typeof window.navigator !== 'undefined') {
+        userAgent = navigator.userAgent;
+      }
+    }
+    const parser = new UAParser();
+    parser.setUA(userAgent);
+    const result = parser.getResult();
+    const deviceTypeReq = (result.device && result.device.type) || "desktop";
+    return { deviceTypeReq };
+};
 
 export default MyApp

@@ -1,13 +1,19 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import Image from "next/image"
 import Lightbox from "react-awesome-lightbox";
 // You need to import the CSS only once
 import "react-awesome-lightbox/build/style.css";
+import { DeviceTypeContext } from "../context";
 
-export default function ProductDescription ({options, optionVariants, images, deviceType}) {
-
+export default function ProductDescription ({options, optionVariants, images, name ,description}) {
+    
+    const {deviceType, setDeviceType} = useContext(DeviceTypeContext)
+    
     const [page, setPage] = useState(0)
     const [lightboxOpen, setLightboxOpen] = useState(0)
+    const imagesLightbox = images.map((image) => {
+        return image.src
+    })
 
     function getColSpan (deviceType, index) {
         switch(deviceType){
@@ -53,11 +59,11 @@ export default function ProductDescription ({options, optionVariants, images, de
 
             <div className={`${page == 0 ? "block" : "hidden"} w-full lg:px-300px`}>
                 <h4 className="text-type-dark text-sm-h4 md:text-md-h4 lg:text-lg-h4 mb-10">
-                    Seria Hollywood
+                    {name}
                 </h4>
 
                 <div className="md:text-md-p lg:text-lg-p text-type-manatee mb-11">
-                    Oglinda pentru make-up Hollywood este o alegere minunată pentru saloane de frumusețe, precum și pentru uz casnic. Această oglindă vă luminează perfect fața fără a lăsa umbre , pentru machiajul dvs. perfect.
+                    {description}
                 </div>
 
                 <div className="text-accent-accent text-lg-p underline">
@@ -75,7 +81,7 @@ export default function ProductDescription ({options, optionVariants, images, de
                                 onClick={() => setLightboxOpen(1)}
                             >
                                 <Image
-                                    src={img}
+                                    src={img.src}
                                     layout="fill"
                                     objectFit="cover"
                                     className="rounded-md"
@@ -87,7 +93,7 @@ export default function ProductDescription ({options, optionVariants, images, de
                 </div>
                 {
                     lightboxOpen ? 
-                    <Lightbox doubleClickZoom={1.2} images={images} onClose={() => setLightboxOpen(0)}/>
+                    <Lightbox doubleClickZoom={1.2} images={imagesLightbox} onClose={() => setLightboxOpen(0)}/>
                     :
                     ""
                 }

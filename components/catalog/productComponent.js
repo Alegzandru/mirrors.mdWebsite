@@ -5,7 +5,9 @@ import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import {useState} from "react"
 
-export default function ProductComponent ({options, optionVariants, images, deviceType}) {
+export default function ProductComponent ({options, optionVariants, deviceType, name, price, images}) {
+
+    console.log(name)
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const onSubmit = data => console.log(data);
@@ -52,7 +54,7 @@ export default function ProductComponent ({options, optionVariants, images, devi
                 </svg>
 
                 <span>
-                    Product
+                    {name}
                 </span>
             </div>
 
@@ -60,7 +62,7 @@ export default function ProductComponent ({options, optionVariants, images, devi
                 <div className="w-full lg:w-photos">
                     <div className="relative h-288px md:h-720px lg:h-608px w-full">
                         <Image
-                            src={images[openImage]}
+                            src={images[openImage].src}
                             layout="fill"
                             objectFit="cover"
                         />
@@ -84,7 +86,7 @@ export default function ProductComponent ({options, optionVariants, images, devi
                                         onClick={() => setOpenImage(index)}
                                     >
                                         <Image
-                                            src={image}
+                                            src={image.src}
                                             layout="fill"
                                             objectFit="cover"
                                         />
@@ -97,11 +99,11 @@ export default function ProductComponent ({options, optionVariants, images, devi
 
                 <div className="w-full lg:w-640px pt-6 lg:pt-72px pb-16 px-2 md:px-6 lg:px-40px bg-ui-white relative h-full">
                     <h2 className="text-sm-h2 md:text-md-h2 lg:text-lg-h2 text-type-dark font-bold mb-5">
-                        Oglindă Hollywood
+                        {name}
                     </h2>
 
                     <div className="text-lg-card-price text-accent-accent mb-12">
-                        3 826 Lei
+                        {price} Lei
                     </div>
 
                     <form onSubmit={handleSubmit(onSubmit)} className="">

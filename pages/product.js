@@ -1,8 +1,10 @@
 import Layout from "../components/layout"
 import UAParser from "ua-parser-js";
 import ProductPage from "../components/catalog/productPage"
+import {getAllProductPaths} from "../lib/products"
 
 export function Product ({deviceType}) {
+  getAllProductPaths()
     return (
         <Layout>
             <ProductPage deviceType={deviceType}></ProductPage>

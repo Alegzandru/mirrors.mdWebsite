@@ -98,6 +98,7 @@ module.exports = {
         'container-xl' : 'calc( (100vw - 1656px) / 2 )',
         'dropdown' : 'calc( (100vw - 64px - 8px) / 5 )',
         'photos' : 'calc( (100vw - 64px - 640px) )',
+        'search-left' : 'calc( (100vw - 504px) / 2 )',
         '70vh' : '70vh',
         '1.5px' : '1.5px',
         '776px' : '776px',

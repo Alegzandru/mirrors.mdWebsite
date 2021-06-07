@@ -5,6 +5,13 @@ import { WidthContext } from './context';
 import Link from "next/link"
 import { Turn as Hamburger } from 'hamburger-react'
 import { Slide } from "react-awesome-reveal";
+import {API_URL} from "../utils/urls"
+import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
+import { Fade } from "react-awesome-reveal";
+// import AnimatedProgressProvider from "./AnimatedProgressProvider";
+import ChangingProgressProvider from "./progress/ChangingProgressProvider"
+import 'react-circular-progressbar/dist/styles.css';
+var qs = require('qs');
 
 
 export function Navbar (props) {
@@ -17,11 +24,30 @@ export function Navbar (props) {
     const [contacte, setContacte] = useState(0)
     const [open, setOpen] = useState(0)
 
+    const [search, setSearch] = useState("")
+    const [searchProducts, setSearchProducts] = useState([])
+    const [loading, setLoading] = useState(0)
+    const percentage = 66 
     const [transparent, setTransparent] = useState(0)
+
+    const [catalogOpen, setCatalogOpen] = useState(0)
 
     const router = useRouter()
 
     var lastScrollTop = 0;
+
+    
+    async function getSearchProducts() {
+        setLoading(1)
+        const query = qs.stringify({
+            _where : [{name_contains : search}, {_limit : 5}]
+        })
+        const productsResponse = await fetch(`${API_URL}/products?_where[name_contains]=${search}&[_limit]=5`)
+        // const productsResponse = await fetch(`${API_URL}/products?${query}`)
+        const products = await productsResponse.json().then(setLoading(0))
+        console.log(products)
+        setSearchProducts(products)
+    }
 
     useEffect(()=>{
         if (typeof window !== "undefined") {
@@ -85,61 +111,110 @@ export function Navbar (props) {
                 window.removeEventListener("scroll", scrollPosition)
             }
         }
-
     }, [])
+
+    useEffect(() => {
+        getSearchProducts()
+    },[search])
 
     return (
         <div className="fixed z-50 w-full lg:-mb-36 font-Ubuntu">
             {scrollUp ?
-                <div className={`h-88px ${transparent ? "bg-transparent" : "bg-ui-white" } hidden lg:block lg:overflow-hidden w-full transition duration-300`}>
-                    <div className="lg:mx-container-lg xl:mx-container-xl h-full">
-                        <div className="h-full w-full flex flex-row justify-between items-center font-14">
-                            <div className="w-365px">
-                                <Image
-                                    src="/branding/logo.svg"
-                                    height={34}
-                                    width={136}
-                                />
-                            </div>
-
-                            <div className={`h-10 w-504px ${transparent ? "bg-ui-dark" : "bg-ui-grey"} rounded-lg px-4 flex flex-row justify-between items-center ${transparent ? "text-ui-blueishGrey" : "text-type-grey"}`}>
-                                <span>
-                                    Căutare în catalog
-                                </span>
-
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                                </svg>
-                            </div>
-
-                            <div className="w-365px flex flex-row justify-between items-center">
-                                <div className={`${transparent ? "text-ui-blueishGrey" : "text-type-grey"} flex flex-row justify-start items-center`}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                    <span>
-                                        Ln−Vn: 9:00 − 18:00
-                                    </span>
+                    <div className={`h-88px ${transparent ? "bg-transparent" : "bg-ui-white" } hidden lg:block lg:overflow-hidden w-full transition duration-300`}>
+                        <div className="lg:mx-container-lg xl:mx-container-xl h-full">
+                            <div className="h-full w-full flex flex-row justify-between items-start font-14 pt-6">
+                                <div className="w-365px">
+                                    <Link href="/">
+                                        <a>
+                                            <Image
+                                                src="/branding/logo.svg"
+                                                height={34}
+                                                width={136}
+                                            />
+                                        </a>
+                                    </Link>
                                 </div>
 
-                                <div className={`${transparent ? "text-ui-grey" : "text-type-manatee"} flex flex-row justify-start items-center font-14px group`}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1 group-hover:text-accent-accent transition duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                                <div className={`flex flex-col items-end ${transparent ? "text-ui-blueishGrey" : "text-type-grey"} focus-within:text-type-dark absolute left-search-left`}>
+                                    <input 
+                                        className={`h-10 w-504px ${transparent ? "bg-ui-dark" : "bg-ui-grey"} ${search != "" ? "rounded-t-lg border-ui-darkGrey" : "rounded-lg focus:border-ui-blueishGrey"} px-4 flex flex-row items-center focus:bg-ui-white border-2 border-transparent transition duration-300 outline-none`}
+                                        placeholder="Căutare în catalog"
+                                        onChange={event => setSearch(event.target.value)}
+                                    />
+                                    <svg xmlns="http://www.w3.org/2000/svg" className={`h-4 w-4 -mt-7 mr-2`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                                     </svg>
-                                    <span className="group-hover:text-accent-accent transition duration-300 group-hover:underline">
-                                        +373 69 482 034
-                                    </span>
+
+                                    {search != "" && 
+                                        <div className={`w-full bg-ui-white mt-3 rounded-b-lg border-l-2 border-r-2 border-b-2 border-t-0 ${search != "" ? "border-ui-darkGrey" : ""}`}>
+                                            {
+                                            loading ? 
+                                                <div className={`h-72px border-b-0 border-t-2 border-l-0 border-r-0 flex flex-row justify-center items-center px-4 py-14px ${search != "" ? "border-ui-darkGrey" : ""}`}> 
+                                                    <div className="h-12 w-12">
+                                                    <ChangingProgressProvider values={[0, 20, 40, 60, 80, 100]}>
+                                                        {percentage => (
+                                                                <CircularProgressbar
+                                                                    value={percentage}
+                                                                    styles={buildStyles({
+                                                                        pathColor : "#16B45A",
+                                                                        pathTransitionDuration: 0.1
+                                                                    })}
+                                                                    strokeWidth={5}
+                                                                />
+                                                        )}
+                                                        </ChangingProgressProvider>
+                                                    </div>
+                                                </div>
+                                            :
+                                            searchProducts.map((product) => 
+                                                <div className={`h-72px border-b-0 border-t-2 border-l-0 border-r-0 flex flex-row justify-start items-center px-4 py-14px ${search != "" ? "border-ui-darkGrey" : ""}`}>
+                                                    <Image
+                                                        src={product.image.formats.small.url}
+                                                        width={56}
+                                                        height={56}
+                                                    />
+                                                    <div className="text-type-grey flex flex-col justify-between h-full ml-4">
+                                                        <div className="text-lg-17">
+                                                            {product.name}
+                                                        </div>
+                                                        <div className="text-lg-14">
+                                                            de la {product.price} lei
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                    }
                                 </div>
 
-                                <Image
-                                    src="/branding/instagram.svg"
-                                    height={16}
-                                    width={16}
-                                />
+                                <div className="w-365px flex flex-row justify-between items-center">
+                                    <div className={`${transparent ? "text-ui-blueishGrey" : "text-type-grey"} flex flex-row justify-start items-center`}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                        <span>
+                                            Ln−Vn: 9:00 − 18:00
+                                        </span>
+                                    </div>
+
+                                    <div className={`${transparent ? "text-ui-grey" : "text-type-manatee"} flex flex-row justify-start items-center font-14px group`}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1 group-hover:text-accent-accent transition duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                                        </svg>
+                                        <span className="group-hover:text-accent-accent transition duration-300 group-hover:underline">
+                                            +373 69 482 034
+                                        </span>
+                                    </div>
+
+                                    <Image
+                                        src="/branding/instagram.svg"
+                                        height={16}
+                                        width={16}
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 :
                 ""
             }
@@ -148,12 +223,21 @@ export function Navbar (props) {
             <div className={`h-56px hidden ${transparent ? "bg-transparent" : "bg-ui-grey hidden"} lg:block lg:overflow-hidden w-full transition duration-300`}>
                 <div className="lg:mx-container-lg xl:mx-container-xl h-full">
                     <div className={`${transparent ? "text-ui-white" : "text-type-manatee"} font-14px font-medium h-56px w-full flex flex-row justify-between items-center`}>
-                        <div className="w-165px flex flex-row justify-start items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                            </svg>
-                            <div>
-                                Catalog
+                        <div className={`w-165px ${catalogOpen ? "bg-ui-white text-type-manatee" : ""}`}>
+                            <div 
+                                className={`w-full flex flex-row justify-start items-center h-14 ${catalogOpen ? "text-type-dark" : ""}`}
+                                onMouseOver={ () => setCatalogOpen(1)}
+                                onMouseLeave={ () => setCatalogOpen(0)}
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                                </svg>
+                                <div>
+                                    Catalog
+                                </div>
+                            </div>
+                            <div className="w-full">
+
                             </div>
                         </div>
 
