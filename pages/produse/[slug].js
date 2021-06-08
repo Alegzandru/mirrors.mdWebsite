@@ -11,7 +11,7 @@ export function DynamicProduct ({deviceType, productData}) {
     }
   })
 
-  console.log(images)
+  console.log(productData)
 
   return (
       <Layout>
@@ -21,6 +21,7 @@ export function DynamicProduct ({deviceType, productData}) {
             price={productData[0].price}
             images={images}
             description={productData[0].description}
+            category={productData[0].category.name}
           ></ProductPage>
       </Layout>
   )

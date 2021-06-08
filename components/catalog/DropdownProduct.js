@@ -3,6 +3,7 @@ import { useState } from "react"
 export default function DropdownProduct(props) {
 
     const [open, setOpen] = useState(0)
+    const [chosen , setChosen] = useState(0)
 
     return (
         <div className={`${open ? "shadow mb-1" : ""} font-Ubuntu`}>
@@ -35,14 +36,23 @@ export default function DropdownProduct(props) {
                 </div>
             </div>
 
-            <div className={`${open ? "block" : "hidden"} w-full`}>
+            <div 
+                className={`${open ? "block" : "hidden"} w-full`}
+                onChange={(e) => console.log(e.target.value)}
+            >
                 {props.options.map((option, index)=>
                     <label 
                         className="w-full bg-ui-white h-44px flex flex-row justify-between items-center px-4"
                         key={index}
                     >
                         <div className="flex-grow text-lg-14 text-type-grey flex flex-row justify-start items-center">
-                            <input { ...props.register( props.name+"-"+option.name ) } type="radio" className="h-4 w-4 border-2 border-type-grey checked:bg-accent-accent hover:bg-accent-transparent focus:bg-accent-accent focus:outline-none mr-2 transition duration-300" name={props.name}></input>
+                            <input 
+                                { ...props.register( props.name+"-"+option.name ) } 
+                                type="radio" 
+                                className="h-4 w-4 border-2 border-type-grey checked:bg-accent-accent hover:bg-accent-transparent focus:bg-accent-accent focus:outline-none mr-2 transition duration-300" 
+                                name={props.name}
+                                value={option.name}
+                            />
                             <div>
                                 {option.name}
                             </div>

@@ -1,22 +1,7 @@
 import ProductComponent from "./productComponent"
 import ProductDescription from "./productDescription"
 
-export default function ProductPage ({deviceType, name, price, images, description}) {
-
-    const imagesMock = [
-        "/mainPage/popularProducts/Copy of  Veronica.png",
-        "/mainPage/popularProducts/Copy of Acacia.png",
-        "/mainPage/popularProducts/Copy of Adina Alumin.png",
-        "/mainPage/popularProducts/Copy of Afina.png",
-        "/mainPage/popularProducts/Copy of Alexandra.png",
-        "/mainPage/popularProducts/Copy of Alexandrina (1).png",
-        "/mainPage/popularProducts/Copy of  Veronica.png",
-        "/mainPage/popularProducts/Copy of Acacia.png",
-        "/mainPage/popularProducts/Copy of Adina Alumin.png",
-        "/mainPage/popularProducts/Copy of Afina.png",
-        "/mainPage/popularProducts/Copy of Alexandra.png",
-        "/mainPage/popularProducts/Copy of Alexandrina (1).png",
-    ];
+export default function ProductPage ({deviceType, name, price, images, description, category}) {
 
     const options = [
         "Dimensiuni",
@@ -66,6 +51,7 @@ export default function ProductPage ({deviceType, name, price, images, descripti
                 name={name}
                 price={price}
                 images={images}
+                category={category}
             />
             <ProductDescription 
                 deviceType={deviceType} 
