@@ -11,7 +11,7 @@ export function DynamicProduct ({deviceType, productData}) {
     }
   })
 
-  console.log(productData)
+  console.log(productData.optionNames)
 
   return (
       <Layout>
@@ -22,6 +22,8 @@ export function DynamicProduct ({deviceType, productData}) {
             images={images}
             description={productData[0].description}
             category={productData[0].category.name}
+            options={productData.optionNames}
+            optionVariants={productData.optionsRaw}
           ></ProductPage>
       </Layout>
   )
@@ -32,9 +34,39 @@ export async function getStaticProps({ params }) {
     const productsRes = await fetch(`${API_URL}/products?slug_eq=${slug}`)
     const productStrapi = await productsRes.json()
 
+    const category = productStrapi[0].category.name
+    const categoryRes = await fetch(`${API_URL}/categories?name_eq=${category}`)
+    const optionsUnflitered = await categoryRes.json()
+    const optionsRaw = optionsUnflitered[0].add_ons
+
+    const optionNamesUnfiltered = optionsRaw.map((option) => {
+      if(option.group){
+        return option.group
+      }
+      else{
+        return option.name
+      }
+    })
+
+    function uniq(a) {
+      var prims = {"boolean":{}, "number":{}, "string":{}}, objs = [];
+  
+      return a.filter(function(item) {
+          var type = typeof item;
+          if(type in prims)
+              return prims[type].hasOwnProperty(item) ? false : (prims[type][item] = true);
+          else
+              return objs.indexOf(item) >= 0 ? false : objs.push(item);
+      });
+    }
+  
+    const optionNames = uniq(optionNamesUnfiltered)
+
     const productData = {
       slug,
-      ...productStrapi
+      ...productStrapi,
+      optionNames,
+      optionsRaw
     }
 
     // const productData = getProductData(params.slug)

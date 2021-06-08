@@ -169,7 +169,7 @@ export function Navbar (props) {
                                             searchProducts.map((product) => 
                                                 <div className={`h-72px border-b-0 border-t-2 border-l-0 border-r-0 flex flex-row justify-start items-center px-4 py-14px ${search != "" ? "border-ui-darkGrey" : ""}`}>
                                                     <Image
-                                                        src={product.image.formats.small.url}
+                                                        src={product.image[0].formats.small.url}
                                                         width={56}
                                                         height={56}
                                                     />

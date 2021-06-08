@@ -5,13 +5,14 @@ import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import {useState} from "react"
 
-export default function ProductComponent ({options, optionVariants, deviceType, name, price, images}) {
+export default function ProductComponent ({deviceType, name, price, images, options, optionVariants}) {
 
-    console.log(name)
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const onSubmit = data => console.log(data);
     const [openImage, setOpenImage] = useState(0)
+
+    console.log(optionVariants)
 
     const responsive = {
         desktop: {
@@ -110,7 +111,7 @@ export default function ProductComponent ({options, optionVariants, deviceType, 
                         {options.map((option, index) =>
                             <DropdownProduct
                                 name={option}
-                                options={optionVariants}
+                                options={optionVariants.filter((optionObj) => optionObj.group == option || optionObj.name == option)}
                                 register={register}
                                 key={index}
                             />
