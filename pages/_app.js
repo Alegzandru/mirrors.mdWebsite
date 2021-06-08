@@ -2,6 +2,8 @@ import '../styles/globals.css'
 import {useState, useEffect} from "react"
 import {DeviceTypeContext} from "../components/context"
 import UAParser from "ua-parser-js";
+import NextNProgress from "../components/NextNProgress"
+
 
 function MyApp({ Component, pageProps, deviceTypeReq }) {
 
@@ -10,6 +12,7 @@ function MyApp({ Component, pageProps, deviceTypeReq }) {
 
   return (
     <DeviceTypeContext.Provider value={valueDeviceType}>
+      <NextNProgress/>
       <Component {...pageProps} />
     </DeviceTypeContext.Provider>
   )

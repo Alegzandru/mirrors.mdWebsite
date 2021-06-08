@@ -5,16 +5,19 @@ import FilterPopup from "./FilterPopup"
 import Image from "next/image"
 import {Link as LinkScroll} from 'react-scroll'
 import {API_URL} from "../../utils/urls"
+import Link from "next/link"
 
-export default function Category({productsApi}) {
+export default function Category({category, name}) {
 
-    console.log(productsApi)
+    const [productsApi, setProductsApi] = useState(category[0].products)
 
     const [sorting, setSorting] = useState(0)
     const [openFilters, setOpenFilters] = useState(0)
     
     const [showNr, setShowNr] = useState(32)
     const [showFrom, setShowFrom] = useState(0)
+
+    const [loadingSorting, setLoadingSorting] = useState(0)
     
     const optiuni = [
         "Forma",
@@ -28,281 +31,8 @@ export default function Category({productsApi}) {
         "Dimensiuni nestandarte",
         "Tipul instalatiei",
     ]
-    
-    const products = [
-        "/mainPage/popularProducts/Copy of  Veronica.png",
-        "/mainPage/popularProducts/Copy of Acacia.png",
-        "/mainPage/popularProducts/Copy of Adina Alumin.png",
-        "/mainPage/popularProducts/Copy of Afina.png",
-        "/mainPage/popularProducts/Copy of Alexandra.png",
-        "/mainPage/popularProducts/Copy of Alexandrina (1).png",
-        "/mainPage/popularProducts/Copy of  Veronica.png",
-        "/mainPage/popularProducts/Copy of Acacia.png",
-        "/mainPage/popularProducts/Copy of Adina Alumin.png",
-        "/mainPage/popularProducts/Copy of Afina.png",
-        "/mainPage/popularProducts/Copy of Alexandra.png",
-        "/mainPage/popularProducts/Copy of Alexandrina (1).png",
-        "/mainPage/popularProducts/Copy of  Veronica.png",
-        "/mainPage/popularProducts/Copy of Acacia.png",
-        "/mainPage/popularProducts/Copy of Adina Alumin.png",
-        "/mainPage/popularProducts/Copy of Afina.png",
-        "/mainPage/popularProducts/Copy of Alexandra.png",
-        "/mainPage/popularProducts/Copy of Alexandrina (1).png",
-        "/mainPage/popularProducts/Copy of  Veronica.png",
-        "/mainPage/popularProducts/Copy of Acacia.png",
-        "/mainPage/popularProducts/Copy of Adina Alumin.png",
-        "/mainPage/popularProducts/Copy of Afina.png",
-        "/mainPage/popularProducts/Copy of Alexandra.png",
-        "/mainPage/popularProducts/Copy of Alexandrina (1).png",
-        "/mainPage/popularProducts/Copy of  Veronica.png",
-        "/mainPage/popularProducts/Copy of Acacia.png",
-        "/mainPage/popularProducts/Copy of Adina Alumin.png",
-        "/mainPage/popularProducts/Copy of Afina.png",
-        "/mainPage/popularProducts/Copy of Alexandra.png",
-        "/mainPage/popularProducts/Copy of Alexandrina (1).png",
-        "/mainPage/popularProducts/Copy of  Veronica.png",
-        "/mainPage/popularProducts/Copy of Acacia.png",
-        "/mainPage/popularProducts/Copy of Adina Alumin.png",
-        "/mainPage/popularProducts/Copy of Afina.png",
-        "/mainPage/popularProducts/Copy of Alexandra.png",
-        "/mainPage/popularProducts/Copy of Alexandrina (1).png",
-        "/mainPage/popularProducts/Copy of  Veronica.png",
-        "/mainPage/popularProducts/Copy of Acacia.png",
-        "/mainPage/popularProducts/Copy of Adina Alumin.png",
-        "/mainPage/popularProducts/Copy of Afina.png",
-        "/mainPage/popularProducts/Copy of Alexandra.png",
-        "/mainPage/popularProducts/Copy of Alexandrina (1).png",
-        "/mainPage/popularProducts/Copy of  Veronica.png",
-        "/mainPage/popularProducts/Copy of Acacia.png",
-        "/mainPage/popularProducts/Copy of Adina Alumin.png",
-        "/mainPage/popularProducts/Copy of Afina.png",
-        "/mainPage/popularProducts/Copy of Alexandra.png",
-        "/mainPage/popularProducts/Copy of Alexandrina (1).png",
-        "/mainPage/popularProducts/Copy of  Veronica.png",
-        "/mainPage/popularProducts/Copy of Acacia.png",
-        "/mainPage/popularProducts/Copy of Adina Alumin.png",
-        "/mainPage/popularProducts/Copy of Afina.png",
-        "/mainPage/popularProducts/Copy of Alexandra.png",
-        "/mainPage/popularProducts/Copy of Alexandrina (1).png",
-        "/mainPage/popularProducts/Copy of  Veronica.png",
-        "/mainPage/popularProducts/Copy of Acacia.png",
-        "/mainPage/popularProducts/Copy of Adina Alumin.png",
-        "/mainPage/popularProducts/Copy of Afina.png",
-        "/mainPage/popularProducts/Copy of Alexandra.png",
-        "/mainPage/popularProducts/Copy of Alexandrina (1).png",
-        "/mainPage/popularProducts/Copy of  Veronica.png",
-        "/mainPage/popularProducts/Copy of Acacia.png",
-        "/mainPage/popularProducts/Copy of Adina Alumin.png",
-        "/mainPage/popularProducts/Copy of Afina.png",
-        "/mainPage/popularProducts/Copy of Alexandra.png",
-        "/mainPage/popularProducts/Copy of Alexandrina (1).png",
-        "/mainPage/popularProducts/Copy of  Veronica.png",
-        "/mainPage/popularProducts/Copy of Acacia.png",
-        "/mainPage/popularProducts/Copy of Adina Alumin.png",
-        "/mainPage/popularProducts/Copy of Afina.png",
-        "/mainPage/popularProducts/Copy of Alexandra.png",
-        "/mainPage/popularProducts/Copy of Alexandrina (1).png",
-        "/mainPage/popularProducts/Copy of  Veronica.png",
-        "/mainPage/popularProducts/Copy of Acacia.png",
-        "/mainPage/popularProducts/Copy of Adina Alumin.png",
-        "/mainPage/popularProducts/Copy of Afina.png",
-        "/mainPage/popularProducts/Copy of Alexandra.png",
-        "/mainPage/popularProducts/Copy of Alexandrina (1).png",
-        "/mainPage/popularProducts/Copy of  Veronica.png",
-        "/mainPage/popularProducts/Copy of Acacia.png",
-        "/mainPage/popularProducts/Copy of Adina Alumin.png",
-        "/mainPage/popularProducts/Copy of Afina.png",
-        "/mainPage/popularProducts/Copy of Alexandra.png",
-        "/mainPage/popularProducts/Copy of Alexandrina (1).png",
-        "/mainPage/popularProducts/Copy of  Veronica.png",
-        "/mainPage/popularProducts/Copy of Acacia.png",
-        "/mainPage/popularProducts/Copy of Adina Alumin.png",
-        "/mainPage/popularProducts/Copy of Afina.png",
-        "/mainPage/popularProducts/Copy of Alexandra.png",
-        "/mainPage/popularProducts/Copy of Alexandrina (1).png",
-        "/mainPage/popularProducts/Copy of  Veronica.png",
-        "/mainPage/popularProducts/Copy of Acacia.png",
-        "/mainPage/popularProducts/Copy of Adina Alumin.png",
-        "/mainPage/popularProducts/Copy of Afina.png",
-        "/mainPage/popularProducts/Copy of Alexandra.png",
-        "/mainPage/popularProducts/Copy of Alexandrina (1).png",
-        "/mainPage/popularProducts/Copy of  Veronica.png",
-        "/mainPage/popularProducts/Copy of Acacia.png",
-        "/mainPage/popularProducts/Copy of Adina Alumin.png",
-        "/mainPage/popularProducts/Copy of Afina.png",
-        "/mainPage/popularProducts/Copy of Alexandra.png",
-        "/mainPage/popularProducts/Copy of Alexandrina (1).png",
-        "/mainPage/popularProducts/Copy of  Veronica.png",
-        "/mainPage/popularProducts/Copy of Acacia.png",
-        "/mainPage/popularProducts/Copy of Adina Alumin.png",
-        "/mainPage/popularProducts/Copy of Afina.png",
-        "/mainPage/popularProducts/Copy of Alexandra.png",
-        "/mainPage/popularProducts/Copy of Alexandrina (1).png",
-        "/mainPage/popularProducts/Copy of  Veronica.png",
-        "/mainPage/popularProducts/Copy of Acacia.png",
-        "/mainPage/popularProducts/Copy of Adina Alumin.png",
-        "/mainPage/popularProducts/Copy of Afina.png",
-        "/mainPage/popularProducts/Copy of Alexandra.png",
-        "/mainPage/popularProducts/Copy of Alexandrina (1).png",
-        "/mainPage/popularProducts/Copy of  Veronica.png",
-        "/mainPage/popularProducts/Copy of Acacia.png",
-        "/mainPage/popularProducts/Copy of Adina Alumin.png",
-        "/mainPage/popularProducts/Copy of Afina.png",
-        "/mainPage/popularProducts/Copy of Alexandra.png",
-        "/mainPage/popularProducts/Copy of Alexandrina (1).png",
-        "/mainPage/popularProducts/Copy of  Veronica.png",
-        "/mainPage/popularProducts/Copy of Acacia.png",
-        "/mainPage/popularProducts/Copy of Adina Alumin.png",
-        "/mainPage/popularProducts/Copy of Afina.png",
-        "/mainPage/popularProducts/Copy of Alexandra.png",
-        "/mainPage/popularProducts/Copy of Alexandrina (1).png",
-        "/mainPage/popularProducts/Copy of  Veronica.png",
-        "/mainPage/popularProducts/Copy of Acacia.png",
-        "/mainPage/popularProducts/Copy of Adina Alumin.png",
-        "/mainPage/popularProducts/Copy of Afina.png",
-        "/mainPage/popularProducts/Copy of Alexandra.png",
-        "/mainPage/popularProducts/Copy of Alexandrina (1).png",
-        "/mainPage/popularProducts/Copy of  Veronica.png",
-        "/mainPage/popularProducts/Copy of Acacia.png",
-        "/mainPage/popularProducts/Copy of Adina Alumin.png",
-        "/mainPage/popularProducts/Copy of Afina.png",
-        "/mainPage/popularProducts/Copy of Alexandra.png",
-        "/mainPage/popularProducts/Copy of Alexandrina (1).png",
-        "/mainPage/popularProducts/Copy of  Veronica.png",
-        "/mainPage/popularProducts/Copy of Acacia.png",
-        "/mainPage/popularProducts/Copy of Adina Alumin.png",
-        "/mainPage/popularProducts/Copy of Afina.png",
-        "/mainPage/popularProducts/Copy of Alexandra.png",
-        "/mainPage/popularProducts/Copy of Alexandrina (1).png",
-        "/mainPage/popularProducts/Copy of  Veronica.png",
-        "/mainPage/popularProducts/Copy of Acacia.png",
-        "/mainPage/popularProducts/Copy of Adina Alumin.png",
-        "/mainPage/popularProducts/Copy of Afina.png",
-        "/mainPage/popularProducts/Copy of Alexandra.png",
-        "/mainPage/popularProducts/Copy of Alexandrina (1).png",
-        "/mainPage/popularProducts/Copy of  Veronica.png",
-        "/mainPage/popularProducts/Copy of Acacia.png",
-        "/mainPage/popularProducts/Copy of Adina Alumin.png",
-        "/mainPage/popularProducts/Copy of Afina.png",
-        "/mainPage/popularProducts/Copy of Alexandra.png",
-        "/mainPage/popularProducts/Copy of Alexandrina (1).png",
-        "/mainPage/popularProducts/Copy of  Veronica.png",
-        "/mainPage/popularProducts/Copy of Acacia.png",
-        "/mainPage/popularProducts/Copy of Adina Alumin.png",
-        "/mainPage/popularProducts/Copy of Afina.png",
-        "/mainPage/popularProducts/Copy of Alexandra.png",
-        "/mainPage/popularProducts/Copy of Alexandrina (1).png",
-        "/mainPage/popularProducts/Copy of  Veronica.png",
-        "/mainPage/popularProducts/Copy of Acacia.png",
-        "/mainPage/popularProducts/Copy of Adina Alumin.png",
-        "/mainPage/popularProducts/Copy of Afina.png",
-        "/mainPage/popularProducts/Copy of Alexandra.png",
-        "/mainPage/popularProducts/Copy of Alexandrina (1).png",
-        "/mainPage/popularProducts/Copy of  Veronica.png",
-        "/mainPage/popularProducts/Copy of Acacia.png",
-        "/mainPage/popularProducts/Copy of Adina Alumin.png",
-        "/mainPage/popularProducts/Copy of Afina.png",
-        "/mainPage/popularProducts/Copy of Alexandra.png",
-        "/mainPage/popularProducts/Copy of Alexandrina (1).png",
-        "/mainPage/popularProducts/Copy of  Veronica.png",
-        "/mainPage/popularProducts/Copy of Acacia.png",
-        "/mainPage/popularProducts/Copy of Adina Alumin.png",
-        "/mainPage/popularProducts/Copy of Afina.png",
-        "/mainPage/popularProducts/Copy of Alexandra.png",
-        "/mainPage/popularProducts/Copy of Alexandrina (1).png",
-        "/mainPage/popularProducts/Copy of  Veronica.png",
-        "/mainPage/popularProducts/Copy of Acacia.png",
-        "/mainPage/popularProducts/Copy of Adina Alumin.png",
-        "/mainPage/popularProducts/Copy of Afina.png",
-        "/mainPage/popularProducts/Copy of Alexandra.png",
-        "/mainPage/popularProducts/Copy of Alexandrina (1).png",
-        "/mainPage/popularProducts/Copy of  Veronica.png",
-        "/mainPage/popularProducts/Copy of Acacia.png",
-        "/mainPage/popularProducts/Copy of Adina Alumin.png",
-        "/mainPage/popularProducts/Copy of Afina.png",
-        "/mainPage/popularProducts/Copy of Alexandra.png",
-        "/mainPage/popularProducts/Copy of Alexandrina (1).png",
-        "/mainPage/popularProducts/Copy of  Veronica.png",
-        "/mainPage/popularProducts/Copy of Acacia.png",
-        "/mainPage/popularProducts/Copy of Adina Alumin.png",
-        "/mainPage/popularProducts/Copy of Afina.png",
-        "/mainPage/popularProducts/Copy of Alexandra.png",
-        "/mainPage/popularProducts/Copy of Alexandrina (1).png",
-        "/mainPage/popularProducts/Copy of  Veronica.png",
-        "/mainPage/popularProducts/Copy of Acacia.png",
-        "/mainPage/popularProducts/Copy of Adina Alumin.png",
-        "/mainPage/popularProducts/Copy of Afina.png",
-        "/mainPage/popularProducts/Copy of Alexandra.png",
-        "/mainPage/popularProducts/Copy of Alexandrina (1).png",
-        "/mainPage/popularProducts/Copy of  Veronica.png",
-        "/mainPage/popularProducts/Copy of Acacia.png",
-        "/mainPage/popularProducts/Copy of Adina Alumin.png",
-        "/mainPage/popularProducts/Copy of Afina.png",
-        "/mainPage/popularProducts/Copy of Alexandra.png",
-        "/mainPage/popularProducts/Copy of Alexandrina (1).png",
-        "/mainPage/popularProducts/Copy of  Veronica.png",
-        "/mainPage/popularProducts/Copy of Acacia.png",
-        "/mainPage/popularProducts/Copy of Adina Alumin.png",
-        "/mainPage/popularProducts/Copy of Afina.png",
-        "/mainPage/popularProducts/Copy of Alexandra.png",
-        "/mainPage/popularProducts/Copy of Alexandrina (1).png",
-        "/mainPage/popularProducts/Copy of  Veronica.png",
-        "/mainPage/popularProducts/Copy of Acacia.png",
-        "/mainPage/popularProducts/Copy of Adina Alumin.png",
-        "/mainPage/popularProducts/Copy of Afina.png",
-        "/mainPage/popularProducts/Copy of Alexandra.png",
-        "/mainPage/popularProducts/Copy of Alexandrina (1).png",
-        "/mainPage/popularProducts/Copy of  Veronica.png",
-        "/mainPage/popularProducts/Copy of Acacia.png",
-        "/mainPage/popularProducts/Copy of Adina Alumin.png",
-        "/mainPage/popularProducts/Copy of Afina.png",
-        "/mainPage/popularProducts/Copy of Alexandra.png",
-        "/mainPage/popularProducts/Copy of Alexandrina (1).png",
-        "/mainPage/popularProducts/Copy of  Veronica.png",
-        "/mainPage/popularProducts/Copy of Acacia.png",
-        "/mainPage/popularProducts/Copy of Adina Alumin.png",
-        "/mainPage/popularProducts/Copy of Afina.png",
-        "/mainPage/popularProducts/Copy of Alexandra.png",
-        "/mainPage/popularProducts/Copy of Alexandrina (1).png",
-        "/mainPage/popularProducts/Copy of  Veronica.png",
-        "/mainPage/popularProducts/Copy of Acacia.png",
-        "/mainPage/popularProducts/Copy of Adina Alumin.png",
-        "/mainPage/popularProducts/Copy of Afina.png",
-        "/mainPage/popularProducts/Copy of Alexandra.png",
-        "/mainPage/popularProducts/Copy of Alexandrina (1).png",
-        "/mainPage/popularProducts/Copy of  Veronica.png",
-        "/mainPage/popularProducts/Copy of Acacia.png",
-        "/mainPage/popularProducts/Copy of Adina Alumin.png",
-        "/mainPage/popularProducts/Copy of Afina.png",
-        "/mainPage/popularProducts/Copy of Alexandra.png",
-        "/mainPage/popularProducts/Copy of Alexandrina (1).png",
-        "/mainPage/popularProducts/Copy of  Veronica.png",
-        "/mainPage/popularProducts/Copy of Acacia.png",
-        "/mainPage/popularProducts/Copy of Adina Alumin.png",
-        "/mainPage/popularProducts/Copy of Afina.png",
-        "/mainPage/popularProducts/Copy of Alexandra.png",
-        "/mainPage/popularProducts/Copy of Alexandrina (1).png",
-        "/mainPage/popularProducts/Copy of  Veronica.png",
-        "/mainPage/popularProducts/Copy of Acacia.png",
-        "/mainPage/popularProducts/Copy of Adina Alumin.png",
-        "/mainPage/popularProducts/Copy of Afina.png",
-        "/mainPage/popularProducts/Copy of Alexandra.png",
-        "/mainPage/popularProducts/Copy of Alexandrina (1).png",
-        "/mainPage/popularProducts/Copy of  Veronica.png",
-        "/mainPage/popularProducts/Copy of Acacia.png",
-        "/mainPage/popularProducts/Copy of Adina Alumin.png",
-        "/mainPage/popularProducts/Copy of Afina.png",
-        "/mainPage/popularProducts/Copy of Alexandra.png",
-        "/mainPage/popularProducts/Copy of Alexandrina (1).png",
-        "/mainPage/popularProducts/Copy of  Veronica.png",
-        "/mainPage/popularProducts/Copy of Acacia.png",
-        "/mainPage/popularProducts/Copy of Adina Alumin.png",
-        "/mainPage/popularProducts/Copy of Afina.png",
-        "/mainPage/popularProducts/Copy of Alexandra.png",
-        "/mainPage/popularProducts/Copy of Alexandrina (1).png",
-    ]
 
-    const pages = Math.trunc(products.length / 32) + 1
+    const pages = Math.trunc(productsApi.length / 32) + 1
     
     const sortingOptions = [
         {
@@ -327,8 +57,46 @@ export default function Category({productsApi}) {
         setSorting(index)
     }
 
-    useEffect(()=>{
-    })
+    async function handleProductsSortingChange(sorting) {
+        switch(sorting){
+            case 0 : {
+                setProductsApi(category[0].products)
+                console.log("Called function", 0)
+            }
+            break;
+            case 1 : {
+                setProductsApi([...productsApi].sort((a, b) => {
+                    if (a.published_at > b.published_at) {
+                      return 1;
+                    }
+                    if (a.published_at < b.published_at) {
+                      return -1;
+                    }
+                    return 0;
+                  }))
+                console.log("Called function", 1)
+            }
+            break;
+            case 2 : {
+                setProductsApi([...productsApi].sort((a, b) => b.price - a.price))
+                console.log("Called function", 2)
+            }
+            break;
+            case 3 : {
+                setProductsApi([...productsApi].sort((a, b) => a.price - b.price))
+                console.log("Called function", 3)
+            }
+            break;
+            default : setProductsApi(category[0].products)
+            break;
+        }
+    }
+
+    useEffect(() => {
+        handleProductsSortingChange(sorting)
+        console.log("Changed sorting to ", sorting)
+    }
+    , [sorting])
 
     return (
         <div className="w-full h-auto px-container-sm md:px-container-md lg:px-container-lg xl:px-container-xl pt-128px md:pt-136px lg:pt-234px pb-120px font-Ubuntu bg-ui-darkGrey">
@@ -343,7 +111,7 @@ export default function Category({productsApi}) {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
                 <span>
-                    Category
+                    {name}
                 </span>
             </div>
 
@@ -351,7 +119,7 @@ export default function Category({productsApi}) {
                 className="flex flex-row justify-between items-end mb-2 md:mb-3"
             >
                 <h2 className="text-sm-h2 md:text-md-h3 lg:text-lg-h2 text-accent-text2 font-bold text-shadow-text2">
-                    Category
+                    {name}
                 </h2>
 
                 <div className="w-190px bg-accent-transparent text-accent-dark rounded-xl h-9 flex-row justify-between items-center pr-6 pl-4 hidden smCatalog:flex">
@@ -395,11 +163,15 @@ export default function Category({productsApi}) {
                         Sortează după:
                     </div>
 
-                    <Dropdown2 options={sortingOptions} handleChange={handleSortingChange} chosen={sorting}></Dropdown2>
+                    <Dropdown2 
+                        options={sortingOptions} 
+                        handleChange={handleSortingChange} 
+                        chosen={sorting}
+                    ></Dropdown2>
                 </div>
 
                 <div className="px-2 py-4 text-type-grey text-lg-14 hidden smCatalog:block">
-                    {products.length} produse
+                    {productsApi.length} produse
                 </div>
 
                 <div 
@@ -424,37 +196,48 @@ export default function Category({productsApi}) {
                 ></FilterPopup>
             </div>
 
-            <div className="w-full grid grid-flow-row grid-cols-12 gap-4">
-                {productsApi.slice(showFrom*showNr, showFrom*showNr + showNr).map((product, index) => {
-                    return (
-                        <div key={index} className="h-auto w-full col-span-12 smCatalog:col-span-6 md:col-span-4 lg:col-span-3">
-                            <div className="h-296px md:h-425px bg-ui-white rounded-xl p-5">
-                                <div className="w-auto h-156px md:h-245px relative">
-                                    <Image
-                                        draggable={false}
-                                        src={product.image.formats.medium.url}
-                                        layout="fill"
-                                        objectFit="cover"
-                                    />
-                                </div>
-                                <div className="text-sm-card-name md:text-lg-card-name-bold text-type-dark mt-6 md:mt-8 font-medium">
-                                    {product.name}
-                                </div>
-                                <div className="text-sm-p md:text-lg-p text-type-manatee font-normal mt-2">
-                                    Seria Juergen LED
-                                </div>
-                                <div className="text-sm-button md:text-lg-17 text-accent-accent font-medium mt-4 md:mt-6">
-                                    de la 4706 lei
-                                </div>
+            {
+                loadingSorting ? 
+                "Loading..."
+                :
+                <div className="w-full grid grid-flow-row grid-cols-12 gap-4">
+                    {productsApi.slice(showFrom*showNr, showFrom*showNr + showNr).map((product, index) => {
+                        return (
+                            <div key={index} className="h-auto w-full col-span-12 smCatalog:col-span-6 md:col-span-4 lg:col-span-3">
+                                <Link href={`/produse/${product.slug}`}>
+                                    <a>
+                                        <div className="h-296px md:h-425px bg-ui-white rounded-xl p-5 border-2 border-transparent hover:border-accent-accent transition duration-300">
+                                            <div className="w-auto h-156px md:h-245px relative">
+                                                <Image
+                                                    draggable={false}
+                                                    src={product.image[0].formats.medium.url}
+                                                    layout="fill"
+                                                    objectFit="cover"
+                                                />
+                                            </div>
+                                            <div className="text-sm-card-name md:text-lg-card-name-bold text-type-dark mt-6 md:mt-8 font-medium">
+                                                {product.name}
+                                            </div>
+                                            <div className="text-sm-p md:text-lg-p text-type-manatee font-normal mt-2">
+                                                Seria Juergen LED
+                                            </div>
+                                            <div className="text-sm-button md:text-lg-17 text-accent-accent font-medium mt-4 md:mt-6">
+                                                de la {product.price} lei
+                                            </div>
+                                        </div>
+                                    </a>
+                                </Link>
                             </div>
-                        </div>
-                    );
-                })}
-            </div>
+                        );
+                    })}
+                </div>
+            }
 
             <div 
                 className="mt-8 mx-auto w-230px h-12 flex flex-row justify-center items-center rounded-lg bg-accent-transparent text-accent-accent font-bold text-lg-button mb-4"
-                onClick={() => setShowNr(showNr + 32)}
+                onClick={() => {
+                    showNr >= showNr*pages? "" : setShowNr(showNr + 32)
+                }}
             >
                 Mai multe produse
             </div>
@@ -495,7 +278,7 @@ export default function Category({productsApi}) {
                 </div>
 
                 <div className="text-lg-14 text-type-grey font-normal">
-                    Afișare {showFrom * 32} - {showFrom * 32 + showNr} (din {products.length})
+                    Afișare {showFrom * 32} - {showFrom * 32 + showNr} (din {productsApi.length})
                 </div>
             </div>
 
