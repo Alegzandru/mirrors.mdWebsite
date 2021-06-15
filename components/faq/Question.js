@@ -7,12 +7,12 @@ export default function Question (props) {
 
     return (
         <div 
-            className="w-full cursor-pointer"
+            className="w-full cursor-pointer group"
             onClick={() => {
                 setOpen(!open)
             }}
         >
-            <div className="w-full h-auto flex flex-row justify-between py-4 px-2 items-center text-lg-p text-type-manatee font-medium">
+            <div className="w-full h-auto flex flex-row justify-between py-4 px-2 items-center text-lg-p text-type-manatee font-medium group-hover:text-accent-dark transition duration-300">
                 <span className="mr-4">
                     {props.question}
                 </span>

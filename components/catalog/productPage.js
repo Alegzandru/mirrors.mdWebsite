@@ -1,7 +1,7 @@
 import ProductComponent from "./productComponent"
 import ProductDescription from "./productDescription"
 
-export default function ProductPage ({deviceType, name, price, images, description, category, options, optionVariants}) {
+export default function ProductPage ({deviceType, name, price, images, description, category, options, optionVariants, productData}) {
 
     // const options = [
     //     "Dimensiuni",
@@ -52,6 +52,7 @@ export default function ProductPage ({deviceType, name, price, images, descripti
                 price={price}
                 images={images}
                 category={category}
+                productData={productData}
             />
             <ProductDescription 
                 deviceType={deviceType} 

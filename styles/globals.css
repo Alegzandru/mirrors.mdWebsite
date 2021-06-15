@@ -65,6 +65,18 @@
     height: calc(100vh - 64px);
 }
 
+video {
+    height: 100%;
+    width: 177.77777778vh;
+    min-width: 100%;
+    min-height: 56.25vw; 
+    /* position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%); */
+
+}
+
 /* .w-dropdown{
     width : calc( (100vw - 64px - 8px) / 4 )
 } */

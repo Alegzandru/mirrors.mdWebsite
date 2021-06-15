@@ -29,16 +29,16 @@ export default function IntrebariFrecventeComponent () {
 
                         <div className="w-full h-px bg-ui-blueishGrey"/>
                         <Question
-                            question = "Este posibil de comandat oglindă de design personalizat?"
-                            answer = "Pe site-ul nostru web, oferim clienților noștri o selecție mare de modele de oglinzi. Dar, puteți seta dimensiunea oglinzii dvs. și chiar dacă doriți, modificați ușor modelul și poziția desenului! Pe lângă modelele prezentate, la solicitarea dvs., suntem pregătiți să producem o oglindă de design individuală. Trimite-ne un e-mailinfo@j-mirror.comdorințele dvs.: dimensiuni, schiță, opțiuni, cerințe tehnice. În scurt timp, vom da un răspuns despre posibilitatea de a produce o astfel de oglindă, termenul de livrare și prețul."
-                        />
-                        <Question
-                            question = "Este posibil să comandați oglinzi de dimensiuni individuale?"
-                            answer = "Pe site-ul nostru web, oferim clienților noștri o selecție mare de modele de oglinzi. Dar, puteți seta dimensiunea oglinzii dvs. și chiar dacă doriți, modificați ușor modelul și poziția desenului! Pe lângă modelele prezentate, la solicitarea dvs., suntem pregătiți să producem o oglindă de design individuală. Trimite-ne un e-mailinfo@j-mirror.comdorințele dvs.: dimensiuni, schiță, opțiuni, cerințe tehnice. În scurt timp, vom da un răspuns despre posibilitatea de a produce o astfel de oglindă, termenul de livrare și prețul."
+                            question = "Când voi primi produsul comandat?"
+                            answer = "Veți primi produsul în timp de 10-20 zile lucrătoare de la confirmarea comenzii. În acest timp noi confecționăm si livram oglinda."
                         />
                         <Question
                             question = "Este posibil să comandați oglinzi de dimensiuni mari?"
-                            answer = "Pe site-ul nostru web, oferim clienților noștri o selecție mare de modele de oglinzi. Dar, puteți seta dimensiunea oglinzii dvs. și chiar dacă doriți, modificați ușor modelul și poziția desenului! Pe lângă modelele prezentate, la solicitarea dvs., suntem pregătiți să producem o oglindă de design individuală. Trimite-ne un e-mailinfo@j-mirror.comdorințele dvs.: dimensiuni, schiță, opțiuni, cerințe tehnice. În scurt timp, vom da un răspuns despre posibilitatea de a produce o astfel de oglindă, termenul de livrare și prețul."
+                            answer = "Site-ul nostru vă permite să comandați o oglindă într-o gamă largă de dimensiuni de până la 2,5m."
+                        />
+                        <Question
+                            question = "Este posibil de comandat oglindă de design personalizat?"
+                            answer = "Pe site-ul nostru web, oferim clienților noștri o selecție mare de modele de oglinzi. Dar, puteți seta dimensiunea oglinzii dvs. și chiar dacă doriți, modificați ușor modelul și poziția desenului!"
                         />
                     </Paper>
 
@@ -49,12 +49,12 @@ export default function IntrebariFrecventeComponent () {
 
                         <div className="w-full h-px bg-ui-blueishGrey"/>
                         <Question
-                            question = "Unde este amplasat controlul al ceasului integrat ?"
-                            answer = "Pe site-ul nostru web, oferim clienților noștri o selecție mare de modele de oglinzi. Dar, puteți seta dimensiunea oglinzii dvs. și chiar dacă doriți, modificați ușor modelul și poziția desenului! Pe lângă modelele prezentate, la solicitarea dvs., suntem pregătiți să producem o oglindă de design individuală. Trimite-ne un e-mailinfo@j-mirror.comdorințele dvs.: dimensiuni, schiță, opțiuni, cerințe tehnice. În scurt timp, vom da un răspuns despre posibilitatea de a produce o astfel de oglindă, termenul de livrare și prețul."
+                            question = "Cum să alegeți dimensiunea încălzitorului pentru a elimina aburirea?"
+                            answer = "Alegerea dimensiunii încălzitorului este determinată de partea din oglindă pe care doriți să o încălziți. Dimensiunea încălzitorului 25 * 25 cm este suficientă pentru a vedea reflectarea feței într-o baie foarte umezită. Un încălzitor mai mare va furniza o suprafață corespunzătoare de încălzire. De asemenea, merită luat în considerare faptul că zona încălzită a oglinzii este puțin mai mare decât dimensiunea încălzitorului. Zonele oglinzii din imediata apropiere a zonelor ilumunate tot se încălzesc ușor și nu fac ceață."
                         />
                         <Question
-                            question = "Cum să alegeți dimensiunea încălzitorului pentru a elimina aburirea?"
-                            answer = "Pe site-ul nostru web, oferim clienților noștri o selecție mare de modele de oglinzi. Dar, puteți seta dimensiunea oglinzii dvs. și chiar dacă doriți, modificați ușor modelul și poziția desenului! Pe lângă modelele prezentate, la solicitarea dvs., suntem pregătiți să producem o oglindă de design individuală. Trimite-ne un e-mailinfo@j-mirror.comdorințele dvs.: dimensiuni, schiță, opțiuni, cerințe tehnice. În scurt timp, vom da un răspuns despre posibilitatea de a produce o astfel de oglindă, termenul de livrare și prețul."
+                            question = "Aplicati si logotipuri color?"
+                            answer = "Da, folosim banda color care se lipeste pe interior. Pentru un efect mai mare, instalam diode suplimentare care ilumineaza logotipul."
                         />
                     </Paper>
 
@@ -65,16 +65,8 @@ export default function IntrebariFrecventeComponent () {
 
                         <div className="w-full h-px bg-ui-blueishGrey"/>
                         <Question
-                            question = "Perioada de garanție."
-                            answer = "Pe site-ul nostru web, oferim clienților noștri o selecție mare de modele de oglinzi. Dar, puteți seta dimensiunea oglinzii dvs. și chiar dacă doriți, modificați ușor modelul și poziția desenului! Pe lângă modelele prezentate, la solicitarea dvs., suntem pregătiți să producem o oglindă de design individuală. Trimite-ne un e-mailinfo@j-mirror.comdorințele dvs.: dimensiuni, schiță, opțiuni, cerințe tehnice. În scurt timp, vom da un răspuns despre posibilitatea de a produce o astfel de oglindă, termenul de livrare și prețul."
-                        />
-                        <Question
-                            question = "Cum este oferit serviciul de garanție?"
-                            answer = "Pe site-ul nostru web, oferim clienților noștri o selecție mare de modele de oglinzi. Dar, puteți seta dimensiunea oglinzii dvs. și chiar dacă doriți, modificați ușor modelul și poziția desenului! Pe lângă modelele prezentate, la solicitarea dvs., suntem pregătiți să producem o oglindă de design individuală. Trimite-ne un e-mailinfo@j-mirror.comdorințele dvs.: dimensiuni, schiță, opțiuni, cerințe tehnice. În scurt timp, vom da un răspuns despre posibilitatea de a produce o astfel de oglindă, termenul de livrare și prețul."
-                        />
-                        <Question
-                            question = "Este posibil serviciul post-garanție?"
-                            answer = "Pe site-ul nostru web, oferim clienților noștri o selecție mare de modele de oglinzi. Dar, puteți seta dimensiunea oglinzii dvs. și chiar dacă doriți, modificați ușor modelul și poziția desenului! Pe lângă modelele prezentate, la solicitarea dvs., suntem pregătiți să producem o oglindă de design individuală. Trimite-ne un e-mailinfo@j-mirror.comdorințele dvs.: dimensiuni, schiță, opțiuni, cerințe tehnice. În scurt timp, vom da un răspuns despre posibilitatea de a produce o astfel de oglindă, termenul de livrare și prețul."
+                            question = "Oferiti garantie?"
+                            answer = "Da, noi garantam ca LED-urile, senzorul si transformatoarele vor functiona impecabil cel putin 2 ani. Daca sistemul de iluminare nu funcționeaza perfect, contactati-ne si acesta va fi inlocuit."
                         />
                     </Paper>
                 </div>
@@ -87,8 +79,16 @@ export default function IntrebariFrecventeComponent () {
 
                         <div className="w-full h-px bg-ui-blueishGrey"/>
                         <Question
-                            question = "Ce să faceți dacă oglinda este deteriorată în timpul transportării?"
-                            answer = "Pe site-ul nostru web, oferim clienților noștri o selecție mare de modele de oglinzi. Dar, puteți seta dimensiunea oglinzii dvs. și chiar dacă doriți, modificați ușor modelul și poziția desenului! Pe lângă modelele prezentate, la solicitarea dvs., suntem pregătiți să producem o oglindă de design individuală. Trimite-ne un e-mailinfo@j-mirror.comdorințele dvs.: dimensiuni, schiță, opțiuni, cerințe tehnice. În scurt timp, vom da un răspuns despre posibilitatea de a produce o astfel de oglindă, termenul de livrare și prețul."
+                            question = "Cât costă livrarea?"
+                            answer = "Livrăm comanda gratuit pe teritoriului Chișinău. Livrarea pe teritoriul Moldovei sau în altă țară este contra-cost, prețul se stabilește în dependență de greutatea oglinzii."
+                        />
+                        <Question
+                            question = "Care sunt modalitatile de plata?"
+                            answer = "Pentru a achita produsele comandate aveti la dispozitie mai multe optiuni: plata cu card bancar, transfer bancar sau plata ramburs (doar pentru produsele din categoria Livrare Express)."
+                        />
+                        <Question
+                            question = "Este posibil achitare și în rate?"
+                            answer = "Aveți posibilitatea de a achiziționa oglinda în rate cu ajutorul companiei de creditare."
                         />
                     </Paper>
 
@@ -99,52 +99,44 @@ export default function IntrebariFrecventeComponent () {
 
                         <div className="w-full h-px bg-ui-blueishGrey"/>
                         <Question
-                            question = "Montarea oglinzii pe perete"
+                            question = "Cum pot schimba dimensiunile oglinzii?"
                             answer = "Pe site-ul nostru web, oferim clienților noștri o selecție mare de modele de oglinzi. Dar, puteți seta dimensiunea oglinzii dvs. și chiar dacă doriți, modificați ușor modelul și poziția desenului! Pe lângă modelele prezentate, la solicitarea dvs., suntem pregătiți să producem o oglindă de design individuală. Trimite-ne un e-mailinfo@j-mirror.comdorințele dvs.: dimensiuni, schiță, opțiuni, cerințe tehnice. În scurt timp, vom da un răspuns despre posibilitatea de a produce o astfel de oglindă, termenul de livrare și prețul."
                         />
                         <Question
-                            question = "Conectarea oglinzei la alimentare."
-                            answer = "Pe site-ul nostru web, oferim clienților noștri o selecție mare de modele de oglinzi. Dar, puteți seta dimensiunea oglinzii dvs. și chiar dacă doriți, modificați ușor modelul și poziția desenului! Pe lângă modelele prezentate, la solicitarea dvs., suntem pregătiți să producem o oglindă de design individuală. Trimite-ne un e-mailinfo@j-mirror.comdorințele dvs.: dimensiuni, schiță, opțiuni, cerințe tehnice. În scurt timp, vom da un răspuns despre posibilitatea de a produce o astfel de oglindă, termenul de livrare și prețul."
+                            question = "Ce să faceți dacă oglinda este deteriorată în timpul transportării?"
+                            answer = "Responsabilitatea pentru siguranța oglinzii în timpul livrării revine magazinului. Oglinzile noastre au ambalaje speciale pentru transportare care le protejează de posibile deteriorări în timpul livrării. Oglinzile mari sunt ambalate în ambalaj din lemn. Cu toate acestea, atunci când primiți o oglindă în serviciul de livrare, trebuie să vă asigurați că oglinda nu este deteriorată. Deschideți pachetul la primire și verificați oglinda."
                         />
                         <Question
-                            question = "În ce loc trebuie să iasă firul din perete pentru a conecta oglinda?"
-                            answer = "Pe site-ul nostru web, oferim clienților noștri o selecție mare de modele de oglinzi. Dar, puteți seta dimensiunea oglinzii dvs. și chiar dacă doriți, modificați ușor modelul și poziția desenului! Pe lângă modelele prezentate, la solicitarea dvs., suntem pregătiți să producem o oglindă de design individuală. Trimite-ne un e-mailinfo@j-mirror.comdorințele dvs.: dimensiuni, schiță, opțiuni, cerințe tehnice. În scurt timp, vom da un răspuns despre posibilitatea de a produce o astfel de oglindă, termenul de livrare și prețul."
+                            question = "Cum se aprinde lumina?"
+                            answer = "Pe oglinzile cu iluminare montam, de baza, intrerupator mecanic (in dependenta de model, pentru unele modele trebuie stric prevazut un intrerupator pe perete). Oferim posibilitatea sa alegeti alt tip de intrerupator: buton touch, senzor de miscare sau buton touch dublu. Indicati tipul de intrerupator ales in formularul de comanda."
                         />
                         <Question
-                            question = "Instalarea unei oglinzi într-o cameră umedă."
-                            answer = "Pe site-ul nostru web, oferim clienților noștri o selecție mare de modele de oglinzi. Dar, puteți seta dimensiunea oglinzii dvs. și chiar dacă doriți, modificați ușor modelul și poziția desenului! Pe lângă modelele prezentate, la solicitarea dvs., suntem pregătiți să producem o oglindă de design individuală. Trimite-ne un e-mailinfo@j-mirror.comdorințele dvs.: dimensiuni, schiță, opțiuni, cerințe tehnice. În scurt timp, vom da un răspuns despre posibilitatea de a produce o astfel de oglindă, termenul de livrare și prețul."
+                            question = "Care este temperatura de culoare a luminii?"
+                            answer = "Temperatura de culoare a luminii emanata de LED-uri este de 6000K. La dorinta, puteti comanda o lumina cu nuanta mai calda – 4000K. Puteti alege acesta optiune din pagina produsului."
                         />
                         <Question
-                            question = "Durata de viață a LED-urilor."
-                            answer = "Pe site-ul nostru web, oferim clienților noștri o selecție mare de modele de oglinzi. Dar, puteți seta dimensiunea oglinzii dvs. și chiar dacă doriți, modificați ușor modelul și poziția desenului! Pe lângă modelele prezentate, la solicitarea dvs., suntem pregătiți să producem o oglindă de design individuală. Trimite-ne un e-mailinfo@j-mirror.comdorințele dvs.: dimensiuni, schiță, opțiuni, cerințe tehnice. În scurt timp, vom da un răspuns despre posibilitatea de a produce o astfel de oglindă, termenul de livrare și prețul."
+                            question = "Am nevoie de o oglinda de marime atipica. Mi-o puteti face?"
+                            answer = "Da, noi putem produce o oglinda de marime atipica, daca aceasta nu depaseste 2,5 x 2,1 metri. De asemenea, producem oglinzi-mozaic dintr-un numar mare de elemente. Pentru a discuta comanda, vă rugam sa ne contactati."
                         />
                         <Question
-                            question = "Înlocuirea LED-urilor din oglindă cu iluminare LED."
-                            answer = "Pe site-ul nostru web, oferim clienților noștri o selecție mare de modele de oglinzi. Dar, puteți seta dimensiunea oglinzii dvs. și chiar dacă doriți, modificați ușor modelul și poziția desenului! Pe lângă modelele prezentate, la solicitarea dvs., suntem pregătiți să producem o oglindă de design individuală. Trimite-ne un e-mailinfo@j-mirror.comdorințele dvs.: dimensiuni, schiță, opțiuni, cerințe tehnice. În scurt timp, vom da un răspuns despre posibilitatea de a produce o astfel de oglindă, termenul de livrare și prețul."
+                            question = "Ce grosime are oglinda?"
+                            answer = "Grosimea oglinzilor cu LED este de 25 mm, luand in calcul si carcasa pentru sistemul de iluminat."
                         />
                         <Question
-                            question = "Care este grosimea oglinzii?"
-                            answer = "Pe site-ul nostru web, oferim clienților noștri o selecție mare de modele de oglinzi. Dar, puteți seta dimensiunea oglinzii dvs. și chiar dacă doriți, modificați ușor modelul și poziția desenului! Pe lângă modelele prezentate, la solicitarea dvs., suntem pregătiți să producem o oglindă de design individuală. Trimite-ne un e-mailinfo@j-mirror.comdorințele dvs.: dimensiuni, schiță, opțiuni, cerințe tehnice. În scurt timp, vom da un răspuns despre posibilitatea de a produce o astfel de oglindă, termenul de livrare și prețul."
+                            question = "Ramele sunt vopsite manual sau in camera de pulverizare?"
+                            answer = "Toate produsele sunt vopsite intr-o camera speciala. Aceasta metoda asigura o suprafata uniforma, fara striatii si rizuri."
                         />
                         <Question
-                            question = "Ce foaie de oglindă este folosită?"
-                            answer = "Pe site-ul nostru web, oferim clienților noștri o selecție mare de modele de oglinzi. Dar, puteți seta dimensiunea oglinzii dvs. și chiar dacă doriți, modificați ușor modelul și poziția desenului! Pe lângă modelele prezentate, la solicitarea dvs., suntem pregătiți să producem o oglindă de design individuală. Trimite-ne un e-mailinfo@j-mirror.comdorințele dvs.: dimensiuni, schiță, opțiuni, cerințe tehnice. În scurt timp, vom da un răspuns despre posibilitatea de a produce o astfel de oglindă, termenul de livrare și prețul."
+                            question = "Ce culori sunt disponibile?"
+                            answer = "Pentru fiecare produs care poate avea rama colorata, pe site sunt afisate culorile disponibile. Daca doriti sa comandati o alta culoare decat cele prezentate, va rugam sa ne contactati."
                         />
                         <Question
-                            question = "Instalarea unei oglinzi într-o nișă."
-                            answer = "Pe site-ul nostru web, oferim clienților noștri o selecție mare de modele de oglinzi. Dar, puteți seta dimensiunea oglinzii dvs. și chiar dacă doriți, modificați ușor modelul și poziția desenului! Pe lângă modelele prezentate, la solicitarea dvs., suntem pregătiți să producem o oglindă de design individuală. Trimite-ne un e-mailinfo@j-mirror.comdorințele dvs.: dimensiuni, schiță, opțiuni, cerințe tehnice. În scurt timp, vom da un răspuns despre posibilitatea de a produce o astfel de oglindă, termenul de livrare și prețul."
+                            question = "Din ce sunt facute ramele pentru oglinda?"
+                            answer = "In dependenta de modelul oglinzii, ramele sunt produse din metal, plastic, lemn și mdf."
                         />
                         <Question
-                            question = "Cât de puternică este iluminarea oglinzii?"
-                            answer = "Pe site-ul nostru web, oferim clienților noștri o selecție mare de modele de oglinzi. Dar, puteți seta dimensiunea oglinzii dvs. și chiar dacă doriți, modificați ușor modelul și poziția desenului! Pe lângă modelele prezentate, la solicitarea dvs., suntem pregătiți să producem o oglindă de design individuală. Trimite-ne un e-mailinfo@j-mirror.comdorințele dvs.: dimensiuni, schiță, opțiuni, cerințe tehnice. În scurt timp, vom da un răspuns despre posibilitatea de a produce o astfel de oglindă, termenul de livrare și prețul."
-                        />
-                        <Question
-                            question = "Cum să păstrați o oglindă înainte de instalare?"
-                            answer = "Pe site-ul nostru web, oferim clienților noștri o selecție mare de modele de oglinzi. Dar, puteți seta dimensiunea oglinzii dvs. și chiar dacă doriți, modificați ușor modelul și poziția desenului! Pe lângă modelele prezentate, la solicitarea dvs., suntem pregătiți să producem o oglindă de design individuală. Trimite-ne un e-mailinfo@j-mirror.comdorințele dvs.: dimensiuni, schiță, opțiuni, cerințe tehnice. În scurt timp, vom da un răspuns despre posibilitatea de a produce o astfel de oglindă, termenul de livrare și prețul."
-                        />
-                        <Question
-                            question = "Reguli de folosire a oglinzilor."
-                            answer = "Pe site-ul nostru web, oferim clienților noștri o selecție mare de modele de oglinzi. Dar, puteți seta dimensiunea oglinzii dvs. și chiar dacă doriți, modificați ușor modelul și poziția desenului! Pe lângă modelele prezentate, la solicitarea dvs., suntem pregătiți să producem o oglindă de design individuală. Trimite-ne un e-mailinfo@j-mirror.comdorințele dvs.: dimensiuni, schiță, opțiuni, cerințe tehnice. În scurt timp, vom da un răspuns despre posibilitatea de a produce o astfel de oglindă, termenul de livrare și prețul."
+                            question = "In regiunea mea se produc cutremure de pamant. Oglinda nu va cadea?"
+                            answer = "Nu. Daca veti instala oglinda drept, folosind toate piesele de fixare din set, oglinda va ramane pe perete chiar si in cazul unor vibratii puternice."
                         />
                     </Paper>
                 </div>

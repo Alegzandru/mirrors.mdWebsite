@@ -1,9 +1,19 @@
 import Image from "next/image"
 import { useState } from "react";
+import Lightbox from "react-awesome-lightbox";
+// You need to import the CSS only once
+import "react-awesome-lightbox/build/style.css";
 
 export default function GalerieComponent (props) {
 
     const [photoNr, setPhotoNr] = useState(10)
+    const [lightboxOpen, setLightboxOpen] = useState(0)
+    const images = props.products.map((product) => {
+        return product.image[0].formats.medium.url
+    })
+
+    console.log(photoNr)
+    console.log(images.length)
 
     function getColSpan (deviceType, index) {
         switch(deviceType){
@@ -23,33 +33,6 @@ export default function GalerieComponent (props) {
                 return index % 3 == 0 ? "col-span-12" : "col-span-6"
         }
     }
-
-    const images = [
-        "/mainPage/popularProducts/Copy of  Veronica.png",
-        "/mainPage/popularProducts/Copy of Acacia.png",
-        "/mainPage/popularProducts/Copy of Adina Alumin.png",
-        "/mainPage/popularProducts/Copy of Afina.png",
-        "/mainPage/popularProducts/Copy of Alexandra.png",
-        "/mainPage/popularProducts/Copy of Alexandrina (1).png",
-        "/mainPage/popularProducts/Copy of  Veronica.png",
-        "/mainPage/popularProducts/Copy of Acacia.png",
-        "/mainPage/popularProducts/Copy of Adina Alumin.png",
-        "/mainPage/popularProducts/Copy of Afina.png",
-        "/mainPage/popularProducts/Copy of Alexandra.png",
-        "/mainPage/popularProducts/Copy of Alexandrina (1).png",
-        "/mainPage/popularProducts/Copy of  Veronica.png",
-        "/mainPage/popularProducts/Copy of Acacia.png",
-        "/mainPage/popularProducts/Copy of Adina Alumin.png",
-        "/mainPage/popularProducts/Copy of Afina.png",
-        "/mainPage/popularProducts/Copy of Alexandra.png",
-        "/mainPage/popularProducts/Copy of Alexandrina (1).png",
-        "/mainPage/popularProducts/Copy of  Veronica.png",
-        "/mainPage/popularProducts/Copy of Acacia.png",
-        "/mainPage/popularProducts/Copy of Adina Alumin.png",
-        "/mainPage/popularProducts/Copy of Afina.png",
-        "/mainPage/popularProducts/Copy of Alexandra.png",
-        "/mainPage/popularProducts/Copy of Alexandrina (1).png",
-    ];
 
     return (
         <div className="w-full h-auto px-container-sm md:px-container-md lg:px-container-lg xl:px-container-xl pt-128px md:pt-136px lg:pt-234px pb-120px font-Ubuntu bg-ui-darkGrey">
@@ -72,7 +55,11 @@ export default function GalerieComponent (props) {
             <div className="grid grid-flow-row grid-cols-12 gap-2 md:gap-4">                
                 {images.slice(0, photoNr).map((img, index)=>{
                     return(
-                        <div key={index} className={`${getColSpan(props.deviceType, index)} h-224px md:h-268px lg:h-284px relative`}>
+                        <div 
+                            key={index} 
+                            className={`${getColSpan(props.deviceType, index)} h-224px md:h-268px lg:h-284px relative cursor-pointer`}
+                            onClick={() => setLightboxOpen(1)}
+                        >
                             <Image
                                 src={img}
                                 layout="fill"
@@ -86,14 +73,19 @@ export default function GalerieComponent (props) {
             </div>
 
             <div 
-                className="h-12 w-full md:w-238px rounded-lg mx-auto bg-accent-transparent font-bold text-lg-button text-accent-accent flex flex-row justify-center items-center mt-56px md:mt-8"
+                className={`h-12 w-full md:w-238px rounded-lg mx-auto font-bold text-lg-button flex flex-row justify-center items-center mt-56px md:mt-8 border-2 border-transparent transition duration-300 ${photoNr >= images.length ? "bg-ui-blueishGrey text-ui-white" : "bg-accent-transparent text-accent-accent hover:border-accent-accent cursor-pointer"}`}
                 onClick={ () => {
                     images.length > photoNr && setPhotoNr(photoNr+10)
-                    console.log(photoNr)
                 }}
             >
                 Mai multe fotografii
             </div>
+            {
+                lightboxOpen ? 
+                <Lightbox doubleClickZoom={1.2} images={images} onClose={() => setLightboxOpen(0)}/>
+                :
+                ""
+            }
         </div>
     )
 }

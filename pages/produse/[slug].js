@@ -11,8 +11,6 @@ export function DynamicProduct ({deviceType, productData}) {
     }
   })
 
-  console.log(productData.optionNames)
-
   return (
       <Layout>
           <ProductPage 
@@ -24,6 +22,7 @@ export function DynamicProduct ({deviceType, productData}) {
             category={productData[0].category.name}
             options={productData.optionNames}
             optionVariants={productData.optionsRaw}
+            productData={productData}
           ></ProductPage>
       </Layout>
   )

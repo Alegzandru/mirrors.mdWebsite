@@ -7,7 +7,6 @@ export default function RecentProducts ({deviceType}) {
     const [itemNr, setItemNr] = useState(3)
 
     useEffect(() => {
-        console.log(deviceType)
         switch(deviceType){
             case "tablet" : 
                 setItemNr(3)

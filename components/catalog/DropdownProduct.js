@@ -16,13 +16,12 @@ export default function DropdownProduct(props) {
         else{
             chosen ? setChosen(0) : setChosen(e.target.value)
         }
-        console.log(chosen)
     }
 
     return (
         <div className={`${open ? "shadow mb-1" : ""} font-Ubuntu`}>
             <div 
-                className={`w-full ${open ? "bg-ui-grey" : "bg-ui-white"} h-auto py-3 flex flex-row justify-between items-start px-2 border-b border-ui-blueishGrey font-Ubuntu group transition duration-300`}
+                className={`w-full ${open ? "bg-ui-grey" : "bg-ui-white border-b border-ui-blueishGrey"} h-auto py-3 flex flex-row justify-between items-start px-2 font-Ubuntu group transition duration-300`}
                 onClick={() => setOpen(!open)}
             >
                 <div className={`${open ? "font-medium" : "font-normal"} flex-grow text-lg-14 text-type-grey group-hover:text-type-manatee transition duration-300 flex flex-row justify-start items-center`}>
@@ -68,17 +67,18 @@ export default function DropdownProduct(props) {
                 // }}
             >
                 {props.options.map((option, index)=>
+                <div className="w-full bg-ui-white">
                     <label 
-                        className={`w-full bg-ui-white h-auto py-3 flex flex-row justify-between items-start px-4 ${props.options.length != 1 ? chosen==option.typename ? "text-type-dark":"text-type-grey hover:text-type-manatee" : chosen ? "text-type-dark" : "text-type-grey hover:text-type-manatee"} transition duration-300`}
+                        className={`w-full h-auto py-3 flex flex-row justify-between items-start px-4 ${props.options.length != 1 ? chosen==option.typename ? "text-type-dark":"text-type-grey hover:text-type-manatee" : chosen ? "text-type-dark" : "text-type-grey hover:text-type-manatee"} transition duration-300`}
                         key={index}
                     >
                         <div className="flex-grow text-lg-14 flex flex-row justify-start items-center">
                             {
                                 props.options.length != 1?
                                 <input 
-                                    { ...props.register( props.name+"-"+option.name ) } 
+                                    { ...props.register( props.name ) } 
                                     type="radio" 
-                                    className="h-4 w-4 border-2 border-type-grey checked:bg-accent-accent hover:bg-accent-transparent shadow-none outline-none mr-2 transition duration-300" 
+                                    className="h-3 w-3 border-2 border-type-grey checked:bg-accent-accent hover:bg-accent-transparent shadow-none outline-none mr-2 transition duration-300" 
                                     name={props.name}
                                     value={option.typename}
                                     checked={chosen == option.typename}
@@ -86,11 +86,10 @@ export default function DropdownProduct(props) {
                                 />
                                 :
                                 <input 
-                                    { ...props.register( props.name+"-"+option.name ) } 
+                                    { ...props.register( props.name ) } 
                                     type="checkbox" 
-                                    className="h-4 w-4 border-2 border-type-grey checked:bg-accent-accent hover:bg-accent-transparent shadow-none outline-none mr-2 transition duration-300" 
+                                    className="h-3 w-3 border-2 border-type-grey checked:bg-accent-accent hover:bg-accent-transparent shadow-none outline-none mr-2 transition duration-300" 
                                     name={props.name}
-                                    value={option.name}
                                     onClick={(e) => handleClick(e)}
                                 />
                             }
@@ -102,6 +101,10 @@ export default function DropdownProduct(props) {
                             {option.price} lei
                         </div>
                     </label>
+                    <div className={`${props.options.length != 1 ? chosen == option.typename ? "block" : "hidden" : chosen ? "block" : "hidden"} text-type-grey text-lg-12 pl-34px pb-14px max-w-4xl`}>
+                        {option.description}
+                    </div>
+                </div>
                 )}
                 {/* <div className="w-full flex flex-row justify-start items-center px-4 py-14px">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-14px w-14px text-accent-accent mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">

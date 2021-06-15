@@ -1,6 +1,6 @@
 import '../styles/globals.css'
 import {useState, useEffect} from "react"
-import {DeviceTypeContext} from "../components/context"
+import {DeviceTypeContext, CartContext} from "../components/context"
 import UAParser from "ua-parser-js";
 import NextNProgress from "../components/NextNProgress"
 
@@ -10,28 +10,33 @@ function MyApp({ Component, pageProps, deviceTypeReq }) {
   const [deviceType, setDeviceType] = useState(deviceTypeReq)
   const valueDeviceType = {deviceType, setDeviceType}
 
+  const [cart, setCart] = useState([])
+  const valueCart = {cart, setCart}
+
   return (
-    <DeviceTypeContext.Provider value={valueDeviceType}>
-      <NextNProgress/>
-      <Component {...pageProps} />
-    </DeviceTypeContext.Provider>
+    <CartContext.Provider value={valueCart}>
+      <DeviceTypeContext.Provider value={valueDeviceType}>
+        <NextNProgress/>
+        <Component {...pageProps} />
+      </DeviceTypeContext.Provider>
+    </CartContext.Provider>
   )
 }
 
-MyApp.getInitialProps = ({ req }) => {
+MyApp.getInitialProps = ({ ctx }) => {
     let userAgent;
-    if (req) {
-      userAgent = req.headers["user-agent"];
-    } else {
-      if (typeof window !== 'undefined' && typeof window.navigator !== 'undefined') {
-        userAgent = navigator.userAgent;
-      }
-    }
+    // if (req) {
+    //   userAgent = req.headers["user-agent"];
+    // } else {
+    //   userAgent = navigator.userAgent
+    // }
+    ctx.req ? userAgent = ctx.req.headers["user-agent"] : userAgent = navigator.userAgent
     const parser = new UAParser();
     parser.setUA(userAgent);
     const result = parser.getResult();
     const deviceTypeReq = (result.device && result.device.type) || "desktop";
-    return { deviceTypeReq };
+
+  return { deviceTypeReq };
 };
 
 export default MyApp

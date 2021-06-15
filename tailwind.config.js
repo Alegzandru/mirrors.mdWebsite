@@ -84,7 +84,19 @@ module.exports = {
       'xl': '1656px'
     },
 
+    minHeight : {
+      '96px' : '96px'
+    },
+
+    maxWidth : {
+      '130px' : '130px'
+    },
+
     extend: {
+      brightness : {
+        25: '.25',
+      },
+
       backgroundImage: theme => ({
         'hero-pattern': "url('/mainPage/hero/heroBg.jpg')",
         'icon5' : "url(/mainPage/benefits/icon5.png)",
@@ -96,9 +108,11 @@ module.exports = {
         'container-md' : '24px',
         'container-lg' : '32px',
         'container-xl' : 'calc( (100vw - 1656px) / 2 )',
-        'dropdown' : 'calc( (100vw - 64px - 8px) / 5 )',
+        'dropdown' : 'calc( (100vw - 64px - 8px) / 4 )',
         'photos' : 'calc( (100vw - 64px - 640px) )',
         'search-left' : 'calc( (100vw - 504px) / 2 )',
+        'cart-lg' : 'calc( (100% - 544px) / 2 )',
+        'cart-md' : 'calc( (100% - 320px) / 2 )',
         '70vh' : '70vh',
         '1.5px' : '1.5px',
         '776px' : '776px',
@@ -131,6 +145,7 @@ module.exports = {
         '296px' : '296px',
         '288px' : '288px',
         '284px' : '284px',
+        '272px' : '272px',
         '268px' : '268px',
         '258px' : '258px',
         '245px' : '245px',
@@ -147,6 +162,7 @@ module.exports = {
         '192px' : '192px',
         '190px' : '190px',
         '188px' : '188px',
+        '180px' : '180px',
         '165px' : '165px',
         '160px' : '160px',
         '156px' : '156px',
@@ -161,6 +177,7 @@ module.exports = {
         '118px' : '118px',
         '116px' : '116px',
         '112px' : '112px',
+        '96px' : '96px',
         '88px' : '88px',
         '80px' : '80px',
         '72px' : '72px',
@@ -173,12 +190,19 @@ module.exports = {
         '46px' : '46px',
         '44px' : '44px',
         '40px' : '40px',
+        '34px' : '34px',
         '28px' : '28px',
         '20px' : '20px',
         '18px' : '18px',
         '14px' : '14px',
         '10px' : '10px'
       },
+
+      margin :{
+        '-hero' : 'calc( -100vh )',
+        '-70vh' : '-70vh',
+        '-28px' : '-28px'
+      }
     },
 
   },

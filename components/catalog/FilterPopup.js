@@ -18,7 +18,20 @@ export default function FilterPopup (props) {
 
             <div className="w-full">
                 {props.optiuni.map((option, index)=>
-                    <Dropdown key={index} name={option}></Dropdown>
+                    <Dropdown 
+                        key={index} 
+                        name={option}
+                        filterOptions={
+                            props.category[0].filters.filter((filter) => {
+                            if(filter.name == option){
+                                return true
+                            }
+                            else{
+                                return false
+                            }
+                        })}
+                        register={props.register}
+                    ></Dropdown>
                 )}
 
                 <div className="flex flex-row justify-between items-center h-12 mt-8 text-lg-14 font-medium">

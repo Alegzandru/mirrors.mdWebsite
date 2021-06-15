@@ -3,16 +3,92 @@ import { useForm } from "react-hook-form";
 import Image from "next/image"
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
-import {useState} from "react"
+import {useState, useContext, useEffect} from "react"
+import {CartContext} from "../../components/context"
 
-export default function ProductComponent ({deviceType, name, price, images, options, optionVariants}) {
+export default function ProductComponent ({deviceType, name, price, images, options, optionVariants, productData}) {
 
+    const {cart, setCart} = useContext(CartContext)
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
-    const onSubmit = data => console.log(data);
-    const [openImage, setOpenImage] = useState(0)
+    const onSubmit = (data) => {
+        const addOns = Object.entries(data).filter((addOn) => addOn[1] != null && addOn[1] != false)
 
-    console.log(optionVariants)
+        const productCart = {
+            product : name,
+            addOns : addOns
+        }
+
+        // fetch(`https://mirrors-md-admin.herokuapp.com/products?name_eq=${name}`)
+        //     .then(response => response.json())
+        //     .then(data => {
+        //         const requestOptions = {
+        //             method: 'POST',
+        //             headers: { 'Content-Type': 'application/json' },
+        //             body: JSON.stringify({ 
+        //                 name : 'React Order',
+        //                 products: data
+        //             })
+        //         };
+
+        //         fetch(`https://mirrors-md-admin.herokuapp.com/orders`, requestOptions)
+        //             .then(response => response.json())
+        //             .then(data => console.log(data))
+        // });
+
+        // console.log(addOns)
+
+        // addOns.map((addOn) => {
+        //     if(addOn[1] == true){
+        //         fetch(`https://mirrors-md-admin.herokuapp.com/add-ons?name_eq=${addOn[0]}`)
+        //             .then(response => response.json())
+        //             .then(data => {
+        //                 console.log(data)
+        //                 fetchedAddons.push(data)
+        //                 console.log(fetchedAddons)
+
+
+        //                 const requestOptions = {
+        //                     method: 'POST',
+        //                     headers: { 'Content-Type': 'application/json' },
+        //                     body: JSON.stringify({ 
+        //                         name : 'React Order',
+        //                         add_ons: data
+        //                     })
+        //                 };
+        
+        //                 fetch(`https://mirrors-md-admin.herokuapp.com/orders`, requestOptions)
+        //                     .then(response => response.json())
+        //                     .then(data => console.log(data))
+
+        //         })
+        //     }
+        //     else{
+        //         fetch(`https://mirrors-md-admin.herokuapp.com/add-ons?group_eq=${addOn[0]}&typename_eq=${addOn[1]}`)
+        //             .then(response => response.json())
+        //             .then(data => {
+        //                 console.log(data)
+        //                 fetchedAddons.push(data)
+        //                 console.log(fetchedAddons)
+        //         })
+        //     }
+        // })
+
+        setCart([
+            ...cart,
+            productCart
+        ])
+        
+    }
+
+    useEffect(() => {
+
+        localStorage.setItem('cart', JSON.stringify(cart))
+        const localCart = localStorage.getItem('cart')
+        console.log( JSON.parse(localCart) )
+        
+    }, [cart])
+    const [openImage, setOpenImage] = useState(0)
 
     const responsive = {
         desktop: {
@@ -120,7 +196,22 @@ export default function ProductComponent ({deviceType, name, price, images, opti
                         <div className="w-full flex flex-col md:flex-row justify-between items-center mt-14">
 
                             <input value="La pagina de Check-Out" type="submit" className="w-full bg-transparent border-2 rounded-lg border-accent-accent h-12 flex flex-row justify-center items-center text-accent-accent md:mr-4 font-medium mb-6 md:mb-0"/>
-                            <input value="Adaugă în coș" type="submit" className="w-full bg-accent-accent rounded-lg h-12 flex flex-row justify-center items-center text-ui-white font-medium"/>
+                            <input 
+                                value="Adaugă în coș" 
+                                type="submit" 
+                                className="w-full bg-accent-accent rounded-lg h-12 flex flex-row justify-center items-center text-ui-white font-medium"
+                                // onClick={() => {
+                                //     const productCart = {
+                                //         product : {
+                                //             name
+                                //         },
+                                //         addOns : {
+                                            
+                                //         }
+                                //     }
+                                //     console.log("")
+                                // }}
+                            />
 
                         </div>
                         

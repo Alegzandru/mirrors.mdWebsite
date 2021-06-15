@@ -6,32 +6,43 @@ import Image from "next/image"
 import {Link as LinkScroll} from 'react-scroll'
 import {API_URL} from "../../utils/urls"
 import Link from "next/link"
+import { useForm } from "react-hook-form";
 
-export default function Category({category, name}) {
 
-    const [productsApi, setProductsApi] = useState(category[0].products)
+export default function Category({category, name, products}) {
 
+    const [productsApi, setProductsApi] = useState(products)
+
+    const { register, handleSubmit, watch, formState: { errors } } = useForm();
+    
     const [sorting, setSorting] = useState(0)
     const [openFilters, setOpenFilters] = useState(0)
     
     const [showNr, setShowNr] = useState(32)
     const [showFrom, setShowFrom] = useState(0)
-
+    
     const [loadingSorting, setLoadingSorting] = useState(0)
     
-    const optiuni = [
-        "Forma",
-        "Tip de iluminare",
-        "Tip de lampa",
-        "Optiuni posibile",
-        "Incadrare",
-        "Culoarea cadrului",
-        "Locul de amplasare",
-        "Stilul oglinzii",
-        "Dimensiuni nestandarte",
-        "Tipul instalatiei",
-    ]
-
+    const optionNamesUnfiltered = category[0].filters.map((option) => {
+        return option.name
+    })
+    
+    // console.log(category[0].filters)
+    
+    function uniq(a) {
+        var prims = {"boolean":{}, "number":{}, "string":{}}, objs = [];
+        
+        return a.filter(function(item) {
+            var type = typeof item;
+            if(type in prims)
+            return prims[type].hasOwnProperty(item) ? false : (prims[type][item] = true);
+            else
+            return objs.indexOf(item) >= 0 ? false : objs.push(item);
+        });
+    }
+    
+    const optionNames = uniq(optionNamesUnfiltered)
+    
     const pages = Math.trunc(productsApi.length / 32) + 1
     
     const sortingOptions = [
@@ -53,6 +64,45 @@ export default function Category({category, name}) {
         }
     ]
 
+    const onSubmit = (data) => {
+        const newProducts = products.filter((product) => {
+            let contor = true
+            optionNames.map((optionName) => {
+                const productFilter = product.filters.filter((filter) => filter.name == optionName)
+                // productFiltered = productFilterUnfiltered[0].value
+                if(contor){
+                    // console.log(contor, product.name)
+                    if(data[optionName] == false || data.length == 0){
+                        contor = true
+                        // console.log("data[optionName] == false || data.length == 0", product.name)
+                    }
+                    else if(productFilter.length == 0){
+                        contor = false
+                        // console.log("productFilter.length == 0", product.name)
+                    }
+                    else if(product.filters.length === 0){
+                        contor = false
+                        // console.log("product.filters.length === 0", product.name)
+                    }
+                    else if(data[optionName].includes(productFilter[0].value)){
+                        contor = true
+                        // console.log("data[optionName].includes(productFilter)", product.name)
+                    }
+                    else{
+                        contor = false
+                        // console.log("Last else", product.name)
+                    }
+                }
+                // else console.log(contor, product.name)
+            })
+            return contor
+        })
+        console.log(newProducts)
+        setProductsApi(newProducts)
+        // const found = productsApi.find(product => product.filters != [])
+        // console.log(productsApi)
+    }
+    
     function handleSortingChange (index) {
         setSorting(index)
     }
@@ -60,8 +110,7 @@ export default function Category({category, name}) {
     async function handleProductsSortingChange(sorting) {
         switch(sorting){
             case 0 : {
-                setProductsApi(category[0].products)
-                console.log("Called function", 0)
+                setProductsApi(products)
             }
             break;
             case 1 : {
@@ -74,20 +123,17 @@ export default function Category({category, name}) {
                     }
                     return 0;
                   }))
-                console.log("Called function", 1)
             }
             break;
             case 2 : {
                 setProductsApi([...productsApi].sort((a, b) => b.price - a.price))
-                console.log("Called function", 2)
             }
             break;
             case 3 : {
                 setProductsApi([...productsApi].sort((a, b) => a.price - b.price))
-                console.log("Called function", 3)
             }
             break;
-            default : setProductsApi(category[0].products)
+            default : setProductsApi(products)
             break;
         }
     }
@@ -142,20 +188,41 @@ export default function Category({category, name}) {
                 )}
             </div> */}
 
+        <form onSubmit={handleSubmit(onSubmit)} className="mb-116px">
             <div 
-                className="w-full border border-t border-l border-r-0 border-b-0 border-option-border-color mb-116px hidden lg:block"
+                className="w-full border border-t border-l border-r-0 border-b-0 border-option-border-color hidden lg:grid grid-cols-4"
             >
                 {
-                    optiuni.map((optiune, index) => 
-                        index % 5 == 0 && 
-                        <div className="flex flex-row justify-start items-center">
-                            {optiuni.slice(index, index+5).map((option, index)=>
-                                <Dropdown key={index} name={option}></Dropdown>
-                            )}
-                        </div>
-                    )
-                }
+                    optionNames.map((option, index) => {
+                        return (
+                            <div className="col-span-1">
+                                <Dropdown 
+                                    key={index} 
+                                    name={option}
+                                    filterOptions={
+                                        category[0].filters.filter((filter) => {
+                                        if(filter.name == option){
+                                            return true
+                                        }
+                                        else{
+                                            return false
+                                        }
+                                    })}
+                                    register={register}
+                                ></Dropdown>
+                            </div>
+                        )
+                    }
+                )}
             </div>
+            <div className="w-full flex flex-row justify-center items-start mt-6 ">
+                <input 
+                    className="w-124px bg-accent-accent rounded-lg border-2 border-ui-white text-ui-white h-9 cursor-pointer"
+                    type="submit"
+                    value="Aplică"
+                />
+            </div>
+        </form>
 
             <div className="w-full flex flex-row-reverse lg:flex-row justify-between items-center lg:items-start mb-6 lg:mb-0">
                 <div className="px-2 flex flex-row justify-between items-start">
@@ -192,7 +259,9 @@ export default function Category({category, name}) {
                 <FilterPopup
                     openFilters={openFilters}
                     setOpenFilters={setOpenFilters}
-                    optiuni={optiuni}
+                    optiuni={optionNames}
+                    category={category}
+                    register={register}
                 ></FilterPopup>
             </div>
 

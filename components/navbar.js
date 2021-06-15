@@ -31,6 +31,9 @@ export function Navbar (props) {
     const [transparent, setTransparent] = useState(0)
 
     const [catalogOpen, setCatalogOpen] = useState(0)
+    const [mobileSearchOpen, setMobileSearchOpen] = useState(0)
+    const [categories, setCategories] = useState([])
+    const [mobileCatalogOpen , setMobileCatalogOpen] = useState(0)
 
     const router = useRouter()
 
@@ -39,14 +42,19 @@ export function Navbar (props) {
     
     async function getSearchProducts() {
         setLoading(1)
-        const query = qs.stringify({
-            _where : [{name_contains : search}, {_limit : 5}]
-        })
+        // const query = qs.stringify({
+        //     _where : [{name_contains : search}, {_limit : 5}]
+        // })
         const productsResponse = await fetch(`${API_URL}/products?_where[name_contains]=${search}&[_limit]=5`)
         // const productsResponse = await fetch(`${API_URL}/products?${query}`)
         const products = await productsResponse.json().then(setLoading(0))
-        console.log(products)
         setSearchProducts(products)
+    }
+
+    async function getCategories() {
+        const categoriesResponse = await fetch(`${API_URL}/categories`)
+        const categories = await categoriesResponse.json()
+        setCategories(categories)
     }
 
     useEffect(()=>{
@@ -106,6 +114,8 @@ export function Navbar (props) {
                 break;
             }
 
+            getCategories()
+
             return () => {
                 window.removeEventListener("scroll", handleScroll)
                 window.removeEventListener("scroll", scrollPosition)
@@ -119,6 +129,70 @@ export function Navbar (props) {
 
     return (
         <div className="fixed z-50 w-full lg:-mb-36 font-Ubuntu">
+            <div className={`${mobileSearchOpen ? "fixed block" : "hidden"} w-screen bg-ui-white z-40 px-18px md:px-16 pt-52px md:pt-72px pb-4 md:pb-10`}>
+                <div className="w-full flex flex-row justify-between items-center mb-3 md:mb-4">
+                    <input
+                        type="text"
+                        className="outline-none text-sm-h4 md:text-lg-h2 font-medium text-type-dark border-0 w-full focus:outline-none"
+                        placeholder="Căutare în catalog"
+                        onChange={event => setSearch(event.target.value)}
+                    />
+                    <svg onClick={() => setMobileSearchOpen(0)} xmlns="http://www.w3.org/2000/svg" className="h-40px w-40px text-type-grey ml-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </div>
+                <div className="w-full h-0.5 bg-accent-accent mb-6"/>
+
+                {search != "" && 
+                    <div className={`w-full bg-ui-white mt-3 rounded-b-lg border-l-2 border-r-2 border-b-2 border-t-0 ${search != "" ? "border-ui-darkGrey" : ""}`}>
+                        {
+                        loading ? 
+                            <div className={`h-72px border-b-0 border-t-2 border-l-0 border-r-0 flex flex-row justify-center items-center px-4 py-14px ${search != "" ? "border-ui-darkGrey" : ""}`}> 
+                                <div className="h-12 w-12">
+                                <ChangingProgressProvider values={[0, 20, 40, 60, 80, 100]}>
+                                    {percentage => (
+                                            <CircularProgressbar
+                                                value={percentage}
+                                                styles={buildStyles({
+                                                    pathColor : "#16B45A",
+                                                    pathTransitionDuration: 0.1
+                                                })}
+                                                strokeWidth={5}
+                                            />
+                                    )}
+                                    </ChangingProgressProvider>
+                                </div>
+                            </div>
+                        :
+                        searchProducts.length == 0 ? 
+                            <div className={`h-72px border-b-0 border-t-2 border-l-0 border-r-0 flex flex-row justify-start items-center px-4 py-14px ${search != "" ? "border-ui-darkGrey" : ""}`}>
+                                Nu a fost găsit niciun produs
+                            </div>
+                        :
+                        searchProducts.map((product) => 
+                            <Link href={`/produse/${product.slug}`}>
+                                <a>   
+                                    <div className={`h-72px border-b-0 border-t-2 border-l-0 border-r-0 flex flex-row justify-start items-center px-4 py-14px ${search != "" ? "border-ui-darkGrey" : ""}`}>
+                                        <Image
+                                            src={product.image[0].formats.small.url}
+                                            width={56}
+                                            height={56}
+                                        />
+                                        <div className="text-type-grey flex flex-col justify-between h-full ml-4">
+                                            <div className="text-lg-17">
+                                                {product.name}
+                                            </div>
+                                            <div className="text-lg-14">
+                                                de la {product.price} lei
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </Link>
+                        )}
+                    </div>
+                }
+            </div>
             {scrollUp ?
                     <div className={`h-88px ${transparent ? "bg-transparent" : "bg-ui-white" } hidden lg:block lg:overflow-hidden w-full transition duration-300`}>
                         <div className="lg:mx-container-lg xl:mx-container-xl h-full">
@@ -141,7 +215,8 @@ export function Navbar (props) {
                                         placeholder="Căutare în catalog"
                                         onChange={event => setSearch(event.target.value)}
                                     />
-                                    <svg xmlns="http://www.w3.org/2000/svg" className={`h-4 w-4 -mt-7 mr-2`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+
+                                    <svg onClick={() => setMobileSearchOpen(0)} xmlns="http://www.w3.org/2000/svg" className={`h-4 w-4 -mt-7 mr-2`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                                     </svg>
 
@@ -166,22 +241,31 @@ export function Navbar (props) {
                                                     </div>
                                                 </div>
                                             :
-                                            searchProducts.map((product) => 
+                                            searchProducts.length == 0 ? 
                                                 <div className={`h-72px border-b-0 border-t-2 border-l-0 border-r-0 flex flex-row justify-start items-center px-4 py-14px ${search != "" ? "border-ui-darkGrey" : ""}`}>
-                                                    <Image
-                                                        src={product.image[0].formats.small.url}
-                                                        width={56}
-                                                        height={56}
-                                                    />
-                                                    <div className="text-type-grey flex flex-col justify-between h-full ml-4">
-                                                        <div className="text-lg-17">
-                                                            {product.name}
-                                                        </div>
-                                                        <div className="text-lg-14">
-                                                            de la {product.price} lei
-                                                        </div>
-                                                    </div>
+                                                    Nu a fost găsit niciun produs
                                                 </div>
+                                            :
+                                            searchProducts.map((product) =>
+                                                <Link href={`/produse/${product.slug}`}>
+                                                    <a>  
+                                                        <div className={`h-72px border-b-0 border-t-2 border-l-0 border-r-0 flex flex-row justify-start items-center px-4 py-14px ${search != "" ? "border-ui-darkGrey" : ""}`}>
+                                                            <Image
+                                                                src={product.image[0].formats.small.url}
+                                                                width={56}
+                                                                height={56}
+                                                            />
+                                                            <div className="text-type-grey flex flex-col justify-between h-full ml-4">
+                                                                <div className="text-lg-17">
+                                                                    {product.name}
+                                                                </div>
+                                                                <div className="text-lg-14">
+                                                                    de la {product.price} lei
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </Link> 
                                             )}
                                         </div>
                                     }
@@ -201,16 +285,23 @@ export function Navbar (props) {
                                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1 group-hover:text-accent-accent transition duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                                         </svg>
-                                        <span className="group-hover:text-accent-accent transition duration-300 group-hover:underline">
+                                        <a 
+                                            className="group-hover:text-accent-accent transition duration-300 group-hover:underline"
+                                            href="tel:37369482034"
+                                        >
                                             +373 69 482 034
-                                        </span>
+                                        </a>
                                     </div>
 
+                                <a
+                                    href="https://www.instagram.com/mirrorsmd/?hl=en"
+                                >
                                     <Image
                                         src="/branding/instagram.svg"
                                         height={16}
                                         width={16}
                                     />
+                                </a>
                                 </div>
                             </div>
                         </div>
@@ -223,21 +314,33 @@ export function Navbar (props) {
             <div className={`h-56px hidden ${transparent ? "bg-transparent" : "bg-ui-grey hidden"} lg:block lg:overflow-hidden w-full transition duration-300`}>
                 <div className="lg:mx-container-lg xl:mx-container-xl h-full">
                     <div className={`${transparent ? "text-ui-white" : "text-type-manatee"} font-14px font-medium h-56px w-full flex flex-row justify-between items-center`}>
-                        <div className={`w-165px ${catalogOpen ? "bg-ui-white text-type-manatee" : ""}`}>
+                        <div className={`w-165px`}>
                             <div 
-                                className={`w-full flex flex-row justify-start items-center h-14 ${catalogOpen ? "text-type-dark" : ""}`}
+                                className={`absolute -mt-28px rounded-lg ${catalogOpen ? "bg-ui-white text-type-manatee" : ""} w-165px transition duration-300 overflow-hidden`}
                                 onMouseOver={ () => setCatalogOpen(1)}
                                 onMouseLeave={ () => setCatalogOpen(0)}
                             >
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                                </svg>
-                                <div>
-                                    Catalog
+                                <div className={`w-full flex flex-row justify-start items-center h-14 ${catalogOpen ? "text-type-dark" : ""}`}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                                    </svg>
+                                    <div>
+                                        Catalog
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="w-full">
-
+                                <div className={`bg-ui-white py-2 ${catalogOpen ? "block" : "hidden"} transition duration-300`}>
+                                    {
+                                        categories.map((category) => 
+                                        <Link href={category.slug}>
+                                            <a>
+                                                <div className="p-4 text-type-manatee hover:text-type-dark hover:underline transition duration-300">
+                                                    {category.name}
+                                                </div>
+                                            </a>
+                                        </Link>
+                                        )
+                                    }
+                                </div>
                             </div>
                         </div>
 
@@ -283,14 +386,21 @@ export function Navbar (props) {
             <div className={`block lg:hidden h-16 -mb-16 overflow-hidden ${transparent ? "bg-transparent" : "bg-ui-white"} header-shadow`}>
                 <div className="h-full mx-container-md flex flex-row justify-between items-center">
                     <div className="w-112px h-40px">
-                        <Image
-                            src="/branding/smallLogo.svg"
-                            height={40}
-                            width={40}
-                        />
+                        <Link href="/">
+                            <a>
+                                <Image
+                                    src="/branding/smallLogo.svg"
+                                    height={40}
+                                    width={40}
+                                />
+                            </a>
+                        </Link>
                     </div>
 
-                    <div className={`hidden md:flex h-10 flex-grow ${transparent ? "bg-ui-dark" : "bg-ui-grey"} rounded-lg px-4 flex-row justify-between items-center ${transparent ? "text-ui-blueishGrey" : "text-type-grey"}`}>
+                    <div 
+                        className={`hidden md:flex h-10 flex-grow ${transparent ? "bg-ui-dark" : "bg-ui-grey"} rounded-lg px-4 flex-row justify-between items-center ${transparent ? "text-ui-blueishGrey" : "text-type-grey"}`}
+                        onClick={() => setMobileSearchOpen(1)}
+                    >
                         <span>
                             Căutare în catalog
                         </span>
@@ -301,7 +411,7 @@ export function Navbar (props) {
                     </div>
 
                     <div className="w-112px flex flex-row justify-end h-auto">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="my-3 h-6 w-6 mr-28px text-ui-black md:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg onClick={() => setMobileSearchOpen(1)} xmlns="http://www.w3.org/2000/svg" className="my-3 h-6 w-6 mr-28px text-ui-black md:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
 
@@ -320,13 +430,37 @@ export function Navbar (props) {
                                 </li>
                             </a>
                         </Link>
-                        <Link href="/">
-                            <a>
-                                <li className="w-full p-4">
-                                    Catalog
-                                </li>
-                            </a>
-                        </Link>
+                        
+                        <li 
+                            className={`transition duration-300 w-full p-4 flex flex-row justify-between items-center ${mobileCatalogOpen ? "bg-accent-transparent" : ""}`}
+                            onClick={() => setMobileCatalogOpen(!mobileCatalogOpen)}
+                        >
+                            <div>
+                                Catalog
+                            </div>
+                            <svg xmlns="http://www.w3.org/2000/svg" className={`h-4 w-4 ${mobileCatalogOpen ? "hidden" : "block"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                            </svg>
+
+                            <svg xmlns="http://www.w3.org/2000/svg" className={`h-4 w-4 ${mobileCatalogOpen ? "block" : "hidden"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </li>
+
+                        <li className={`w-full ${mobileCatalogOpen ? "block" : "hidden"}`}>
+                            {
+                                categories.map((category) => 
+                                <Link href={category.slug}>
+                                    <a>
+                                        <div className="py-4 px-40px">
+                                            {category.name}
+                                        </div>
+                                    </a>
+                                </Link>
+                                )
+                            }
+                        </li>
+
                         <Link href="/galerie">
                             <a>
                                 <li className="w-full p-4">

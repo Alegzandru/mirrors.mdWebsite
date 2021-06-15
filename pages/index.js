@@ -6,31 +6,41 @@ import UAParser from "ua-parser-js";
 import Benefits from "../components/mainPage/benefits"
 import NewProducts from "../components/mainPage/newProducts"
 import Options from "../components/mainPage/options"
+import { useContext } from "react";
+import { DeviceTypeContext } from "../components/context";
+import { API_URL } from "../utils/urls";
 
-export function MainPage({deviceType}){
+export default function MainPage({products}){
+
+    const {deviceType, setDeviceType} = useContext(DeviceTypeContext)
+
+    console.log(products)
+
     return (
         <Layout>
             <Hero></Hero>
-            <PopularProducts deviceType={deviceType}></PopularProducts>
+            <PopularProducts 
+              deviceType={deviceType}
+              products={products}
+            ></PopularProducts>
             <Benefits></Benefits>
-            <NewProducts deviceType={deviceType}></NewProducts>
+            <NewProducts 
+              deviceType={deviceType}
+              products={products}
+            ></NewProducts>
             <Options></Options>
         </Layout>
     )
 }
 
-MainPage.getInitialProps = ({ req }) => {
-    let userAgent;
-    if (req) {
-      userAgent = req.headers["user-agent"];
-    } else {
-      userAgent = navigator.userAgent;
-    }
-    const parser = new UAParser();
-    parser.setUA(userAgent);
-    const result = parser.getResult();
-    const deviceType = (result.device && result.device.type) || "desktop";
-    return { deviceType };
-};
+export async function getStaticProps() {
 
-export default MainPage;
+  const productsRes = await fetch(`${API_URL}/products`)
+  const products = await productsRes.json()
+
+  return {
+    props: {
+      products,
+    }
+  }
+}

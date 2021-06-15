@@ -2,28 +2,34 @@ import Layout from "../components/layout"
 import GalerieComponent from "../components/galerie/galerieComponent"
 import UAParser from "ua-parser-js";
 import RecentProducts from "../components/multiPage/recentProducts"
+import { useContext } from "react";
+import { DeviceTypeContext } from "../components/context";
+import { API_URL } from "../utils/urls";
 
-export function Galerie({deviceType}){
+export default function Galerie({products}){
+
+    const {deviceType, setDeviceType} = useContext(DeviceTypeContext)
+    console.log(deviceType)
+
     return (
         <Layout>
-            <GalerieComponent deviceType={deviceType}></GalerieComponent>
+            <GalerieComponent 
+              deviceType={deviceType}
+              products={products}
+            ></GalerieComponent>
             <RecentProducts deviceType={deviceType}></RecentProducts>
         </Layout>
     )
 }
 
-Galerie.getInitialProps = ({ req }) => {
-    let userAgent;
-    if (req) {
-      userAgent = req.headers["user-agent"];
-    } else {
-      userAgent = navigator.userAgent;
-    }
-    const parser = new UAParser();
-    parser.setUA(userAgent);
-    const result = parser.getResult();
-    const deviceType = (result.device && result.device.type) || "desktop";
-    return { deviceType };
-};
+export async function getStaticProps() {
 
-export default Galerie;
+  const productsRes = await fetch(`${API_URL}/products`)
+  const products = await productsRes.json()
+
+  return {
+    props: {
+      products,
+    }
+  }
+}

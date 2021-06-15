@@ -9,3 +9,8 @@ export const DeviceTypeContext = React.createContext({
     deviceType : "",
     setDeviceType : () => {}
 })
+
+export const CartContext = React.createContext({
+    cart : [],
+    setCart : () => {}
+})

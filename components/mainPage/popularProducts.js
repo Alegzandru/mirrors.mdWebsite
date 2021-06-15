@@ -3,10 +3,9 @@ import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import Image from "next/image"
 import {CustomButtonGroupAsArrows} from "./CustomButtonGroup"
+import Link from 'next/link'
 
 export default function PopularProducts(props){
-
-    console.log(props.deviceType)
 
     const responsive = {
         desktop: {
@@ -46,9 +45,13 @@ export default function PopularProducts(props){
                     Site-ul nostru conține o gamă largă de oglinzi, printre care cu siguranță o veți găsi pe cea potrivită.
                 </p>
 
-                <div className="hidden w-238px h-12 md:flex flex-row justify-center items-center text-accent-accent border-2 border-accent-accent mt-12 rounded-lg font-medium">
-                    Află ce este în TREND
-                </div>
+                <Link href="/oglinzi">
+                    <a>
+                        <div className="hidden w-238px h-12 md:flex flex-row justify-center items-center text-ui-white mt-12 rounded-lg font-medium bg-accent-accent hover:bg-accent-light transition duration-300">
+                            Află ce este în TREND
+                        </div>
+                    </a>
+                </Link>
             </div>
             <div className="produseWidth">
                 <Carousel
@@ -68,37 +71,46 @@ export default function PopularProducts(props){
                         height: "450px"
                     }}
                 >
-                    {images.map((image, index) => {
-                        return (
-                            <div key={index} className="h-352px md:h-481px">
-                                <div className="h-296px md:h-425px bg-ui-white rounded-xl mb-4 mr-4 ml-4 md:ml-4 md:mr-0 flex-grow p-5 border-2 border-transparent hover:border-accent-accent transition duration-300">
-                                    <div className="w-auto h-156px md:h-245px relative">
-                                        <Image
-                                            draggable={false}
-                                            src={image}
-                                            layout="fill"
-                                            objectFit="cover"
-                                        />
-                                    </div>
-                                    <div className="text-sm-card-name md:text-lg-card-name-bold text-type-dark mt-6 md:mt-8 font-medium">
-                                        Norma
-                                    </div>
-                                    <div className="text-sm-p md:text-lg-p text-type-manatee font-normal mt-2">
-                                        Seria Juergen LED
-                                    </div>
-                                    <div className="text-sm-button md:text-lg-17 text-accent-accent font-medium mt-4 md:mt-6">
-                                        de la 4706 lei
-                                    </div>
-                                </div>
-                            </div>
+                    {props.products.map((product, index) => {
+                            return (
+                                index < 6 &&
+                                <Link href={`produse/${product.slug}`}>
+                                    <a>
+                                        <div key={index} className="h-352px md:h-481px">
+                                            <div className="h-296px md:h-425px bg-ui-white rounded-xl mb-4 mr-4 ml-4 md:ml-4 md:mr-0 flex-grow p-5 border-2 border-transparent hover:border-accent-accent transition duration-300">
+                                                <div className="w-auto h-156px md:h-245px relative">
+                                                    <Image
+                                                        draggable={false}
+                                                        src={product.image[0].formats.medium.url}
+                                                        layout="fill"
+                                                        objectFit="cover"
+                                                    />
+                                                </div>
+                                                <div className="text-sm-card-name md:text-lg-card-name-bold text-type-dark mt-6 md:mt-8 font-medium">
+                                                    {product.name}
+                                                </div>
+                                                <div className="text-sm-p md:text-lg-p text-type-manatee font-normal mt-2">
+                                                    Seria Juergen LED
+                                                </div>
+                                                <div className="text-sm-button md:text-lg-17 text-accent-accent font-medium mt-4 md:mt-6">
+                                                    de la {product.price} lei
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </Link>
                         );
                     })}
                 </Carousel>
             </div>
             <div className="md:hidden px-container-sm block w-full">
-                <div className="w-full h-12 flex flex-row justify-center items-center bg-accent-accent mt-8 text-ui-white rounded-lg">
-                    Află ce este în TREND
-                </div>
+                <Link href="/oglinzi">
+                    <a>
+                        <div className="w-full h-12 flex flex-row justify-center items-center bg-accent-accent mt-8 text-ui-white rounded-lg focus:bg-accent-light">
+                            Află ce este în TREND
+                        </div>
+                    </a>
+                </Link>
             </div>
         </div>
     )
