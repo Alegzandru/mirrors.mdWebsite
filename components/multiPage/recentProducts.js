@@ -12,7 +12,7 @@ export default function RecentProducts ({deviceType}) {
                 setItemNr(3)
             break;
             case "desktop" :
-                setItemNr(5)
+                setItemNr(4)
             break;
             default:
                 setItemNr(3)

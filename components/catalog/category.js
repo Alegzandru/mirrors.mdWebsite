@@ -13,7 +13,7 @@ export default function Category({category, name, products}) {
 
     const [productsApi, setProductsApi] = useState(products)
 
-    const { register, handleSubmit, watch, formState: { errors } } = useForm();
+    const { register, handleSubmit, watch, formState: { errors }, reset } = useForm();
     
     const [sorting, setSorting] = useState(0)
     const [openFilters, setOpenFilters] = useState(0)
@@ -64,7 +64,31 @@ export default function Category({category, name, products}) {
         }
     ]
 
+    const [activeFilters, setActiveFilters] = useState(optionNames.map((option) => {
+        return{
+            active : false
+        }
+    }))
+
     const onSubmit = (data) => {
+        console.log(data)
+
+        setActiveFilters(prevState => {
+            const newState = prevState.map((option, index2) => {
+                if(data[optionNames[index2]] != false && data[optionNames[index2]].length != 0){
+                    return {
+                        active : true
+                    }
+                }
+                else{
+                    return {
+                        active : false
+                    }
+                }
+            })
+            return newState
+        })
+
         const newProducts = products.filter((product) => {
             let contor = true
             optionNames.map((optionName) => {
@@ -72,7 +96,7 @@ export default function Category({category, name, products}) {
                 // productFiltered = productFilterUnfiltered[0].value
                 if(contor){
                     // console.log(contor, product.name)
-                    if(data[optionName] == false || data.length == 0){
+                    if(data[optionName] == false || data[optionName].length == 0){
                         contor = true
                         // console.log("data[optionName] == false || data.length == 0", product.name)
                     }
@@ -97,7 +121,6 @@ export default function Category({category, name, products}) {
             })
             return contor
         })
-        console.log(newProducts)
         setProductsApi(newProducts)
         // const found = productsApi.find(product => product.filters != [])
         // console.log(productsApi)
@@ -150,9 +173,13 @@ export default function Category({category, name, products}) {
                 className="flex flex-row justify-start items-center text-lg-14 font-normal text-type-manatee w-auto mb-4 md:mb-8"
                 name="top"
             >
-                <span className="mr-1">
-                    Pagina principală
-                </span>
+                <Link href="/">
+                    <a>
+                        <span className="mr-1 hover:underline transition duration-300">
+                            Pagina principală
+                        </span>
+                    </a>
+                </Link>
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
@@ -188,14 +215,14 @@ export default function Category({category, name, products}) {
                 )}
             </div> */}
 
-        <form onSubmit={handleSubmit(onSubmit)} className="mb-116px">
+        <form onSubmit={handleSubmit(onSubmit)} className="hidden lg:block mb-116px">
             <div 
                 className="w-full border border-t border-l border-r-0 border-b-0 border-option-border-color hidden lg:grid grid-cols-4"
             >
                 {
                     optionNames.map((option, index) => {
                         return (
-                            <div className="col-span-1">
+                            <div className="col-span-1 cursor-pointer">
                                 <Dropdown 
                                     key={index} 
                                     name={option}
@@ -209,6 +236,7 @@ export default function Category({category, name, products}) {
                                         }
                                     })}
                                     register={register}
+                                    active={activeFilters[index].active}
                                 ></Dropdown>
                             </div>
                         )
@@ -217,9 +245,15 @@ export default function Category({category, name, products}) {
             </div>
             <div className="w-full flex flex-row justify-center items-start mt-6 ">
                 <input 
-                    className="w-124px bg-accent-accent rounded-lg border-2 border-ui-white text-ui-white h-9 cursor-pointer"
+                    className="w-124px bg-accent-accent rounded-lg border-2 border-ui-white text-ui-white h-9 cursor-pointer mr-4 text-lg-14 font-medium "
                     type="submit"
                     value="Aplică"
+                />
+                <input 
+                    className="w-124px rounded-lg border-2 border-type-manatee text-type-manatee h-9 cursor-pointer mr-4 text-lg-14 font-medium  flex flex-row justify-center items-center hover:text-type-dark hover:border-type-dark transition duration-300"
+                    type="submit"
+                    value="Resetează"
+                    onClick={() => reset()}
                 />
             </div>
         </form>
@@ -262,6 +296,10 @@ export default function Category({category, name, products}) {
                     optiuni={optionNames}
                     category={category}
                     register={register}
+                    handleSubmit={handleSubmit}
+                    onSubmit={onSubmit}
+                    reset={reset}
+                    activeFilters={activeFilters}
                 ></FilterPopup>
             </div>
 

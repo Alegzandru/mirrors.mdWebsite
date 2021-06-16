@@ -2,7 +2,7 @@ import Dropdown from "./Dropdown"
 
 export default function FilterPopup (props) {
     return (
-        <div className={`w-full h-auto min-h-screen bg-ui-white absolute top-0 left-0 z-30 ${props.openFilters ? "block" : "hidden"} px-container-sm md:px-container-md pt-32 pb-8`}>
+        <div className={`w-full h-screen min-h-screen bg-ui-white fixed top-0 left-0 z-30 ${props.openFilters ? "block" : "hidden"} px-container-sm md:px-container-md pt-32 pb-8`}>
             <div 
                 className="ml-auto w-40px h-40px"
                 onClick={() => props.setOpenFilters(!props.openFilters)}
@@ -16,35 +16,49 @@ export default function FilterPopup (props) {
                 Filtre
             </h3>
 
-            <div className="w-full">
-                {props.optiuni.map((option, index)=>
-                    <Dropdown 
-                        key={index} 
-                        name={option}
-                        filterOptions={
-                            props.category[0].filters.filter((filter) => {
-                            if(filter.name == option){
-                                return true
-                            }
-                            else{
-                                return false
-                            }
-                        })}
-                        register={props.register}
-                    ></Dropdown>
-                )}
+            <form onSubmit={props.handleSubmit(props.onSubmit)} className="w-full">
+                <div className="w-full">
+                    {props.optiuni.map((option, index)=>
+                        <Dropdown 
+                            key={index} 
+                            name={option}
+                            filterOptions={
+                                props.category[0].filters.filter((filter) => {
+                                if(filter.name == option){
+                                    return true
+                                }
+                                else{
+                                    return false
+                                }
+                            })}
+                            register={props.register}
+                            active={props.activeFilters[index].active}
+                        ></Dropdown>
+                    )}
 
-                <div className="flex flex-row justify-between items-center h-12 mt-8 text-lg-14 font-medium">
-                    <div className="h-full w-full mr-2 rounded-lg border border-1.5px border-ui-blueishGrey flex flex-row justify-center items-center text-type-grey">
-                        Resetează
-                    </div>
+                    <div className="flex flex-row justify-between items-center h-12 mt-8 text-lg-14 font-medium">
+                        <input 
+                            className="h-full w-full mr-2 rounded-lg border border-1.5px border-ui-blueishGrey flex flex-row justify-center items-center text-type-grey"
+                            type="submit"
+                            value="Resetează"
+                            onClick={() => {
+                                props.reset()
+                                props.setOpenFilters(!props.openFilters)
+                            }}
+                        />
 
-                    <div className="h-full w-full mr-2 rounded-lg border border-1.5px border-ui-blueishGrey flex flex-row justify-center items-center text-ui-white bg-accent-accent">
-                        Aplică
+                        <input 
+                            className="h-full w-full mr-2 rounded-lg border border-1.5px border-ui-blueishGrey flex flex-row justify-center items-center text-ui-white bg-accent-accent"
+                            type="submit"
+                            value="Aplică"
+                            onClick={() => {
+                                props.setOpenFilters(!props.openFilters)
+                            }}
+                        />
                     </div>
+                    
                 </div>
-                
-            </div>
+            </form>
         </div>
     )
 }

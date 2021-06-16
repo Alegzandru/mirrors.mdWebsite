@@ -7,6 +7,8 @@ import Link from 'next/link'
 
 export default function PopularProducts(props){
 
+    console.log("Popular products", props.deviceType)
+
     const responsive = {
         desktop: {
           breakpoint: { max: 3000, min: 1367 },

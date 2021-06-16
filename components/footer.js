@@ -1,4 +1,5 @@
 import Image from "next/image"
+import Link from "next/link"
 
 export default function Footer () {
     return (
@@ -22,27 +23,13 @@ export default function Footer () {
                         Catalog
                     </div>
                     <ul className="text-lg-14 mt-8">
-                        <li className="mb-4">
-                            Catalogul oglinzilor
-                        </li>
-                        <li className="mb-4">
-                            Dulapuri
-                        </li>
-                        <li className="mb-4">
-                            Oglinzi acrilice
-                        </li>
-                        <li className="mb-4">
-                            Mese Make-up
-                        </li>
-                        <li className="mb-4">
-                            Texte acrilice
-                        </li>
-                        <li className="mb-4">
-                            Texte cu iluminare
-                        </li>
-                        <li className="mb-4">
-                            Produse din sticlă
-                        </li>
+                        <Link href="/oglinzi">
+                            <a>
+                                <li className="mb-4 hover:text-ui-darkGrey hover:underline transition duration-300">
+                                    Oglinzi
+                                </li>
+                            </a>
+                        </Link>
                     </ul>
                 </div>
                 <div className="text-type-grey hidden mdFooter:block">
@@ -51,19 +38,35 @@ export default function Footer () {
                     </div>
 
                     <ul className="text-lg-14 mt-8">
-                        <li className="mb-4">
-                            Pagina principală
-                        </li>
-                        <li className="mb-4">
-                            Contacte
-                        </li>
-                        <li className="mb-4">
-                            Galeria
-                        </li>
-                        <li className="mb-4">
-                            Întrebări frecvente
-                        </li>
-                        <li className="mb-4">
+                        <Link href="/">
+                            <a>
+                                <li className="mb-4 hover:text-ui-darkGrey hover:underline transition duration-300">
+                                    Pagina principală
+                                </li>
+                            </a>
+                        </Link>
+                        <Link href="/contacte">
+                            <a>
+                                <li className="mb-4 hover:text-ui-darkGrey hover:underline transition duration-300">
+                                    Contacte
+                                </li>
+                            </a>
+                        </Link>
+                        <Link href="/galerie">
+                            <a>
+                                <li className="mb-4 hover:text-ui-darkGrey hover:underline transition duration-300">
+                                    Galeria
+                                </li>
+                            </a>
+                        </Link>
+                        <Link href="/intrebari-frecvente">
+                            <a>
+                                <li className="mb-4 hover:text-ui-darkGrey hover:underline transition duration-300">
+                                    Întrebări frecvente
+                                </li>
+                            </a>
+                        </Link>
+                        <li className="mb-4 hover:text-ui-darkGrey hover:underline transition duration-300">
                             Plata, livrarea și ambalarea
                         </li>
                     </ul>
@@ -74,32 +77,46 @@ export default function Footer () {
                     </div>
                     
                     <ul className="text-lg-14 mt-8">
-                        <li className="mb-4 flex flex-row justify-start items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                            </svg>
-                            +373 69 482 034
-                        </li>
-                        <li className="mb-4 flex flex-row justify-start items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                            </svg>
-                            str. Ismail 98
-                        </li>
+                        <a href="tel:37369482034" target="blank">
+                            <li className="mb-4 flex flex-row justify-start items-center hover:text-ui-darkGrey hover:underline transition duration-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                                </svg>
+                                +373 69 482 034
+                            </li>
+                        </a>
+                        <a href="https://goo.gl/maps/Cr1ju6WohV8NYeYf6" target="blank">
+                            <li className="mb-4 flex flex-row justify-start items-center hover:text-ui-darkGrey hover:underline transition duration-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                                str. Ismail 98
+                            </li>
+                        </a>
                     </ul>
                 </div>
                 <div className="flex flex-row items-start justify-between w-80px">
-                    <Image
-                        src="/branding/facebookWhite.svg"
-                        width={24}
-                        height={24}
-                    />
-                    <Image
-                        src="/branding/instagramWhite.svg"
-                        width={24}
-                        height={24}
-                    />
+                    <a 
+                        href="https://www.facebook.com/mirrorsmd"
+                        target="blank"
+                    >
+                        <Image
+                            src="/branding/facebookWhite.svg"
+                            width={24}
+                            height={24}
+                        />
+                    </a>
+                    <a
+                        href="https://www.instagram.com/mirrorsmd/"
+                        target="blank"
+                    >
+                        <Image
+                            src="/branding/instagramWhite.svg"
+                            width={24}
+                            height={24}
+                        />
+                    </a>
                 </div>
             </div>
 

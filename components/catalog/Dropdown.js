@@ -45,7 +45,8 @@ export default function Dropdown (props) {
                 className={`w-full h-52px ${open ? "bg-ui-grey text-type-dark z-30" : "text-type-manatee bg-ui-white"} border-t lg:border-t-0 border-l lg:border-l-0 border-r border-b border-option-border-color px-3 flex flex-row justify-between items-center text-lg-p group hover:shadow-inner transition duration-300`}
                 onClick={ ()=> setOpen(!open)}
             >
-                <div>
+                <div className="flex flex-row justify-start items-center">
+                    <div className={`h-10px w-10px mr-10px ${props.active == true ? "block" : "hidden"} bg-accent-accent rounded-full`}/>
                     {props.name}
                 </div>
 

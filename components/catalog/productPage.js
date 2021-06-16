@@ -1,5 +1,6 @@
 import ProductComponent from "./productComponent"
 import ProductDescription from "./productDescription"
+import RecentProducts from "../multiPage/recentProducts"
 
 export default function ProductPage ({deviceType, name, price, images, description, category, options, optionVariants, productData}) {
 
@@ -62,6 +63,8 @@ export default function ProductPage ({deviceType, name, price, images, descripti
                 name={name}
                 description={description}
             />
+            <RecentProducts>
+            </RecentProducts>
         </div>
     )
 }

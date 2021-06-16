@@ -14,6 +14,17 @@ export default function ProductDescription ({options, optionVariants, images, na
     const imagesLightbox = images.map((image) => {
         return image.src
     })
+    const [autoHeight, setAutoHeight] = useState(0)
+
+    const products = [
+        "Norma",
+        "Norma",
+        "Norma",
+        "Norma",
+        "Norma",
+        "Norma",
+        "Norma",
+    ]
 
     function getColSpan (deviceType, index) {
         switch(deviceType){
@@ -35,22 +46,22 @@ export default function ProductDescription ({options, optionVariants, images, na
     }
 
     return (
-        <div className="px-container-sm md:px-container-md lg:px-container-lg xl:px-container-xl font-Ubuntu bg-ui-darkGrey pb-188px">
+        <div className="px-container-sm md:px-container-md lg:px-container-lg xl:px-container-xl font-Ubuntu bg-ui-darkGrey pb-92px md:pb-0">
             <div className="flex flex-row justify-center items-center mb-60px">
                 <div 
-                    className={`${page == 0 ? "text-accent-accent border-b-2 border-t-0 border-l-0 border-r-0 border-accent-accent" : "text-type-dark"} text-lg-1 mx-8 h-12 flex flex-row justify-center items-center cursor-pointer`}
+                    className={`${page == 0 ? "text-accent-accent border-b-2 border-t-0 border-l-0 border-r-0 border-accent-accent" : "text-type-dark"} text-sm-p md:text-lg-17 mx-2 md:mx-8 h-12 flex flex-row justify-center items-center cursor-pointer`}
                     onClick={() => setPage(0)}
                 >
                     Descriere
                 </div>
                 <div 
-                    className={`${page == 1 ? "text-accent-accent border-b-2 border-t-0 border-l-0 border-r-0 border-accent-accent" : "text-type-dark"} text-lg-17 mx-8 h-12 flex flex-row justify-center items-center cursor-pointer`}
+                    className={`${page == 1 ? "text-accent-accent border-b-2 border-t-0 border-l-0 border-r-0 border-accent-accent" : "text-type-dark"} text-sm-p md:text-lg-17 mx-2 md:mx-8 h-12 flex flex-row justify-center items-center cursor-pointer`}
                     onClick={() => setPage(1)}
                 >
                     Fotografii(27)
                 </div>
                 <div 
-                    className={`${page == 2 ? "text-accent-accent border-b-2 border-t-0 border-l-0 border-r-0 border-accent-accent" : "text-type-dark"} text-lg-17 mx-8 h-12 flex flex-row justify-center items-center cursor-pointer`}
+                    className={`${page == 2 ? "text-accent-accent border-b-2 border-t-0 border-l-0 border-r-0 border-accent-accent" : "text-type-dark"} text-sm-p md:text-lg-17 mx-2 md:mx-8 h-12 flex flex-row justify-center items-center cursor-pointer`}
                     onClick={() => setPage(2)}
                 >
                     Recenzii(0)
@@ -62,11 +73,14 @@ export default function ProductDescription ({options, optionVariants, images, na
                     {name}
                 </h4>
 
-                <div className="md:text-md-p lg:text-lg-p text-type-manatee mb-11">
+                <pre className={`md:text-md-p lg:text-lg-p text-type-manatee mb-11 w-full ${autoHeight ? "h-auto" : "h-240px"} overflow-y-hidden`}>
                     {description}
-                </div>
+                </pre>
 
-                <div className="text-accent-accent text-lg-p underline">
+                <div 
+                    className="text-accent-accent text-lg-p underline cursor-pointer"
+                    onClick={() => setAutoHeight(1)}
+                >
                     mai multe detalii...
                 </div>
             </div>
@@ -99,7 +113,86 @@ export default function ProductDescription ({options, optionVariants, images, na
                 }
             </div>
 
-
+            <div className="w-full pt-40">
+                <div className="text-lg-32 text-type-dark font-medium mb-3">
+                    Produse similare
+                </div>
+                <div className="w-full h-px bg-ui-blueishGrey mb-6"/>
+                <div className="flex flex-row justify-between items-start">
+                    {products.map((product, index) => 
+                        deviceType == "desktop" ?
+                            index < 4 &&
+                            <div className="md:h-320px bg-ui-white rounded-lg border border-ui-darkGrey w-full px-5 py-10px mx-1">
+                                <div className="w-full h-92px md:h-204px relative mb-6">
+                                    <Image
+                                        src="/product/product.png"
+                                        layout="fill"
+                                        objectFit="cover"
+                                    />
+                                </div>
+                                <div className="w-full text-center text-lg-card-name text-type-dark mb-1">
+                                    {product}
+                                </div>
+                                <div className="text-card-description text-type-grey w-full text-center">
+                                    de la 2144 lei
+                                </div>
+                            </div>
+                        :
+                        deviceType == "tablet" ?
+                            index < 3 &&
+                            <div className="md:h-320px bg-ui-white rounded-lg border border-ui-darkGrey w-full px-5 py-10px mx-1">
+                                <div className="w-full h-92px md:h-204px relative mb-6">
+                                    <Image
+                                        src="/product/product.png"
+                                        layout="fill"
+                                        objectFit="cover"
+                                    />
+                                </div>
+                                <div className="w-full text-center text-lg-card-name text-type-dark mb-1">
+                                    {product}
+                                </div>
+                                <div className="text-card-description text-type-grey w-full text-center">
+                                    de la 2144 lei
+                                </div>
+                            </div>
+                        :
+                        deviceType == "mobile" ?
+                            index < 2 &&
+                            <div className="md:h-320px bg-ui-white rounded-lg border border-ui-darkGrey w-full px-5 py-10px mx-1">
+                            <div className="w-full h-92px md:h-204px relative mb-6">
+                                <Image
+                                    src="/product/product.png"
+                                    layout="fill"
+                                    objectFit="cover"
+                                />
+                            </div>
+                            <div className="w-full text-center text-lg-card-name text-type-dark mb-1">
+                                {product}
+                            </div>
+                            <div className="text-card-description text-type-grey w-full text-center">
+                                de la 2144 lei
+                            </div>
+                            </div>
+                        :
+                            index < 2 &&
+                            <div className="md:h-320px bg-ui-white rounded-lg border border-ui-darkGrey w-full px-5 py-10px mx-1">
+                            <div className="w-full h-92px md:h-204px relative mb-6">
+                                <Image
+                                    src="/product/product.png"
+                                    layout="fill"
+                                    objectFit="cover"
+                                />
+                            </div>
+                            <div className="w-full text-center text-lg-card-name text-type-dark mb-1">
+                                {product}
+                            </div>
+                            <div className="text-card-description text-type-grey w-full text-center">
+                                de la 2144 lei
+                            </div>
+                            </div>
+                    )}
+                </div>
+            </div>
         </div>
     )
 }

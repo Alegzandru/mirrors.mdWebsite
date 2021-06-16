@@ -1,10 +1,27 @@
 import Head from 'next/head';
 import {Navbar} from "../components/navbar"
 import Footer from "./footer"
+import {DeviceTypeContext} from "../components/context"
+import { useContext, useEffect, useState } from 'react';
 
 export default function Layout (props) {
+
+    const [width, setWidth] = useState(0)
     
     const { children, title, style, className } = props;
+    const {deviceType, setDeviceType} = useContext(DeviceTypeContext)
+
+    useEffect( () => {
+        if (typeof window !== 'undefined') {
+          setWidth(window.innerWidth)
+        }
+      }, [])
+
+    useEffect(() => {
+        setDeviceType(width <= 768 ? "mobile" : width <= 1366 ? "tablet" : "desktop")
+        console.log("Use effect", width)
+    }, [width])
+
 
     return(
         <div>
@@ -19,7 +36,14 @@ export default function Layout (props) {
             </header>
 
             <main>
-                {children}
+                {width == 0 ? 
+                    <div className="pt-40">
+                        Loading
+                    </div>
+                    :
+                    children
+                }
+                {/* {children} */}
             </main>
 
             <footer>
