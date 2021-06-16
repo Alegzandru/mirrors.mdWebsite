@@ -2,7 +2,12 @@ import Dropdown from "./Dropdown"
 
 export default function FilterPopup (props) {
     return (
-        <div className={`w-full h-screen min-h-screen bg-ui-white fixed top-0 left-0 z-30 ${props.openFilters ? "block" : "hidden"} px-container-sm md:px-container-md pt-32 pb-8`}>
+        <div 
+            className={`w-full min-h-screen bg-ui-white relative top-0 left-0 z-30 ${props.openFilters ? "block" : "hidden"} px-container-sm md:px-container-md pt-32 pb-8`}
+            style={{
+                minHeight : "100vh"
+            }}
+        >
             <div 
                 className="ml-auto w-40px h-40px"
                 onClick={() => props.setOpenFilters(!props.openFilters)}
