@@ -7,18 +7,148 @@ import {useState, useContext, useEffect} from "react"
 import {CartContext} from "../../components/context"
 import Link from 'next/link'
 
-export default function ProductComponent ({deviceType, name, price, images, options, optionVariants, productData}) {
+export default function ProductComponent ({deviceType, name, price, images, options, optionVariants, productData, optionsRaw}) {
 
     const {cart, setCart} = useContext(CartContext)
 
+    let contorAddons = 1
+
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const onSubmit = (data) => {
+        contorAddons = 1
         const addOns = Object.entries(data).filter((addOn) => addOn[1] != null && addOn[1] != false)
+        console.log(addOns)
 
-        const productCart = {
-            product : name,
-            addOns : addOns
+        let productCart = {
+            product : {},
+            addOns : [],
+            number : 1
         }
+
+        function flatten(obj) {
+            var result = Object.create(obj);
+            for(var key in result) {
+                result[key] = result[key];
+            }
+            return result;
+        }
+
+        fetch(`https://mirrors-md-admin.herokuapp.com/products?name_eq=${name}`)
+            .then(response => response.json())
+            .then(data => {
+                productCart.product = data[0]
+
+                if(addOns.length == 0){
+                    if( cart.length != 0 && productCart.product.name == cart[cart.length - 1].product.name){
+                        console.log("Changed product number")
+                        let mutableCart = [...cart]
+                        mutableCart[mutableCart.length - 1].number += 1
+                        setCart(
+                            mutableCart
+                        )
+                    }
+                    else{
+                        console.log("Added product")
+                        setCart([
+                            ...cart,
+                            productCart
+                        ])
+                    }
+                }
+                addOns.map((addOn, index) => {
+                    if(addOn[1] == true){
+                        let addOnRaw = optionsRaw.filter((addOnRaw) => {
+                            return addOnRaw.name == addOn[0]
+                        })
+                        console.log("Add on raw ", addOnRaw)
+                        if(cart.length == 0){
+                            contorAddons = 0
+                            console.log("Checkbox element step 1 stop")
+                        }
+                        else if(cart[cart.length - 1].addOns.length != addOns.length){
+                            contorAddons = 0
+                            console.log("Checkbox element step 2 stop")
+                        }
+                        else if(cart[cart.length - 1].addOns.length != 0){
+                            console.log("Checkbox on index ", index, " ", cart[cart.length - 1].addOns[index])
+                            if(addOn[0] != cart[cart.length - 1].addOns[index].name){
+                                contorAddons = 0
+                                console.log("Checkbox element step 3 stop")
+                            }
+                        }
+                        console.log("Contor ", contorAddons)
+                        console.log(addOn[0])
+                        fetch(`https://mirrors-md-admin.herokuapp.com/add-ons?id_eq=${addOnRaw[0].id}`)
+                            .then(response => response.json())
+                            .then(data => {
+                                productCart.addOns.push(data[0])
+                                console.log(data)
+                                if (index == addOns.length-1){
+                                    if( contorAddons ){
+                                        console.log("Changed product number")
+                                        let mutableCart = [...cart]
+                                        mutableCart[mutableCart.length - 1].number += 1
+                                        setCart(
+                                            mutableCart
+                                        )
+                                    }
+                                    else{
+                                        console.log("Added product")
+                                        setCart([
+                                            ...cart,
+                                            productCart
+                                        ])
+                                    }
+                                }
+                            })
+                    }
+                    else{
+                        let addOnRaw = optionsRaw.filter((addOnRaw) => {
+                            return addOnRaw.group == addOn[0] && addOnRaw.typename == addOn[1]
+                        })
+                        console.log("Add on raw ", addOnRaw)
+                        if(cart.length == 0){
+                            contorAddons = 0
+                            console.log("Radio element step 1 stop")
+                        }
+                        else if(cart[cart.length - 1].addOns.length != addOns.length){
+                            contorAddons = 0
+                            console.log("Radio element step 2 stop")
+                        }
+                        else if(cart[cart.length - 1].addOns.length != 0){
+                            console.log("Radio on index ", index, " ", cart[cart.length - 1].addOns[index])
+                            if(addOn[0] != cart[cart.length - 1].addOns[index].group || addOn[1] != cart[cart.length - 1].addOns[index].typename){
+                                contorAddons = 0
+                                console.log("Radio element step 3 stop")
+                            }
+                        }
+                        console.log("Contor ", contorAddons)
+                        fetch(`https://mirrors-md-admin.herokuapp.com/add-ons?id_eq=${addOnRaw[0].id}`)
+                            .then(response => response.json())
+                            .then(data => {
+                                productCart.addOns.push(data[0])
+                                // console.log(data[0])
+                                if (index == addOns.length-1){
+                                    if( contorAddons ){
+                                        console.log("Changed product number")
+                                        let mutableCart = [...cart]
+                                        mutableCart[mutableCart.length - 1].number += 1
+                                        setCart(
+                                            mutableCart
+                                        )
+                                    }
+                                    else{
+                                        console.log("Added product")
+                                        setCart([
+                                            ...cart,
+                                            productCart
+                                        ])
+                                    }
+                                }
+                            })
+                    }
+                })
+            })
 
         // fetch(`https://mirrors-md-admin.herokuapp.com/products?name_eq=${name}`)
         //     .then(response => response.json())
@@ -74,19 +204,15 @@ export default function ProductComponent ({deviceType, name, price, images, opti
         //         })
         //     }
         // })
-
-        setCart([
-            ...cart,
-            productCart
-        ])
         
     }
 
     useEffect(() => {
-
+        // console.log("Cart object", cart)
+        // console.log("JSON.stringify cart : ", JSON.stringify(cart))
         localStorage.setItem('cart', JSON.stringify(cart))
         const localCart = localStorage.getItem('cart')
-        console.log( JSON.parse(localCart) )
+        console.log("JSON parsed cart : ", JSON.parse(localCart) )
         
     }, [cart])
     const [openImage, setOpenImage] = useState(0)

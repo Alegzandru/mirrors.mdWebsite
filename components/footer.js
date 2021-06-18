@@ -126,27 +126,13 @@ export default function Footer () {
                         Catalog
                     </div>
                     <ul className="text-lg-14 mt-8">
-                        <li className="mb-4">
-                            Catalogul oglinzilor
-                        </li>
-                        <li className="mb-4">
-                            Dulapuri
-                        </li>
-                        <li className="mb-4">
-                            Oglinzi acrilice
-                        </li>
-                        <li className="mb-4">
-                            Mese Make-up
-                        </li>
-                        <li className="mb-4">
-                            Texte acrilice
-                        </li>
-                        <li className="mb-4">
-                            Texte cu iluminare
-                        </li>
-                        <li className="mb-4">
-                            Produse din sticlă
-                        </li>
+                        <Link href="/oglinzi">
+                            <a>
+                                <li className="mb-4">
+                                    Oglinzi
+                                </li>
+                            </a>
+                        </Link>
                     </ul>
                 </div>
                 <div className="text-type-grey mdFooter:hidden mt-12">
@@ -196,7 +182,7 @@ export default function Footer () {
             </div>
 
             <div className="w-full h-320px mdFooter:h-560px mt-16 mb-8">
-                <iframe src="https://yandex.com/map-widget/v1/?um=constructor%3A79dbbe95bd2531da704341e99cfe83c018aa307df04f33dd9c1332b1fa43ef0f&amp;source=constructor" width="100%" height="100%" frameborder="0"></iframe>
+                <iframe src="https://yandex.com/map-widget/v1/?um=constructor%3A79dbbe95bd2531da704341e99cfe83c018aa307df04f33dd9c1332b1fa43ef0f&amp;source=constructor" width="100%" height="100%" frameBorder="0"></iframe>
             </div>
 
             <div className="h-px w-full bg-type-grey mb-4"></div>

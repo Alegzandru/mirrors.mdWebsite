@@ -169,26 +169,28 @@ export function Navbar (props) {
                                 Nu a fost găsit niciun produs
                             </div>
                         :
-                        searchProducts.map((product) => 
-                            <Link href={`/produse/${product.slug}`}>
-                                <a>   
-                                    <div className={`h-72px border-b-0 border-t-2 border-l-0 border-r-0 flex flex-row justify-start items-center px-4 py-14px ${search != "" ? "border-ui-darkGrey" : ""}`}>
-                                        <Image
-                                            src={product.image[0].formats.small.url}
-                                            width={56}
-                                            height={56}
-                                        />
-                                        <div className="text-type-grey flex flex-col justify-between h-full ml-4">
-                                            <div className="text-lg-17">
-                                                {product.name}
-                                            </div>
-                                            <div className="text-lg-14">
-                                                de la {product.price} lei
+                        searchProducts.map((product, index) => 
+                            <div key={index}>
+                                <Link href={`/produse/${product.slug}`}>
+                                    <a>   
+                                        <div className={`h-72px border-b-0 border-t-2 border-l-0 border-r-0 flex flex-row justify-start items-center px-4 py-14px ${search != "" ? "border-ui-darkGrey" : ""}`}>
+                                            <Image
+                                                src={product.image[0].formats.small.url}
+                                                width={56}
+                                                height={56}
+                                            />
+                                            <div className="text-type-grey flex flex-col justify-between h-full ml-4">
+                                                <div className="text-lg-17">
+                                                    {product.name}
+                                                </div>
+                                                <div className="text-lg-14">
+                                                    de la {product.price} lei
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </a>
-                            </Link>
+                                    </a>
+                                </Link>
+                            </div>
                         )}
                     </div>
                 }
@@ -246,26 +248,28 @@ export function Navbar (props) {
                                                     Nu a fost găsit niciun produs
                                                 </div>
                                             :
-                                            searchProducts.map((product) =>
-                                                <Link href={`/produse/${product.slug}`}>
-                                                    <a>  
-                                                        <div className={`h-72px border-b-0 border-t-2 border-l-0 border-r-0 flex flex-row justify-start items-center px-4 py-14px ${search != "" ? "border-ui-darkGrey" : ""}`}>
-                                                            <Image
-                                                                src={product.image[0].formats.small.url}
-                                                                width={56}
-                                                                height={56}
-                                                            />
-                                                            <div className="text-type-grey flex flex-col justify-between h-full ml-4">
-                                                                <div className="text-lg-17">
-                                                                    {product.name}
-                                                                </div>
-                                                                <div className="text-lg-14">
-                                                                    de la {product.price} lei
+                                            searchProducts.map((product, index) =>
+                                                <div key={index}>
+                                                    <Link href={`/produse/${product.slug}`}>
+                                                        <a>  
+                                                            <div className={`h-72px border-b-0 border-t-2 border-l-0 border-r-0 flex flex-row justify-start items-center px-4 py-14px ${search != "" ? "border-ui-darkGrey" : ""}`}>
+                                                                <Image
+                                                                    src={product.image[0].formats.small.url}
+                                                                    width={56}
+                                                                    height={56}
+                                                                />
+                                                                <div className="text-type-grey flex flex-col justify-between h-full ml-4">
+                                                                    <div className="text-lg-17">
+                                                                        {product.name}
+                                                                    </div>
+                                                                    <div className="text-lg-14">
+                                                                        de la {product.price} lei
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    </a>
-                                                </Link> 
+                                                        </a>
+                                                    </Link> 
+                                                </div>
                                             )}
                                         </div>
                                     }
@@ -330,14 +334,16 @@ export function Navbar (props) {
                                 </div>
                                 <div className={`bg-ui-white py-2 ${catalogOpen ? "block" : "hidden"} transition duration-300`}>
                                     {
-                                        categories.map((category) => 
-                                        <Link href={category.slug}>
-                                            <a>
-                                                <div className="p-4 text-type-manatee hover:text-type-dark hover:underline transition duration-300">
-                                                    {category.name}
-                                                </div>
-                                            </a>
-                                        </Link>
+                                        categories.map((category, index) => 
+                                        <div key={index}>
+                                            <Link href={`/${category.slug}`}>
+                                                <a>
+                                                    <div className="p-4 text-type-manatee hover:text-type-dark hover:underline transition duration-300">
+                                                        {category.name}
+                                                    </div>
+                                                </a>
+                                            </Link>
+                                        </div>
                                         )
                                     }
                                 </div>
@@ -449,14 +455,16 @@ export function Navbar (props) {
 
                         <li className={`w-full ${mobileCatalogOpen ? "block" : "hidden"}`}>
                             {
-                                categories.map((category) => 
-                                <Link href={category.slug}>
-                                    <a>
-                                        <div className="py-4 px-40px">
-                                            {category.name}
-                                        </div>
-                                    </a>
-                                </Link>
+                                categories.map((category, index) => 
+                                <div key={index}>
+                                    <Link href={`/${category.slug}`}>
+                                        <a>
+                                            <div className="py-4 px-40px">
+                                                {category.name}
+                                            </div>
+                                        </a>
+                                    </Link>
+                                </div>
                                 )
                             }
                         </li>

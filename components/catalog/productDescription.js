@@ -58,14 +58,14 @@ export default function ProductDescription ({options, optionVariants, images, na
                     className={`${page == 1 ? "text-accent-accent border-b-2 border-t-0 border-l-0 border-r-0 border-accent-accent" : "text-type-dark"} text-sm-p md:text-lg-17 mx-2 md:mx-8 h-12 flex flex-row justify-center items-center cursor-pointer`}
                     onClick={() => setPage(1)}
                 >
-                    Fotografii(27)
+                    Fotografii({imagesLightbox.length})
                 </div>
-                <div 
+                {/* <div 
                     className={`${page == 2 ? "text-accent-accent border-b-2 border-t-0 border-l-0 border-r-0 border-accent-accent" : "text-type-dark"} text-sm-p md:text-lg-17 mx-2 md:mx-8 h-12 flex flex-row justify-center items-center cursor-pointer`}
                     onClick={() => setPage(2)}
                 >
                     Recenzii(0)
-                </div>
+                </div> */}
             </div>
 
             <div className={`${page == 0 ? "block" : "hidden"} w-full lg:px-300px`}>

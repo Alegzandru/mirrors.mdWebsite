@@ -102,7 +102,7 @@ export default function ContacteMap () {
                 </div>
 
                 <div className="flex-grow h-320px md:h-full w-full md:w-auto">
-                    <iframe src="https://yandex.com/map-widget/v1/?um=constructor%3A79dbbe95bd2531da704341e99cfe83c018aa307df04f33dd9c1332b1fa43ef0f&amp;source=constructor" width="100%" className="h-320px md:h-588px lg:h-600px" frameborder="0"></iframe>
+                    <iframe src="https://yandex.com/map-widget/v1/?um=constructor%3A79dbbe95bd2531da704341e99cfe83c018aa307df04f33dd9c1332b1fa43ef0f&amp;source=constructor" width="100%" className="h-320px md:h-588px lg:h-600px" frameBorder="0"></iframe>
                 </div>
             </div>
         </div>

@@ -23,6 +23,7 @@ export function DynamicProduct ({deviceType, productData}) {
             options={productData.optionNames}
             optionVariants={productData.optionsRaw}
             productData={productData}
+            optionsRaw={productData.optionsRaw}
           ></ProductPage>
       </Layout>
   )
@@ -65,7 +66,7 @@ export async function getStaticProps({ params }) {
       slug,
       ...productStrapi,
       optionNames,
-      optionsRaw
+      optionsRaw,
     }
 
     // const productData = getProductData(params.slug)

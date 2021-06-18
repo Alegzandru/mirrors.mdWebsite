@@ -234,9 +234,11 @@ export default function Category({category, name, products}) {
                     {
                         optionNames.map((option, index) => {
                             return (
-                                <div className="col-span-1 cursor-pointer">
+                                <div 
+                                    className="col-span-1 cursor-pointer"
+                                    key={index} 
+                                >
                                     <Dropdown 
-                                        key={index} 
                                         name={option}
                                         filterOptions={
                                             category[0].filters.filter((filter) => {
@@ -356,21 +358,23 @@ export default function Category({category, name, products}) {
                                 page == 0 || 
                                 page >= showFrom - 1 && page <= showFrom + 1 || 
                                 page == pages - 1 ?
-                                <LinkScroll
-                                    to="top"
-                                    smooth={true}
-                                >
-                                    <div
-                                        className={`${showFrom == page ? "text-accent-accent bg-transparent border border-1.5px border-accent-accent" : "text-type-grey bg-accent-transparent"} h-8 w-auto px-3 flex flex-row items-center justify-center text-lg-1 rounded mr-4 transition duration-300`}
-                                        onClick={() => {
-                                            setShowFrom(page)
-                                            setShowNr(32)
-                                        }}
-                                        key={index}
+                                <div key={index}>
+                                    <LinkScroll
+                                        to="top"
+                                        smooth={true}
                                     >
-                                        {page + 1}
-                                    </div>
-                                </LinkScroll>
+                                        <div
+                                            className={`${showFrom == page ? "text-accent-accent bg-transparent border border-1.5px border-accent-accent" : "text-type-grey bg-accent-transparent"} h-8 w-auto px-3 flex flex-row items-center justify-center text-lg-1 rounded mr-4 transition duration-300`}
+                                            onClick={() => {
+                                                setShowFrom(page)
+                                                setShowNr(32)
+                                            }}
+                                            key={index}
+                                        >
+                                            {page + 1}
+                                        </div>
+                                    </LinkScroll>
+                                </div>
                             :
                                 showFrom > 2 && page == 1 || 
                                 showFrom <= pages - 3 && page == pages - 2 ? 

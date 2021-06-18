@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import {Navbar} from "../components/navbar"
 import Footer from "./footer"
-import {DeviceTypeContext} from "../components/context"
+import {DeviceTypeContext, CartContext} from "../components/context"
 import { useContext, useEffect, useState } from 'react';
 
 export default function Layout (props) {
@@ -10,16 +10,20 @@ export default function Layout (props) {
     
     const { children, title, style, className } = props;
     const {deviceType, setDeviceType} = useContext(DeviceTypeContext)
+    const {cart, setCart} = useContext(CartContext)
 
     useEffect( () => {
         if (typeof window !== 'undefined') {
-          setWidth(window.innerWidth)
+            JSON.parse(localStorage.getItem('cart')) == null ?
+            setCart([])
+            :
+            setCart(JSON.parse(localStorage.getItem('cart')))
+            setWidth(window.innerWidth)
         }
-      }, [])
+    }, [])
 
     useEffect(() => {
         setDeviceType(width <= 768 ? "mobile" : width <= 1366 ? "tablet" : "desktop")
-        console.log("Use effect", width)
     }, [width])
 
 
