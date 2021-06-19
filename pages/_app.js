@@ -1,6 +1,6 @@
 import '../styles/globals.css'
 import {useState, useEffect} from "react"
-import {DeviceTypeContext, CartContext} from "../components/context"
+import {DeviceTypeContext, CartContext, PopupContext} from "../components/context"
 import UAParser from "ua-parser-js";
 import NextNProgress from "../components/NextNProgress"
 import {deviceType as deviceTypeWSpaces, isTablet, isMobile, isDesktop} from 'react-device-detect';
@@ -13,13 +13,18 @@ function MyApp({ Component, pageProps, deviceTypeReq, isMobile, isTablet }) {
   const [cart, setCart] = useState([])
   const valueCart = {cart, setCart}
 
+  const [popupOpen, setPopupOpen] = useState("")
+  const valuePopup = {popupOpen, setPopupOpen}
+
   return (
-    <CartContext.Provider value={valueCart}>
-      <DeviceTypeContext.Provider value={valueDeviceType}>
-        <NextNProgress/>
-        <Component {...pageProps} />
-      </DeviceTypeContext.Provider>
-    </CartContext.Provider>
+    <PopupContext.Provider value={valuePopup}>
+      <CartContext.Provider value={valueCart}>
+        <DeviceTypeContext.Provider value={valueDeviceType}>
+          <NextNProgress/>
+          <Component {...pageProps} />
+        </DeviceTypeContext.Provider>
+      </CartContext.Provider>
+    </PopupContext.Provider>
   )
 }
 

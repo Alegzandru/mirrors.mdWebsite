@@ -113,8 +113,11 @@ module.exports = {
         'search-left' : 'calc( (100vw - 504px) / 2 )',
         'cart-lg' : 'calc( (100% - 544px) / 2 )',
         'cart-md' : 'calc( (100% - 320px) / 2 )',
+        'popup-top' : 'calc( (100vh - 500px) / 2 )',
+        'popup-left' : 'calc( (100vw - 981px) / 2)',
         '70vh' : '70vh',
         '1.5px' : '1.5px',
+        '981px' : '981px',
         '776px' : '776px',
         '720px' : '720px',
         '640px' : '640px',
@@ -180,6 +183,7 @@ module.exports = {
         '96px' : '96px',
         '92px' : '92px',
         '88px' : '88px',
+        '84px' : '84px',
         '80px' : '80px',
         '72px' : '72px',
         '68px' : '68px',
@@ -196,6 +200,7 @@ module.exports = {
         '20px' : '20px',
         '18px' : '18px',
         '14px' : '14px',
+        '11px' : '11px',
         '10px' : '10px'
       },
 

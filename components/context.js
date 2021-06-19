@@ -14,3 +14,8 @@ export const CartContext = React.createContext({
     cart : [],
     setCart : () => {}
 })
+
+export const PopupContext = React.createContext({
+    popupOpen : "",
+    setPopupOpen : () => {}
+})

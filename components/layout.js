@@ -3,6 +3,7 @@ import {Navbar} from "../components/navbar"
 import Footer from "./footer"
 import {DeviceTypeContext, CartContext} from "../components/context"
 import { useContext, useEffect, useState } from 'react';
+import {PopupContext} from "./context"
 
 export default function Layout (props) {
 
@@ -11,7 +12,12 @@ export default function Layout (props) {
     const { children, title, style, className } = props;
     const {deviceType, setDeviceType} = useContext(DeviceTypeContext)
     const {cart, setCart} = useContext(CartContext)
+    const {popupOpen, setPopupOpen} = useContext(PopupContext)
 
+    useEffect(() => {
+        console.log(popupOpen)
+    }, [popupOpen])
+    
     useEffect( () => {
         if (typeof window !== 'undefined') {
             JSON.parse(localStorage.getItem('cart')) == null ?
@@ -40,14 +46,18 @@ export default function Layout (props) {
             </header>
 
             <main>
-                {width == 0 ? 
-                    <div className="pt-40">
-                        Loading
-                    </div>
-                    :
-                    children
-                }
-                {/* {children} */}
+                <div className={`${popupOpen == "size" ? "block" : "hidden"} fixed top-popup-top bg-ui-white h-500px w-981px left-popup-left z-20 p-12 rounded-xl`}>
+                    Alo
+                </div>
+                <div className={`${popupOpen != "" ? "filter brightness-50" : ""} transition duration-300`}>
+                    {width == 0 ? 
+                        <div className="pt-40">
+                            Loading
+                        </div>
+                        :
+                        children
+                    }
+                </div>
             </main>
 
             <footer>

@@ -7,17 +7,29 @@ import {useState, useContext, useEffect} from "react"
 import {CartContext} from "../../components/context"
 import Link from 'next/link'
 
-export default function ProductComponent ({deviceType, name, price, images, options, optionVariants, productData, optionsRaw}) {
+export default function ProductComponent ({deviceType, name, images, options, optionVariants, productData, optionsRaw}) {
 
     const {cart, setCart} = useContext(CartContext)
+    const [price, setPrice] = useState(Math.trunc(productData[0].defaultsize.width * productData[0].defaultsize.height / 1000000 * productData[0].m2price))
+    const [sizeGlobal, setSizeGlobal] = useState({})
 
     let contorAddons = 1
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
+
     const onSubmit = (data) => {
         contorAddons = 1
-        const addOns = Object.entries(data).filter((addOn) => addOn[1] != null && addOn[1] != false)
-        console.log(addOns)
+        const addOns = Object.entries(data).filter((addOn) => addOn[1] != null && addOn[1] != false && addOn[0] != "Dimensiuni recomandate")
+        let sizeName = data["Dimensiuni recomandate"]
+        let sizeRaw = productData[0].linkedsizes.filter((sizeFilter) => sizeFilter.name == sizeName)
+        let size = productData[0].defaultsize
+        if(sizeRaw.length != 0){
+            size = sizeRaw[0]
+            console.log("Size converted to", sizeRaw[0])
+        }
+        console.log(size)
+
+        let addOnsPrice = 0
 
         let productCart = {
             product : {},
@@ -82,6 +94,7 @@ export default function ProductComponent ({deviceType, name, price, images, opti
                             .then(response => response.json())
                             .then(data => {
                                 productCart.addOns.push(data[0])
+                                addOnsPrice += data[0].price
                                 console.log(data)
                                 if (index == addOns.length-1){
                                     if( contorAddons ){
@@ -127,6 +140,8 @@ export default function ProductComponent ({deviceType, name, price, images, opti
                             .then(response => response.json())
                             .then(data => {
                                 productCart.addOns.push(data[0])
+                                addOnsPrice += data[0].price
+
                                 // console.log(data[0])
                                 if (index == addOns.length-1){
                                     if( contorAddons ){
@@ -215,6 +230,11 @@ export default function ProductComponent ({deviceType, name, price, images, opti
         console.log("JSON parsed cart : ", JSON.parse(localCart) )
         
     }, [cart])
+
+    useEffect(() => {
+        console.log(sizeGlobal)
+    }, [sizeGlobal])
+
     const [openImage, setOpenImage] = useState(0)
 
     const responsive = {
@@ -315,12 +335,45 @@ export default function ProductComponent ({deviceType, name, price, images, opti
                     </div>
 
                     <form onSubmit={handleSubmit(onSubmit)} className="">
+
+                        <DropdownProduct
+                            name={"Dimensiuni recomandate"}
+                            options={productData[0].linkedsizes.map((size, index) => {
+                                let coeficient
+                                if(size.width*size.height < productData[0].mediumsize.height * productData[0].mediumsize.width){
+                                    coeficient = productData[0].smallcoeficient
+                                }
+                                else if(size.width*size.height < productData[0].bigsize.height * productData[0].bigsize.width) {
+                                    coeficient = productData[0].mediumcoeficient
+                                }
+                                else{
+                                    coeficient = productData[0].bigcoeficient
+                                }
+                                return (
+                                    {
+                                        typename : size.name,
+                                        price : Math.trunc(size.width * size.height / 1000000 * productData[0].m2price * coeficient)
+                                    }
+                                )
+                            })}
+                            register={register}
+                            setPrice={setPrice}
+                            price={price}
+                            setSizeGlobal={setSizeGlobal}
+                            minHeight={productData[0].smallestsize.height}
+                            maxHeight={productData[0].biggestsize.height}
+                            minWidth={productData[0].smallestsize.width}
+                            maxWidth={productData[0].biggestsize.width}
+                        />
+
                         {options.map((option, index) =>
                             <DropdownProduct
                                 name={option}
                                 options={optionVariants.filter((optionObj) => optionObj.group == option || optionObj.name == option)}
                                 register={register}
                                 key={index}
+                                setPrice={setPrice}
+                                price={price}
                             />
                         )}
 
