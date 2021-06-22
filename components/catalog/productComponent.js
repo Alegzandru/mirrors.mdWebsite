@@ -24,8 +24,13 @@ export default function ProductComponent ({deviceType, name, images, options, op
     }
     const [checkout, setCheckout] = useState(false)
     const {cart, setCart} = useContext(CartContext)
-    const [price, setPrice] = useState(Math.trunc(productData[0].defaultsize.width * productData[0].defaultsize.height / 1000000 * productData[0].m2price * coeficientFinder(productData[0].defaultsize)))
+
+    const [price, setPrice] = useState(Math.trunc(productData[0].defaultsize.width * productData[0].defaultsize.height / 1000000 * productData[0].m2price * ( 1 + coeficientFinder(productData[0].defaultsize))))
     const [sizeGlobal, setSizeGlobal] = useState(productData[0].defaultsize)
+
+    // useEffect(()=> {
+    //     setPrice(Math.trunc(productData[0].defaultsize.width * productData[0].defaultsize.height / 1000000 * productData[0].m2price * ( 1 + coeficientFinder(productData[0].defaultsize))))
+    // }, [])
 
     let contorAddons = 1
 
@@ -57,7 +62,6 @@ export default function ProductComponent ({deviceType, name, images, options, op
                         .then(response => response.json())
                         .then(data => {
                             size = data
-                            console.log("Actual size ", size)
 
                             let addOnsPrice = 0
 
@@ -66,7 +70,7 @@ export default function ProductComponent ({deviceType, name, images, options, op
                                 addOns : [],
                                 size : size,
                                 number : 1,
-                                price : Math.trunc(size.width * size.height / 1000000 * productData[0].m2price * coeficientFinder(size))
+                                price : Math.trunc(size.width * size.height / 1000000 * productData[0].m2price * ( 1 + coeficientFinder(size)))
                             }
 
                             function flatten(obj) {
@@ -84,7 +88,6 @@ export default function ProductComponent ({deviceType, name, images, options, op
 
                                     if(addOns.length == 0){
                                         if( cart.length != 0 && productCart.product.name == cart[cart.length - 1].product.name  && cart[cart.length - 1].size.name == `${size.height}x${size.width}`){
-                                            console.log("Changed product number")
                                             let mutableCart = [...cart]
                                             mutableCart[mutableCart.length - 1].number += 1
                                             setCart(
@@ -95,7 +98,6 @@ export default function ProductComponent ({deviceType, name, images, options, op
                                             }
                                         }
                                         else{
-                                            console.log("Added product")
                                             setCart([
                                                 ...cart,
                                                 productCart
@@ -110,7 +112,6 @@ export default function ProductComponent ({deviceType, name, images, options, op
                                             let addOnRaw = optionsRaw.filter((addOnRaw) => {
                                                 return addOnRaw.name == addOn[0]
                                             })
-                                            console.log("Add on raw ", addOnRaw)
                                             if(cart.length == 0){
                                                 contorAddons = 0
                                             }
@@ -126,7 +127,6 @@ export default function ProductComponent ({deviceType, name, images, options, op
                                             addOnsPrice += addOnRaw[0].price
                                             if (index == addOns.length-1){
                                                 if( contorAddons && cart[cart.length - 1].size.name == `${size.height}x${size.width}`){
-                                                    console.log("Changed product number")
                                                     let mutableCart = [...cart]
                                                     mutableCart[mutableCart.length - 1].number += 1
                                                     setCart(
@@ -137,7 +137,6 @@ export default function ProductComponent ({deviceType, name, images, options, op
                                                     }
                                                 }
                                                 else{
-                                                    console.log("Added product")
                                                     setCart([
                                                         ...cart,
                                                         productCart
@@ -152,7 +151,6 @@ export default function ProductComponent ({deviceType, name, images, options, op
                                             let addOnRaw = optionsRaw.filter((addOnRaw) => {
                                                 return addOnRaw.group == addOn[0] && addOnRaw.typename == addOn[1]
                                             })
-                                            console.log("Add on raw ", addOnRaw)
                                             if(cart.length == 0){
                                                 contorAddons = 0
                                             }
@@ -170,7 +168,6 @@ export default function ProductComponent ({deviceType, name, images, options, op
 
                                             if (index == addOns.length-1){
                                                 if( contorAddons && cart[cart.length - 1].size.name == `${size.height}x${size.width}`){
-                                                    console.log("Changed product number")
                                                     let mutableCart = [...cart]
                                                     mutableCart[mutableCart.length - 1].number += 1
                                                     setCart(
@@ -181,7 +178,6 @@ export default function ProductComponent ({deviceType, name, images, options, op
                                                     }
                                                 }
                                                 else{
-                                                    console.log("Added product")
                                                     setCart([
                                                         ...cart,
                                                         productCart
@@ -199,7 +195,6 @@ export default function ProductComponent ({deviceType, name, images, options, op
                 }
                 else{
                     size = data[0]
-                    console.log("Actual size ", size)
 
                     let addOnsPrice = 0
 
@@ -208,7 +203,7 @@ export default function ProductComponent ({deviceType, name, images, options, op
                         addOns : [],
                         size : size,
                         number : 1,
-                        price : Math.trunc(size.width * size.height / 1000000 * productData[0].m2price * coeficientFinder(size))
+                        price : Math.trunc(size.width * size.height / 1000000 * productData[0].m2price * (1 + coeficientFinder(size)))
                     }
 
                     function flatten(obj) {
@@ -226,7 +221,6 @@ export default function ProductComponent ({deviceType, name, images, options, op
 
                             if(addOns.length == 0){
                                 if( cart.length != 0 && productCart.product.name == cart[cart.length - 1].product.name && cart[cart.length - 1].size.name == `${size.height}x${size.width}`){
-                                    console.log("Changed product number")
                                     let mutableCart = [...cart]
                                     mutableCart[mutableCart.length - 1].number += 1
                                     setCart(
@@ -237,7 +231,6 @@ export default function ProductComponent ({deviceType, name, images, options, op
                                     }
                                 }
                                 else{
-                                    console.log("Added product")
                                     setCart([
                                         ...cart,
                                         productCart
@@ -252,25 +245,21 @@ export default function ProductComponent ({deviceType, name, images, options, op
                                     let addOnRaw = optionsRaw.filter((addOnRaw) => {
                                         return addOnRaw.name == addOn[0]
                                     })
-                                    console.log("Add on raw ", addOnRaw)
                                     if(cart.length == 0){
                                         contorAddons = 0
                                     }
                                     else if(cart[cart.length - 1].addOns.length != addOns.length){
                                         contorAddons = 0
-                                        console.log("Checkbox point 2 stop")
                                     }
                                     else if(cart[cart.length - 1].addOns.length != 0){
                                         if(addOn[0] != cart[cart.length - 1].addOns[index].name){
                                             contorAddons = 0
-                                            console.log("Checkbox point 3 stop")
                                         }
                                     }
                                     productCart.addOns.push(addOnRaw[0])
                                     addOnsPrice += addOnRaw[0].price
                                     if (index == addOns.length-1){
                                         if( contorAddons && cart[cart.length - 1].size.name == `${size.height}x${size.width}`){
-                                            console.log("Changed product number")
                                             let mutableCart = [...cart]
                                             mutableCart[mutableCart.length - 1].number += 1
                                             setCart(
@@ -281,7 +270,6 @@ export default function ProductComponent ({deviceType, name, images, options, op
                                             }
                                         }
                                         else{
-                                            console.log("Added product")
                                             setCart([
                                                 ...cart,
                                                 productCart
@@ -296,18 +284,15 @@ export default function ProductComponent ({deviceType, name, images, options, op
                                     let addOnRaw = optionsRaw.filter((addOnRaw) => {
                                         return addOnRaw.group == addOn[0] && addOnRaw.typename == addOn[1]
                                     })
-                                    console.log("Add on raw ", addOnRaw)
                                     if(cart.length == 0){
                                         contorAddons = 0
                                     }
                                     else if(cart[cart.length - 1].addOns.length != addOns.length){
                                         contorAddons = 0
-                                        console.log("Radio point 2 stop")
                                     }
                                     else if(cart[cart.length - 1].addOns.length != 0){
                                         if(addOn[0] != cart[cart.length - 1].addOns[index].group || addOn[1] != cart[cart.length - 1].addOns[index].typename){
                                             contorAddons = 0
-                                            console.log("Radio point 3 stop")
                                         }
                                     }
 
@@ -316,7 +301,6 @@ export default function ProductComponent ({deviceType, name, images, options, op
 
                                     if (index == addOns.length-1){
                                         if( contorAddons && cart[cart.length - 1].size.name == `${size.height}x${size.width}`){
-                                            console.log("Changed product number")
                                             let mutableCart = [...cart]
                                             mutableCart[mutableCart.length - 1].number += 1
                                             setCart(
@@ -327,7 +311,6 @@ export default function ProductComponent ({deviceType, name, images, options, op
                                             }
                                         }
                                         else{
-                                            console.log("Added product")
                                             setCart([
                                                 ...cart,
                                                 productCart
@@ -406,14 +389,9 @@ export default function ProductComponent ({deviceType, name, images, options, op
         // console.log("JSON.stringify cart : ", JSON.stringify(cart))
         localStorage.setItem('cart', JSON.stringify(cart))
         const localCart = localStorage.getItem('cart')
-        console.log("JSON parsed cart : ", JSON.parse(localCart) )
         
     }, [cart])
-
-    useEffect(() => {
-        console.log(sizeGlobal)
-    }, [sizeGlobal])
-
+    
     const [openImage, setOpenImage] = useState(0)
 
     const responsive = {
@@ -527,7 +505,7 @@ export default function ProductComponent ({deviceType, name, images, options, op
                                         height : size.height,
                                         width : size.width,
                                         typename : size.name,
-                                        price : Math.trunc(size.width * size.height / 1000000 * productData[0].m2price * coeficientFinder(size))
+                                        price : Math.trunc(size.width * size.height / 1000000 * productData[0].m2price * ( 1 + coeficientFinder(size)))
                                     }
                                 )
                             })}
@@ -536,7 +514,7 @@ export default function ProductComponent ({deviceType, name, images, options, op
                             price={price}
                             sizeGlobal={sizeGlobal}
                             setSizeGlobal={setSizeGlobal}
-                            initialPrice={Math.trunc(productData[0].defaultsize.width * productData[0].defaultsize.height / 1000000 * productData[0].m2price * coeficientFinder(productData[0].defaultsize))}
+                            initialPrice={Math.trunc(productData[0].defaultsize.width * productData[0].defaultsize.height / 1000000 * productData[0].m2price * (1 + coeficientFinder(productData[0].defaultsize)))}
                             minHeight={productData[0].smallestsize.height}
                             maxHeight={productData[0].biggestsize.height}
                             minWidth={productData[0].smallestsize.width}

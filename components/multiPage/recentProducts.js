@@ -6,19 +6,14 @@ import Link from 'next/link'
 
 export default function RecentProducts ({deviceType}) {
     const {seenRecently, setSeenRecently} = useContext(SeenRecentlyContext)
-    useEffect(() => {
-        console.log(seenRecently)
-    }, [seenRecently])
 
     const [itemNr, setItemNr] = useState(0)
     
     useEffect(() => {
         if(deviceType == "desktop"){
-            console.log("Happened desktop")
             setItemNr(4)
         }
         else{
-            console.log("Happened not desktop")
             setItemNr(3)
         }
     }, [deviceType])
@@ -61,12 +56,11 @@ export default function RecentProducts ({deviceType}) {
 
             <div className="w-full flex flex-row justify-start items-center">
                 {seenRecently.slice(4-itemNr, itemNr+1).map((product, index)=>{
-                    console.log(product)
                     return(
                         <Link href={`/produse/${product.slug}`}>
                             <a  className="w-full max-w-md">
-                                <div className="flex-grow mr-2 h-140px bg-ui-white rounded-lg flex flex-row items-center justify-center max-w-">
-                                    <div className="h-124px w-124px relative mr-4">
+                                <div className="flex-grow mr-2 h-140px bg-ui-white rounded-lg flex flex-row items-center justify-start hover:shadow-md transition duration-300 px-4 py-2">
+                                    <div className="h-124px w-124px relative mr-4 rounded-lg overflow-hidden">
                                         <Image
                                             src={product.image[0].formats.small.url}
                                             layout="fill"
@@ -79,7 +73,7 @@ export default function RecentProducts ({deviceType}) {
                                             {product.name}
                                         </div>
                                         <div className="text-lg-14 font-normal text-type-grey">
-                                            de la {Math.trunc(product.defaultsize.width * product.defaultsize.height / 1000000 * product.m2price * product.smallcoeficient)} lei
+                                            de la {Math.trunc(product.defaultsize.width * product.defaultsize.height / 1000000 * product.m2price * (1 + product.smallcoeficient))} lei
                                         </div>
                                     </div>
                                 </div>

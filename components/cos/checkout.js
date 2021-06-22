@@ -11,14 +11,11 @@ export default function Checkout() {
     const [userInfo, setUserInfo] = useState({})
     let priceTotal = 0
 
-    console.log(cart)
-
     const { reset, register, handleSubmit, watch, formState: { errors } } = useForm();
 
     const onSubmit = (data) => {
         console.log(data)
         setUserInfo({...data})
-        console.log({...data})
         // if(step == 3){
         //     setUserInfo({
         //         ...data
@@ -39,7 +36,7 @@ export default function Checkout() {
                         products : [cartProduct.product],
                         add_ons : cartProduct.addOns,
                         price : price,
-                        numer : cartProduct.number
+                        number : cartProduct.number
                     })
                 }
 
@@ -47,7 +44,6 @@ export default function Checkout() {
                 fetch(`https://mirrors-md-admin.herokuapp.com/orders`, requestOptions)
                 .then(response => response.json())
                 .then(dataInside => {
-                    console.log(dataInside)
                     orders.push(dataInside)
                     if(index == cart.length -1 ){
                         const requestOptionsClient = {
@@ -61,7 +57,8 @@ export default function Checkout() {
                                 pret : priceTotal,
                                 mod_de_plata : data.plata,
                                 mod_de_livrare : data.livrare,
-                                orders : orders
+                                orders : orders,
+                                comentariu : data.comentariu
                             })
                         };
             
@@ -76,10 +73,6 @@ export default function Checkout() {
             setStep(step+1)
         }
     }
-
-    useEffect(() => {
-        console.log(userInfo)
-    }, [userInfo])
 
     return (
         <form className="w-full h-auto px-container-sm md:px-container-md lg:px-container-lg xl:px-container-xl pt-128px md:pt-136px lg:pt-234px pb-120px font-Ubuntu bg-ui-darkGrey">
@@ -114,7 +107,14 @@ export default function Checkout() {
             <div className="h-px bg-ui-blueishGrey w-full mb-14 md:mb-68px"/>
             <div className="lg:px-268px">
                 <div className="w-full flex flex-row justify-between items-start mb-16">
-                    <div className="mt-2">
+                    <div 
+                        className="mt-2 cursor-pointer"
+                        onClick={() => {
+                            if(step > 1){
+                                setStep(1)
+                            }
+                        }}
+                    >
                         <div className="flex flex-row justify-center items-center w-full mb-2">
                             <div className="w-full bg-transparent h-0.5">
                             </div>
@@ -138,7 +138,14 @@ export default function Checkout() {
                         <div className={`h-0.5 w-full ${ step > 1 ? "bg-accent-accent" : "bg-type-grey"}`}/>
                     </div>
 
-                    <div className="mt-2">
+                    <div 
+                        className="mt-2 cursor-pointer"
+                        onClick={() => {
+                            if(step > 2){
+                                setStep(2)
+                            }
+                        }}
+                    >
                         <div className="flex flex-row justify-between items-center w-full mb-2">
                             <div className={`w-full h-0.5 ${ step > 1 ? "bg-accent-accent" : "bg-type-grey"}`}>
                             </div>
@@ -162,8 +169,15 @@ export default function Checkout() {
                         <div className={`h-0.5 w-full ${ step > 2 ? "bg-accent-accent" : "bg-type-grey"}`}/>
                     </div>
 
-                    <div className="mt-2">
-                        <div className="flex flex-row justify-between items-center w-full mb-2">
+                    <div 
+                        className="mt-2 cursor-pointer"
+                        onClick={() => {
+                            if(step > 3){
+                                setStep(3)
+                            }
+                        }}
+                    >
+                    <div className="flex flex-row justify-between items-center w-full mb-2">
                             <div className={`w-full h-0.5 ${ step > 2 ? "bg-accent-accent" : "bg-type-grey"}`}>
                             </div>
                             <div className="p-0.5">
@@ -186,7 +200,9 @@ export default function Checkout() {
                         <div className={`h-0.5 w-full ${ step > 3 ? "bg-accent-accent" : "bg-type-grey"}`}/>
                     </div>
 
-                    <div className="mt-2">
+                    <div 
+                        className="mt-2 cursor-pointer"
+                    >
                         <div className="flex flex-row justify-between items-center w-full mb-2">
                             <div className={`w-full h-0.5 ${ step > 3 ? "bg-accent-accent" : "bg-type-grey"}`}>
                             </div>
@@ -224,6 +240,7 @@ export default function Checkout() {
                                     Introduceți numele Dvs.
                                 </div>
                             }
+                            
                         </div>
 
                         <div className="w-full">
@@ -499,6 +516,16 @@ export default function Checkout() {
                             </div>
                         </div>
                     </div>
+
+                    <div className="text-sm-h4 md:text-lg-28 text-type-manatee font-bold mb-4 mt-10">
+                        Comentariu
+                    </div>
+                    <input
+                        type="text"
+                        className="w-full bg-ui-grey rounded-lg outline-none p-4 text-type-grey min-h-96px mb-8"
+                        placeholder="Mesajul Dvs..."
+                        {...register("comentariu")}
+                    />
 
                     <div className="text-lg-p text-type-grey mb-84px">
                         Datele dvs. personale vor fi utilizate pentru a vă procesa comanda, pentru a vă sprijini experiența pe acest site web și în alte scopuri descrise în pagina noastră <span className="text-accent-accent">politică de confidențialitate</span>.

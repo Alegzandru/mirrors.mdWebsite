@@ -68,7 +68,7 @@ export default function NewProducts(props) {
                                 <a>
                                     <div key={index} className="h-auto w-full px-container-sm md:px-0">
                                         <div className="h-296px md:h-425px bg-ui-white rounded-xl md:ml-4 md:mr-0 p-5 border-2 border-transparent hover:border-accent-accent transition duration-300 group">
-                                            <div className="w-auto h-156px md:h-245px relative transform group-hover:scale-105 transition duration-300">
+                                            <div className="w-auto h-156px md:h-245px relative transform group-hover:scale-105 transition duration-300 rounded-lg overflow-hidden">
                                                 <Image
                                                     draggable={false}
                                                     src={product.image[0].formats.medium.url}
@@ -83,7 +83,7 @@ export default function NewProducts(props) {
                                                 Seria Juergen LED
                                             </div>
                                             <div className="text-sm-button md:text-lg-17 text-accent-accent font-medium mt-4 md:mt-6">
-                                                de la {product.price} lei
+                                                de la {Math.trunc( product.defaultsize.width * product.defaultsize.height / 1000000 * (1 + product.smallcoeficient) * product.m2price) } lei
                                             </div>
                                         </div>
                                     </div>

@@ -176,17 +176,19 @@ export function Navbar (props) {
                                 <Link href={`/produse/${product.slug}`}>
                                     <a>   
                                         <div className={`h-72px border-b-0 border-t-2 border-l-0 border-r-0 flex flex-row justify-start items-center px-4 py-14px ${search != "" ? "border-ui-darkGrey" : ""}`}>
-                                            <Image
-                                                src={product.image[0].formats.small.url}
-                                                width={56}
-                                                height={56}
-                                            />
+                                            <div className="w-14 h-14 rounded-lg overflow-hidden relative">
+                                                <Image
+                                                    src={product.image[0].formats.small.url}
+                                                    layout="fill"
+                                                    objectFit="cover"
+                                                />
+                                            </div>
                                             <div className="text-type-grey flex flex-col justify-between h-full ml-4">
                                                 <div className="text-lg-17">
                                                     {product.name}
                                                 </div>
                                                 <div className="text-lg-14">
-                                                    de la {product.price} lei
+                                                    de la {Math.trunc( product.defaultsize.width * product.defaultsize.height / 1000000 * (1 + product.smallcoeficient) * product.m2price) } lei
                                                 </div>
                                             </div>
                                         </div>
@@ -255,17 +257,19 @@ export function Navbar (props) {
                                                     <Link href={`/produse/${product.slug}`}>
                                                         <a>  
                                                             <div className={`h-72px border-b-0 border-t-2 border-l-0 border-r-0 flex flex-row justify-start items-center px-4 py-14px ${search != "" ? "border-ui-darkGrey" : ""}`}>
-                                                                <Image
-                                                                    src={product.image[0].formats.small.url}
-                                                                    width={56}
-                                                                    height={56}
-                                                                />
+                                                                <div className="w-14 h-14 rounded-lg overflow-hidden relative">
+                                                                    <Image
+                                                                        src={product.image[0].formats.small.url}
+                                                                        layout="fill"
+                                                                        objectFit="cover"
+                                                                    />
+                                                                </div>
                                                                 <div className="text-type-grey flex flex-col justify-between h-full ml-4">
                                                                     <div className="text-lg-17">
                                                                         {product.name}
                                                                     </div>
                                                                     <div className="text-lg-14">
-                                                                        de la {product.price} lei
+                                                                        de la {Math.trunc( product.defaultsize.width * product.defaultsize.height / 1000000 * (1 + product.smallcoeficient) * product.m2price) } lei
                                                                     </div>
                                                                 </div>
                                                             </div>

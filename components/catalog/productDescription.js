@@ -4,8 +4,9 @@ import Lightbox from "react-awesome-lightbox";
 // You need to import the CSS only once
 import "react-awesome-lightbox/build/style.css";
 import { DeviceTypeContext } from "../context";
+import Link from "next/link"
 
-export default function ProductDescription ({options, optionVariants, images, name ,description}) {
+export default function ProductDescription ({options, optionVariants, images, name ,description, productData}) {
     
     const {deviceType, setDeviceType} = useContext(DeviceTypeContext)
     
@@ -25,6 +26,18 @@ export default function ProductDescription ({options, optionVariants, images, na
         "Norma",
         "Norma",
     ]
+
+    const coeficientFinder = (size) => {
+        if(size.width*size.height < productData[0].mediumsize.height * productData[0].mediumsize.width){
+            return productData[0].smallcoeficient
+        }
+        else if(size.width*size.height < productData[0].bigsize.height * productData[0].bigsize.width) {
+            return productData[0].mediumcoeficient
+        }
+        else{
+            return productData[0].bigcoeficient
+        }
+    }
 
     function getColSpan (deviceType, index) {
         switch(deviceType){
@@ -47,6 +60,7 @@ export default function ProductDescription ({options, optionVariants, images, na
 
     return (
         <div className="px-container-sm md:px-container-md lg:px-container-lg xl:px-container-xl font-Ubuntu bg-ui-darkGrey pb-92px md:pb-0">
+            <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Ubuntu:regular,bold&subset=Latin"/>
             <div className="flex flex-row justify-center items-center mb-60px">
                 <div 
                     className={`${page == 0 ? "text-accent-accent border-b-2 border-t-0 border-l-0 border-r-0 border-accent-accent" : "text-type-dark"} text-sm-p md:text-lg-17 mx-2 md:mx-8 h-12 flex flex-row justify-center items-center cursor-pointer`}
@@ -68,20 +82,24 @@ export default function ProductDescription ({options, optionVariants, images, na
                 </div> */}
             </div>
 
-            <div className={`${page == 0 ? "block" : "hidden"} w-full lg:px-300px`}>
+            <div className={`${page == 0 ? "block" : "hidden"} w-full lg:px-300px pb-10`}>
                 <h4 className="text-type-dark text-sm-h4 md:text-md-h4 lg:text-lg-h4 mb-10">
                     {name}
                 </h4>
 
-                <pre dangerouslySetInnerHTML={{ __html: description.replace(/###/g, `<b style="font-size:24px">`).replace(/##/g, "</b>").replace(/-# /g, "&#9679 ") }} className={`md:text-md-p lg:text-lg-p text-type-manatee mb-11 w-full ${autoHeight ? "h-auto" : "h-240px"} overflow-y-hidden font-medium`}>
-                    {/* {description} */}
+                <pre 
+                    style={{
+                        fontFamily : "Ubuntu"
+                    }} 
+                    dangerouslySetInnerHTML={{ __html: description.replace(/###/g, `<b style="font-size:24px">`).replace(/##/g, "</b>").replace(/-# /g, "&#9679 ") }} className={`md:text-md-p lg:text-lg-p text-type-manatee mb-11 w-full ${autoHeight ? "h-auto" : "h-240px"} overflow-y-hidden font-medium`}>
+                        {/* {description} */}
                 </pre>
 
                 <div 
                     className="text-accent-accent text-lg-p underline cursor-pointer"
-                    onClick={() => setAutoHeight(1)}
+                    onClick={() => setAutoHeight(!autoHeight)}
                 >
-                    mai multe detalii...
+                    mai {autoHeight ? "puține" : "multe"} detalii...
                 </div>
             </div>
 
@@ -113,86 +131,108 @@ export default function ProductDescription ({options, optionVariants, images, na
                 }
             </div>
 
-            <div className="w-full pt-40">
-                <div className="text-lg-32 text-type-dark font-medium mb-3">
-                    Produse similare
+            {
+                productData[0].related_products.length != 0 &&  
+                <div className="w-full pt-40 pb-10">
+                    <div className="text-lg-32 text-type-dark font-medium mb-3">
+                        Produse similare
+                    </div>
+                    <div className="w-full h-px bg-ui-blueishGrey mb-6"/>
+                    <div className="flex flex-row justify-between items-start">
+                        {productData[0].related_products.map((product, index) => {
+                            return (
+                            deviceType == "desktop" ?
+                                index < 4 &&
+                                <Link href={`/produse/${product.slug}`}>
+                                    <a className="w-full mx-1">
+                                        <div className=" bg-ui-white rounded-lg border border-ui-darkGrey w-full px-5 py-10px hover:shadow-md transition duration-300">
+                                            <div className="w-full h-92px md:h-204px relative mb-6 rounded-lg overflow-hidden">
+                                                <Image
+                                                    src={product.image[0].formats.small.url}
+                                                    layout="fill"
+                                                    objectFit="cover"
+                                                />
+                                            </div>
+                                            <div className="w-full text-center text-lg-card-name text-type-dark mb-1">
+                                                {product.name}
+                                            </div>
+                                            {/* <div className="text-card-description text-type-grey w-full text-center">
+                                                {Math.trunc(product.defaultsize.width * product.defaultsize.height / 1000000 * product.m2price * (1 + coeficientFinder(product.defaultsize)))}
+                                            </div> */}
+                                        </div>
+                                    </a>
+                                </Link>
+                            :
+                            deviceType == "tablet" ?
+                                index < 3 &&
+                                <Link href={`/produse/${product.slug}`}>
+                                    <a className="w-full mx-1">
+                                        <div className=" bg-ui-white rounded-lg border border-ui-darkGrey w-full px-5 py-10px hover:shadow-md transition duration-300">
+                                            <div className="w-full h-92px md:h-204px relative mb-6 rounded-lg overflow-hidden">
+                                                <Image
+                                                    src={product.image[0].formats.small.url}
+                                                    layout="fill"
+                                                    objectFit="cover"
+                                                />
+                                            </div>
+                                            <div className="w-full text-center text-lg-card-name text-type-dark mb-1">
+                                                {product.name}
+                                            </div>
+                                            {/* <div className="text-card-description text-type-grey w-full text-center">
+                                                {Math.trunc(product.defaultsize.width * product.defaultsize.height / 1000000 * product.m2price * (1 + coeficientFinder(product.defaultsize)))}
+                                            </div> */}
+                                        </div>
+                                    </a>
+                                </Link>
+                            :
+                            deviceType == "mobile" ?
+                                index < 2 &&
+                                <Link href={`/produse/${product.slug}`}>
+                                    <a className="w-full mx-1">
+                                        <div className=" bg-ui-white rounded-lg border border-ui-darkGrey w-full px-5 py-10px mx-1 hover:shadow-md transition duration-300 min-h-216px">
+                                        <div className="w-full h-92px md:h-204px relative mb-6 rounded-lg overflow-hidden">
+                                            <Image
+                                                src={product.image[0].formats.small.url}
+                                                layout="fill"
+                                                objectFit="cover"
+                                            />
+                                        </div>
+                                        <div className="w-full text-center text-lg-card-name text-type-dark mb-1">
+                                            {product.name}
+                                        </div>
+                                        {/* <div className="text-card-description text-type-grey w-full text-center">
+                                            {Math.trunc(product.defaultsize.width * product.defaultsize.height / 1000000 * product.m2price * (1 + coeficientFinder(product.defaultsize)))}
+                                        </div> */}
+                                        </div>
+                                    </a>
+                                </Link>
+                            :
+                                index < 2 &&
+                                <Link href={`/produse/${product.slug}`}>
+                                    <a className="w-full mx-1">
+                                        <div className=" bg-ui-white rounded-lg border border-ui-darkGrey w-full px-5 py-10px mx-1 hover:shadow-md transition duration-300">
+                                        <div className="w-full h-92px md:h-204px relative mb-6 rounded-lg overflow-hidden">
+                                            <Image
+                                                src={product.image[0].formats.small.url}
+                                                layout="fill"
+                                                objectFit="cover"
+                                            />
+                                        </div>
+                                        <div className="w-full text-center text-lg-card-name text-type-dark mb-1">
+                                            {product.name}
+                                        </div>
+                                        {/* <div className="text-card-description text-type-grey w-full text-center">
+                                            {Math.trunc(product.defaultsize.width * product.defaultsize.height / 1000000 * product.m2price * (1 + coeficientFinder(product.defaultsize)))}
+                                        </div> */}
+                                        </div>
+                                    </a>
+                                </Link>
+                            )
+                        }
+                        )}
+                    </div>
                 </div>
-                <div className="w-full h-px bg-ui-blueishGrey mb-6"/>
-                <div className="flex flex-row justify-between items-start">
-                    {products.map((product, index) => 
-                        deviceType == "desktop" ?
-                            index < 4 &&
-                            <div className="md:h-320px bg-ui-white rounded-lg border border-ui-darkGrey w-full px-5 py-10px mx-1">
-                                <div className="w-full h-92px md:h-204px relative mb-6">
-                                    <Image
-                                        src="/product/product.png"
-                                        layout="fill"
-                                        objectFit="cover"
-                                    />
-                                </div>
-                                <div className="w-full text-center text-lg-card-name text-type-dark mb-1">
-                                    {product}
-                                </div>
-                                <div className="text-card-description text-type-grey w-full text-center">
-                                    de la 2144 lei
-                                </div>
-                            </div>
-                        :
-                        deviceType == "tablet" ?
-                            index < 3 &&
-                            <div className="md:h-320px bg-ui-white rounded-lg border border-ui-darkGrey w-full px-5 py-10px mx-1">
-                                <div className="w-full h-92px md:h-204px relative mb-6">
-                                    <Image
-                                        src="/product/product.png"
-                                        layout="fill"
-                                        objectFit="cover"
-                                    />
-                                </div>
-                                <div className="w-full text-center text-lg-card-name text-type-dark mb-1">
-                                    {product}
-                                </div>
-                                <div className="text-card-description text-type-grey w-full text-center">
-                                    de la 2144 lei
-                                </div>
-                            </div>
-                        :
-                        deviceType == "mobile" ?
-                            index < 2 &&
-                            <div className="md:h-320px bg-ui-white rounded-lg border border-ui-darkGrey w-full px-5 py-10px mx-1">
-                            <div className="w-full h-92px md:h-204px relative mb-6">
-                                <Image
-                                    src="/product/product.png"
-                                    layout="fill"
-                                    objectFit="cover"
-                                />
-                            </div>
-                            <div className="w-full text-center text-lg-card-name text-type-dark mb-1">
-                                {product}
-                            </div>
-                            <div className="text-card-description text-type-grey w-full text-center">
-                                de la 2144 lei
-                            </div>
-                            </div>
-                        :
-                            index < 2 &&
-                            <div className="md:h-320px bg-ui-white rounded-lg border border-ui-darkGrey w-full px-5 py-10px mx-1">
-                            <div className="w-full h-92px md:h-204px relative mb-6">
-                                <Image
-                                    src="/product/product.png"
-                                    layout="fill"
-                                    objectFit="cover"
-                                />
-                            </div>
-                            <div className="w-full text-center text-lg-card-name text-type-dark mb-1">
-                                {product}
-                            </div>
-                            <div className="text-card-description text-type-grey w-full text-center">
-                                de la 2144 lei
-                            </div>
-                            </div>
-                    )}
-                </div>
-            </div>
+            }
         </div>
     )
 }

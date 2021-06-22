@@ -9,7 +9,6 @@ import { useContext, useEffect } from "react";
 export function DynamicProduct ({productData}) {
 
   const {seenRecently, setSeenRecently} = useContext(SeenRecentlyContext)
-
   // useEffect(() => {
   //   console.log("Loaded page")
   //   if(seenRecently.length < 4){
@@ -98,10 +97,13 @@ export async function getStaticProps({ params }) {
       optionsRaw,
     }
 
+    // productData.key = slug; 
+
     // const productData = getProductData(params.slug)
     return {
       props: {
         productData,
+        key: productData[0].id
       }
     }
 }  

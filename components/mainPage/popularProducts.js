@@ -7,8 +7,6 @@ import Link from 'next/link'
 
 export default function PopularProducts(props){
 
-    console.log("Popular products", props.deviceType)
-
     const responsive = {
         desktop: {
           breakpoint: { max: 3000, min: 1367 },
@@ -80,7 +78,7 @@ export default function PopularProducts(props){
                                     <a>
                                         <div key={index} className="h-352px md:h-481px">
                                             <div className="h-296px md:h-425px bg-ui-white rounded-xl mb-4 mr-4 ml-4 md:ml-4 md:mr-0 flex-grow p-5 border-2 border-transparent hover:border-accent-accent transition duration-300 group">
-                                                <div className="w-auto h-156px md:h-245px relative">
+                                                <div className="w-auto h-156px md:h-245px relative rounded-xl overflow-hidden transform group-hover:scale-105 transition duration-300">
                                                     <Image
                                                         draggable={false}
                                                         src={product.image[0].formats.medium.url}
@@ -95,7 +93,7 @@ export default function PopularProducts(props){
                                                     Seria Juergen LED
                                                 </div>
                                                 <div className="text-sm-button md:text-lg-17 text-accent-accent font-medium mt-4 md:mt-6">
-                                                    de la {product.price} lei
+                                                    de la {Math.trunc( product.defaultsize.width * product.defaultsize.height / 1000000 * (1 + product.smallcoeficient) * product.m2price) } lei
                                                 </div>
                                             </div>
                                         </div>

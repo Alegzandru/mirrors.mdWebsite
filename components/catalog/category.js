@@ -27,7 +27,6 @@ export default function Category({category, name, products}) {
         return option.name
     })
     
-    // console.log(category[0].filters)
     
     function uniq(a) {
         var prims = {"boolean":{}, "number":{}, "string":{}}, objs = [];
@@ -71,7 +70,6 @@ export default function Category({category, name, products}) {
     }))
 
     const onSubmit = (data) => {
-        console.log(data)
 
         setActiveFilters(prevState => {
             const newState = prevState.map((option, index2) => {
@@ -95,35 +93,26 @@ export default function Category({category, name, products}) {
                 const productFilter = product.filters.filter((filter) => filter.name == optionName)
                 // productFiltered = productFilterUnfiltered[0].value
                 if(contor){
-                    // console.log(contor, product.name)
                     if(data[optionName] == false || data[optionName].length == 0){
                         contor = true
-                        // console.log("data[optionName] == false || data.length == 0", product.name)
                     }
                     else if(productFilter.length == 0){
                         contor = false
-                        // console.log("productFilter.length == 0", product.name)
                     }
                     else if(product.filters.length === 0){
                         contor = false
-                        // console.log("product.filters.length === 0", product.name)
                     }
                     else if(data[optionName].includes(productFilter[0].value)){
                         contor = true
-                        // console.log("data[optionName].includes(productFilter)", product.name)
                     }
                     else{
                         contor = false
-                        // console.log("Last else", product.name)
                     }
                 }
-                // else console.log(contor, product.name)
             })
             return contor
         })
         setProductsApi(newProducts)
-        // const found = productsApi.find(product => product.filters != [])
-        // console.log(productsApi)
     }
     
     function handleSortingChange (index) {
@@ -163,7 +152,6 @@ export default function Category({category, name, products}) {
 
     useEffect(() => {
         handleProductsSortingChange(sorting)
-        console.log("Changed sorting to ", sorting)
     }
     , [sorting])
 
@@ -316,8 +304,8 @@ export default function Category({category, name, products}) {
                                 <div key={index} className="h-auto w-full col-span-12 smCatalog:col-span-6 md:col-span-4 lg:col-span-3">
                                     <Link href={`/produse/${product.slug}`}>
                                         <a>
-                                            <div className="h-296px md:h-425px bg-ui-white rounded-xl p-5 border-2 border-transparent hover:border-accent-accent transition duration-300">
-                                                <div className="w-auto h-156px md:h-245px relative">
+                                            <div className="h-296px md:h-425px bg-ui-white rounded-xl p-5 border-2 border-transparent hover:border-accent-accent transition duration-300 group">
+                                                <div className="w-auto h-156px md:h-245px relative rounded-lg overflow-hidden transform group-hover:scale-105 transition duration-300">
                                                     <Image
                                                         draggable={false}
                                                         src={product.image[0].formats.medium.url}
@@ -332,7 +320,7 @@ export default function Category({category, name, products}) {
                                                     Seria Juergen LED
                                                 </div>
                                                 <div className="text-sm-button md:text-lg-17 text-accent-accent font-medium mt-4 md:mt-6">
-                                                    de la {product.price} lei
+                                                    de la {Math.trunc( product.defaultsize.width * product.defaultsize.height / 1000000 * (1 + product.smallcoeficient) * product.m2price) } lei
                                                 </div>
                                             </div>
                                         </a>

@@ -11,6 +11,7 @@ export default function DropdownProduct(props) {
     const [chosen , setChosen] = useState(0)
     const [lastChosen, setLastChosen] = useState(0)
     const [checked, setChecked] = useState(0)
+    const [openCustom, setOpenCustom] = useState(0)
     const handleClick = (e) => {
         if(props.options.length != 1) {
             if(chosen == e.target.value){
@@ -26,19 +27,18 @@ export default function DropdownProduct(props) {
     }
 
     const onSubmit = (data) => {
-        console.log(data)
         if(lastChosen === 0){
-            props.setPrice(Math.trunc(props.price + ( data.width * data.height / 1000000 * props.m2price * props.coeficientFinder(data)) - props.initialPrice))
+            props.setPrice(Math.trunc(props.price + ( data.width * data.height / 1000000 * props.m2price * (1 + props.coeficientFinder(data))) - props.initialPrice))
             setLastChosen("custom")
         }
         else if(lastChosen == "custom"){
-            props.setPrice(props.price + Math.trunc(data.width * data.height / 1000000 * props.m2price * props.coeficientFinder(data)) - Math.trunc(props.sizeGlobal.width * props.sizeGlobal.height / 1000000 * props.m2price * props.coeficientFinder(props.sizeGlobal)))
+            props.setPrice(props.price + Math.trunc(data.width * data.height / 1000000 * props.m2price * (1 + props.coeficientFinder(data))) - Math.trunc(props.sizeGlobal.width * props.sizeGlobal.height / 1000000 * props.m2price * ( 1 + props.coeficientFinder(props.sizeGlobal))))
             setLastChosen("custom")
         }
         else{
             let lastOptionPriceRaw = props.options.filter((option) => option.typename == lastChosen)
             let lastOptionPrice = lastOptionPriceRaw[0].price
-            props.setPrice(props.price + Math.trunc(data.width * data.height / 1000000 * props.m2price * props.coeficientFinder(data)) - lastOptionPrice)
+            props.setPrice(props.price + Math.trunc(data.width * data.height / 1000000 * props.m2price * (1 + props.coeficientFinder(data))) - lastOptionPrice)
             setLastChosen("custom")
         }
         props.setSizeGlobal(
@@ -68,9 +68,6 @@ export default function DropdownProduct(props) {
             let optionPrice = optionPriceRaw[0].price
             if(lastChosen === 0){
                 if(props.name == "Dimensiuni recomandate"){
-                    console.log("props.price ", props.price)
-                    console.log("optionPrice ", optionPrice)
-                    console.log("props.initialPrice ", props.initialPrice)
                     props.setPrice(props.price + optionPrice - props.initialPrice)
                     props.setSizeGlobal({
                         height : optionPriceRaw[0].height,
@@ -83,7 +80,7 @@ export default function DropdownProduct(props) {
                 setLastChosen(chosen)
             }
             else if(lastChosen == "custom"){
-                props.setPrice(props.price + optionPrice - Math.trunc(props.sizeGlobal.width * props.sizeGlobal.height / 1000000 * props.m2price * props.coeficientFinder(props.sizeGlobal)))
+                props.setPrice(props.price + optionPrice - Math.trunc(props.sizeGlobal.width * props.sizeGlobal.height / 1000000 * props.m2price * (1 + props.coeficientFinder(props.sizeGlobal))))
                 props.setSizeGlobal({
                     height : optionPriceRaw[0].height,
                     width : optionPriceRaw[0].width
@@ -204,16 +201,19 @@ export default function DropdownProduct(props) {
                 {
                     props.name == "Dimensiuni recomandate" &&
                     <div className="w-full pl-4 pb-4">
-                        <div className="flex flex-row justify-start items-center mt-14px mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-14px w-14px text-accent-accent mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <div 
+                            className="flex flex-row justify-start items-center mt-14px mb-4 cursor-pointer text-accent-accent hover:text-accent-light"
+                            onClick={() => setOpenCustom(!openCustom)}
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-14px w-14px mr-2 transition duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
                             </svg>
-                            <div className="text-lg-14 text-accent-accent">
+                            <div className="text-lg-14 transition duration-300">
                                 Comandați o altă dimensiune
                             </div>
                         </div>
 
-                        <form className="flex flex-row justify-start items-center">
+                        <form className={`flex flex-row justify-start items-center ${openCustom ? "block" : "hidden"}`}>
                             <div className="mr-4">
                                 <div className="text-type-grey text-lg-12 mb-2">
                                     <span className="text-type-manatee text-lg-14 font-medium">Înălțime</span>
@@ -260,7 +260,7 @@ export default function DropdownProduct(props) {
                         </form>
 
                         <div 
-                            className="flex flex-row justify-center items-center w-128px px-10 h-34px bg-accent-accent text-ui-white hover:bg-accent-light font-bold rounded-lg transition duration-300 text-lg-14 cursor-pointer mt-14px"
+                            className={`flex flex-row justify-center items-center w-128px px-10 h-34px bg-accent-accent text-ui-white hover:bg-accent-light font-bold rounded-lg transition duration-300 text-lg-14 cursor-pointer mt-14px ${openCustom ? "block" : "hidden"}`}
                             onClick={handleSubmit(onSubmit)}
                         >
                             Salvează

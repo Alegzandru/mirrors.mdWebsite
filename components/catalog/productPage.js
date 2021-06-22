@@ -10,9 +10,7 @@ export default function ProductPage ({deviceType, name, price, images, descripti
     const [contor, setContor] = useState(productData[0].name)
 
     useEffect(() => {
-        console.log("Loaded page")
         if(seenRecently.length == 0){
-            console.log("Updated seen recently under 4")
               setSeenRecently([
                 ...seenRecently,
                 productData[0]
@@ -20,14 +18,12 @@ export default function ProductPage ({deviceType, name, price, images, descripti
         }
         else if(seenRecently[seenRecently.length - 1].name != productData[0].name){
             if(seenRecently.length < 4){
-              console.log("Updated seen recently under 4")
               setSeenRecently([
                 ...seenRecently,
                 productData[0]
               ])
             }
             else{
-              console.log("Updated seen recently over 4")
               let mutableRecent = seenRecently.slice(1, seenRecently.length)
               setSeenRecently([
                 ...mutableRecent,
@@ -61,6 +57,7 @@ export default function ProductPage ({deviceType, name, price, images, descripti
                 optionVariants={optionVariants}
                 name={name}
                 description={description}
+                productData={productData}
             />
             <RecentProducts deviceType={deviceType}>
             </RecentProducts>
