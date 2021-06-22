@@ -1,16 +1,87 @@
 import Link from 'next/link'
-import { useState, useContext} from 'react'
+import { useState, useContext, useEffect} from 'react'
 import Image from 'next/image'
 import { CartContext } from '../context'
+import { useForm } from "react-hook-form";
 
 export default function Checkout() {
 
     const [step , setStep] = useState(1)
     const {cart, setCart} = useContext(CartContext)
+    const [userInfo, setUserInfo] = useState({})
     let priceTotal = 0
 
+    console.log(cart)
+
+    const { reset, register, handleSubmit, watch, formState: { errors } } = useForm();
+
+    const onSubmit = (data) => {
+        console.log(data)
+        console.log({...data})
+        // if(step == 3){
+        //     setUserInfo({
+        //         ...data
+        //     })
+        // }
+        if(step == 4){
+            let orders = []
+            cart.map((cartProduct, index) => {
+                let price = cartProduct.price
+                cartProduct.addOns.map((addOn) => {
+                    price += addOn.price
+                })
+
+                const requestOptions = {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        products : [cartProduct.product],
+                        add_ons : cartProduct.addOns,
+                        price : price,
+                        numer : cartProduct.number
+                    })
+                }
+
+                
+                fetch(`https://mirrors-md-admin.herokuapp.com/orders`, requestOptions)
+                .then(response => response.json())
+                .then(dataInside => {
+                    console.log(dataInside)
+                    orders.push(dataInside)
+                    if(index == cart.length -1 ){
+                        const requestOptionsClient = {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ 
+                                name : data.nume + " " + data.prenume,
+                                phone : data.telefon,
+                                address : data.adresa,
+                                email : data.email,
+                                pret : priceTotal,
+                                mod_de_plata : data.plata,
+                                mod_de_livrare : data.livrare,
+                                orders : orders
+                            })
+                        };
+            
+                        fetch(`https://mirrors-md-admin.herokuapp.com/clients`, requestOptionsClient)
+                            .then(response => response.json())
+                            .then(data => console.log(data))
+                    }
+                })
+            })
+        }
+        else{
+            setStep(step+1)
+        }
+    }
+
+    useEffect(() => {
+        console.log(userInfo)
+    }, [userInfo])
+
     return (
-        <div className="w-full h-auto px-container-sm md:px-container-md lg:px-container-lg xl:px-container-xl pt-128px md:pt-136px lg:pt-234px pb-120px font-Ubuntu bg-ui-darkGrey">
+        <form className="w-full h-auto px-container-sm md:px-container-md lg:px-container-lg xl:px-container-xl pt-128px md:pt-136px lg:pt-234px pb-120px font-Ubuntu bg-ui-darkGrey">
             <div className="flex flex-row justify-start items-center text-lg-14 font-normal text-type-manatee w-auto mb-8 md:mb-12">
                 <Link href="/">
                     <a>
@@ -143,9 +214,15 @@ export default function Checkout() {
                                 Nume
                             </div>
                             <input
-                                className="w-full bg-ui-grey border border-ui-blueishGrey rounded-md p-4 text-type-dark text-lg-14"
+                                className={`w-full bg-ui-grey border-1.5px border-ui-blueishGrey rounded-md p-4 text-type-dark text-lg-14 ${errors.nume? "errorInput" : "inputFocused"}`}
                                 type="text"
+                                {...register("nume", { required: step == 1 ? true : false})}
                             />
+                            {errors.nume?.type === 'required' && 
+                                <div className="text-accent-error text-lg-12 mt-2">
+                                    Introduceți numele Dvs.
+                                </div>
+                            }
                         </div>
 
                         <div className="w-full">
@@ -153,9 +230,15 @@ export default function Checkout() {
                                 Prenume
                             </div>
                             <input
-                                className="w-full bg-ui-grey border border-ui-blueishGrey rounded-md p-4 text-type-dark text-lg-14"
+                                className={`w-full bg-ui-grey border-1.5px border-ui-blueishGrey rounded-md p-4 text-type-dark text-lg-14 ${errors.prenume? "errorInput" : "inputFocused"}`}
                                 type="text"
+                                {...register("prenume", { required: step == 1 ? true : false })}
                             />
+                            {errors.prenume?.type === 'required' && 
+                                <div className="text-accent-error text-lg-12 mt-2">
+                                    Introduceți prenumele Dvs.
+                                </div>
+                            }
                         </div>
                     </div>
 
@@ -165,9 +248,15 @@ export default function Checkout() {
                                 Email
                             </div>
                             <input
-                                className="w-full bg-ui-grey border border-ui-blueishGrey rounded-md p-4 text-type-dark text-lg-14"
+                                className={`w-full bg-ui-grey border-1.5px border-ui-blueishGrey rounded-md p-4 text-type-dark text-lg-14 ${errors.email? "errorInput" : "inputFocused"}`}
                                 type="text"
+                                {...register("email", { required: step == 1 ? true : false })}
                             />
+                            {errors.email?.type === 'required' && 
+                                <div className="text-accent-error text-lg-12 mt-2">
+                                    Introduceți poșta electronică
+                                </div>
+                            }
                         </div>
 
                         <div className="w-full">
@@ -175,58 +264,108 @@ export default function Checkout() {
                                 Telefon
                             </div>
                             <input
-                                className="w-full bg-ui-grey border border-ui-blueishGrey rounded-md p-4 text-type-dark text-lg-14"
+                                className={`w-full bg-ui-grey border-1.5px border-ui-blueishGrey rounded-md p-4 text-type-dark text-lg-14 ${errors.telefon? "errorInput" : "inputFocused"}`}
                                 type="text"
+                                {...register("telefon", { required: step == 1 ? true : false })}
                             />
+                            {errors.telefon?.type === 'required' && 
+                                <div className="text-accent-error text-lg-12 mt-2">
+                                    Introduceți numărul de telefon
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>
 
                 <div className={`${step == 2 ? "block" : "hidden"} w-full bg-ui-white md:pt-14 px-6 py-10 md:pb-16 md:px-12 mb-12`}>
-                    <div className="w-full py-20px border border-ui-darkGrey flex flex-row justify-between items-center mb-6">
-                        <div className="w-4 h-4 flex flex-row justify-center items-center mx-4">
+                    <label className="w-full py-20px border-1.5px border-ui-darkGrey flex flex-row justify-between items-center mb-6 focus-within:text-type-dark text-type-grey transition duration-300 cursor-pointer">
+                        {/* <div className="w-4 h-4 flex flex-row justify-center items-center mx-4">
                             <div className="border-ui-blueishGrey rounded-full w-3 h-3 border-2"/>
-                        </div>
-                        <div className="w-full mr-4 text-lg-14 text-type-grey">
+                        </div> */}
+                        <input
+                            type="radio"
+                            name="livrare"
+                            value="preluare_din_oficiu"
+                            className="w-3 h-3 border-2 mx-4 border-ui-blueishGrey"
+                            {...register("livrare", { required: step == 2 ? true : false })}
+                        />
+                        <div className="w-full mr-4 text-lg-14">
                             Ridicare din oficiu, str. Calea Moșilor 9/1 etaj. 2
                         </div>
-                        <div className="w-full text-lg-14 text-type-grey font-medium">
+                        <div className="w-full text-lg-14 font-medium">
                             gratuit
                         </div>
-                    </div>
+                    </label>
 
-                    <div className="w-full py-20px border border-ui-darkGrey flex flex-row justify-between items-center mb-6">
-                        <div className="w-4 h-4 flex flex-row justify-center items-center mx-4">
+                    <label className="w-full py-20px border-1.5px border-ui-darkGrey flex flex-row justify-between items-center mb-6 focus-within:text-type-dark text-type-grey transition duration-300 cursor-pointer">
+                        {/* <div className="w-4 h-4 flex flex-row justify-center items-center mx-4">
                             <div className="border-ui-blueishGrey rounded-full w-3 h-3 border-2"/>
-                        </div>
-                        <div className="w-full mr-4 text-lg-14 text-type-grey">
+                        </div> */}
+                        <input
+                            type="radio"
+                            name="livrare"
+                            value="livrare_la_usa"
+                            className="w-3 h-3 border-2 mx-4 border-ui-blueishGrey"
+                            {...register("livrare", { required: step == 2 ? true : false })}
+                        />
+                        {errors.livrare?.type === 'required' && 
+                            <div className="text-accent-error text-lg-12 mt-2">
+                                Introduceți modul de livrare
+                            </div>
+                        }
+                        <div className="w-full mr-4 text-lg-14">
                             Livrare până la ușă
                         </div>
-                        <div className="w-full text-lg-14 text-type-grey font-medium">
+                        <div className="w-full text-lg-14 font-medium">
                             150 lei
                         </div>
-                    </div>
+                    </label>
 
-                    <div className="w-full p-3 text-type-manatee flex flex-row justify-between items-center text-lg-14 border border-ui-blueishGrey rounded-md mb-4">
+                    {/* <div className="w-full p-3 text-type-manatee flex flex-row justify-between items-center text-lg-14 border-1.5px border-ui-blueishGrey rounded-md mb-4">
                         <div>
                             Oras
                         </div>
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-14px w-14px" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                         </svg>
-                    </div>
+                    </div> */}
 
                     <input
-                        className="w-full p-3 text-type-manatee flex flex-row justify-between items-center text-lg-14 border border-ui-blueishGrey rounded-md"
-                        placeholder="Adresa"
+                        className={`w-full p-3 text-type-manatee flex flex-row justify-between items-center text-lg-14 border-1.5px border-ui-blueishGrey rounded-md ${errors.oras? "errorInput" : "inputFocused"}`}
+                        placeholder="Oras"
+                        {...register("oras", { required: step == 2 ? true : false })}
                     />
+                    {errors.oras?.type === 'required' && 
+                        <div className="text-accent-error text-lg-12 mt-2">
+                            Introduceți orașul Dvs.
+                        </div>
+                    }
+
+                    <input
+                        className={`w-full p-3 text-type-manatee flex flex-row justify-between items-center text-lg-14 border-1.5px border-ui-blueishGrey mt-4 rounded-md ${errors.adresa? "errorInput" : "inputFocused"}`}
+                        placeholder="Adresa"
+                        {...register("adresa", { required: step == 2 ? true : false })}
+                    />
+                    {errors.adresa?.type === 'required' && 
+                        <div className="text-accent-error text-lg-12 mt-2">
+                            Introduceți adresa Dvs.
+                        </div>
+                    }
+
                 </div>
 
                 <div className={`${step == 3 ? "block" : "hidden"} w-full bg-ui-white md:pt-14 px-6 py-10 md:pb-16 md:px-12 mb-12`}>
-                    <div className="w-full py-20px border border-ui-darkGrey flex flex-row justify-start items-center mb-6">
-                        <div className="w-4 h-4 flex flex-row justify-center items-center mx-4">
+                    <label className="w-full py-20px border-1.5px border-ui-darkGrey flex flex-row justify-start items-center mb-6 text-type-grey focus-within:text-type-dark transition duration-300 cursor-pointer">
+                        {/* <div className="w-4 h-4 flex flex-row justify-center items-center mx-4">
                             <div className="border-ui-blueishGrey rounded-full w-3 h-3 border-2"/>
-                        </div>
+                        </div> */}
+                        <input
+                            type="radio"
+                            name="plata"
+                            value="card"
+                            className="w-3 h-3 border-2 mx-4 border-ui-blueishGrey"
+                            {...register("plata", { required: step == 3 ? true : false })}
+                        />
                         <div className="h-8 w-14 relative">
                             <Image
                                 src="/checkout/visa.svg"
@@ -241,15 +380,22 @@ export default function Checkout() {
                                 objectFit="cover"
                             />
                         </div>
-                        <div className="flex-grow text-lg-14 text-type-grey">
+                        <div className="flex-grow text-lg-14">
                             Transfer direct
                         </div>
-                    </div>
+                    </label>
 
-                    <div className="w-full py-20px border border-ui-darkGrey flex flex-row justify-start items-center mb-6">
-                        <div className="w-4 h-4 flex flex-row justify-center items-center mx-4">
+                    <label className="w-full py-20px border-1.5px border-ui-darkGrey flex flex-row justify-start items-center mb-6 text-type-grey focus-within:text-type-dark transition duration-300 cursor-pointer">
+                        {/* <div className="w-4 h-4 flex flex-row justify-center items-center mx-4">
                             <div className="border-ui-blueishGrey rounded-full w-3 h-3 border-2"/>
-                        </div>
+                        </div> */}
+                        <input
+                            type="radio"
+                            name="plata"
+                            value="numerar"
+                            className="w-3 h-3 border-2 mx-4 border-ui-blueishGrey"
+                            {...register("plata", { required: step == 3 ? true : false })}
+                        />
                         <div className="h-8 w-8 relative mr-4">
                             <Image
                                 src="/checkout/cash.svg"
@@ -257,10 +403,15 @@ export default function Checkout() {
                                 objectFit="cover"
                             />
                         </div>
-                        <div className="flex-grow text-lg-14 text-type-grey">
+                        <div className="flex-grow text-lg-14">
                             Cash la livrare
                         </div>
-                    </div>
+                    </label>
+                    {errors.plata?.type === 'required' && 
+                        <div className="text-accent-error text-lg-12 mt-2">
+                            Introduceți modul de plată
+                        </div>
+                    }
                 </div>
 
                 <div className={`${step == 4 ? "block" : "hidden"} w-full`}>
@@ -272,11 +423,11 @@ export default function Checkout() {
                         product.addOns.map((addOn) => {
                             addOnsPrice += addOn.price
                         })
-                        let price = product.product.price + addOnsPrice
+                        let priceSingular = product.price + addOnsPrice
+                        let price = priceSingular * product.number
                         priceTotal += price
-                        console.log(product)
                         return (
-                            <div className="px-8 py-2 border border-ui-grey flex flex-row justify-start items-center bg-ui-white">
+                            <div className="px-8 py-2 border-1.5px border-ui-grey flex flex-row justify-start items-center bg-ui-white">
                                 <div className="w-20 h-20 relative mr-4">
                                     <Image
                                         src={product.product.image[0].formats.small.url}
@@ -289,7 +440,7 @@ export default function Checkout() {
                                         {product.product.name}
                                     </div>
                                     <div className="text-lg-14 text-accent-accent">
-                                        {product.number + " x " + price + " lei"}
+                                        {product.number + " x " + priceSingular + " lei"}
                                     </div>
                                 </div>
                             </div>
@@ -297,7 +448,7 @@ export default function Checkout() {
                     }
                     )}
                     <div className="mt-4 w-full text-lg-p mb-6">
-                        <div className="w-full bg-ui-white border border-ui-grey px-8 py-6 flex flex-row justify-between items-start">
+                        <div className="w-full bg-ui-white border-1.5px border-ui-grey px-8 py-6 flex flex-row justify-between items-start">
                             <div className="font-medium text-type-dark w-full">
                                 Sub-total
                             </div>
@@ -306,7 +457,7 @@ export default function Checkout() {
                             </div>
                         </div>
 
-                        <div className="w-full bg-ui-white border border-ui-grey px-8 py-6 flex flex-row justify-between items-start">
+                        <div className="w-full bg-ui-white border-1.5px border-ui-grey px-8 py-6 flex flex-row justify-between items-start">
                             <div className="font-medium text-type-dark w-full">
                                 Livrare
                             </div>
@@ -323,7 +474,7 @@ export default function Checkout() {
                             </div>
                         </div>
 
-                        <div className="w-full bg-ui-white border border-ui-grey px-8 py-6 flex flex-row justify-between items-start text-accent-accent">
+                        <div className="w-full bg-ui-white border-1.5px border-ui-grey px-8 py-6 flex flex-row justify-between items-start text-accent-accent">
                             <div className="font-medium w-full">
                                 Total
                             </div>
@@ -337,18 +488,16 @@ export default function Checkout() {
                         Datele dvs. personale vor fi utilizate pentru a vă procesa comanda, pentru a vă sprijini experiența pe acest site web și în alte scopuri descrise în pagina noastră <span className="text-accent-accent">politică de confidențialitate</span>.
                     </div>
                 </div>
-
+                
                 <div 
-                    className="bg-accent-accent text-ui-white rounded-md text-lg-button font-bold flex flex-row justify-center items-center mx-auto h-52px w-full lg:w-500px"
-                    onClick={ () => {
-                        setStep(step + 1)
-                    }}
+                    className="bg-accent-accent text-ui-white rounded-md text-lg-button font-bold flex flex-row justify-center items-center mx-auto h-52px w-full lg:w-500px cursor-pointer hover:bg-accent-light transition duration-300"
+                    onClick={handleSubmit(onSubmit)}
                 >
                     {
                         step == 4 ? "Plasează comanda" : "Continuă"
                     }
                 </div>
             </div>
-        </div>
+        </form>
     )
 }

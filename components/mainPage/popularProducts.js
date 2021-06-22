@@ -79,7 +79,7 @@ export default function PopularProducts(props){
                                 <Link href={`produse/${product.slug}`}>
                                     <a>
                                         <div key={index} className="h-352px md:h-481px">
-                                            <div className="h-296px md:h-425px bg-ui-white rounded-xl mb-4 mr-4 ml-4 md:ml-4 md:mr-0 flex-grow p-5 border-2 border-transparent hover:border-accent-accent transition duration-300">
+                                            <div className="h-296px md:h-425px bg-ui-white rounded-xl mb-4 mr-4 ml-4 md:ml-4 md:mr-0 flex-grow p-5 border-2 border-transparent hover:border-accent-accent transition duration-300 group">
                                                 <div className="w-auto h-156px md:h-245px relative">
                                                     <Image
                                                         draggable={false}

@@ -84,15 +84,24 @@ module.exports = {
       'xl': '1656px'
     },
 
-    minHeight : {
-      '96px' : '96px'
-    },
-
-    maxWidth : {
-      '130px' : '130px'
+    fill:{
+      'accent-transparent': 'rgba(0, 218, 94, 0.11)'
     },
 
     extend: {
+
+      borderWidth : {
+        '1.5px' : '1.5px'
+      },
+
+      minHeight : {
+        '96px' : '96px'
+      },
+  
+      maxWidth : {
+        '130px' : '130px'
+      },
+      
       brightness : {
         25: '.25',
       },
@@ -134,10 +143,12 @@ module.exports = {
         '472px' : '472px',
         '460px' : '460px',
         '449px' : '449px',
+        '444px' : '444px',
         '425px' : '425px',
         '418px' : '418px',
         '386px' : '386px',
         '382px' : '382px',
+        '368px' : '368px',
         '365px' : '365px',
         '352px' : '352px',
         '348px' : '348px',
@@ -216,6 +227,10 @@ module.exports = {
     extend: {
       backgroundColor: ['checked'],
       borderColor: ['checked'],
+      height: ['hover', 'focus'],
+      scale: ['group-hover'],
+      display: ['group-hover'],
+      fill: ['hover', 'focus'],
     }
   },
   plugins: [

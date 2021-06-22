@@ -1,8 +1,45 @@
 import ProductComponent from "./productComponent"
 import ProductDescription from "./productDescription"
 import RecentProducts from "../multiPage/recentProducts"
+import { DeviceTypeContext, SeenRecentlyContext } from "../../components/context";
+import { useContext, useEffect, useState } from "react";
 
 export default function ProductPage ({deviceType, name, price, images, description, category, options, optionVariants, productData, optionsRaw}) {
+
+    const {seenRecently, setSeenRecently} = useContext(SeenRecentlyContext)
+    const [contor, setContor] = useState(productData[0].name)
+
+    useEffect(() => {
+        console.log("Loaded page")
+        if(seenRecently.length == 0){
+            console.log("Updated seen recently under 4")
+              setSeenRecently([
+                ...seenRecently,
+                productData[0]
+              ])
+        }
+        else if(seenRecently[seenRecently.length - 1].name != productData[0].name){
+            if(seenRecently.length < 4){
+              console.log("Updated seen recently under 4")
+              setSeenRecently([
+                ...seenRecently,
+                productData[0]
+              ])
+            }
+            else{
+              console.log("Updated seen recently over 4")
+              let mutableRecent = seenRecently.slice(1, seenRecently.length)
+              setSeenRecently([
+                ...mutableRecent,
+                productData[0]
+              ])
+            }
+        }
+    })
+
+    useEffect(() => {
+    localStorage.setItem('seenRecently',JSON.stringify(seenRecently))
+    }, [seenRecently])
 
     return (
         <div>
@@ -25,7 +62,7 @@ export default function ProductPage ({deviceType, name, price, images, descripti
                 name={name}
                 description={description}
             />
-            <RecentProducts>
+            <RecentProducts deviceType={deviceType}>
             </RecentProducts>
         </div>
     )

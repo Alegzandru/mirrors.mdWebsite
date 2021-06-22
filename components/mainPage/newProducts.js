@@ -67,8 +67,8 @@ export default function NewProducts(props) {
                             <Link href={`produse/${product.slug}`}>
                                 <a>
                                     <div key={index} className="h-auto w-full px-container-sm md:px-0">
-                                        <div className="h-296px md:h-425px bg-ui-white rounded-xl md:ml-4 md:mr-0 p-5 border-2 border-transparent hover:border-accent-accent transition duration-300">
-                                            <div className="w-auto h-156px md:h-245px relative">
+                                        <div className="h-296px md:h-425px bg-ui-white rounded-xl md:ml-4 md:mr-0 p-5 border-2 border-transparent hover:border-accent-accent transition duration-300 group">
+                                            <div className="w-auto h-156px md:h-245px relative transform group-hover:scale-105 transition duration-300">
                                                 <Image
                                                     draggable={false}
                                                     src={product.image[0].formats.medium.url}
@@ -96,7 +96,7 @@ export default function NewProducts(props) {
 
             <Link href="/oglinzi">
                 <a>
-                    <div className="hidden mx-auto md:mt-40px lg:mt-72px w-234px h-48px rounded-lg text-lg-button md:text-sm-button font-bold bg-accent-transparent text-accent-accent md:flex flex-row justify-center items-center  border-2 border-transparent hover:border-accent-accent transition duration-300">
+                    <div className="hidden mx-auto md:mt-40px lg:mt-72px w-234px h-48px rounded-lg text-lg-button md:text-sm-button font-bold bg-accent-accent text-ui-white md:flex flex-row justify-center items-center  border-2 border-transparent hover:bg-accent-light transition duration-300">
                         Deschide Catalogul
                     </div>
                 </a>

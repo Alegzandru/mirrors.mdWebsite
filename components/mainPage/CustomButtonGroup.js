@@ -63,8 +63,7 @@ const CustomButtonGroupAsArrows2 = ({ next, previous }) => {
   const [rightHovered, setRightHovered] = React.useState(0)
 
   return (
-    <div className="absolute -top-68px md:-top-80px left-0 w-full px-container-sm md:px-container-md lg:px-container-lg flex flex-row justify-between items-center">
-
+    <div className="absolute -top-68px md:-top-80px left-0 w-full px-container-sm md:px-container-md lg:px-container-lg xl:px-container-xl flex flex-row justify-between items-center mx-auto">
       <div 
         className="h-8 w-8 rounded-full hover:border-transparent border-type-grey border-2 text-type-manatee flex flex-row justify-center items-center cursor-pointer group transition duration-300" onClick={previous}
         onMouseOver={() => setLeftHovered(1)}

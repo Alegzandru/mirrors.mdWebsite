@@ -3,8 +3,37 @@ import UAParser from "ua-parser-js";
 import ProductPage from "../../components/catalog/productPage"
 import {getAllProductPaths, getProductData} from "../../lib/products"
 import {API_URL} from "../../utils/urls"
+import { DeviceTypeContext, SeenRecentlyContext } from "../../components/context";
+import { useContext, useEffect } from "react";
 
-export function DynamicProduct ({deviceType, productData}) {
+export function DynamicProduct ({productData}) {
+
+  const {seenRecently, setSeenRecently} = useContext(SeenRecentlyContext)
+
+  // useEffect(() => {
+  //   console.log("Loaded page")
+  //   if(seenRecently.length < 4){
+  //     console.log("Updated seen recently under 4")
+  //     setSeenRecently([
+  //       ...seenRecently,
+  //       productData[0]
+  //     ])
+  //   }
+  //   else{
+  //     console.log("Updated seen recently over 4")
+  //     let mutableRecent = seenRecently.shift()
+  //     setSeenRecently([
+  //       ...mutableRecent,
+  //       productData[0]
+  //     ])
+  //   }
+  // }, [])
+
+  // useEffect(() => {
+  //   localStorage.setItem('seenRecently',JSON.stringify(seenRecently))
+  // }, [seenRecently])
+
+  const {deviceType, setDeviceType} = useContext(DeviceTypeContext)
   const images = productData[0].image.map((imageObj) => {
     return {
       src : imageObj.formats.medium.url

@@ -6,163 +6,342 @@ import 'react-multi-carousel/lib/styles.css';
 import {useState, useContext, useEffect} from "react"
 import {CartContext} from "../../components/context"
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 export default function ProductComponent ({deviceType, name, images, options, optionVariants, productData, optionsRaw}) {
 
+    const router = useRouter()
+    const coeficientFinder = (size) => {
+        if(size.width*size.height < productData[0].mediumsize.height * productData[0].mediumsize.width){
+            return productData[0].smallcoeficient
+        }
+        else if(size.width*size.height < productData[0].bigsize.height * productData[0].bigsize.width) {
+            return productData[0].mediumcoeficient
+        }
+        else{
+            return productData[0].bigcoeficient
+        }
+    }
+    const [checkout, setCheckout] = useState(false)
     const {cart, setCart} = useContext(CartContext)
-    const [price, setPrice] = useState(Math.trunc(productData[0].defaultsize.width * productData[0].defaultsize.height / 1000000 * productData[0].m2price))
-    const [sizeGlobal, setSizeGlobal] = useState({})
+    const [price, setPrice] = useState(Math.trunc(productData[0].defaultsize.width * productData[0].defaultsize.height / 1000000 * productData[0].m2price * coeficientFinder(productData[0].defaultsize)))
+    const [sizeGlobal, setSizeGlobal] = useState(productData[0].defaultsize)
 
     let contorAddons = 1
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
 
     const onSubmit = (data) => {
+        
         contorAddons = 1
         const addOns = Object.entries(data).filter((addOn) => addOn[1] != null && addOn[1] != false && addOn[0] != "Dimensiuni recomandate")
-        let sizeName = data["Dimensiuni recomandate"]
-        let sizeRaw = productData[0].linkedsizes.filter((sizeFilter) => sizeFilter.name == sizeName)
+        // let sizeName = data["Dimensiuni recomandate"]
+        // let sizeRaw = productData[0].linkedsizes.filter((sizeFilter) => sizeFilter.name == sizeName)
         let size = productData[0].defaultsize
-        if(sizeRaw.length != 0){
-            size = sizeRaw[0]
-            console.log("Size converted to", sizeRaw[0])
-        }
-        console.log(size)
 
-        let addOnsPrice = 0
-
-        let productCart = {
-            product : {},
-            addOns : [],
-            number : 1
-        }
-
-        function flatten(obj) {
-            var result = Object.create(obj);
-            for(var key in result) {
-                result[key] = result[key];
-            }
-            return result;
-        }
-
-        fetch(`https://mirrors-md-admin.herokuapp.com/products?name_eq=${name}`)
+        fetch(`https://mirrors-md-admin.herokuapp.com/sizes?name_eq=${sizeGlobal.height}x${sizeGlobal.width}`)
             .then(response => response.json())
             .then(data => {
-                productCart.product = data[0]
+                if(data.length == 0){
+                    const requestOptions = {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ 
+                            name : `${sizeGlobal.height}x${sizeGlobal.width}`,
+                            height : sizeGlobal.height,
+                            width : sizeGlobal.width
+                        })
+                    };
+    
+                    fetch(`https://mirrors-md-admin.herokuapp.com/sizes`, requestOptions)
+                        .then(response => response.json())
+                        .then(data => {
+                            size = data
+                            console.log("Actual size ", size)
 
-                if(addOns.length == 0){
-                    if( cart.length != 0 && productCart.product.name == cart[cart.length - 1].product.name){
-                        console.log("Changed product number")
-                        let mutableCart = [...cart]
-                        mutableCart[mutableCart.length - 1].number += 1
-                        setCart(
-                            mutableCart
-                        )
-                    }
-                    else{
-                        console.log("Added product")
-                        setCart([
-                            ...cart,
-                            productCart
-                        ])
-                    }
+                            let addOnsPrice = 0
+
+                            let productCart = {
+                                product : {},
+                                addOns : [],
+                                size : size,
+                                number : 1,
+                                price : Math.trunc(size.width * size.height / 1000000 * productData[0].m2price * coeficientFinder(size))
+                            }
+
+                            function flatten(obj) {
+                                var result = Object.create(obj);
+                                for(var key in result) {
+                                    result[key] = result[key];
+                                }
+                                return result;
+                            }
+
+                            fetch(`https://mirrors-md-admin.herokuapp.com/products?name_eq=${name}`)
+                                .then(response => response.json())
+                                .then(data => {
+                                    productCart.product = data[0]
+
+                                    if(addOns.length == 0){
+                                        if( cart.length != 0 && productCart.product.name == cart[cart.length - 1].product.name  && cart[cart.length - 1].size.name == `${size.height}x${size.width}`){
+                                            console.log("Changed product number")
+                                            let mutableCart = [...cart]
+                                            mutableCart[mutableCart.length - 1].number += 1
+                                            setCart(
+                                                mutableCart
+                                            )
+                                            if(checkout){
+                                                router.push("/cos/checkout")
+                                            }
+                                        }
+                                        else{
+                                            console.log("Added product")
+                                            setCart([
+                                                ...cart,
+                                                productCart
+                                            ])
+                                            if(checkout){
+                                                router.push("/cos/checkout")
+                                            }
+                                        }
+                                    }
+                                    addOns.map((addOn, index) => {
+                                        if(addOn[1] == true){
+                                            let addOnRaw = optionsRaw.filter((addOnRaw) => {
+                                                return addOnRaw.name == addOn[0]
+                                            })
+                                            console.log("Add on raw ", addOnRaw)
+                                            if(cart.length == 0){
+                                                contorAddons = 0
+                                            }
+                                            else if(cart[cart.length - 1].addOns.length != addOns.length){
+                                                contorAddons = 0
+                                            }
+                                            else if(cart[cart.length - 1].addOns.length != 0){
+                                                if(addOn[0] != cart[cart.length - 1].addOns[index].name){
+                                                    contorAddons = 0
+                                                }
+                                            }
+                                            productCart.addOns.push(addOnRaw[0])
+                                            addOnsPrice += addOnRaw[0].price
+                                            if (index == addOns.length-1){
+                                                if( contorAddons && cart[cart.length - 1].size.name == `${size.height}x${size.width}`){
+                                                    console.log("Changed product number")
+                                                    let mutableCart = [...cart]
+                                                    mutableCart[mutableCart.length - 1].number += 1
+                                                    setCart(
+                                                        mutableCart
+                                                    )
+                                                    if(checkout){
+                                                        router.push("/cos/checkout")
+                                                    }
+                                                }
+                                                else{
+                                                    console.log("Added product")
+                                                    setCart([
+                                                        ...cart,
+                                                        productCart
+                                                    ])
+                                                    if(checkout){
+                                                        router.push("/cos/checkout")
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        else{
+                                            let addOnRaw = optionsRaw.filter((addOnRaw) => {
+                                                return addOnRaw.group == addOn[0] && addOnRaw.typename == addOn[1]
+                                            })
+                                            console.log("Add on raw ", addOnRaw)
+                                            if(cart.length == 0){
+                                                contorAddons = 0
+                                            }
+                                            else if(cart[cart.length - 1].addOns.length != addOns.length){
+                                                contorAddons = 0
+                                            }
+                                            else if(cart[cart.length - 1].addOns.length != 0){
+                                                if(addOn[0] != cart[cart.length - 1].addOns[index].group || addOn[1] != cart[cart.length - 1].addOns[index].typename){
+                                                    contorAddons = 0
+                                                }
+                                            }
+
+                                            productCart.addOns.push(addOnRaw[0])
+                                            addOnsPrice += addOnRaw[0].price
+
+                                            if (index == addOns.length-1){
+                                                if( contorAddons && cart[cart.length - 1].size.name == `${size.height}x${size.width}`){
+                                                    console.log("Changed product number")
+                                                    let mutableCart = [...cart]
+                                                    mutableCart[mutableCart.length - 1].number += 1
+                                                    setCart(
+                                                        mutableCart
+                                                    )
+                                                    if(checkout){
+                                                        router.push("/cos/checkout")
+                                                    }
+                                                }
+                                                else{
+                                                    console.log("Added product")
+                                                    setCart([
+                                                        ...cart,
+                                                        productCart
+                                                    ])
+                                                    if(checkout){
+                                                        router.push("/cos/checkout")
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    })
+                                }
+                            )
+                        })
                 }
-                addOns.map((addOn, index) => {
-                    if(addOn[1] == true){
-                        let addOnRaw = optionsRaw.filter((addOnRaw) => {
-                            return addOnRaw.name == addOn[0]
-                        })
-                        console.log("Add on raw ", addOnRaw)
-                        if(cart.length == 0){
-                            contorAddons = 0
-                            console.log("Checkbox element step 1 stop")
-                        }
-                        else if(cart[cart.length - 1].addOns.length != addOns.length){
-                            contorAddons = 0
-                            console.log("Checkbox element step 2 stop")
-                        }
-                        else if(cart[cart.length - 1].addOns.length != 0){
-                            console.log("Checkbox on index ", index, " ", cart[cart.length - 1].addOns[index])
-                            if(addOn[0] != cart[cart.length - 1].addOns[index].name){
-                                contorAddons = 0
-                                console.log("Checkbox element step 3 stop")
-                            }
-                        }
-                        console.log("Contor ", contorAddons)
-                        console.log(addOn[0])
-                        fetch(`https://mirrors-md-admin.herokuapp.com/add-ons?id_eq=${addOnRaw[0].id}`)
-                            .then(response => response.json())
-                            .then(data => {
-                                productCart.addOns.push(data[0])
-                                addOnsPrice += data[0].price
-                                console.log(data)
-                                if (index == addOns.length-1){
-                                    if( contorAddons ){
-                                        console.log("Changed product number")
-                                        let mutableCart = [...cart]
-                                        mutableCart[mutableCart.length - 1].number += 1
-                                        setCart(
-                                            mutableCart
-                                        )
-                                    }
-                                    else{
-                                        console.log("Added product")
-                                        setCart([
-                                            ...cart,
-                                            productCart
-                                        ])
-                                    }
-                                }
-                            })
-                    }
-                    else{
-                        let addOnRaw = optionsRaw.filter((addOnRaw) => {
-                            return addOnRaw.group == addOn[0] && addOnRaw.typename == addOn[1]
-                        })
-                        console.log("Add on raw ", addOnRaw)
-                        if(cart.length == 0){
-                            contorAddons = 0
-                            console.log("Radio element step 1 stop")
-                        }
-                        else if(cart[cart.length - 1].addOns.length != addOns.length){
-                            contorAddons = 0
-                            console.log("Radio element step 2 stop")
-                        }
-                        else if(cart[cart.length - 1].addOns.length != 0){
-                            console.log("Radio on index ", index, " ", cart[cart.length - 1].addOns[index])
-                            if(addOn[0] != cart[cart.length - 1].addOns[index].group || addOn[1] != cart[cart.length - 1].addOns[index].typename){
-                                contorAddons = 0
-                                console.log("Radio element step 3 stop")
-                            }
-                        }
-                        console.log("Contor ", contorAddons)
-                        fetch(`https://mirrors-md-admin.herokuapp.com/add-ons?id_eq=${addOnRaw[0].id}`)
-                            .then(response => response.json())
-                            .then(data => {
-                                productCart.addOns.push(data[0])
-                                addOnsPrice += data[0].price
+                else{
+                    size = data[0]
+                    console.log("Actual size ", size)
 
-                                // console.log(data[0])
-                                if (index == addOns.length-1){
-                                    if( contorAddons ){
-                                        console.log("Changed product number")
-                                        let mutableCart = [...cart]
-                                        mutableCart[mutableCart.length - 1].number += 1
-                                        setCart(
-                                            mutableCart
-                                        )
+                    let addOnsPrice = 0
+
+                    let productCart = {
+                        product : {},
+                        addOns : [],
+                        size : size,
+                        number : 1,
+                        price : Math.trunc(size.width * size.height / 1000000 * productData[0].m2price * coeficientFinder(size))
+                    }
+
+                    function flatten(obj) {
+                        var result = Object.create(obj);
+                        for(var key in result) {
+                            result[key] = result[key];
+                        }
+                        return result;
+                    }
+
+                    fetch(`https://mirrors-md-admin.herokuapp.com/products?name_eq=${name}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            productCart.product = data[0]
+
+                            if(addOns.length == 0){
+                                if( cart.length != 0 && productCart.product.name == cart[cart.length - 1].product.name && cart[cart.length - 1].size.name == `${size.height}x${size.width}`){
+                                    console.log("Changed product number")
+                                    let mutableCart = [...cart]
+                                    mutableCart[mutableCart.length - 1].number += 1
+                                    setCart(
+                                        mutableCart
+                                    )
+                                    if(checkout){
+                                        router.push("/cos/checkout")
                                     }
-                                    else{
-                                        console.log("Added product")
-                                        setCart([
-                                            ...cart,
-                                            productCart
-                                        ])
+                                }
+                                else{
+                                    console.log("Added product")
+                                    setCart([
+                                        ...cart,
+                                        productCart
+                                    ])
+                                    if(checkout){
+                                        router.push("/cos/checkout")
+                                    }
+                                }
+                            }
+                            addOns.map((addOn, index) => {
+                                if(addOn[1] == true){
+                                    let addOnRaw = optionsRaw.filter((addOnRaw) => {
+                                        return addOnRaw.name == addOn[0]
+                                    })
+                                    console.log("Add on raw ", addOnRaw)
+                                    if(cart.length == 0){
+                                        contorAddons = 0
+                                    }
+                                    else if(cart[cart.length - 1].addOns.length != addOns.length){
+                                        contorAddons = 0
+                                        console.log("Checkbox point 2 stop")
+                                    }
+                                    else if(cart[cart.length - 1].addOns.length != 0){
+                                        if(addOn[0] != cart[cart.length - 1].addOns[index].name){
+                                            contorAddons = 0
+                                            console.log("Checkbox point 3 stop")
+                                        }
+                                    }
+                                    productCart.addOns.push(addOnRaw[0])
+                                    addOnsPrice += addOnRaw[0].price
+                                    if (index == addOns.length-1){
+                                        if( contorAddons && cart[cart.length - 1].size.name == `${size.height}x${size.width}`){
+                                            console.log("Changed product number")
+                                            let mutableCart = [...cart]
+                                            mutableCart[mutableCart.length - 1].number += 1
+                                            setCart(
+                                                mutableCart
+                                            )
+                                            if(checkout){
+                                                router.push("/cos/checkout")
+                                            }
+                                        }
+                                        else{
+                                            console.log("Added product")
+                                            setCart([
+                                                ...cart,
+                                                productCart
+                                            ])
+                                            if(checkout){
+                                                router.push("/cos/checkout")
+                                            }
+                                        }
+                                    }
+                                }
+                                else{
+                                    let addOnRaw = optionsRaw.filter((addOnRaw) => {
+                                        return addOnRaw.group == addOn[0] && addOnRaw.typename == addOn[1]
+                                    })
+                                    console.log("Add on raw ", addOnRaw)
+                                    if(cart.length == 0){
+                                        contorAddons = 0
+                                    }
+                                    else if(cart[cart.length - 1].addOns.length != addOns.length){
+                                        contorAddons = 0
+                                        console.log("Radio point 2 stop")
+                                    }
+                                    else if(cart[cart.length - 1].addOns.length != 0){
+                                        if(addOn[0] != cart[cart.length - 1].addOns[index].group || addOn[1] != cart[cart.length - 1].addOns[index].typename){
+                                            contorAddons = 0
+                                            console.log("Radio point 3 stop")
+                                        }
+                                    }
+
+                                    productCart.addOns.push(addOnRaw[0])
+                                    addOnsPrice += addOnRaw[0].price
+
+                                    if (index == addOns.length-1){
+                                        if( contorAddons && cart[cart.length - 1].size.name == `${size.height}x${size.width}`){
+                                            console.log("Changed product number")
+                                            let mutableCart = [...cart]
+                                            mutableCart[mutableCart.length - 1].number += 1
+                                            setCart(
+                                                mutableCart
+                                            )
+                                            if(checkout){
+                                                router.push("/cos/checkout")
+                                            }
+                                        }
+                                        else{
+                                            console.log("Added product")
+                                            setCart([
+                                                ...cart,
+                                                productCart
+                                            ])
+                                            if(checkout){
+                                                router.push("/cos/checkout")
+                                            }
+                                        }
                                     }
                                 }
                             })
-                    }
-                })
+                        }
+                    )
+                }
             })
 
         // fetch(`https://mirrors-md-admin.herokuapp.com/products?name_eq=${name}`)
@@ -194,21 +373,21 @@ export default function ProductComponent ({deviceType, name, images, options, op
         //                 console.log(fetchedAddons)
 
 
-        //                 const requestOptions = {
-        //                     method: 'POST',
-        //                     headers: { 'Content-Type': 'application/json' },
-        //                     body: JSON.stringify({ 
-        //                         name : 'React Order',
-        //                         add_ons: data
-        //                     })
-        //                 };
+            //             const requestOptions = {
+            //                 method: 'POST',
+            //                 headers: { 'Content-Type': 'application/json' },
+            //                 body: JSON.stringify({ 
+            //                     name : 'React Order',
+            //                     add_ons: data
+            //                 })
+            //             };
         
-        //                 fetch(`https://mirrors-md-admin.herokuapp.com/orders`, requestOptions)
-        //                     .then(response => response.json())
-        //                     .then(data => console.log(data))
+            //             fetch(`https://mirrors-md-admin.herokuapp.com/orders`, requestOptions)
+            //                 .then(response => response.json())
+            //                 .then(data => console.log(data))
 
-        //         })
-        //     }
+            //     })
+            // }
         //     else{
         //         fetch(`https://mirrors-md-admin.herokuapp.com/add-ons?group_eq=${addOn[0]}&typename_eq=${addOn[1]}`)
         //             .then(response => response.json())
@@ -339,31 +518,27 @@ export default function ProductComponent ({deviceType, name, images, options, op
                         <DropdownProduct
                             name={"Dimensiuni recomandate"}
                             options={productData[0].linkedsizes.map((size, index) => {
-                                let coeficient
-                                if(size.width*size.height < productData[0].mediumsize.height * productData[0].mediumsize.width){
-                                    coeficient = productData[0].smallcoeficient
-                                }
-                                else if(size.width*size.height < productData[0].bigsize.height * productData[0].bigsize.width) {
-                                    coeficient = productData[0].mediumcoeficient
-                                }
-                                else{
-                                    coeficient = productData[0].bigcoeficient
-                                }
                                 return (
                                     {
+                                        height : size.height,
+                                        width : size.width,
                                         typename : size.name,
-                                        price : Math.trunc(size.width * size.height / 1000000 * productData[0].m2price * coeficient)
+                                        price : Math.trunc(size.width * size.height / 1000000 * productData[0].m2price * coeficientFinder(size))
                                     }
                                 )
                             })}
                             register={register}
                             setPrice={setPrice}
                             price={price}
+                            sizeGlobal={sizeGlobal}
                             setSizeGlobal={setSizeGlobal}
+                            initialPrice={Math.trunc(productData[0].defaultsize.width * productData[0].defaultsize.height / 1000000 * productData[0].m2price * coeficientFinder(productData[0].defaultsize))}
                             minHeight={productData[0].smallestsize.height}
                             maxHeight={productData[0].biggestsize.height}
                             minWidth={productData[0].smallestsize.width}
                             maxWidth={productData[0].biggestsize.width}
+                            coeficientFinder={coeficientFinder}
+                            m2price={productData[0].m2price}
                         />
 
                         {options.map((option, index) =>
@@ -379,11 +554,17 @@ export default function ProductComponent ({deviceType, name, images, options, op
 
                         <div className="w-full flex flex-col md:flex-row justify-between items-center mt-14">
 
-                            <input value="La pagina de Check-Out" type="submit" className="w-full bg-transparent border-2 rounded-lg border-accent-accent h-12 flex flex-row justify-center items-center text-accent-accent md:mr-4 font-medium mb-6 md:mb-0"/>
+                            <input 
+                                value="La pagina de Check-Out" 
+                                type="submit" 
+                                className="w-full bg-transparent border-2 rounded-lg border-accent-accent h-12 flex flex-row justify-center items-center text-accent-accent font-medium mb-6 md:mb-0 hover:bg-accent-transparent transition duration-300 md:mr-4 cursor-pointer"
+                                onClick={() => setCheckout(true)}
+                            />
                             <input 
                                 value="Adaugă în coș" 
                                 type="submit" 
-                                className="w-full bg-accent-accent rounded-lg h-12 flex flex-row justify-center items-center text-ui-white font-medium"
+                                className="w-full bg-accent-accent rounded-lg h-12 flex flex-row justify-center items-center text-ui-white font-medium hover:bg-accent-light transition duration-300 cursor-pointer"
+                                onClick={() => setCheckout(false)}
                                 // onClick={() => {
                                 //     const productCart = {
                                 //         product : {

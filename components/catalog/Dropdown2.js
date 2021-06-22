@@ -5,7 +5,7 @@ export default function Dropdown2 (props) {
     const [open, setOpen] = useState(0)
 
     return (
-        <div className="w-auto">
+        <div className="w-auto cursor-pointer">
 
             <div 
                 className={`flex flex-row justify-between items-start text-accent-accent text-lg-14 hover:text-accent-dark transition duration-300 ${open? "text-accent-dark bg-ui-grey w-190px" : ""} p-2`}

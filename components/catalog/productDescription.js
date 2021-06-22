@@ -73,8 +73,8 @@ export default function ProductDescription ({options, optionVariants, images, na
                     {name}
                 </h4>
 
-                <pre className={`md:text-md-p lg:text-lg-p text-type-manatee mb-11 w-full ${autoHeight ? "h-auto" : "h-240px"} overflow-y-hidden`}>
-                    {description}
+                <pre dangerouslySetInnerHTML={{ __html: description.replace(/###/g, `<b style="font-size:24px">`).replace(/##/g, "</b>").replace(/-# /g, "&#9679 ") }} className={`md:text-md-p lg:text-lg-p text-type-manatee mb-11 w-full ${autoHeight ? "h-auto" : "h-240px"} overflow-y-hidden font-medium`}>
+                    {/* {description} */}
                 </pre>
 
                 <div 

@@ -181,15 +181,46 @@ export default function Footer () {
                 </div>
             </div>
 
-            <div className="w-full h-320px mdFooter:h-560px mt-16 mb-8">
+            {/* <div className="w-full h-320px mdFooter:h-560px mt-16 mb-8">
                 <iframe src="https://yandex.com/map-widget/v1/?um=constructor%3A79dbbe95bd2531da704341e99cfe83c018aa307df04f33dd9c1332b1fa43ef0f&amp;source=constructor" width="100%" height="100%" frameBorder="0"></iframe>
-            </div>
+            </div> */}
 
-            <div className="h-px w-full bg-type-grey mb-4"></div>
+            <div className="h-px w-full bg-type-grey mb-4 mt-4"></div>
 
             <div className="pb-4 mx-auto text-center text-lg-12 text-type-grey">
                 © 2021 Mirrorsmd. Toate drepturile sunt rezervate.
             </div>
+
+            <a 
+                href="https://lira.md/"
+                target="blank"
+                style={{
+                    textDecoration: "none",
+                    width: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent : "flex-start"
+                }}
+                className="w-full flex flex-col items-center justify-start"
+            >
+                <div className="flex flex-col items-center justify-start">
+                    <div className="w-full flex flex-row items-center justify-center text-lg-17 text-ui-grey mt-8 mb-1">
+                        <div>
+                            Crafted by
+                        </div>
+                        <img 
+                            src="/branding/lira.svg"
+                            className="w-14px h-14px mr-1 ml-2"
+                            alt=""
+                        ></img>
+                        <div className="font-medium">
+                            Lira
+                        </div>
+                    </div>
+                    <div className="liraLine"/>
+                </div>
+            </a>
         </div>
     )
 }

@@ -7,7 +7,7 @@ import Link from 'next/link'
 
 export default function GalerieComponent (props) {
 
-    const [photoNr, setPhotoNr] = useState(10)
+    const [photoNr, setPhotoNr] = useState(28)
     const [lightboxOpen, setLightboxOpen] = useState(0)
     const images = props.products.map((product) => {
         return product.image[0].formats.medium.url
@@ -77,7 +77,7 @@ export default function GalerieComponent (props) {
             <div 
                 className={`h-12 w-full md:w-238px rounded-lg mx-auto font-bold text-lg-button flex flex-row justify-center items-center mt-56px md:mt-8 border-2 border-transparent transition duration-300 ${photoNr >= images.length ? "bg-ui-blueishGrey text-ui-white" : "bg-accent-transparent text-accent-accent hover:border-accent-accent cursor-pointer"}`}
                 onClick={ () => {
-                    images.length > photoNr && setPhotoNr(photoNr+10)
+                    images.length > photoNr && setPhotoNr(photoNr+photoNr)
                 }}
             >
                 Mai multe fotografii

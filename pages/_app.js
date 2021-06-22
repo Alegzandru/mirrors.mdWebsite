@@ -1,6 +1,6 @@
 import '../styles/globals.css'
 import {useState, useEffect} from "react"
-import {DeviceTypeContext, CartContext, PopupContext} from "../components/context"
+import {DeviceTypeContext, CartContext, PopupContext, SeenRecentlyContext} from "../components/context"
 import UAParser from "ua-parser-js";
 import NextNProgress from "../components/NextNProgress"
 import {deviceType as deviceTypeWSpaces, isTablet, isMobile, isDesktop} from 'react-device-detect';
@@ -16,15 +16,24 @@ function MyApp({ Component, pageProps, deviceTypeReq, isMobile, isTablet }) {
   const [popupOpen, setPopupOpen] = useState("")
   const valuePopup = {popupOpen, setPopupOpen}
 
+  const [seenRecently, setSeenRecently] = useState([])
+  const valueSeenRecently = {seenRecently, setSeenRecently}
+
+  useEffect(() => {
+    localStorage.setItem('seenRecently', JSON.stringify(seenRecently))
+  }, [seenRecently])
+ 
   return (
-    <PopupContext.Provider value={valuePopup}>
-      <CartContext.Provider value={valueCart}>
-        <DeviceTypeContext.Provider value={valueDeviceType}>
-          <NextNProgress/>
-          <Component {...pageProps} />
-        </DeviceTypeContext.Provider>
-      </CartContext.Provider>
-    </PopupContext.Provider>
+    <SeenRecentlyContext.Provider value={valueSeenRecently}>
+      <PopupContext.Provider value={valuePopup}>
+        <CartContext.Provider value={valueCart}>
+          <DeviceTypeContext.Provider value={valueDeviceType}>
+            <NextNProgress/>
+            <Component {...pageProps} />
+          </DeviceTypeContext.Provider>
+        </CartContext.Provider>
+      </PopupContext.Provider>
+    </SeenRecentlyContext.Provider>
   )
 }
 

@@ -259,12 +259,12 @@ export default function Category({category, name, products}) {
                 </div>
                 <div className="w-full flex flex-row justify-center items-start mt-6 ">
                     <input 
-                        className="w-124px bg-accent-accent rounded-lg border-2 border-ui-white text-ui-white h-9 cursor-pointer mr-4 text-lg-14 font-medium "
+                        className="w-124px rounded-lg border-2 border-accent-accent text-accent-accent h-9 cursor-pointer mr-4 text-lg-14 font-medium transition duration-300 hover:bg-accent-transparent"
                         type="submit"
                         value="Aplică"
                     />
                     <input 
-                        className="w-124px rounded-lg border-2 border-type-manatee text-type-manatee h-9 cursor-pointer mr-4 text-lg-14 font-medium  flex flex-row justify-center items-center hover:text-type-dark hover:border-type-dark transition duration-300"
+                        className="w-124px rounded-lg border-2 border-type-manatee text-type-manatee h-9 cursor-pointer mr-4 text-lg-14 font-medium  flex flex-row justify-center items-center hover:text-type-dark hover:border-type-dark transition duration-300 hover:bg-ui-blueishGrey"
                         type="submit"
                         value="Resetează"
                         onClick={() => reset()}

@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import {useContext, useEffect, useState} from "react"
 import { useRouter } from 'next/router'
-import { WidthContext } from './context';
+import { CartContext, WidthContext } from './context';
 import Link from "next/link"
 import { Turn as Hamburger } from 'hamburger-react'
 import { Slide } from "react-awesome-reveal";
@@ -34,6 +34,8 @@ export function Navbar (props) {
     const [mobileSearchOpen, setMobileSearchOpen] = useState(0)
     const [categories, setCategories] = useState([])
     const [mobileCatalogOpen , setMobileCatalogOpen] = useState(0)
+
+    const {cart, setCart} = useContext(CartContext)
 
     const router = useRouter()
 
@@ -128,7 +130,7 @@ export function Navbar (props) {
     },[search])
 
     return (
-        <div className="fixed z-50 w-full lg:-mb-36 font-Ubuntu">
+        <div className="z-50 w-full lg:-mb-36 font-Ubuntu header-shadow">
             <div className={`${mobileSearchOpen ? "fixed block" : "hidden"} w-screen bg-ui-white z-40 px-18px md:px-16 pt-52px md:pt-72px pb-4 md:pb-10`}>
                 <div className="w-full flex flex-row justify-between items-center mb-3 md:mb-4">
                     <input
@@ -376,14 +378,21 @@ export function Navbar (props) {
                             </Link>
                         </div>
 
-                        <div className=" w-165px flex flex-row justify-end items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                            </svg>
+                        <div className="w-165px">
+                            <Link href="/cos">
+                                <a className="w-full flex flex-row justify-end items-start">
+                                    {   cart.length !=0 ?
+                                        <div className="bg-accent-error w-4 h-4 rounded-full text-ui-darkGrey text-lg-12 flex flex-row justify-center items-center -mr-8 z-20">
+                                            {cart.length}
+                                        </div>
+                                        :
+                                        ""
+                                    }
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 hover:fill-accent-transparent hover:text-accent-accent transition duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                                    </svg>
+                                </a>
+                            </Link>
                         </div>
                     </div>
                 </div>
@@ -416,10 +425,27 @@ export function Navbar (props) {
                         </svg>
                     </div>
 
-                    <div className="w-112px flex flex-row justify-end h-auto">
-                        <svg onClick={() => setMobileSearchOpen(1)} xmlns="http://www.w3.org/2000/svg" className="my-3 h-6 w-6 mr-28px text-ui-black md:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
+                    <div className="flex flex-row justify-end h-auto items-center">
+                        <div className="w-12 h-12 flex flex-row justify-center items-center">
+                            <svg onClick={() => setMobileSearchOpen(1)} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-ui-black md:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </div>
+
+                        <Link href="/cos">
+                            <a className="flex flex-row items-center justify-center h-12 w-12">
+                                {   cart.length !=0 ?
+                                    <div className="bg-accent-error w-4 h-4 rounded-full text-ui-darkGrey text-lg-12 flex flex-row justify-center items-center -mr-8 z-20 -mt-2">
+                                        {cart.length}
+                                    </div>
+                                    :
+                                    ""
+                                }
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 hover:fill-accent-transparent hover:text-accent-accent transition duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                                </svg>
+                            </a>
+                        </Link>
 
                         <Hamburger toggled={open} toggle={setOpen} size={24} duration={0.4} color={`${open ? "#000000" : "#677077"}`} rounded/>
                     </div>

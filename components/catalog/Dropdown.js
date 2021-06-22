@@ -27,15 +27,6 @@ export default function Dropdown (props) {
     const wrapperRef = useRef(null);
     useOutsideAlerter(wrapperRef);
 
-    const options = [
-        "Criteria label",
-        "Criteria label",
-        "Criteria label",
-        "Criteria label",
-        "Criteria label",
-        "Criteria label",
-    ]
-
     return(
         <div 
             className="w-full"
@@ -62,7 +53,7 @@ export default function Dropdown (props) {
 
             <div className={`lg:w-dropdown ${open ? "block" : "hidden"} relative lg:absolute card2-shadow z-30`}>
                 {props.filterOptions.map((option, index) => 
-                    <div key={index} className="w-full h-12 bg-ui-white text-lg-14 text-type-manatee px-4 flex flex-row justify-start items-center hover:bg-ui-grey hover:text-accent-accent transition duration-300">
+                    <label key={index} className="w-full h-12 bg-ui-white text-lg-14 text-type-manatee px-4 flex flex-row justify-start items-center hover:bg-ui-grey hover:text-accent-accent transition duration-300 cursor-pointer">
                         <input 
                             type="checkbox"
                             { ...props.register(props.name) } 
@@ -70,7 +61,7 @@ export default function Dropdown (props) {
                             className="mr-3"
                         />
                         {option.value}
-                    </div>
+                    </label>
                 )}
             </div>
             

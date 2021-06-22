@@ -1,24 +1,27 @@
 import Image from "next/image"
 import UAParser from "ua-parser-js";
-import {useEffect, useState} from "react"
+import {useEffect, useState, useContext} from "react"
+import { SeenRecentlyContext } from "../../components/context";
+import Link from 'next/link'
 
 export default function RecentProducts ({deviceType}) {
-
-    const [itemNr, setItemNr] = useState(3)
-
+    const {seenRecently, setSeenRecently} = useContext(SeenRecentlyContext)
     useEffect(() => {
-        switch(deviceType){
-            case "tablet" : 
-                setItemNr(3)
-            break;
-            case "desktop" :
-                setItemNr(4)
-            break;
-            default:
-                setItemNr(3)
-            break;
+        console.log(seenRecently)
+    }, [seenRecently])
+
+    const [itemNr, setItemNr] = useState(0)
+    
+    useEffect(() => {
+        if(deviceType == "desktop"){
+            console.log("Happened desktop")
+            setItemNr(4)
         }
-    }, [])
+        else{
+            console.log("Happened not desktop")
+            setItemNr(3)
+        }
+    }, [deviceType])
 
     const items = [
         {
@@ -56,26 +59,34 @@ export default function RecentProducts ({deviceType}) {
 
             <div className="w-full h-px bg-ui-blueishGrey mb-6"/>
 
-            <div className="w-full flex flex-row justify-between items-center">
-                {items.slice(0, itemNr).map((item, index)=>
-                    <div className="flex-grow mr-2 h-140px bg-ui-white rounded-lg flex flex-row items-center justify-center">
-                        <div className="h-124px w-124px relative mr-4">
-                            <Image
-                                src={item.img}
-                                layout="fill"
-                                objectFit="cover"
-                            />
-                        </div>
+            <div className="w-full flex flex-row justify-start items-center">
+                {seenRecently.slice(4-itemNr, itemNr+1).map((product, index)=>{
+                    console.log(product)
+                    return(
+                        <Link href={`/produse/${product.slug}`}>
+                            <a  className="w-full max-w-md">
+                                <div className="flex-grow mr-2 h-140px bg-ui-white rounded-lg flex flex-row items-center justify-center max-w-">
+                                    <div className="h-124px w-124px relative mr-4">
+                                        <Image
+                                            src={product.image[0].formats.small.url}
+                                            layout="fill"
+                                            objectFit="cover"
+                                        />
+                                    </div>
 
-                        <div className="h-auto">
-                            <div className="text-lg-17 font-medium text-type-dark mb-10px">
-                                {item.name}
-                            </div>
-                            <div className="text-lg-14 font-normal text-type-grey">
-                                {item.description}
-                            </div>
-                        </div>
-                    </div>
+                                    <div className="h-auto">
+                                        <div className="text-lg-17 font-medium text-type-dark mb-10px">
+                                            {product.name}
+                                        </div>
+                                        <div className="text-lg-14 font-normal text-type-grey">
+                                            de la {Math.trunc(product.defaultsize.width * product.defaultsize.height / 1000000 * product.m2price * product.smallcoeficient)} lei
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </Link>
+                    )
+                }
                 )}
             </div>
         </div>
