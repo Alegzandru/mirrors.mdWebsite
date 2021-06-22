@@ -452,9 +452,13 @@ export default function ProductComponent ({deviceType, name, images, options, op
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
 
-                <span className="mr-1">
-                    Category
-                </span>
+                <Link href={`/${productData[0].category.slug}`}>
+                    <a>
+                        <span className="mr-1">
+                            {productData[0].category.name}
+                        </span>
+                    </a>
+                </Link>
 
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

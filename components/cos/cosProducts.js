@@ -20,6 +20,18 @@ export default function CosProducts(){
 
     let optionsPrice = 0
 
+    const coeficientFinder = (size, product) => {
+        if(size.width*size.height < product.mediumsize.height * product.mediumsize.width){
+            return product.smallcoeficient
+        }
+        else if(size.width*size.height < product.bigsize.height * product.bigsize.width) {
+            return product.mediumcoeficient
+        }
+        else{
+            return product.bigcoeficient
+        }
+    }
+
     const onSubmit = (data) => {
         if(data.height != undefined && data.width != undefined){
             console.log("Changed sizes")
@@ -46,16 +58,22 @@ export default function CosProducts(){
                             .then(dataInside2 => {
                                 changeProduct.size = dataInside2
                                 console.log(dataInside2)
+                                changeProduct.price = Math.trunc(data.height * data.width / 1000000 * changeProduct.product.m2price * coeficientFinder(data, changeProduct.product))
                                 mutableCart[index] = changeProduct
                                 console.log(mutableCart)
-                                setCart(mutableCart)                    
+                                setCart(mutableCart)   
+                                setPopupOpen("")  
+                                reset()               
                             })
                     }
                     else{
                         changeProduct.size = dataInside[0]
+                        changeProduct.price = Math.trunc(data.height * data.width / 1000000 * changeProduct.product.m2price * coeficientFinder(data, changeProduct.product))
                         mutableCart[index] = changeProduct
                         console.log(mutableCart)
-                        setCart(mutableCart)            
+                        setCart(mutableCart)   
+                        setPopupOpen("") 
+                        reset()                         
                     }
             })
         }
@@ -100,8 +118,9 @@ export default function CosProducts(){
             mutableCart[index] = changeProduct
             console.log(mutableCart)
             setCart(mutableCart)
+            setPopupOpen("")     
+            reset()            
         }
-        reset()
     }
 
     useEffect(() => {
@@ -138,23 +157,26 @@ export default function CosProducts(){
 
     return (
         <div className="font-Ubuntu">
-            <div ref={wrapperRef}>
+            <div ref={wrapperRef} className="w-full">
                 {popupProduct != undefined && popupOpen == "size" &&
-                    <div className={`bg-ui-white fixed top-popup-top left-popup-left md:h-444px md:w-720px lg:w-981px lg:h-500px ${popupOpen == "size" ? "block" : "hidden"} z-20 p-12 rounded-xl flex flex-row justify-between items-center`}>
-                        <div className="relative w-368px h-288px">
+                    <div className={`bg-ui-white fixed sm:top-popup-top-sm left-popup-left-sm md:top-popup-top-md md:left-popup-left-md lg:top-popup-top lg:left-popup-left md:h-444px md:w-720px lg:w-981px lg:h-500px ${popupOpen == "size" ? "block" : "hidden"} p-4 md:py-8 md:px-6 lg:p-12 md:rounded-xl flex flex-col md:flex-row justify-between items-start md:items-center z-50 w-full h-full`}>
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 mt-2 mb-6 text-type-grey ml-auto md:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" onClick={() => setPopupOpen("")}>
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                        <div className="relative lg:w-368px md:h-288px md:w-320px w-full h-240px">
                             <Image
                                 src={popupProduct.product.image[0].formats.small.url}
                                 layout="fill"
                                 objectFit="cover"
                             />
                         </div>
-                        <form className="w-444px h-full flex flex-col justify-between items-start pt-6">
-                            <div className="w-full">
-                                <h3 className="w-full text-type-dark text-lg-h3 font-bold mb-8">
+                        <form className="lg:w-444px h-full flex flex-col justify-start md:justify-between items-start pt-6 md:w-320px w-full md:w-auto">
+                            <div className="w-full md:w-auto">
+                                <h3 className="w-full text-type-dark text-sm-h3 md:text-md-h3 lg:text-lg-h3 font-bold mb-8">
                                     {popupProduct.product.name}
                                 </h3>
-                                <div className="flex flex-row justify-between items-end">
-                                    <div className="w-full mr-4">
+                                <div className="flex flex-col md:flex-row justify-between items-end w-full">
+                                    <div className="w-full md:mr-4">
                                         <div className="text-type-grey text-lg-12 mb-2">
                                             <span className="text-type-manatee text-lg-14 font-medium">Înălțime</span> (de la {popupProduct.product.smallestsize.height}mm pînă la {popupProduct.product.biggestsize.height}mm)
                                         </div>
@@ -163,7 +185,7 @@ export default function CosProducts(){
                                                 className="w-84px h-34px bg-ui-grey text-type-manatee flex flex-row justify-center items-center outline-none border-0 rounded mr-2"
                                                 type="number"
                                                 placeholder={popupProduct.size.height}
-                                                {...register("height", { min: popupProduct.product.smallestsize.height, max: popupProduct.product.biggestsize.height, valueAsNumber : true })}
+                                                {...register("height", { min: popupProduct.product.smallestsize.height, max: popupProduct.product.biggestsize.height, valueAsNumber : true, required : true })}
                                             />
                                             {errors.height?.type === 'min' && `Min height is ${popupProduct.product.smallestsize.height}`}
                                             {errors.height?.type === 'max' && `Max height is ${popupProduct.product.biggestsize.height}`}
@@ -178,7 +200,7 @@ export default function CosProducts(){
                                         x
                                     </div>
 
-                                    <div className="w-full ml-4">
+                                    <div className="w-full md:ml-4">
                                         <div className="text-type-grey text-lg-12 mb-2">
                                             <span className="text-type-manatee text-lg-14 font-medium">Lățime</span> (de la {popupProduct.product.smallestsize.width}mm pînă la {popupProduct.product.biggestsize.width}mm)
                                         </div>
@@ -187,7 +209,7 @@ export default function CosProducts(){
                                                 className="w-84px h-34px bg-ui-grey text-type-manatee flex flex-row justify-center items-center outline-none border-0 rounded mr-2"
                                                 type="number"
                                                 placeholder={popupProduct.size.width}
-                                                {...register("width", { min: popupProduct.product.smallestsize.width, max: popupProduct.product.biggestsize.width, valueAsNumber : true })}
+                                                {...register("width", { min: popupProduct.product.smallestsize.width, max: popupProduct.product.biggestsize.width, valueAsNumber : true , required : true })}
                                             />
                                             {errors.width?.type === 'min' && `Min width is ${popupProduct.product.smallestsize.width}`}
                                             {errors.width?.type === 'max' && `Max width is ${popupProduct.product.biggestsize.width}`}
@@ -201,7 +223,7 @@ export default function CosProducts(){
                             </div>
 
                             <button 
-                                className="w-full h-11 rounded-lg bg-accent-accent text-ui-white font-bold text-lg-button"
+                                className="w-full h-11 rounded-lg bg-accent-accent text-ui-white font-bold text-lg-button mt-8 md:mt-0"
                                 onClick={handleSubmit(onSubmit)}
                             >
                                 Salvează
@@ -213,20 +235,23 @@ export default function CosProducts(){
 
                 {
                     popupProduct != undefined && popupOpen == "addOns" &&
-                    <div className={`bg-ui-white absolute top-popup-top left-popup-left w-981px ${popupOpen == "addOns" ? "block" : "hidden"} z-20 p-12 rounded-xl flex flex-row justify-between items-start`}>
-                        <div>
-                            <div className="relative w-368px h-288px">
+                    <div className={`bg-ui-white absolute top-popup-top-sm left-popup-left-sm md:top-140px md:left-popup-left-md lg:top-popup-140px lg:left-popup-left w-full md:w-720px lg:w-981px ${popupOpen == "addOns" ? "block" : "hidden"} p-4 md:py-8 md:px-6 lg:p-12 md:rounded-xl flex flex-col md:flex-row justify-start md:justify-between items-start z-50`}>
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 mt-2 mb-6 text-type-grey ml-auto md:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" onClick={() => setPopupOpen("")}>
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                        <div className="w-full md:w-auto">
+                            <div className="relative lg:w-368px md:h-288px md:w-320px w-full h-240px">
                                 <Image
                                     src={popupProduct.product.image[0].formats.small.url}
                                     layout="fill"
                                     objectFit="cover"
                                 />
                             </div>
-                            <h3 className="w-full text-type-dark text-lg-h3 font-bold mt-6">
+                            <h3 className="w-full text-type-dark text-sm-h3 md:text-md-h3 lg:text-lg-h3 font-bold mt-6">
                                 {popupProduct.product.name}
                             </h3>
                         </div>
-                        <div className="w-444px h-full flex flex-col justify-start items-start pt-6">
+                        <div className="md:w-320px lg:w-444px h-full flex flex-col justify-start items-start pt-6 w-full">
 
                             <form className="w-full">
 
@@ -287,22 +312,24 @@ export default function CosProducts(){
                             return(
                                 <div className="flex flex-col md:flex-row w-full border-l-0 border-b-2 border-t-0 border-r-0 border-ui-darkGrey">
                                     <div className="py-6 px-2 lg:px-6 md:w-cart-md lg:w-cart-lg flex flex-row justify-start items-center border-l-0 border-b md:border-b-0 border-t-0 border-r-2 border-ui-darkGrey">
-                                        <svg 
-                                            xmlns="http://www.w3.org/2000/svg" 
-                                            className="h-6 w-6 text-type-grey mr-2 cursor-pointer" 
-                                            fill="none" 
-                                            viewBox="0 0 24 24" 
-                                            stroke="currentColor"
-                                            onClick={() => {
-                                                setCart(
-                                                    cart.filter((product2, index2) => {
-                                                        return index != index2
-                                                    })
-                                                )
-                                            }}
-                                        >
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                                        </svg>
+                                        <div className="h-8 w-8 flex flex-row justify-center items-center rounded-lg hover:bg-ui-grey mr-2 transition duration-300 group">
+                                            <svg 
+                                                xmlns="http://www.w3.org/2000/svg" 
+                                                className="h-6 w-6 text-type-grey cursor-pointer group-hover:text-accent-error transition duration-300" 
+                                                fill="none" 
+                                                viewBox="0 0 24 24" 
+                                                stroke="currentColor"
+                                                onClick={() => {
+                                                    setCart(
+                                                        cart.filter((product2, index2) => {
+                                                            return index != index2
+                                                        })
+                                                    )
+                                                }}
+                                            >
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                            </svg>
+                                        </div>
                                         <div className="w-full flex flex-row md:flex-col lg:flex-row justify-start items-start lg:items-center">
                                             <div className="lg:ml-6 w-20 h-20 lg:w-112px lg:h-112px relative mr-6 md:mb-6 lg:mb-0">
                                                 <Image
@@ -403,47 +430,51 @@ export default function CosProducts(){
                                         </div>
                                     </div>
                                     <div className="py-6 px-2 lg:px-6 md:w-40 lg:w-272px border-l-0 border-b md:border-b-0 border-t-0 border-r-2 border-ui-darkGrey flex flex-row justify-center items-center">
-                                        <svg 
-                                            xmlns="http://www.w3.org/2000/svg" 
-                                            className="h-8 w-8 text-type-dark cursor-pointer" 
-                                            fill="none" viewBox="0 0 24 24" 
-                                            stroke="currentColor"
-                                            onClick={() => {
-                                                if(product.number == 1){
-                                                    setCart(
-                                                        cart.filter((product2, index2) => {
-                                                            return index != index2
-                                                        })
-                                                    )
-                                                }
-                                                else{
-                                                    let mutableCart = [...cart]
-                                                    mutableCart[index].number -= 1
-                                                    setCart(mutableCart)
-                                                }
-                                            }}
-                                        >
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
-                                        </svg>
+                                        <div className="w-40px h-40px flex flex-row justify-center items-center group hover:bg-ui-grey transition duration-300 rounded-lg">
+                                            <svg 
+                                                xmlns="http://www.w3.org/2000/svg" 
+                                                className="h-8 w-8 text-type-dark cursor-pointer group-hover:text-accent-accent transition duration-300" 
+                                                fill="none" viewBox="0 0 24 24" 
+                                                stroke="currentColor"
+                                                onClick={() => {
+                                                    if(product.number == 1){
+                                                        setCart(
+                                                            cart.filter((product2, index2) => {
+                                                                return index != index2
+                                                            })
+                                                        )
+                                                    }
+                                                    else{
+                                                        let mutableCart = [...cart]
+                                                        mutableCart[index].number -= 1
+                                                        setCart(mutableCart)
+                                                    }
+                                                }}
+                                            >
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+                                            </svg>
+                                        </div>
                                 
                                         <div className="bg-ui-grey rounded-lg h-12 text-lg-32 text-type-manatee px-18px mx-2 lg:mx-4 flex flex-row justify-center items-center">
                                             {product.number}
                                         </div>
 
-                                        <svg 
-                                            xmlns="http://www.w3.org/2000/svg" 
-                                            className="h-8 w-8 text-type-dark cursor-pointer" 
-                                            fill="none" 
-                                            viewBox="0 0 24 24" 
-                                            stroke="currentColor"
-                                            onClick={() => {
-                                                let mutableCart = [...cart]
-                                                mutableCart[index].number += 1
-                                                setCart(mutableCart)
-                                            }}
-                                        >
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                                        </svg>
+                                        <div className="w-40px h-40px flex flex-row justify-center items-center group hover:bg-ui-grey transition duration-300 rounded-lg">
+                                            <svg 
+                                                xmlns="http://www.w3.org/2000/svg" 
+                                                className="h-8 w-8 text-type-dark cursor-pointer group-hover:text-accent-accent transition duration-300" 
+                                                fill="none" 
+                                                viewBox="0 0 24 24" 
+                                                stroke="currentColor"
+                                                onClick={() => {
+                                                    let mutableCart = [...cart]
+                                                    mutableCart[index].number += 1
+                                                    setCart(mutableCart)
+                                                }}
+                                            >
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                            </svg>
+                                        </div>
                                     </div>
                                     <div className="py-6 px-2 lg:px-8 md:w-40 lg:w-272px border-l-0 border-b md:border-b-0 border-t-0 border-r-2 border-ui-darkGrey text-lg-14 text-type-grey flex flex-col justify-between">
                                         <div className="w-full">
@@ -452,7 +483,7 @@ export default function CosProducts(){
                                                     Oglinda
                                                 </div>
                                                 <div>
-                                                    {product.price} lei
+                                                    {product.price * product.number} lei
                                                 </div>
                                             </div>
                                             <div className="flex flex-row justify-between items-start w-full mb-2">
@@ -460,7 +491,7 @@ export default function CosProducts(){
                                                     Optiuni
                                                 </div>
                                                 <div>
-                                                    {optionsPrice+" lei"}
+                                                    {optionsPrice * product.number} lei
                                                 </div>
                                             </div>
                                         </div>
@@ -469,7 +500,7 @@ export default function CosProducts(){
                                                 Total
                                             </div>
                                             <div>
-                                                {product.price + optionsPrice} lei
+                                                {(product.price + optionsPrice) * product.number} lei
                                             </div>
                                         </div>
                                     </div>

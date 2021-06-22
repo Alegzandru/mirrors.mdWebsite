@@ -17,6 +17,7 @@ export default function Checkout() {
 
     const onSubmit = (data) => {
         console.log(data)
+        setUserInfo({...data})
         console.log({...data})
         // if(step == 3){
         //     setUserInfo({
@@ -104,7 +105,7 @@ export default function Checkout() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
                 <span>
-                    Întrebări frecvente
+                    Checkout
                 </span>
             </div>
             <h2 className="text-sm-h2 md:text-md-h2 lg:text-lg-h2 text-type-dark font-bold w-full text-center mb-3">
@@ -463,13 +464,28 @@ export default function Checkout() {
                             </div>
                             <div className="text-type-manatee w-full">
                                 <div className="mb-2 font-medium">
-                                    livrare gratuita
+                                    {
+                                        userInfo.livrare == "livrare_la_usa" ?
+                                        "livrare - 150 lei"
+                                        :
+                                        "livrare - 0 lei"
+                                    }
                                 </div>
                                 <div>
-                                    Livrare până la ușă,
+                                    {
+                                        userInfo.livrare == "livrare_la_usa" ?
+                                        "Livrare până la ușă"
+                                        :
+                                        "Preluare din oficiu"
+                                    }
                                 </div>
                                 <div>
-                                    str. Bucuresti 72
+                                    {
+                                        userInfo.livrare == "livrare_la_usa" ?
+                                        userInfo.adresa
+                                        :
+                                        "str. Calea Moșilor 9/1 etaj. 2"
+                                    }
                                 </div>
                             </div>
                         </div>

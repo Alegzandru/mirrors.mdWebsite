@@ -130,7 +130,7 @@ export function Navbar (props) {
     },[search])
 
     return (
-        <div className="z-50 w-full lg:-mb-36 font-Ubuntu header-shadow">
+        <div className="z-40 w-full lg:-mb-36 font-Ubuntu header-shadow">
             <div className={`${mobileSearchOpen ? "fixed block" : "hidden"} w-screen bg-ui-white z-40 px-18px md:px-16 pt-52px md:pt-72px pb-4 md:pb-10`}>
                 <div className="w-full flex flex-row justify-between items-center mb-3 md:mb-4">
                     <input
