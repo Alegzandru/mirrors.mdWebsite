@@ -31,15 +31,15 @@ export default function ContacteForm () {
             message: state.message
         };
 
-        emailjs
-            .send("contact_mirrors", "contact_mirrors_template", templateParams, "user_ZA1vIK4AFiFlHQavVXqcs")
-            .then(
-                function(response) {
-                console.log("SUCCESS!", response.status, response.text);
-                },
-                function(err) {
-                }
-            );
+        // emailjs
+        //     .send("contact_mirrors", "contact_mirrors_template", templateParams, "user_ZA1vIK4AFiFlHQavVXqcs")
+        //     .then(
+        //         function(response) {
+        //         console.log("SUCCESS!", response.status, response.text);
+        //         },
+        //         function(err) {
+        //         }
+        //     );
         setState({
             nume: "",
             phone: "",
