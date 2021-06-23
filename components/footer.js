@@ -141,21 +141,41 @@ export default function Footer () {
                     </div>
 
                     <ul className="text-lg-14 mt-8">
-                        <li className="mb-4">
-                            Pagina principală
-                        </li>
-                        <li className="mb-4">
-                            Contacte
-                        </li>
-                        <li className="mb-4">
-                            Galeria
-                        </li>
-                        <li className="mb-4">
-                            Întrebări frecvente
-                        </li>
-                        <li className="mb-4">
-                            Plata, livrarea și ambalarea
-                        </li>
+                        <Link href="/">
+                            <a>
+                                <li className="mb-4">
+                                    Pagina principală
+                                </li>
+                            </a>
+                        </Link>
+                        <Link href="/contacte">
+                            <a>
+                                <li className="mb-4">
+                                    Contacte
+                                </li>
+                            </a>
+                        </Link>
+                        <Link href="/galeria">
+                            <a>
+                                <li className="mb-4">
+                                    Galeria
+                                </li>
+                            </a>
+                        </Link>
+                        <Link href="/intrebari-frecvente">
+                            <a>
+                                <li className="mb-4">
+                                    Întrebări frecvente
+                                </li>
+                            </a>
+                        </Link>
+                        <Link href="/">
+                            <a>
+                                <li className="mb-4">
+                                    Plata, livrarea și ambalarea
+                                </li>
+                            </a>
+                        </Link>
                     </ul>
                 </div>
                 <div className="text-type-grey mdFooter:hidden mt-12">

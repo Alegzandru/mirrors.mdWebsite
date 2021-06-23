@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import {useContext, useEffect, useState} from "react"
 import { useRouter } from 'next/router'
-import { CartContext, WidthContext } from './context';
+import { CartContext, WidthContext, DeviceTypeContext } from './context';
 import Link from "next/link"
 import { Turn as Hamburger } from 'hamburger-react'
 import { Slide } from "react-awesome-reveal";
@@ -11,6 +11,7 @@ import { Fade } from "react-awesome-reveal";
 // import AnimatedProgressProvider from "./AnimatedProgressProvider";
 import ChangingProgressProvider from "./progress/ChangingProgressProvider"
 import 'react-circular-progressbar/dist/styles.css';
+import { useSpring, animated } from 'react-spring'
 var qs = require('qs');
 
 
@@ -36,11 +37,23 @@ export function Navbar (props) {
     const [mobileCatalogOpen , setMobileCatalogOpen] = useState(0)
 
     const {cart, setCart} = useContext(CartContext)
+    const {deviceType, setDeviceType} = useContext(DeviceTypeContext)
 
     const router = useRouter()
 
     var lastScrollTop = 0;
 
+    const styles = useSpring({ 
+        height: deviceType != "desktop" ? 64 : scrollUp ? 144 : 56
+    })
+
+    const styles2 = useSpring({ 
+        height: scrollUp ? 88 : 0
+    })
+
+    // const stylesSearchMobile = useSpring({
+    //     height : mobileSearchOpen ? deviceType == "mobile" ? 150 : 226 : 0
+    // })
     
     async function getSearchProducts() {
         setLoading(1)
@@ -130,8 +143,14 @@ export function Navbar (props) {
     },[search])
 
     return (
-        <div className="z-40 w-full lg:-mb-36 font-Ubuntu header-shadow">
-            <div className={`${mobileSearchOpen ? "fixed block" : "hidden"} w-screen bg-ui-white z-40 px-18px md:px-16 pt-52px md:pt-72px pb-4 md:pb-10`}>
+        <animated.div 
+            className="z-40 w-full lg:-mb-36 font-Ubuntu header-shadow overflow-hidden"
+            style={styles}
+        >
+            <animated.div 
+                className={`${mobileSearchOpen ? "fixed block" : "hidden"} w-screen bg-ui-white z-40 px-18px md:px-16 pt-52px md:pt-72px pb-4 md:pb-10`}
+                // style={stylesSearchMobile}
+            >
                 <div className="w-full flex flex-row justify-between items-center mb-3 md:mb-4">
                     <input
                         type="text"
@@ -198,9 +217,12 @@ export function Navbar (props) {
                         )}
                     </div>
                 }
-            </div>
-            {scrollUp ?
-                    <div className={`h-88px ${transparent ? "bg-transparent" : "bg-ui-white" } hidden lg:block lg:overflow-hidden w-full transition duration-300`}>
+            </animated.div>
+            {/* {scrollUp ? */}
+                    <animated.div 
+                        className={`h-88px ${transparent ? "bg-transparent" : "bg-ui-white" } hidden lg:block lg:overflow-hidden w-full transition duration-300`}
+                        style={styles2}
+                    >
                         <div className="lg:mx-container-lg xl:mx-container-xl h-full">
                             <div className="h-full w-full flex flex-row justify-between items-start font-14 pt-6">
                                 <div className="w-365px">
@@ -215,7 +237,7 @@ export function Navbar (props) {
                                     </Link>
                                 </div>
 
-                                <div className={`flex flex-col items-end ${transparent ? "text-ui-blueishGrey" : "text-type-grey"} focus-within:text-type-dark absolute left-search-left`}>
+                                <div className={`flex flex-col items-end ${transparent ? "text-ui-blueishGrey" : "text-type-grey"} focus-within:text-type-dark relative mx-auto`}>
                                     <input 
                                         className={`h-10 w-504px ${transparent ? "bg-ui-dark" : "bg-ui-grey"} ${search != "" ? "rounded-t-lg border-ui-darkGrey" : "rounded-lg focus:border-ui-blueishGrey"} px-4 flex flex-row items-center focus:bg-ui-white border-2 border-transparent transition duration-300 outline-none`}
                                         placeholder="Căutare în catalog"
@@ -315,10 +337,10 @@ export function Navbar (props) {
                                 </div>
                             </div>
                         </div>
-                    </div>
-                :
+                    </animated.div>
+                {/* :
                 ""
-            }
+            } */}
 
             
             <div className={`h-56px hidden ${transparent ? "bg-transparent" : "bg-ui-grey hidden"} lg:block lg:overflow-hidden w-full transition duration-300`}>
@@ -523,6 +545,6 @@ export function Navbar (props) {
                     </ul>
                 </Slide>
             </div>
-        </div>
+        </animated.div>
     )
 }

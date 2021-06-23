@@ -41,6 +41,7 @@ export default function Layout (props) {
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
                 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
                 <meta name="description" content={props.description}/>
+                <script src="./js/base.js" type="model"></script>
             </Head>
 
             <header className={`transition duration-300 z-50 fixed top-0 left-0 ${popupOpen ? "filter brightness-50" : ""} w-full`}>
