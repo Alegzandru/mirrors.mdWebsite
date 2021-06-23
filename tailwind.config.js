@@ -109,7 +109,7 @@ module.exports = {
 
       backgroundImage: theme => ({
         'hero-pattern': "url('/mainPage/hero/heroBg.jpg')",
-        'icon5' : "url(/mainPage/benefits/icon5.png)",
+        'icon5' : "url(/mainPage/benefits/greenHeart.png)",
         'options' : "url(/mainPage/options/bgOptions.png)"
       }),
 
