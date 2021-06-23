@@ -512,7 +512,12 @@ export default function Checkout() {
                                 Total
                             </div>
                             <div className="text-type-manatee w-full">
-                                {priceTotal + " lei"}
+                                {
+                                    userInfo.livrare == "livrare_la_usa" ?
+                                    priceTotal +  150 + " lei"
+                                    :
+                                    priceTotal + "lei"
+                                }
                             </div>
                         </div>
                     </div>

@@ -225,7 +225,7 @@ export default function Footer () {
                 className="w-full flex flex-col items-center justify-start"
             >
                 <div className="flex flex-col items-center justify-start">
-                    <div className="w-full flex flex-row items-center justify-center text-lg-17 text-ui-grey mt-8 mb-1">
+                    <div className="w-full flex flex-row items-center justify-center text-lg-17 text-ui-grey mt-4 mb-1">
                         <div>
                             Crafted by
                         </div>

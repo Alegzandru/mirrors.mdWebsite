@@ -144,7 +144,7 @@ export function Navbar (props) {
 
     return (
         <animated.div 
-            className="z-40 w-full lg:-mb-36 font-Ubuntu header-shadow overflow-hidden"
+            className="z-40 w-full lg:-mb-36 font-Ubuntu header-shadow"
             style={styles}
         >
             <animated.div 
@@ -220,7 +220,7 @@ export function Navbar (props) {
             </animated.div>
             {/* {scrollUp ? */}
                     <animated.div 
-                        className={`h-88px ${transparent ? "bg-transparent" : "bg-ui-white" } hidden lg:block lg:overflow-hidden w-full transition duration-300`}
+                        className={`h-88px ${transparent ? "bg-transparent" : "bg-ui-white" } hidden lg:block w-full transition duration-300 lg:overflow-hidden`}
                         style={styles2}
                     >
                         <div className="lg:mx-container-lg xl:mx-container-xl h-full">
@@ -237,9 +237,9 @@ export function Navbar (props) {
                                     </Link>
                                 </div>
 
-                                <div className={`flex flex-col items-end ${transparent ? "text-ui-blueishGrey" : "text-type-grey"} focus-within:text-type-dark relative mx-auto`}>
+                                <div className={`flex flex-col items-end ${transparent ? "text-ui-blueishGrey" : "text-type-grey"} ${scrollUp ? "flex" : "hidden"} focus-within:text-type-dark absolute mx-auto left-search-left`}>
                                     <input 
-                                        className={`h-10 w-504px ${transparent ? "bg-ui-dark" : "bg-ui-grey"} ${search != "" ? "rounded-t-lg border-ui-darkGrey" : "rounded-lg focus:border-ui-blueishGrey"} px-4 flex flex-row items-center focus:bg-ui-white border-2 border-transparent transition duration-300 outline-none`}
+                                        className={`h-10 w-504px ${transparent ? "bg-ui-dark" : "bg-ui-grey"} ${search != "" ? "rounded-t-lg border-ui-darkGrey" : "rounded-lg focus:border-ui-blueishGrey"} px-4 flex-row items-center focus:bg-ui-white border-2 border-transparent transition duration-300 outline-none`}
                                         placeholder="Căutare în catalog"
                                         onChange={event => setSearch(event.target.value)}
                                     />
@@ -248,7 +248,7 @@ export function Navbar (props) {
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                                     </svg>
 
-                                    {search != "" && 
+                                    {search != "" &&
                                         <div className={`w-full bg-ui-white mt-3 rounded-b-lg border-l-2 border-r-2 border-b-2 border-t-0 ${search != "" ? "border-ui-darkGrey" : ""}`}>
                                             {
                                             loading ? 
