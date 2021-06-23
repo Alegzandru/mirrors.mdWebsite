@@ -1,7 +1,7 @@
 import { useState } from "react"
 import dynamic from 'next/dynamic'
 // const emailjs = dynamic(import('emailjs-com'), { ssr: false })
-import emailjs from 'emailjs-com';
+// import emailjs from 'emailjs-com';
 
 export default function ContacteForm () {
 
