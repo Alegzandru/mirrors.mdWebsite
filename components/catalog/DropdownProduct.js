@@ -229,7 +229,7 @@ export default function DropdownProduct(props) {
                                     {errors.height?.type === 'max' && `Max height is ${props.maxHeight}`}
 
                                     <span className="text-ui-black font-medium">
-                                        cm
+                                        mm
                                     </span>
                                 </div>
                             </div>
@@ -253,7 +253,7 @@ export default function DropdownProduct(props) {
                                     {errors.width?.type === 'max' && `Max width is ${props.maxWidth}`}
 
                                     <span className="text-ui-black font-medium">
-                                        cm
+                                        mm
                                     </span>
                                 </div>
                             </div>

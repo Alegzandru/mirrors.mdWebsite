@@ -181,7 +181,7 @@ export default function CosProducts(){
                                             {errors.height?.type === 'max' && `Max height is ${popupProduct.product.biggestsize.height}`}
 
                                             <span className="text-ui-black">
-                                                cm
+                                                mm
                                             </span>
                                         </div>
                                     </div>
@@ -205,7 +205,7 @@ export default function CosProducts(){
                                             {errors.width?.type === 'max' && `Max width is ${popupProduct.product.biggestsize.width}`}
 
                                             <span className="text-ui-black">
-                                                cm
+                                                mm
                                             </span>
                                         </div>
                                     </div>

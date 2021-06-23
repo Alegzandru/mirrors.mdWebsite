@@ -53,7 +53,12 @@ export default function Dropdown (props) {
 
             <div className={`lg:w-dropdown ${open ? "block" : "hidden"} relative lg:absolute card2-shadow z-30`}>
                 {props.filterOptions.map((option, index) => 
-                    <label key={index} className="w-full h-12 bg-ui-white text-lg-14 text-type-manatee px-4 flex flex-row justify-start items-center hover:bg-ui-grey hover:text-accent-accent transition duration-300 cursor-pointer">
+                    <label 
+                        key={index} 
+                        className="w-full h-12 bg-ui-white text-lg-14 text-type-manatee px-4 flex flex-row justify-start items-center hover:bg-ui-grey hover:text-accent-accent transition duration-300 cursor-pointer"
+                        // onChange={props.handleSubmit(props.onSubmit)}
+                        // onClick={props.handleSubmit(props.onSubmit)}
+                    >
                         <input 
                             type="checkbox"
                             { ...props.register(props.name) } 

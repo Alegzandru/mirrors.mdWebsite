@@ -38,6 +38,8 @@ export default function FilterPopup (props) {
                             })}
                             register={props.register}
                             active={props.activeFilters[index].active}
+                            handleSubmit={props.handleSubmit}
+                            onSubmit={props.onSubmit}
                         ></Dropdown>
                     )}
 

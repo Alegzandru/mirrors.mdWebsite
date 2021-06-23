@@ -138,11 +138,11 @@ export default function Category({category, name, products}) {
             }
             break;
             case 2 : {
-                setProductsApi([...productsApi].sort((a, b) => b.price - a.price))
+                setProductsApi([...productsApi].sort((a, b) => Math.trunc( b.defaultsize.width * b.defaultsize.height / 1000000 * (1 + b.smallcoeficient) * b.m2price) - Math.trunc( a.defaultsize.width * a.defaultsize.height / 1000000 * (1 + a.smallcoeficient) * a.m2price)))
             }
             break;
             case 3 : {
-                setProductsApi([...productsApi].sort((a, b) => a.price - b.price))
+                setProductsApi([...productsApi].sort((a, b) => Math.trunc( a.defaultsize.width * a.defaultsize.height / 1000000 * (1 + a.smallcoeficient) * a.m2price) - Math.trunc( b.defaultsize.width * b.defaultsize.height / 1000000 * (1 + b.smallcoeficient) * b.m2price)))
             }
             break;
             default : setProductsApi(products)
@@ -239,6 +239,8 @@ export default function Category({category, name, products}) {
                                         })}
                                         register={register}
                                         active={activeFilters[index].active}
+                                        handleSubmit={handleSubmit}
+                                        onSubmit={onSubmit}
                                     ></Dropdown>
                                 </div>
                             )
