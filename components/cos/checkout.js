@@ -98,10 +98,6 @@ export default function Checkout() {
                         fetch(`https://mirrors-md-admin.herokuapp.com/clients`, requestOptionsClient)
                             .then(response => response.json())
                             .then(data => {
-                                console.log({
-                                    ...data,
-                                    orders : orders
-                                })
                                 sendMailOwner({
                                     ...data,
                                     orders : orders
