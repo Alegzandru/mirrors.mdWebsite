@@ -26,7 +26,8 @@ export async function getStaticProps ({params}){
     return {
         props : {
             category : category,
-            products : products
+            products : products,
+            key: category[0].id
         }
     }
 }

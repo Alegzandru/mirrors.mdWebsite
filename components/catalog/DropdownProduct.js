@@ -152,57 +152,11 @@ export default function DropdownProduct(props) {
                 //     console.log(chosen)
                 // }}
             >
-                {props.options.map((option, index)=>
-                <div className="w-full bg-ui-white">
-                    <label 
-                        className={`w-full h-auto py-3 flex flex-row justify-between items-start px-4 ${props.options.length != 1 ? chosen==option.typename ? "text-type-dark":"text-type-grey hover:text-type-manatee" : checked ? "text-type-dark" : "text-type-grey hover:text-type-manatee"} transition duration-300 cursor-pointer`}
-                        key={index}
-                    >
-                        <div className="flex-grow text-lg-14 flex flex-row justify-start items-center">
-                            {
-                                props.options.length != 1?
-                                <input 
-                                    { ...props.register( props.name ) } 
-                                    type="radio" 
-                                    className="h-3 w-3 border-2 border-type-grey checked:bg-accent-accent hover:bg-accent-transparent shadow-none outline-none mr-2 transition duration-300" 
-                                    name={props.name}
-                                    value={option.typename}
-                                    checked={chosen == option.typename}
-                                    onClick={e => {
-                                        handleClick(e)
-                                        setChosen(option.typename)
-                                    }}
-                                />
-                                :
-                                <input 
-                                    { ...props.register( props.name ) } 
-                                    type="checkbox" 
-                                    className="h-3 w-3 border-2 border-type-grey checked:bg-accent-accent hover:bg-accent-transparent shadow-none outline-none mr-2 transition duration-300" 
-                                    name={props.name}
-                                    onClick={(e) => {
-                                        handleClick(e)
-                                        setChecked(!checked)
-                                    }}
-                                />
-                            }
-                            <div>
-                                {props.options.length != 1? option.typename : option.name}
-                            </div>
-                        </div>
-                        <div className="md:w-200px text-lg-14 font-medium">
-                            {option.price} lei
-                        </div>
-                    </label>
-                    <div className={`${props.options.length != 1 ? chosen == option.typename ? "block" : "hidden" : checked ? "block" : "hidden"} text-type-grey text-lg-12 pl-34px pb-14px max-w-4xl`}>
-                        {option.description}
-                    </div>
-                </div>
-                )}
                 {
                     props.name == "Dimensiuni recomandate" &&
-                    <div className="w-full pl-4 pb-4">
+                    <div className="w-full pl-4">
                         <div 
-                            className="flex flex-row justify-start items-center mt-14px mb-4 cursor-pointer text-accent-accent hover:text-accent-light"
+                            className="flex flex-row justify-start items-center mt-14px cursor-pointer text-accent-accent hover:text-accent-light mb-2"
                             onClick={() => setOpenCustom(!openCustom)}
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-14px w-14px mr-2 transition duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -213,7 +167,7 @@ export default function DropdownProduct(props) {
                             </div>
                         </div>
 
-                        <form className={`flex flex-row justify-start items-center ${openCustom ? "block" : "hidden"}`}>
+                        <form className={`flex flex-row justify-start items-center ${openCustom ? "block" : "hidden"} mt-4`}>
                             <div className="mr-4">
                                 <div className="text-type-grey text-lg-12 mb-2">
                                     <span className="text-type-manatee text-lg-14 font-medium">Înălțime</span>
@@ -260,44 +214,60 @@ export default function DropdownProduct(props) {
                         </form>
 
                         <div 
-                            className={`flex flex-row justify-center items-center w-128px px-10 h-34px bg-accent-accent text-ui-white hover:bg-accent-light font-bold rounded-lg transition duration-300 text-lg-14 cursor-pointer mt-14px ${openCustom ? "block" : "hidden"}`}
+                            className={`flex flex-row justify-center items-center w-128px px-10 h-34px bg-accent-accent text-ui-white hover:bg-accent-light font-bold rounded-lg transition duration-300 text-lg-14 cursor-pointer mt-14px ${openCustom ? "block" : "hidden"} mb-4`}
                             onClick={handleSubmit(onSubmit)}
                         >
                             Salvează
                         </div>
                     </div>
-
-
-
-                    // <form 
-                    //     className={`w-full flex-row justify-start items-center px-4 py-14px`}
-                    // >
-                    //     <input
-                    //         className="w-full"
-                    //         type="number"
-                    //         placeholder="Înălțime"
-                    //         {...register("height", { min: props.minHeight, max: props.maxHeight, valueAsNumber : true })}
-                    //     />
-                    //     {errors.height?.type === 'min' && `Min height is ${props.minHeight}`}
-                    //     {errors.height?.type === 'max' && `Max height is ${props.maxHeight}`}
-
-                    //     <input
-                    //         className="w-full"
-                    //         type="number"
-                    //         placeholder="Lățime"
-                    //         {...register("width", { min: props.minWidth, max: props.maxWidth, valueAsNumber : true })}
-                    //     />
-                    //     {errors.width?.type === 'min' && `Min width is ${props.minWidth}`}
-                    //     {errors.width?.type === 'max' && `Max width is ${props.maxWidth}`}
-
-                    //     <input
-                    //         className="bg-accent-accent type-ui-white"
-                    //         type="button"
-                    //         value="Alege"
-                    //         onClick={handleSubmit(onSubmit)}
-                    //     />
-                    // </form>
                 }
+
+                {props.options.map((option, index)=>
+                <div className="w-full bg-ui-white">
+                    <label 
+                        className={`w-full h-auto py-3 flex flex-row justify-between items-start px-4 ${props.options.length != 1 ? chosen==option.typename ? "text-type-dark":"text-type-grey hover:text-type-manatee" : checked ? "text-type-dark" : "text-type-grey hover:text-type-manatee"} transition duration-300 cursor-pointer`}
+                        key={index}
+                    >
+                        <div className="flex-grow text-lg-14 flex flex-row justify-start items-center">
+                            {
+                                props.options.length != 1?
+                                <input 
+                                    { ...props.register( props.name ) } 
+                                    type="radio" 
+                                    className="h-3 w-3 border-2 border-type-grey checked:bg-accent-accent hover:bg-accent-transparent shadow-none outline-none mr-2 transition duration-300" 
+                                    name={props.name}
+                                    value={option.typename}
+                                    checked={chosen == option.typename}
+                                    onClick={e => {
+                                        handleClick(e)
+                                        setChosen(option.typename)
+                                    }}
+                                />
+                                :
+                                <input 
+                                    { ...props.register( props.name ) } 
+                                    type="checkbox" 
+                                    className="h-3 w-3 border-2 border-type-grey checked:bg-accent-accent hover:bg-accent-transparent shadow-none outline-none mr-2 transition duration-300" 
+                                    name={props.name}
+                                    onClick={(e) => {
+                                        handleClick(e)
+                                        setChecked(!checked)
+                                    }}
+                                />
+                            }
+                            <div>
+                                {props.options.length != 1? option.typename : option.name}
+                            </div>
+                        </div>
+                        <div className="md:w-200px text-lg-14 font-medium">
+                            {option.price} lei
+                        </div>
+                    </label>
+                    <div className={`${props.options.length != 1 ? chosen == option.typename ? "block" : "hidden" : checked ? "block" : "hidden"} text-type-grey text-lg-12 pl-34px pb-14px max-w-4xl`}>
+                        {option.description}
+                    </div>
+                </div>
+                )}
             </div>
 
         </div>

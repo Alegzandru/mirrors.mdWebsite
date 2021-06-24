@@ -13,6 +13,34 @@ export default function Checkout() {
 
     const { reset, register, handleSubmit, watch, formState: { errors } } = useForm();
 
+    const sendMailOwner = async (data) => {
+
+        try {
+            await fetch("/api/owner", {
+                "method": "POST",
+                "headers": { "content-type": "application/json" },
+                "body": JSON.stringify(data)
+            })
+        } 
+        catch (error) {
+        }
+    
+    }
+
+    const sendMailClient = async (data) => {
+
+        try {
+            await fetch("/api/client", {
+                "method": "POST",
+                "headers": { "content-type": "application/json" },
+                "body": JSON.stringify(data)
+            })
+        } 
+        catch (error) {
+        }
+    
+    }
+
     const onSubmit = (data) => {
         console.log(data)
         setUserInfo({...data})
@@ -44,7 +72,12 @@ export default function Checkout() {
                 fetch(`https://mirrors-md-admin.herokuapp.com/orders`, requestOptions)
                 .then(response => response.json())
                 .then(dataInside => {
-                    orders.push(dataInside)
+                    orders.push(
+                        {
+                            ...dataInside,
+                            image : dataInside.products[0].image[0].formats.small.url
+                        }
+                    )
                     if(index == cart.length -1 ){
                         const requestOptionsClient = {
                             method: 'POST',
@@ -64,7 +97,20 @@ export default function Checkout() {
             
                         fetch(`https://mirrors-md-admin.herokuapp.com/clients`, requestOptionsClient)
                             .then(response => response.json())
-                            .then(data => console.log(data))
+                            .then(data => {
+                                console.log({
+                                    ...data,
+                                    orders : orders
+                                })
+                                sendMailOwner({
+                                    ...data,
+                                    orders : orders
+                                })
+                                sendMailClient({
+                                    ...data,
+                                    orders: orders
+                                })
+                            })
                     }
                 })
             })
@@ -501,7 +547,7 @@ export default function Checkout() {
                                         userInfo.livrare == "livrare_la_usa" ?
                                         userInfo.adresa
                                         :
-                                        "str. Calea Moșilor 9/1 etaj. 2"
+                                        "str. Ismail 98"
                                     }
                                 </div>
                             </div>
@@ -522,8 +568,11 @@ export default function Checkout() {
                         </div>
                     </div>
 
-                    <div className="text-sm-h4 md:text-lg-28 text-type-manatee font-bold mb-4 mt-10">
+                    <div className="text-sm-h4 md:text-lg-28 text-type-manatee font-bold mb-3 mt-10">
                         Comentariu
+                    </div>
+                    <div className="text-lg-14 text-type-grey mb-4 font-bold">
+                        * Dacă aveți un promo-code, puteți să-l adăugați aici
                     </div>
                     <input
                         type="text"

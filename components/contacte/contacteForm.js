@@ -1,59 +1,31 @@
 import { useState } from "react"
 import dynamic from 'next/dynamic'
-// const emailjs = dynamic(import('emailjs-com'), { ssr: false })
-// import emailjs from 'emailjs-com';
+import { useForm } from "react-hook-form";
 
 export default function ContacteForm () {
 
-    const [state, setState] = useState({
-        nume: "",
-        phone: "",
-        message: "",
-    })
+    const { register, handleSubmit, watch, reset, formState: { errors } } = useForm();
+
+    const sendMail = async (data) => {
+
+        try {
+            await fetch("/api/contact", {
+                "method": "POST",
+                "headers": { "content-type": "application/json" },
+                "body": JSON.stringify(data)
+            })
+        } 
+        catch (error) {
+        }
+    
+    }
 
     const [emailSent, setEmailSent] = useState(0)
-
-    function handleInputChange(e) {
-        e.preventDefault();
-        const target = e.target;
-        const name = target.name;
-        const value = target.value;
-        setState({ ...state , [name]: value });
-    }
-
-    function sendEmail(e) {
-
-        e.preventDefault();
-
-        const templateParams = {
-            from_name: state.nume +  " ( Nr. de Telefon : " + state.phone + ")",
-            to_name: "Mirrors Md",
-            message: state.message
-        };
-
-        // emailjs
-        //     .send("contact_mirrors", "contact_mirrors_template", templateParams, "user_ZA1vIK4AFiFlHQavVXqcs")
-        //     .then(
-        //         function(response) {
-        //         console.log("SUCCESS!", response.status, response.text);
-        //         },
-        //         function(err) {
-        //         }
-        //     );
-        setState({
-            nume: "",
-            phone: "",
-            message: "",
-        });
-
-        setEmailSent(true)
-
-    }
 
     return(
         <form 
             className="w-full px-container-sm md:px-container-md lg:px-304px xl:px-container-xl bg-ui-darkGrey pb-240px"
-            onSubmit={sendEmail}
+            onSubmit={handleSubmit(sendMail)}
         >
             <div className="w-full">
                 <h4 className="text-sm-h4 md:text-md-h4 lg:text-lg-h4 font-medium text-type-dark mx-auto text-center font-Ubuntu mb-12">
@@ -70,27 +42,19 @@ export default function ContacteForm () {
                             className="w-full h-12 bg-ui-grey rounded-sm border border-ui-blueishGrey text-type-grey flex flex-row items-center justify-start px-4"
                             type="text" 
                             placeholder="Moraru Constantin"
-                            id="name"
-                            name="nume"
-                            onChange={handleInputChange}
-                            required
-                            value={state.nume}
+                            {...register("nume", { required : true})}
                         />
                     </div>
 
                     <div className="w-full md:w-auto flex-grow">
                         <div className="text-lg-14 font-medium text-type-manatee mb-2">
-                            Nr. de Telefon
+                            Email
                         </div>
                         <input 
                             className="w-full h-12 bg-ui-grey rounded-sm border border-ui-blueishGrey text-type-grey flex flex-row items-center justify-start px-4"
                             type="text" 
-                            placeholder="+373 78 787 878"
-                            id="phone"
-                            name="phone"
-                            onChange={handleInputChange}
-                            required
-                            value={state.phone}
+                            placeholder="email@gmail.com"
+                            {...register("email", { required : true})}
                         />
                     </div>
                 </div>
@@ -103,11 +67,7 @@ export default function ContacteForm () {
                         className="w-full h-160px bg-ui-grey rounded-sm border border-ui-blueishGrey text-type-grey flex flex-row items-center justify-start px-4"
                         type="text" 
                         placeholder=""
-                        id="message"
-                        name="message"
-                        onChange={handleInputChange}
-                        required
-                        value={state.message} 
+                        {...register("message", { required : true})}
                     />
                 </div>
 

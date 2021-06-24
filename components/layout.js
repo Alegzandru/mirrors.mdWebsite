@@ -4,6 +4,7 @@ import Footer from "./footer"
 import {DeviceTypeContext, CartContext, SeenRecentlyContext} from "../components/context"
 import { useContext, useEffect, useState } from 'react';
 import {PopupContext} from "./context"
+import {API_URL} from "../utils/urls"
 
 export default function Layout (props) {
 
@@ -14,6 +15,7 @@ export default function Layout (props) {
     const {cart, setCart} = useContext(CartContext)
     const {popupOpen, setPopupOpen} = useContext(PopupContext)
     const {seenRecently, setSeenRecently} = useContext(SeenRecentlyContext)
+    const [categories, setCategories] = useState([])
 
     useEffect( () => {
         if (typeof window !== 'undefined') {
@@ -29,7 +31,15 @@ export default function Layout (props) {
             :
             setSeenRecently(JSON.parse(localStorage.getItem('seenRecently')))
         }
+
+        getCategories()
     }, [])
+
+    async function getCategories() {
+        const categoriesResponse = await fetch(`${API_URL}/categories`)
+        const categories = await categoriesResponse.json()
+        setCategories(categories)
+    }
 
     useEffect(() => {
         setDeviceType(width <= 768 ? "mobile" : width <= 1366 ? "tablet" : "desktop")
@@ -45,7 +55,7 @@ export default function Layout (props) {
             </Head>
 
             <header className={`transition duration-300 z-50 fixed top-0 left-0 ${popupOpen ? "filter brightness-50" : ""} w-full`}>
-                <Navbar></Navbar>
+                <Navbar categories={categories}></Navbar>
             </header>
 
             <main>
@@ -59,7 +69,7 @@ export default function Layout (props) {
             </main>
 
             <footer className={`transition duration-300 ${popupOpen ? "filter brightness-50" : ""}`}>
-                <Footer></Footer>
+                <Footer categories={categories}></Footer>
             </footer>
         </div>
     )

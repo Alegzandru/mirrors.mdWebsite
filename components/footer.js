@@ -1,7 +1,14 @@
 import Image from "next/image"
 import Link from "next/link"
 
-export default function Footer () {
+export default function Footer (props) {
+
+    async function getCategories() {
+        const categoriesResponse = await fetch(`${API_URL}/categories`)
+        const categories = await categoriesResponse.json()
+        setCategories(categories)
+    }
+
     return (
         <div className="bg-ui-black pt-44px mdFooter:pt-88px px-container-sm md:px-container-md lg:px-container-lg xl:px-container-xl font-Ubuntu">
             <div className="flex flex-row items-center mdFooter:items-start justify-between">
@@ -23,13 +30,20 @@ export default function Footer () {
                         Catalog
                     </div>
                     <ul className="text-lg-14 mt-8">
-                        <Link href="/oglinzi">
-                            <a>
-                                <li className="mb-4 hover:text-ui-darkGrey hover:underline transition duration-300">
-                                    Oglinzi
-                                </li>
-                            </a>
-                        </Link>
+                        {
+                            props.categories.map((category, index) => 
+                                <Link 
+                                    href={`/${category.slug}`}
+                                    key={index}
+                                >
+                                    <a>
+                                        <li className="mb-4 hover:text-ui-darkGrey hover:underline transition duration-300">
+                                            {category.name}
+                                        </li>
+                                    </a>
+                                </Link>
+                            )
+                        }
                     </ul>
                 </div>
                 <div className="text-type-grey hidden mdFooter:block">
@@ -55,7 +69,7 @@ export default function Footer () {
                         <Link href="/galerie">
                             <a>
                                 <li className="mb-4 hover:text-ui-darkGrey hover:underline transition duration-300">
-                                    Galeria
+                                    Galerie
                                 </li>
                             </a>
                         </Link>
@@ -126,13 +140,20 @@ export default function Footer () {
                         Catalog
                     </div>
                     <ul className="text-lg-14 mt-8">
-                        <Link href="/oglinzi">
-                            <a>
-                                <li className="mb-4">
-                                    Oglinzi
-                                </li>
-                            </a>
-                        </Link>
+                        {
+                            props.categories.map((category, index) => 
+                                <Link 
+                                    href={`/${category.slug}`}
+                                    key={index}
+                                >
+                                    <a>
+                                        <li className="mb-4">
+                                            {category.name}
+                                        </li>
+                                    </a>
+                                </Link>
+                            )
+                        }
                     </ul>
                 </div>
                 <div className="text-type-grey mdFooter:hidden mt-12">
@@ -158,7 +179,7 @@ export default function Footer () {
                         <Link href="/galeria">
                             <a>
                                 <li className="mb-4">
-                                    Galeria
+                                    Galerie
                                 </li>
                             </a>
                         </Link>
@@ -208,7 +229,7 @@ export default function Footer () {
             <div className="h-px w-full bg-type-grey mb-4 mt-4"></div>
 
             <div className="pb-4 mx-auto text-center text-lg-12 text-type-grey">
-                © 2021 Mirrorsmd. Toate drepturile sunt rezervate.
+                © 2021 Elisei & Compani SRL. Toate drepturile sunt rezervate.
             </div>
 
             <a 

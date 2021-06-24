@@ -33,7 +33,6 @@ export function Navbar (props) {
 
     const [catalogOpen, setCatalogOpen] = useState(0)
     const [mobileSearchOpen, setMobileSearchOpen] = useState(0)
-    const [categories, setCategories] = useState([])
     const [mobileCatalogOpen , setMobileCatalogOpen] = useState(0)
 
     const {cart, setCart} = useContext(CartContext)
@@ -64,12 +63,6 @@ export function Navbar (props) {
         // const productsResponse = await fetch(`${API_URL}/products?${query}`)
         const products = await productsResponse.json().then(setLoading(0))
         setSearchProducts(products)
-    }
-
-    async function getCategories() {
-        const categoriesResponse = await fetch(`${API_URL}/categories`)
-        const categories = await categoriesResponse.json()
-        setCategories(categories)
     }
 
     useEffect(()=>{
@@ -128,8 +121,6 @@ export function Navbar (props) {
                     setContacte(0)
                 break;
             }
-
-            getCategories()
 
             return () => {
                 window.removeEventListener("scroll", handleScroll)
@@ -362,7 +353,7 @@ export function Navbar (props) {
                                 </div>
                                 <div className={`bg-ui-white py-2 ${catalogOpen ? "block" : "hidden"} transition duration-300`}>
                                     {
-                                        categories.map((category, index) => 
+                                        props.categories.map((category, index) => 
                                         <div key={index}>
                                             <Link href={`/${category.slug}`}>
                                                 <a>
@@ -507,7 +498,7 @@ export function Navbar (props) {
 
                         <li className={`w-full ${mobileCatalogOpen ? "block" : "hidden"}`}>
                             {
-                                categories.map((category, index) => 
+                                props.categories.map((category, index) => 
                                 <div key={index}>
                                     <Link href={`/${category.slug}`}>
                                         <a>
