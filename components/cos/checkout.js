@@ -274,7 +274,7 @@ export default function Checkout() {
                     <div className="w-full flex flex-col md:flex-row justify-between items-start mb-6">
                         <div className="w-full mr-6 mb-6 md:mb-0">
                             <div className="mb-2 text-lg-14 font-medium text-type-manatee">
-                                Nume
+                                Nume <span className="text-accent-error">*</span>
                             </div>
                             <input
                                 className={`w-full bg-ui-grey border-1.5px border-ui-blueishGrey rounded-md p-4 text-type-dark text-lg-14 ${errors.nume? "errorInput" : "inputFocused"}`}
@@ -283,7 +283,7 @@ export default function Checkout() {
                             />
                             {errors.nume?.type === 'required' && 
                                 <div className="text-accent-error text-lg-12 mt-2">
-                                    Introduceți numele Dvs.
+                                    * Introduceți numele Dvs.
                                 </div>
                             }
                             
@@ -291,7 +291,7 @@ export default function Checkout() {
 
                         <div className="w-full">
                             <div className="mb-2 text-lg-14 font-medium text-type-manatee">
-                                Prenume
+                                Prenume <span className="text-accent-error">*</span>
                             </div>
                             <input
                                 className={`w-full bg-ui-grey border-1.5px border-ui-blueishGrey rounded-md p-4 text-type-dark text-lg-14 ${errors.prenume? "errorInput" : "inputFocused"}`}
@@ -300,7 +300,7 @@ export default function Checkout() {
                             />
                             {errors.prenume?.type === 'required' && 
                                 <div className="text-accent-error text-lg-12 mt-2">
-                                    Introduceți prenumele Dvs.
+                                    * Introduceți prenumele Dvs.
                                 </div>
                             }
                         </div>
@@ -309,7 +309,7 @@ export default function Checkout() {
                     <div className="w-full flex flex-col md:flex-row justify-between items-start">
                         <div className="w-full mr-6 mb-6 md:mb-0">
                             <div className="mb-2 text-lg-14 font-medium text-type-manatee">
-                                Email
+                                Email <span className="text-accent-error">*</span>
                             </div>
                             <input
                                 className={`w-full bg-ui-grey border-1.5px border-ui-blueishGrey rounded-md p-4 text-type-dark text-lg-14 ${errors.email? "errorInput" : "inputFocused"}`}
@@ -318,23 +318,29 @@ export default function Checkout() {
                             />
                             {errors.email?.type === 'required' && 
                                 <div className="text-accent-error text-lg-12 mt-2">
-                                    Introduceți poșta electronică
+                                    * Introduceți poșta electronică
                                 </div>
                             }
                         </div>
 
                         <div className="w-full">
                             <div className="mb-2 text-lg-14 font-medium text-type-manatee">
-                                Telefon
+                                Telefon <span className="text-accent-error">*</span>
                             </div>
                             <input
                                 className={`w-full bg-ui-grey border-1.5px border-ui-blueishGrey rounded-md p-4 text-type-dark text-lg-14 ${errors.telefon? "errorInput" : "inputFocused"}`}
-                                type="text"
-                                {...register("telefon", { required: step == 1 ? true : false })}
+                                type="number"
+                                onWheel={(e) => e.target.blur()}
+                                {...register("telefon", { required: step == 1 ? true : false , minLength: 8})}
                             />
                             {errors.telefon?.type === 'required' && 
                                 <div className="text-accent-error text-lg-12 mt-2">
-                                    Introduceți numărul de telefon
+                                    * Introduceți numărul de telefon
+                                </div>
+                            }
+                            {errors.telefon?.type === 'minLength' && 
+                                <div className="text-accent-error text-lg-12 mt-2">
+                                    * Lungimea minimă a numărului este 8 cifre
                                 </div>
                             }
                         </div>
@@ -374,7 +380,7 @@ export default function Checkout() {
                         />
                         {errors.livrare?.type === 'required' && 
                             <div className="text-accent-error text-lg-12 mt-2">
-                                Introduceți modul de livrare
+                                * Introduceți modul de livrare
                             </div>
                         }
                         <div className="w-full mr-4 text-lg-14">
@@ -394,25 +400,31 @@ export default function Checkout() {
                         </svg>
                     </div> */}
 
+                    <div className="mb-2 text-lg-14 font-medium text-type-manatee">
+                        Oraș <span className="text-accent-error">*</span>
+                    </div>
                     <input
                         className={`w-full p-3 text-type-manatee flex flex-row justify-between items-center text-lg-14 border-1.5px border-ui-blueishGrey rounded-md ${errors.oras? "errorInput" : "inputFocused"}`}
-                        placeholder="Oras"
+                        placeholder="Ex : Chișinău"
                         {...register("oras", { required: step == 2 ? true : false })}
                     />
                     {errors.oras?.type === 'required' && 
                         <div className="text-accent-error text-lg-12 mt-2">
-                            Introduceți orașul Dvs.
+                            * Introduceți orașul Dvs.
                         </div>
                     }
 
+                    <div className="mb-2 text-lg-14 font-medium text-type-manatee mt-4">
+                        Adresa <span className="text-accent-error">*</span>
+                    </div>
                     <input
-                        className={`w-full p-3 text-type-manatee flex flex-row justify-between items-center text-lg-14 border-1.5px border-ui-blueishGrey mt-4 rounded-md ${errors.adresa? "errorInput" : "inputFocused"}`}
-                        placeholder="Adresa"
+                        className={`w-full p-3 text-type-manatee flex flex-row justify-between items-center text-lg-14 border-1.5px border-ui-blueishGrey rounded-md ${errors.adresa? "errorInput" : "inputFocused"}`}
+                        placeholder="Ex : str. Calea Moșilor 9/1 etaj. 2"
                         {...register("adresa", { required: step == 2 ? true : false })}
                     />
                     {errors.adresa?.type === 'required' && 
                         <div className="text-accent-error text-lg-12 mt-2">
-                            Introduceți adresa Dvs.
+                            * Introduceți adresa Dvs.
                         </div>
                     }
 
@@ -473,7 +485,7 @@ export default function Checkout() {
                     </label>
                     {errors.plata?.type === 'required' && 
                         <div className="text-accent-error text-lg-12 mt-2">
-                            Introduceți modul de plată
+                            * Introduceți modul de plată
                         </div>
                     }
                 </div>

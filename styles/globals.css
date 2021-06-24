@@ -144,6 +144,22 @@ pre {
     box-shadow: 0px 0px 4px rgba(22, 180, 90, 0.41);
     outline: none;
 }
+
+.terms>div{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input[type=number] {
+    -moz-appearance:textfield; /* Firefox */
+}
   
 @media screen and (max-width: 1366px){
     .produseWidth{

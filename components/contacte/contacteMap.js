@@ -89,13 +89,33 @@ export default function ContacteMap () {
                         </a>
                     </div>
 
-                    <div className="text-lg-card-description text-type-grey font-normal flex flex-row justify-start items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
+                    <div>
+                        <div className="text-lg-card-description text-type-grey font-normal flex flex-row justify-start items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
 
-                        <div>
-                            Luni−Vineri:  9:00-18:00
+                            <div>
+                                Luni−Vineri:  9:00-18:00
+                            </div>
+                        </div>
+                        <div className="text-lg-card-description text-type-grey font-normal flex flex-row justify-start items-center mt-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+
+                            <div>
+                                Sâmbătă:  9:00-14:00
+                            </div>
+                        </div>
+                        <div className="text-lg-card-description text-type-grey font-normal flex flex-row justify-start items-center mt-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+
+                            <div>
+                                Duminică:  zi liberă
+                            </div>
                         </div>
                     </div>
 

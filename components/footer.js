@@ -80,9 +80,13 @@ export default function Footer (props) {
                                 </li>
                             </a>
                         </Link>
-                        <li className="mb-4 hover:text-ui-darkGrey hover:underline transition duration-300">
-                            Plata, livrarea și ambalarea
-                        </li>
+                        <Link href="/termeni">
+                            <a>
+                                <li className="mb-4 hover:text-ui-darkGrey hover:underline transition duration-300">
+                                    Termeni și condiții
+                                </li>
+                            </a>
+                        </Link>
                     </ul>
                 </div>
                 <div className="text-type-grey hidden mdFooter:block">
@@ -190,10 +194,10 @@ export default function Footer (props) {
                                 </li>
                             </a>
                         </Link>
-                        <Link href="/">
+                        <Link href="/termeni">
                             <a>
                                 <li className="mb-4">
-                                    Plata, livrarea și ambalarea
+                                    Termeni și condiții
                                 </li>
                             </a>
                         </Link>
