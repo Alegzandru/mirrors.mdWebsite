@@ -3,6 +3,7 @@ import { useState, useContext, useEffect} from 'react'
 import Image from 'next/image'
 import { CartContext } from '../context'
 import { useForm } from "react-hook-form";
+import { v4 as uuidv4 } from 'uuid';
 
 export default function Checkout() {
 
@@ -98,14 +99,102 @@ export default function Checkout() {
                         fetch(`https://mirrors-md-admin.herokuapp.com/clients`, requestOptionsClient)
                             .then(response => response.json())
                             .then(data => {
-                                sendMailOwner({
-                                    ...data,
-                                    orders : orders
+                                console.log(data)
+                                console.log(orders)
+
+                                let ClientCode = uuidv4()
+                                let ExternalID = uuidv4()
+                                let AddOnGroupId = uuidv4()
+                                let ExpiryDate = "2022-01-01T00:00:00"
+
+                                let signature = "498"+data.address+"Chisinau"+ClientCode+"Moldova"+data.email+userInfo.prenume+userInfo.nume+data.phone+ExpiryDate+ExternalID+process.env.NEXT_PUBLIC_MERCHANTCODE+"Paynet"+"1"+"Cumpararea oglinzilor pe site-ul mirrors.md"+"Cumpărarea oglinzilor online"
+                                console.log(signature)
+
+                                let productsPaynet = orders.map((order, index) => {
+                                    signature += order.number+order.products[0].id+order.products[0].slug+order.products[0].description+order.products[0].category+"Produs"+1+order.products[0].name+order.products[0].price+1
+                                    return({
+                                        Amount : order.number,
+                                        Barcode : order.products[0].id,
+                                        Code : order.products[0].slug,
+                                        Description : order.products[0].description,
+                                        GroupId : order.products[0].category,
+                                        GroupName : "Produs",
+                                        LineNo : 1,
+                                        Name : order.products[0].name,
+                                        UnitPrice : order.products[0].price,
+                                        UnitProduct : 1
+                                    })
                                 })
-                                sendMailClient({
-                                    ...data,
-                                    orders: orders
+                                
+                                orders.map((order, index) => {
+                                    order.add_ons.map((addOn, indexAddon) => {
+                                        signature += order.number+order.add_ons[indexAddon].id+order.add_ons[indexAddon].name+order.add_ons[indexAddon].description+AddOnGroupId+"Add On"+1+order.add_ons[indexAddon].name+order.add_ons[indexAddon].price+1
+                                        productsPaynet.push({
+                                            Amount : order.number,
+                                            Barcode : order.add_ons[indexAddon].id,
+                                            Code : order.add_ons[indexAddon].name,
+                                            Description : order.add_ons[indexAddon].description,
+                                            GroupId : AddOnGroupId,
+                                            GroupName : "Add On",
+                                            LineNo : 1,
+                                            Name : order.add_ons[indexAddon].name,
+                                            UnitPrice : order.add_ons[indexAddon].price,
+                                            UnitProduct : 1
+                                        })
+                                    })
                                 })
+
+                                // sendMailOwner({
+                                //     ...data,
+                                //     orders : orders
+                                // })
+                                // sendMailClient({
+                                //     ...data,
+                                //     orders: orders
+                                // })
+
+                                console.log(signature)
+
+                                if(data.mod_de_plata == "card"){
+                                    const requestOptionsPaynet = {
+                                        method: 'POST',
+                                        headers: { 'Content-Type': 'application/json' },
+                                        body: JSON.stringify({ 
+                                            ExternalID : ExternalID,
+                                            Currency : 498,
+                                            Merchant : process.env.NEXT_PUBLIC_MERCHANTCODE,
+                                            Customer : {
+                                                Code : ClientCode,
+                                                NameFirst : userInfo.prenume,
+                                                NameLast : userInfo.nume,
+                                                PhoneNumber : data.phone,
+                                                email : data.email,
+                                                Country : "Moldova",
+                                                City : "Chisinau",
+                                                Address : data.address
+                                            },
+                                            Services : [{
+                                                Name : "Cumpărarea oglinzilor online",
+                                                Description : "Cumpararea oglinzilor pe site-ul mirrors.md",
+                                                Amount : 1,
+                                                products : productsPaynet
+                                            }],
+                                            ExpiryDate : ExpiryDate,
+                                            LinkUrlCancel : "https://www.mirrors.md/cos/checkout",
+                                            LinkUrlSuccess: "https://www.mirrors.md/",
+                                            Lang: "en-US",
+                                            Signature: signature,
+                                            SignVersion : "v05",
+                                            MoneyType : {
+                                                Code : "Paynet"
+                                            }
+                                        })
+                                    };
+
+                                    fetch(" https://test-test.paynet.md/api/Payments", requestOptionsPaynet)
+                                        .then(response => response.json())
+                                        .then(data => console.log(data))
+                                }
                             })
                     }
                 })
