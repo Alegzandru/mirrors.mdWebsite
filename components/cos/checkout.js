@@ -162,7 +162,7 @@ export default function Checkout() {
                                         body: JSON.stringify({ 
                                             ExternalID : ExternalID,
                                             Currency : 498,
-                                            Merchant : process.env.NEXT_PUBLIC_MERCHANTCODE,
+                                            Merchant : "388417",
                                             Customer : {
                                                 Code : ClientCode,
                                                 NameFirst : userInfo.prenume,
@@ -191,7 +191,7 @@ export default function Checkout() {
                                         })
                                     };
 
-                                    fetch(" https://test-test.paynet.md/api/Payments", requestOptionsPaynet)
+                                    fetch(" https://paynet.md/acquiring/setecom", requestOptionsPaynet)
                                         .then(response => response.json())
                                         .then(data => console.log(data))
                                 }

@@ -5,6 +5,7 @@ import RecentProducts from "../components/multiPage/recentProducts"
 import { useContext } from "react";
 import { DeviceTypeContext } from "../components/context";
 import { API_URL } from "../utils/urls";
+import InstaBlock from "../components/galerie/instaBlock";
 
 export default function Galerie({products}){
 
@@ -13,6 +14,7 @@ export default function Galerie({products}){
 
     return (
         <Layout>
+            <InstaBlock></InstaBlock>
             <GalerieComponent 
               deviceType={deviceType}
               products={products}
