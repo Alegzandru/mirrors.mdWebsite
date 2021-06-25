@@ -158,7 +158,10 @@ export default function Checkout() {
                                 if(data.mod_de_plata == "card"){
                                     const requestOptionsPaynet = {
                                         method: 'POST',
-                                        headers: { 'Content-Type': 'application/json' },
+                                        headers: { 
+                                            'Content-Type': 'application/json',
+                                            'Host' : 'test.paynet.md',
+                                        },
                                         body: JSON.stringify({ 
                                             ExternalID : ExternalID,
                                             Currency : 498,
@@ -191,7 +194,7 @@ export default function Checkout() {
                                         })
                                     };
 
-                                    fetch(" https://paynet.md/acquiring/setecom", requestOptionsPaynet)
+                                    fetch("https://http://test.paynet.md:4446", requestOptionsPaynet)
                                         .then(response => response.json())
                                         .then(data => console.log(data))
                                 }
