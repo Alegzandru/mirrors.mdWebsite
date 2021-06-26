@@ -1,12 +1,16 @@
-import DropdownProduct from "./DropdownProduct"
+import DropdownProduct2 from "./DropdownProduct2"
 import { useForm } from "react-hook-form";
 import Image from "next/image"
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
-import {useState, useContext, useEffect} from "react"
+import {useState, useContext, useEffect, useRef} from "react"
 import {CartContext} from "../../components/context"
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import ReactTooltip from 'react-tooltip';
+import Scroll from 'react-scroll';
+
+var Element = Scroll.Element;
 
 export default function ProductComponent ({deviceType, name, images, options, optionVariants, productData, optionsRaw}) {
 
@@ -394,6 +398,8 @@ export default function ProductComponent ({deviceType, name, images, options, op
     
     const [openImage, setOpenImage] = useState(0)
 
+    const [showTooltip, setShowTooltip] = useState(false)
+
     const responsive = {
         desktop: {
           breakpoint: { max: 3000, min: 1367 },
@@ -414,6 +420,8 @@ export default function ProductComponent ({deviceType, name, images, options, op
           partialVisibilityGutter: 100
         }
     };
+
+    const inputEl = useRef(null);
 
     return (
         <div className="w-full h-auto px-container-sm md:px-container-md lg:px-container-lg xl:px-container-xl pt-128px md:pt-136px lg:pt-234px pb-88px md:pb-120px font-Ubuntu bg-ui-darkGrey">
@@ -447,7 +455,7 @@ export default function ProductComponent ({deviceType, name, images, options, op
                 </span>
             </div>
 
-            <div className="w-full bg-ui-grey flex flex-col lg:flex-row justify-between items-start">
+            <div className="w-full bg-ui-grey flex flex-col lg:flex-row justify-between items-stretch">
                 <div className="w-full lg:w-photos">
                     <div className="relative h-288px md:h-720px lg:h-608px w-full">
                         <Image
@@ -486,55 +494,66 @@ export default function ProductComponent ({deviceType, name, images, options, op
                     </div>
                 </div>
 
-                <div className="w-full lg:w-640px pt-6 lg:pt-72px pb-16 px-2 md:px-6 lg:px-40px bg-ui-white relative h-full">
+                <div className="w-full lg:w-408px bg-ui-white py-56px px-2 md:px-8">
+                    <DropdownProduct2
+                        name={"Dimensiuni recomandate"}
+                        options={productData[0].linkedsizes.map((size, index) => {
+                            return (
+                                {
+                                    height : size.height,
+                                    width : size.width,
+                                    typename : size.name,
+                                    price : Math.trunc(size.width * size.height / 1000000 * productData[0].m2price * ( 1 + coeficientFinder(size)))
+                                }
+                            )
+                        })}
+                        register={register}
+                        setPrice={setPrice}
+                        price={price}
+                        sizeGlobal={sizeGlobal}
+                        setSizeGlobal={setSizeGlobal}
+                        initialPrice={Math.trunc(productData[0].defaultsize.width * productData[0].defaultsize.height / 1000000 * productData[0].m2price * (1 + coeficientFinder(productData[0].defaultsize)))}
+                        minHeight={productData[0].smallestsize.height}
+                        maxHeight={productData[0].biggestsize.height}
+                        minWidth={productData[0].smallestsize.width}
+                        maxWidth={productData[0].biggestsize.width}
+                        coeficientFinder={coeficientFinder}
+                        m2price={productData[0].m2price}
+                    />
+                </div>
+
+                <div className="w-full lg:w-544px pt-6 lg:pt-72px pb-16 px-2 md:px-6 lg:px-8 bg-ui-white lg:bg-ui-grey relative h-full">
                     <h2 className="text-sm-h2 md:text-md-h2 lg:text-lg-h2 text-type-dark font-bold mb-5">
                         {name}
                     </h2>
 
-                    <div className="text-lg-card-price text-accent-accent mb-12">
+                    <div className="text-lg-32 text-accent-accent mb-12">
                         {price} Lei
                     </div>
 
                     <form onSubmit={handleSubmit(onSubmit)} className="">
 
-                        <DropdownProduct
-                            name={"Dimensiuni recomandate"}
-                            options={productData[0].linkedsizes.map((size, index) => {
-                                return (
-                                    {
-                                        height : size.height,
-                                        width : size.width,
-                                        typename : size.name,
-                                        price : Math.trunc(size.width * size.height / 1000000 * productData[0].m2price * ( 1 + coeficientFinder(size)))
-                                    }
-                                )
-                            })}
-                            register={register}
-                            setPrice={setPrice}
-                            price={price}
-                            sizeGlobal={sizeGlobal}
-                            setSizeGlobal={setSizeGlobal}
-                            initialPrice={Math.trunc(productData[0].defaultsize.width * productData[0].defaultsize.height / 1000000 * productData[0].m2price * (1 + coeficientFinder(productData[0].defaultsize)))}
-                            minHeight={productData[0].smallestsize.height}
-                            maxHeight={productData[0].biggestsize.height}
-                            minWidth={productData[0].smallestsize.width}
-                            maxWidth={productData[0].biggestsize.width}
-                            coeficientFinder={coeficientFinder}
-                            m2price={productData[0].m2price}
-                        />
+                        <Element name="test7" className="element" id="containerElement" style={{
+                            position: 'relative',
+                            height: '508px',
+                            overflow: 'scroll',
+                            borderRadius: "8px",
+                            border : "2px solid #C2D1D9"
+                        }}>  
 
-                        {options.map((option, index) =>
-                            <DropdownProduct
-                                name={option}
-                                options={optionVariants.filter((optionObj) => optionObj.group == option || optionObj.name == option)}
-                                register={register}
-                                key={index}
-                                setPrice={setPrice}
-                                price={price}
-                            />
-                        )}
+                            {options.map((option, index) =>
+                                <DropdownProduct2
+                                    name={option}
+                                    options={optionVariants.filter((optionObj) => optionObj.group == option || optionObj.name == option)}
+                                    register={register}
+                                    key={index}
+                                    setPrice={setPrice}
+                                    price={price}
+                                />
+                            )}
+                        </Element>
 
-                        <div className="w-full flex flex-col md:flex-row justify-between items-center mt-14">
+                        <div className="w-full flex flex-col md:flex-row justify-between items-center mt-6">
 
                             <input 
                                 value="La pagina de Check-Out" 
@@ -542,27 +561,21 @@ export default function ProductComponent ({deviceType, name, images, options, op
                                 className="w-full bg-transparent border-2 rounded-lg border-accent-accent h-12 flex flex-row justify-center items-center text-accent-accent font-medium mb-6 md:mb-0 hover:bg-accent-transparent transition duration-300 md:mr-4 cursor-pointer"
                                 onClick={() => setCheckout(true)}
                             />
+
                             <input 
                                 value="Adaugă în coș" 
                                 type="submit" 
                                 className="w-full bg-accent-accent rounded-lg h-12 flex flex-row justify-center items-center text-ui-white font-medium hover:bg-accent-light transition duration-300 cursor-pointer"
                                 onClick={() => setCheckout(false)}
-                                // onClick={() => {
-                                //     const productCart = {
-                                //         product : {
-                                //             name
-                                //         },
-                                //         addOns : {
-                                            
-                                //         }
-                                //     }
-                                //     console.log("")
-                                // }}
+                                data-tip="Produs adăugat la coș"
+                                data-event={"click"}
                             />
 
+                            <ReactTooltip textColor="#FFFFFF" backgroundColor="#111215" clickable/>
                         </div>
                         
                     </form>
+
 
                 </div>
             </div>

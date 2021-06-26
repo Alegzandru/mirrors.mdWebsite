@@ -1,12 +1,17 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useContext, useEffect, useState , useRef} from 'react'
-import {CartContext, PopupContext} from "../../components/context"
+import {CartContext, DeviceTypeContext, PopupContext} from "../../components/context"
 import {API_URL} from "../../utils/urls"
 import { useForm } from "react-hook-form";
-import DropdownProduct from "../catalog/DropdownProduct"
+import DropdownProduct2 from "../catalog/DropdownProduct2"
+import Scroll from 'react-scroll';
+
+var Element = Scroll.Element;
 
 export default function CosProducts(){
+
+    const {deviceType, setDeviceType} = useContext(DeviceTypeContext)
 
     const { reset, register, handleSubmit, watch, formState: { errors } } = useForm();
 
@@ -241,21 +246,27 @@ export default function CosProducts(){
                                 {popupProduct.product.name}
                             </h3>
                         </div>
-                        <div className="md:w-320px lg:w-444px h-full flex flex-col justify-start items-start pt-6 w-full">
+                        <div className="md:w-320px lg:w-444px h-full flex flex-col justify-start items-start w-full">
 
-                            <form className="w-full">
-
-                                {optionNames.map((option, index) =>
-                                    <DropdownProduct
-                                        name={option}
-                                        options={optionVariants.filter((optionObj) => optionObj.group == option || optionObj.name == option)}
-                                        register={register}
-                                        key={index}
-                                        setPrice={setPrice}
-                                        price={price}
-                                    />
-                                )}
-                                
+                            <form className="w-full mt-40px md:mt-0">
+                                <Element name="test7" className="element" id="containerElement" style={{
+                                    position: 'relative',
+                                    height: deviceType == "mobile" ? '360px' : '508px',
+                                    overflow: 'scroll',
+                                    borderRadius: "8px",
+                                    border : "2px solid #C2D1D9"
+                                }}>  
+                                    {optionNames.map((option, index) =>
+                                        <DropdownProduct2
+                                            name={option}
+                                            options={optionVariants.filter((optionObj) => optionObj.group == option || optionObj.name == option)}
+                                            register={register}
+                                            key={index}
+                                            setPrice={setPrice}
+                                            price={price}
+                                        />
+                                    )}
+                                </Element>
                             </form>
 
                             <button 

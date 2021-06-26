@@ -2,7 +2,7 @@ import Layout from "../components/layout"
 import GalerieComponent from "../components/galerie/galerieComponent"
 import UAParser from "ua-parser-js";
 import RecentProducts from "../components/multiPage/recentProducts"
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { DeviceTypeContext } from "../components/context";
 import { API_URL } from "../utils/urls";
 import InstaBlock from "../components/galerie/instaBlock";
@@ -15,15 +15,7 @@ export default function Galerie({products}){
 
     return (
         <Layout>
-            {/* <InstaBlock></InstaBlock> */}
-            <Head>
-              <script type="text/javascript" src="/static/instafeed.min.js"></script>
-              <script type="text/javascript" src="/static/instaToken.js"></script>
-              {/* <script type="text/javascript" dangerouslySetInnerHTML={{ __html : process.env.NEXT_PUBLIC_rawInstaFeedMin}}></script>
-              <script type="text/javascript" dangerouslySetInnerHTML={{ __html : process.env.NEXT_PUBLIC_rawInstaToken}}></script> */}
-            </Head>
-
-            <div id="instafeed"></div>
+            <InstaBlock></InstaBlock>
             <GalerieComponent 
               deviceType={deviceType}
               products={products}

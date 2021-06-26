@@ -135,7 +135,7 @@ export function Navbar (props) {
 
     return (
         <animated.div 
-            className="z-40 w-full lg:-mb-36 font-Ubuntu header-shadow"
+            className="z-40 w-full lg:-mb-36 font-Ubuntu"
             style={styles}
         >
             <animated.div 
@@ -352,7 +352,7 @@ export function Navbar (props) {
             } */}
 
             
-            <div className={`h-56px hidden ${transparent ? "bg-transparent" : "bg-ui-grey hidden"} lg:block lg:overflow-hidden w-full transition duration-300`}>
+            <div className={`h-56px hidden ${transparent ? "bg-transparent" : "bg-ui-grey hidden"} lg:block lg:overflow-hidden w-full transition duration-300 header-shadow`}>
                 <div className="lg:mx-container-lg xl:mx-container-xl h-full">
                     <div className={`${transparent ? "text-ui-white" : "text-type-manatee"} font-14px font-medium h-56px w-full flex flex-row justify-between items-center`}>
                         <div className={`w-165px`}>

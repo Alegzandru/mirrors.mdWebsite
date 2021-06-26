@@ -31,6 +31,7 @@
     "react-multi-carousel": "^2.6.3",
     "react-scroll": "^1.8.2",
     "react-spring": "^8.0.27",
+    "react-tooltip": "^4.2.21",
     "react-touch-carousel": "^0.9.4",
     "react-transition-group": "^4.4.2",
     "ua-parser-js": "^0.7.28",
