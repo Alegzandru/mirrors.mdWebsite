@@ -203,7 +203,7 @@ export default function Checkout() {
 
                                     console.log(requestOptionsPaynet.body)
 
-                                    fetch("http://test.paynet.md:4446", requestOptionsPaynet)
+                                    fetch("https://test.paynet.md:4446", requestOptionsPaynet)
                                         .then(response => response.json())
                                         .then(data => console.log(data))
 
