@@ -8,6 +8,22 @@ export default function RecentProducts ({deviceType}) {
     const {seenRecently, setSeenRecently} = useContext(SeenRecentlyContext)
 
     const [itemNr, setItemNr] = useState(0)
+
+    function getPrice(product, size) {
+        let price = 0
+        product.materials.forEach((material, index) => {
+            if(material.type == "ml"){
+                price += material.price * (size.height + size.width) * 2 / 1000
+            }
+            else if(material.type == "m2"){
+                price += material.price * size.height * size.width / 1000000
+            }
+            else{
+                price += material.price
+            }
+        });
+        return price
+    }
     
     useEffect(() => {
         if(deviceType == "desktop"){
@@ -73,7 +89,7 @@ export default function RecentProducts ({deviceType}) {
                                             {product.name}
                                         </div>
                                         <div className="text-lg-14 font-normal text-type-grey">
-                                            de la {Math.trunc(product.defaultsize.width * product.defaultsize.height / 1000000 * product.m2price * (1 + product.smallcoeficient))} lei
+                                            de la {Math.trunc( getPrice(product, product.defaultsize) * (1 + product.smallcoeficient))} lei
                                         </div>
                                     </div>
                                 </div>

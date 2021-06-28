@@ -17,6 +17,7 @@ export default function Category({category, name, products}) {
     
     const [sorting, setSorting] = useState(0)
     const [openFilters, setOpenFilters] = useState(0)
+    const [showReset, setShowReset] = useState(0)
     
     const [showNr, setShowNr] = useState(32)
     const [showFrom, setShowFrom] = useState(0)
@@ -27,6 +28,21 @@ export default function Category({category, name, products}) {
         return option.name
     })
     
+    function getPrice(product, size) {
+        let price = 0
+        product.materials.forEach((material, index) => {
+            if(material.type == "ml"){
+                price += material.price * (size.height + size.width) * 2 / 1000
+            }
+            else if(material.type == "m2"){
+                price += material.price * size.height * size.width / 1000000
+            }
+            else{
+                price += material.price
+            }
+        });
+        return price
+    }
     
     function uniq(a) {
         var prims = {"boolean":{}, "number":{}, "string":{}}, objs = [];
@@ -71,6 +87,7 @@ export default function Category({category, name, products}) {
 
     const onSubmit = (data) => {
 
+        
         setActiveFilters(prevState => {
             const newState = prevState.map((option, index2) => {
                 if(data[optionNames[index2]] != false && data[optionNames[index2]].length != 0){
@@ -86,7 +103,7 @@ export default function Category({category, name, products}) {
             })
             return newState
         })
-
+        
         const newProducts = products.filter((product) => {
             let contor = true
             optionNames.map((optionName) => {
@@ -138,11 +155,11 @@ export default function Category({category, name, products}) {
             }
             break;
             case 2 : {
-                setProductsApi([...productsApi].sort((a, b) => Math.trunc( b.defaultsize.width * b.defaultsize.height / 1000000 * (1 + b.smallcoeficient) * b.m2price) - Math.trunc( a.defaultsize.width * a.defaultsize.height / 1000000 * (1 + a.smallcoeficient) * a.m2price)))
+                setProductsApi([...productsApi].sort((a, b) => Math.trunc( getPrice(b, b.defaultsize) * (1 + b.smallcoeficient) ) - Math.trunc( getPrice(a, a.defaultsize) * (1 + a.smallcoeficient) )))
             }
             break;
             case 3 : {
-                setProductsApi([...productsApi].sort((a, b) => Math.trunc( a.defaultsize.width * a.defaultsize.height / 1000000 * (1 + a.smallcoeficient) * a.m2price) - Math.trunc( b.defaultsize.width * b.defaultsize.height / 1000000 * (1 + b.smallcoeficient) * b.m2price)))
+                setProductsApi([...productsApi].sort((a, b) => Math.trunc( getPrice(a, a.defaultsize) * (1 + a.smallcoeficient) ) - Math.trunc( getPrice(b, b.defaultsize) * (1 + b.smallcoeficient) )))
             }
             break;
             default : setProductsApi(products)
@@ -248,13 +265,13 @@ export default function Category({category, name, products}) {
                     )}
                 </div>
                 <div className="w-full flex flex-row justify-center items-start mt-6 ">
-                    <input 
+                    {/* <input 
                         className="w-124px rounded-lg border-2 border-accent-accent text-accent-accent h-9 cursor-pointer mr-4 text-lg-14 font-medium transition duration-300 hover:bg-accent-transparent"
                         type="submit"
                         value="Aplică"
-                    />
+                    /> */}
                     <input 
-                        className="w-124px rounded-lg border-2 border-type-manatee text-type-manatee h-9 cursor-pointer mr-4 text-lg-14 font-medium  flex flex-row justify-center items-center hover:text-type-dark hover:border-type-dark transition duration-300 hover:bg-ui-blueishGrey"
+                        className={`w-124px rounded-lg border-2 border-type-manatee text-type-manatee h-9 cursor-pointer text-lg-14 font-medium flex-row justify-center items-center hover:text-type-dark hover:border-type-dark transition duration-300 hover:bg-ui-blueishGrey ${showReset ? "flex" : "hidden"}`}
                         type="submit"
                         value="Resetează"
                         onClick={() => reset()}
@@ -322,7 +339,7 @@ export default function Category({category, name, products}) {
                                                     Seria Juergen LED
                                                 </div>
                                                 <div className="text-sm-button md:text-lg-17 text-accent-accent font-medium mt-4 md:mt-6">
-                                                    de la {Math.trunc( product.defaultsize.width * product.defaultsize.height / 1000000 * (1 + product.smallcoeficient) * product.m2price) } lei
+                                                    de la {Math.trunc( getPrice(product, product.defaultsize) * (1 + product.smallcoeficient) ) } lei
                                                 </div>
                                             </div>
                                         </a>

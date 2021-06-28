@@ -14,14 +14,14 @@ export default function Footer (props) {
             <div className="flex flex-row items-center mdFooter:items-start justify-between">
                 <div className="hidden mdFooter:block">
                     <Image
-                        src="/branding/whiteLogo.svg"
+                        src="/branding/footerLogo.svg"
                         width={232}
                         height={66}
                     />
                 </div>
                 <div className="mdFooter:hidden">
                     <img
-                        src="/branding/smallLogo.svg"
+                        src="/branding/smallLogo2.svg"
                         className="h-14 w-14 mdFooter:w-8 mdFooter:h-8"
                     />
                 </div>

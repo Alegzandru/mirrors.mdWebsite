@@ -14,6 +14,22 @@ export default function DropdownProduct(props) {
     const [openCustom, setOpenCustom] = useState(0)
     const [showButton, setShowButton] = useState(0)
 
+    function getPrice(product, size) {
+        let price = 0
+        product.materials.forEach((material, index) => {
+            if(material.type == "ml"){
+                price += material.price * (size.height + size.width) * 2 / 1000
+            }
+            else if(material.type == "m2"){
+                price += material.price * size.height * size.width / 1000000
+            }
+            else{
+                price += material.price
+            }
+        });
+        return price
+    }
+
     const handleClick = (e) => {
         if(props.options.length != 1) {
             if(chosen == e.target.value){
@@ -30,17 +46,17 @@ export default function DropdownProduct(props) {
 
     const onSubmit = (data) => {
         if(lastChosen === 0){
-            props.setPrice(Math.trunc(props.price + ( data.width * data.height / 1000000 * props.m2price * (1 + props.coeficientFinder(data))) - props.initialPrice))
+            props.setPrice(Math.trunc( props.price + ( getPrice(props.productData, data) * (1 + props.coeficientFinder(data))) - props.initialPrice))
             setLastChosen("custom")
         }
         else if(lastChosen == "custom"){
-            props.setPrice(props.price + Math.trunc(data.width * data.height / 1000000 * props.m2price * (1 + props.coeficientFinder(data))) - Math.trunc(props.sizeGlobal.width * props.sizeGlobal.height / 1000000 * props.m2price * ( 1 + props.coeficientFinder(props.sizeGlobal))))
+            props.setPrice(props.price + Math.trunc( getPrice(props.productData, data) * (1 + props.coeficientFinder(data))) - Math.trunc(getPrice(props.productData, props.sizeGlobal) * ( 1 + props.coeficientFinder(props.sizeGlobal))))
             setLastChosen("custom")
         }
         else{
             let lastOptionPriceRaw = props.options.filter((option) => option.typename == lastChosen)
             let lastOptionPrice = lastOptionPriceRaw[0].price
-            props.setPrice(props.price + Math.trunc(data.width * data.height / 1000000 * props.m2price * (1 + props.coeficientFinder(data))) - lastOptionPrice)
+            props.setPrice(props.price + Math.trunc( getPrice(props.productData, data) * (1 + props.coeficientFinder(data))) - lastOptionPrice)
             setLastChosen("custom")
         }
         props.setSizeGlobal(
@@ -82,7 +98,7 @@ export default function DropdownProduct(props) {
                 setLastChosen(chosen)
             }
             else if(lastChosen == "custom"){
-                props.setPrice(props.price + optionPrice - Math.trunc(props.sizeGlobal.width * props.sizeGlobal.height / 1000000 * props.m2price * (1 + props.coeficientFinder(props.sizeGlobal))))
+                props.setPrice(props.price + optionPrice - Math.trunc( getPrice(props.productData, props.sizeGlobal) * (1 + props.coeficientFinder(props.sizeGlobal))))
                 props.setSizeGlobal({
                     height : optionPriceRaw[0].height,
                     width : optionPriceRaw[0].width

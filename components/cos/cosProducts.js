@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { useContext, useEffect, useState , useRef} from 'react'
 import {CartContext, DeviceTypeContext, PopupContext} from "../../components/context"
 import {API_URL} from "../../utils/urls"
-import { useForm } from "react-hook-form";
+import { get, useForm } from "react-hook-form";
 import DropdownProduct2 from "../catalog/DropdownProduct2"
 import Scroll from 'react-scroll';
 
@@ -24,6 +24,22 @@ export default function CosProducts(){
     const [price, setPrice] = useState(0)
 
     let optionsPrice = 0
+
+    function getPrice(product, size) {
+        let price = 0
+        product.materials.forEach((material, index) => {
+            if(material.type == "ml"){
+                price += material.price * (size.height + size.width) * 2 / 1000
+            }
+            else if(material.type == "m2"){
+                price += material.price * size.height * size.width / 1000000
+            }
+            else{
+                price += material.price
+            }
+        });
+        return price
+    }
 
     const coeficientFinder = (size, product) => {
         if(size.width*size.height < product.mediumsize.height * product.mediumsize.width){
@@ -61,7 +77,7 @@ export default function CosProducts(){
                             .then(response => response.json())
                             .then(dataInside2 => {
                                 changeProduct.size = dataInside2
-                                changeProduct.price = Math.trunc(data.height * data.width / 1000000 * changeProduct.product.m2price * ( 1 + coeficientFinder(data, changeProduct.product)))
+                                changeProduct.price = Math.trunc( getPrice(changeProduct.product, data) * ( 1 + coeficientFinder(data, changeProduct.product)))
                                 mutableCart[index] = changeProduct
                                 setCart(mutableCart)   
                                 setPopupOpen("")  
@@ -70,7 +86,7 @@ export default function CosProducts(){
                     }
                     else{
                         changeProduct.size = dataInside[0]
-                        changeProduct.price = Math.trunc(data.height * data.width / 1000000 * changeProduct.product.m2price * ( 1 + coeficientFinder(data, changeProduct.product)))
+                        changeProduct.price = Math.trunc( getPrice(changeProduct.product, data) * ( 1 + coeficientFinder(data, changeProduct.product)))
                         mutableCart[index] = changeProduct
                         setCart(mutableCart)   
                         setPopupOpen("") 

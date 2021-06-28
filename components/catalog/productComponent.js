@@ -15,6 +15,23 @@ var Element = Scroll.Element;
 export default function ProductComponent ({deviceType, name, images, options, optionVariants, productData, optionsRaw}) {
 
     const router = useRouter()
+
+    function getPrice(product, size) {
+        let price = 0
+        product.materials.forEach((material, index) => {
+            if(material.type == "ml"){
+                price += material.price * (size.height + size.width) * 2 / 1000
+            }
+            else if(material.type == "m2"){
+                price += material.price * size.height * size.width / 1000000
+            }
+            else{
+                price += material.price
+            }
+        });
+        return price
+    }
+
     const coeficientFinder = (size) => {
         if(size.width*size.height < productData[0].mediumsize.height * productData[0].mediumsize.width){
             return productData[0].smallcoeficient
@@ -29,12 +46,8 @@ export default function ProductComponent ({deviceType, name, images, options, op
     const [checkout, setCheckout] = useState(false)
     const {cart, setCart} = useContext(CartContext)
 
-    const [price, setPrice] = useState(Math.trunc(productData[0].defaultsize.width * productData[0].defaultsize.height / 1000000 * productData[0].m2price * ( 1 + coeficientFinder(productData[0].defaultsize))))
+    const [price, setPrice] = useState(Math.trunc(getPrice(productData[0], productData[0].defaultsize) * ( 1 + coeficientFinder(productData[0].defaultsize))))
     const [sizeGlobal, setSizeGlobal] = useState(productData[0].defaultsize)
-
-    // useEffect(()=> {
-    //     setPrice(Math.trunc(productData[0].defaultsize.width * productData[0].defaultsize.height / 1000000 * productData[0].m2price * ( 1 + coeficientFinder(productData[0].defaultsize))))
-    // }, [])
 
     let contorAddons = 1
 
@@ -74,7 +87,7 @@ export default function ProductComponent ({deviceType, name, images, options, op
                                 addOns : [],
                                 size : size,
                                 number : 1,
-                                price : Math.trunc(size.width * size.height / 1000000 * productData[0].m2price * ( 1 + coeficientFinder(size)))
+                                price : Math.trunc(getPrice(productData[0], size) * ( 1 + coeficientFinder(size)))
                             }
 
                             function flatten(obj) {
@@ -207,7 +220,7 @@ export default function ProductComponent ({deviceType, name, images, options, op
                         addOns : [],
                         size : size,
                         number : 1,
-                        price : Math.trunc(size.width * size.height / 1000000 * productData[0].m2price * (1 + coeficientFinder(size)))
+                        price : Math.trunc(getPrice(productData[0], size) * (1 + coeficientFinder(size)))
                     }
 
                     function flatten(obj) {
@@ -503,7 +516,7 @@ export default function ProductComponent ({deviceType, name, images, options, op
                                     height : size.height,
                                     width : size.width,
                                     typename : size.name,
-                                    price : Math.trunc(size.width * size.height / 1000000 * productData[0].m2price * ( 1 + coeficientFinder(size)))
+                                    price : Math.trunc(getPrice(productData[0], size) * ( 1 + coeficientFinder(size)))
                                 }
                             )
                         })}
@@ -512,13 +525,13 @@ export default function ProductComponent ({deviceType, name, images, options, op
                         price={price}
                         sizeGlobal={sizeGlobal}
                         setSizeGlobal={setSizeGlobal}
-                        initialPrice={Math.trunc(productData[0].defaultsize.width * productData[0].defaultsize.height / 1000000 * productData[0].m2price * (1 + coeficientFinder(productData[0].defaultsize)))}
+                        initialPrice={Math.trunc(getPrice(productData[0], productData[0].defaultsize) * (1 + coeficientFinder(productData[0].defaultsize)))}
                         minHeight={productData[0].smallestsize.height}
                         maxHeight={productData[0].biggestsize.height}
                         minWidth={productData[0].smallestsize.width}
                         maxWidth={productData[0].biggestsize.width}
                         coeficientFinder={coeficientFinder}
-                        m2price={productData[0].m2price}
+                        productData={productData[0]}
                     />
                 </div>
 
@@ -549,6 +562,7 @@ export default function ProductComponent ({deviceType, name, images, options, op
                                     key={index}
                                     setPrice={setPrice}
                                     price={price}
+                                    productData={productData[0]}
                                 />
                             )}
                         </Element>

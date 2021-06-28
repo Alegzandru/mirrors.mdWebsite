@@ -56,7 +56,9 @@ export default function Dropdown (props) {
                     <label 
                         key={index} 
                         className="w-full h-12 bg-ui-white text-lg-14 text-type-manatee px-4 flex flex-row justify-start items-center hover:bg-ui-grey hover:text-accent-accent transition duration-300 cursor-pointer"
-                        // onChange={props.handleSubmit(props.onSubmit)}
+                        onChange={() => {
+                            props.handleSubmit(props.onSubmit)()
+                        }}
                         // onClick={props.handleSubmit(props.onSubmit)}
                     >
                         <input 

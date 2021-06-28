@@ -7,6 +7,22 @@ import Link from 'next/link'
 
 export default function NewProducts(props) {
 
+    function getPrice(product, size) {
+        let price = 0
+        product.materials.forEach((material, index) => {
+            if(material.type == "ml"){
+                price += material.price * (size.height + size.width) * 2 / 1000
+            }
+            else if(material.type == "m2"){
+                price += material.price * size.height * size.width / 1000000
+            }
+            else{
+                price += material.price
+            }
+        });
+        return price
+    }
+
     const responsive = {
         desktop: {
           breakpoint: { max: 3000, min: 1367 },
@@ -83,7 +99,7 @@ export default function NewProducts(props) {
                                                 Seria Juergen LED
                                             </div>
                                             <div className="text-sm-button md:text-lg-17 text-accent-accent font-medium mt-4 md:mt-6">
-                                                de la {Math.trunc( product.defaultsize.width * product.defaultsize.height / 1000000 * (1 + product.smallcoeficient) * product.m2price) } lei
+                                                de la {Math.trunc( getPrice(product, product.defaultsize) * (1 + product.smallcoeficient) ) } lei
                                             </div>
                                         </div>
                                     </div>

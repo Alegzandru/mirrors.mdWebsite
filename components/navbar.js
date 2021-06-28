@@ -50,6 +50,22 @@ export function Navbar (props) {
         height: scrollUp ? 88 : 0
     })
 
+    function getPrice(product, size) {
+        let price = 0
+        product.materials.forEach((material, index) => {
+            if(material.type == "ml"){
+                price += material.price * (size.height + size.width) * 2 / 1000
+            }
+            else if(material.type == "m2"){
+                price += material.price * size.height * size.width / 1000000
+            }
+            else{
+                price += material.price
+            }
+        });
+        return price
+    }
+
     // const stylesSearchMobile = useSpring({
     //     height : mobileSearchOpen ? deviceType == "mobile" ? 150 : 226 : 0
     // })
@@ -198,7 +214,7 @@ export function Navbar (props) {
                                                     {product.name}
                                                 </div>
                                                 <div className="text-lg-14">
-                                                    de la {Math.trunc( product.defaultsize.width * product.defaultsize.height / 1000000 * (1 + product.smallcoeficient) * product.m2price) } lei
+                                                    de la {Math.trunc( getPrice(product, product.defaultsize) * (1 + product.smallcoeficient) ) } lei
                                                 </div>
                                             </div>
                                         </div>
@@ -216,11 +232,23 @@ export function Navbar (props) {
                     >
                         <div className="lg:mx-container-lg xl:mx-container-xl h-full">
                             <div className="h-full w-full flex flex-row justify-between items-start font-14 pt-6">
-                                <div className="w-365px">
+                                <div className={`w-365px ${transparent ? "block" : "hidden"}`}>
                                     <Link href="/">
                                         <a>
                                             <Image
-                                                src="/branding/logo.svg"
+                                                src="/branding/logo2.svg"
+                                                height={34}
+                                                width={136}
+                                            />
+                                        </a>
+                                    </Link>
+                                </div>
+
+                                <div className={`w-365px ${transparent ? "hidden" : "block"}`}>
+                                    <Link href="/">
+                                        <a>
+                                            <Image
+                                                src="/branding/logo2Black.svg"
                                                 height={34}
                                                 width={136}
                                             />
@@ -282,7 +310,7 @@ export function Navbar (props) {
                                                                         {product.name}
                                                                     </div>
                                                                     <div className="text-lg-14">
-                                                                        de la {Math.trunc( product.defaultsize.width * product.defaultsize.height / 1000000 * (1 + product.smallcoeficient) * product.m2price) } lei
+                                                                        de la {Math.trunc( getPrice(product, product.defaultsize) * (1 + product.smallcoeficient) ) } lei
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -435,11 +463,23 @@ export function Navbar (props) {
 
             <div className={`block lg:hidden h-16 -mb-16 overflow-hidden ${transparent ? "bg-transparent" : "bg-ui-white"} header-shadow`}>
                 <div className="h-full mx-container-md flex flex-row justify-between items-center">
-                    <div className="w-112px h-40px">
+                    <div className={`w-112px h-40px ${transparent? "block" : "hidden"}`}>
                         <Link href="/">
                             <a>
                                 <Image
-                                    src="/branding/smallLogo.svg"
+                                    src="/branding/smallLogo2.svg"
+                                    height={40}
+                                    width={40}
+                                />
+                            </a>
+                        </Link>
+                    </div>
+
+                    <div className={`w-112px h-40px ${transparent? "hidden" : "block"}`}>
+                        <Link href="/">
+                            <a>
+                                <Image
+                                    src="/branding/smallLogoBlack.svg"
                                     height={40}
                                     width={40}
                                 />

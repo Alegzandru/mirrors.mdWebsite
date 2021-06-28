@@ -129,6 +129,8 @@ module.exports = {
         'popup-left-md' : 'calc( (100vw - 720px) / 2)',
         'popup-top-sm' : '0px',
         'popup-left-sm' : '0px',
+        'checkout-top' : 'calc( (100vh - 240px) / 2 )',
+        'checkout-left' : 'calc( (100vw - 288px) / 2 )',
         '70vh' : '70vh',
         '1.5px' : '1.5px',
         '981px' : '981px',
