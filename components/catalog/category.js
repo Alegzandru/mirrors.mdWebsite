@@ -86,11 +86,13 @@ export default function Category({category, name, products}) {
     }))
 
     const onSubmit = (data) => {
-
         
+        setShowReset(0)
+
         setActiveFilters(prevState => {
             const newState = prevState.map((option, index2) => {
                 if(data[optionNames[index2]] != false && data[optionNames[index2]].length != 0){
+                    setShowReset(1)
                     return {
                         active : true
                     }
