@@ -16,10 +16,10 @@ export default function Galerie({products}){
     return (
         <Layout>
             <InstaBlock></InstaBlock>
-            <GalerieComponent 
+            {/* <GalerieComponent 
               deviceType={deviceType}
               products={products}
-            ></GalerieComponent>
+            ></GalerieComponent> */}
             <RecentProducts deviceType={deviceType}></RecentProducts>
         </Layout>
     )

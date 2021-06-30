@@ -5,6 +5,7 @@ module.exports = {
 
     colors: {
       transparent: 'transparent',
+      instafade: 'rgba(0, 0, 0, 0.6)',
       ui : {
         white : "#FFFFFF",
         grey: "#F7F7F7",
@@ -35,10 +36,12 @@ module.exports = {
 
     fontFamily: {
       'Ubuntu' : ['Ubuntu', 'sans-serif' ],
+      'Pacifico' : ['Pacifico', 'cursive']
     },
 
     fontSize: {
       "lg-hLarge" : ["72px", "88px"],
+      "lg-insta" : ["64px", "150%"],
       "lg-h1" : ["64px", "110%"],
       "lg-h2" : ["48px", "56px"],
       "lg-h3" : ["40px", "56px"],
@@ -155,10 +158,12 @@ module.exports = {
         '425px' : '425px',
         '418px' : '418px',
         '408px' : '408px',
+        '400px' : '400px',
         '386px' : '386px',
         '382px' : '382px',
         '368px' : '368px',
         '365px' : '365px',
+        '360px' : '360px',
         '352px' : '352px',
         '348px' : '348px',
         '320px' : '320px',

@@ -44,7 +44,7 @@ export default function NewProducts(props) {
         }
     };
 
-      const images = [
+    const images = [
         "/mainPage/popularProducts/Copy of  Veronica.png",
         "/mainPage/popularProducts/Copy of Acacia.png",
         "/mainPage/popularProducts/Copy of Adina Alumin.png",

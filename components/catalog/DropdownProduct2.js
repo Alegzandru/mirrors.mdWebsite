@@ -205,7 +205,7 @@ export default function DropdownProduct(props) {
                                     className={`flex flex-row justify-center items-center w-128px px-10 h-34px bg-accent-accent text-ui-white hover:bg-accent-light font-bold rounded-lg transition duration-300 text-lg-14 cursor-pointer mt-14px`}
                                     onClick={handleSubmit(onSubmit)}
                                 >
-                                    Salvează
+                                    Calculează
                                 </div>
                             :
                                 ""
