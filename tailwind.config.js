@@ -6,6 +6,7 @@ module.exports = {
     colors: {
       transparent: 'transparent',
       instafade: 'rgba(0, 0, 0, 0.6)',
+      instatext : '#8C54FB',
       ui : {
         white : "#FFFFFF",
         grey: "#F7F7F7",

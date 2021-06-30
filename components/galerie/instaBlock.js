@@ -4,6 +4,7 @@ import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import { DeviceTypeContext } from '../context';
 import Link from "next/link"
+import {CustomButtonGroupAsArrows3} from "../mainPage/CustomButtonGroup"
 
 export default function InstaBlock () {
 
@@ -46,7 +47,7 @@ export default function InstaBlock () {
   ];
 
   return (
-    <div className="w-full h-auto xl:px-container-xl lg:pt-268px pt-16 lg:pb-224px md:pb-160px pb-16 font-Ubuntu bg-ui-dark overflow-hidden">
+    <div className="w-full h-auto xl:px-container-xl lg:pt-268px pt-16 lg:pb-224px md:pb-160px pb-120px font-Ubuntu bg-ui-dark overflow-hidden">
       <div className="h-2 gradient-line w-full lg:hidden mb-72px"/>
 
       <div className="mx-auto text-ui-grey text-lg-p font-medium w-auto text-center mb-6">
@@ -99,6 +100,8 @@ export default function InstaBlock () {
           draggable
           minimumTouchDrag={80}
           additionalTransfrom={0}
+          customButtonGroup={<CustomButtonGroupAsArrows3/>}
+          renderButtonGroupOutside
         >
           {images.map((image) => 
 
