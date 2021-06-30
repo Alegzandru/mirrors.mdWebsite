@@ -4,6 +4,9 @@ export default function InstaBlock () {
 
   return (
     <div>
+      <div>
+        
+      </div>
     </div>
   )
   
