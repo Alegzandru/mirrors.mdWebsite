@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 import Lottie from "lottie-react";
 import done from "./done.json"
 import loading from "./loading.json"
+var md5 = require('md5');
 
 
 export default function Checkout() {
@@ -105,20 +106,17 @@ export default function Checkout() {
             
                         fetch(`https://mirrors-md-admin.herokuapp.com/clients`, requestOptionsClient)
                             .then(response => response.json())
-                            .then(data => {
-                                console.log(data)
-                                console.log(orders)
+                            .then(async (data) => {
 
                                 let ClientCode = uuidv4()
                                 let ExternalID = uuidv4()
-                                let AddOnGroupId = uuidv4()
                                 let ExpiryDate = "2022-01-01T00:00:00"
+                                let secretKey = process.env.NEXT_PUBLIC_PAYNET_SECRET
 
-                                let signature = "498"+data.address+"Chisinau"+ClientCode+"Moldova"+data.email+userInfo.prenume+userInfo.nume+data.phone+ExpiryDate+ExternalID+process.env.NEXT_PUBLIC_MERCHANTCODE+"Paynet"+"1"+"Cumpararea oglinzilor pe site-ul mirrors.md"+"Cumpărarea oglinzilor online"
-                                console.log(signature)
+                                let signatureRaw = "498"+data.address+"Chisinau"+ClientCode+"Moldova"+data.email+userInfo.prenume+userInfo.nume+data.phone+ExpiryDate+ExternalID+"388417"+"Paynet"+"1"+"Cumpararea oglinzilor pe site-ul mirrors.md"+"Cumpărarea oglinzilor online"
 
                                 let productsPaynet = orders.map((order, index) => {
-                                    signature += order.number+order.products[0].id+order.products[0].slug+`Produsul ${order.products[0].name}`+order.products[0].category+"Produs"+1+order.products[0].name+order.products[0].price+1
+                                    signatureRaw += order.number+order.products[0].id+order.products[0].slug+`Produsul ${order.products[0].name}`+order.products[0].category+"Produs"+1+order.products[0].name+order.products[0].price+1
                                     return({
                                         Amount : order.number,
                                         Barcode : order.products[0].id,
@@ -135,13 +133,13 @@ export default function Checkout() {
                                 
                                 orders.map((order, index) => {
                                     order.add_ons.map((addOn, indexAddon) => {
-                                        signature += order.number+order.add_ons[indexAddon].id+order.add_ons[indexAddon].name+`Addon-ul ${order.add_ons[indexAddon].name}`+AddOnGroupId+"Add On"+1+order.add_ons[indexAddon].name+order.add_ons[indexAddon].price+1
+                                        signatureRaw += order.number+order.add_ons[indexAddon].id+order.add_ons[indexAddon].name+`Addon-ul ${order.add_ons[indexAddon].name}`+2+"Add On"+1+order.add_ons[indexAddon].name+order.add_ons[indexAddon].price+1
                                         productsPaynet.push({
                                             Amount : order.number,
                                             Barcode : order.add_ons[indexAddon].id,
                                             Code : order.add_ons[indexAddon].name,
                                             Description : `Addon-ul ${order.add_ons[indexAddon].name}`,
-                                            GroupId : AddOnGroupId,
+                                            GroupId : 2,
                                             GroupName : "Add On",
                                             LineNo : 1,
                                             Name : order.add_ons[indexAddon].name,
@@ -160,7 +158,7 @@ export default function Checkout() {
                                 //     orders: orders
                                 // })
 
-                                console.log(signature)
+                                let signature = btoa(md5(signatureRaw + secretKey))
 
                                 if(data.mod_de_plata == "card"){
                                     const requestOptionsPaynet = {
@@ -200,13 +198,43 @@ export default function Checkout() {
                                             }
                                         })
                                     };
+                                    
+                                    try {
+                                        await fetch("http://test.paynet.md:4446/acquiring/setecom", requestOptionsPaynet)
+                                            .then(response => response.json())
+                                            .then(data => console.log(data))
+                                    } catch (error) {
+                                        console.log("Error with fetch request : ", error)
+                                    }
 
-                                    console.log(requestOptionsPaynet.body)
+                                    // let username = "370455"
 
-                                    fetch("https://test.paynet.md:4446", requestOptionsPaynet)
-                                        .then(response => response.json())
-                                        .then(data => console.log(data))
+                                    // var details = {
+                                    //     'grant_type': 'password',
+                                    //     'username': '370455',
+                                    // };
+                                    
+                                    // var formBody = [];
+                                    // for (var property in details) {
+                                    //   var encodedKey = encodeURIComponent(property);
+                                    //   var encodedValue = encodeURIComponent(details[property]);
+                                    //   formBody.push(encodedKey + "=" + encodedValue);
+                                    // }
+                                    // formBody = formBody.join("&");
 
+                                    // console.log(formBody)
+
+                                    // const authRequestOptions = {
+                                    //     method : 'POST',
+                                    //     headers : {
+                                    //         'Content-Type': 'application/x-www-form-urlencoded',
+                                    //         'Accept-Language' : 'ro-RO'
+                                    //     },
+                                    //     body : formBody
+                                    // }
+                                    // fetch("http://test.paynet.md:4446/auth", authRequestOptions)
+                                    //     .then(response => response.json())
+                                    //     .then(data => console.log(data))
                                 }
 
                                 setPopupOpen(1)
@@ -216,16 +244,6 @@ export default function Checkout() {
                                     setPopupDone(0)
                                     setPopupOpen(0)
                                 }, 1200)
-
-                                // setTimeout(() => {
-                                //     setPopupLoading(0)
-                                //     setPopupDone(1)
-                                // }, 1200)
-
-                                // setTimeout(() => {
-                                //     setPopupDone(0)
-                                //     setPopupOpen(0)
-                                // }, 2400)
                             })
                     }
                 })

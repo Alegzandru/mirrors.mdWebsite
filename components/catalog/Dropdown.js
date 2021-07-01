@@ -51,7 +51,7 @@ export default function Dropdown (props) {
 
             </div>
 
-            <div className={`lg:w-dropdown ${open ? "block" : "hidden"} relative lg:absolute card2-shadow z-30`}>
+            <div className={`lg:w-dropdown-lg xl:w-dropdown-xl ${open ? "block" : "hidden"} relative lg:absolute card2-shadow z-30`}>
                 {props.filterOptions.map((option, index) => 
                     <label 
                         key={index} 

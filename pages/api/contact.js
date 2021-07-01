@@ -3,7 +3,7 @@ import sgMail from '@sendgrid/mail'
 sgMail.setApiKey(process.env.EMAIL_API_KEY);
 
 export default async (req, res) => {
-  const { email, message, nume } = req.body
+  const { phone, message, nume } = req.body
   
   const msg = {
     from: '<manager.mirrors.md@gmail.com',
@@ -11,9 +11,10 @@ export default async (req, res) => {
       {
         to : '<manager.mirrors.md@gmail.com',
         dynamic_template_data : {
-          subject : `Mesaj nou de la ${nume}`,
+          subject : `Mesaj nou de la ${nume} (${phone})`,
           text: message,
           name : nume,
+          phone : phone
         }
       }
     ],

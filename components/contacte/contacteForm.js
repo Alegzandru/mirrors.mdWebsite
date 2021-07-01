@@ -14,7 +14,7 @@ export default function ContacteForm () {
                 "headers": { "content-type": "application/json" },
                 "body": JSON.stringify(data)
             })
-        } 
+        }
         catch (error) {
         }
     
@@ -48,14 +48,19 @@ export default function ContacteForm () {
 
                     <div className="w-full md:w-auto flex-grow">
                         <div className="text-lg-14 font-medium text-type-manatee mb-2">
-                            Email
+                            Nr. de Telefon
                         </div>
                         <input 
                             className="w-full h-12 bg-ui-grey rounded-sm border border-ui-blueishGrey text-type-grey flex flex-row items-center justify-start px-4"
-                            type="text" 
-                            placeholder="email@gmail.com"
-                            {...register("email", { required : true})}
+                            type="number" 
+                            placeholder="+373 78 787 878"
+                            {...register("phone", { required : true, minLength: 8})}
                         />
+                        {errors.phone?.type === 'minLength' && 
+                            <div className="text-accent-error text-lg-12 mt-2">
+                                * Lungimea minimă a numărului este 8 cifre
+                            </div>
+                        }
                     </div>
                 </div>
 
