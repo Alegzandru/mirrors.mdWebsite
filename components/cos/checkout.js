@@ -200,7 +200,7 @@ export default function Checkout() {
                                     };
                                     
                                     try {
-                                        await fetch("http://test.paynet.md:4446/acquiring/setecom", requestOptionsPaynet)
+                                        await fetch("https://test.paynet.md:4446/acquiring/setecom", requestOptionsPaynet)
                                             .then(response => response.json())
                                             .then(data => console.log(data))
                                     } catch (error) {
