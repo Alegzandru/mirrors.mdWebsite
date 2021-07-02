@@ -80,6 +80,13 @@ export default function DropdownProduct(props) {
 
     useEffect(() => {
         if(chosen === 0){
+            if(lastChosen != 0 && props.name != "Dimensiuni recomandate"){
+                let lastOptionPriceRaw = props.options.filter((option) => option.typename == lastChosen)
+                let lastOptionPrice = lastOptionPriceRaw[0].price
+    
+                props.setPrice(props.price - lastOptionPrice)
+                setLastChosen(0)
+            }
         }
         else{
             let optionPriceRaw = props.options.filter((option) => option.typename == chosen)
@@ -248,7 +255,7 @@ export default function DropdownProduct(props) {
                                     checked={chosen == option.typename}
                                     onClick={e => {
                                         handleClick(e)
-                                        setChosen(option.typename)
+                                        // setChosen(option.typename)
                                     }}
                                 />
                                 :
@@ -259,7 +266,7 @@ export default function DropdownProduct(props) {
                                     name={props.name}
                                     onClick={(e) => {
                                         handleClick(e)
-                                        setChecked(!checked)
+                                        // setChecked(!checked)
                                     }}
                                 />
                             }

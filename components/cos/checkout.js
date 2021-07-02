@@ -149,101 +149,154 @@ export default function Checkout() {
                                     })
                                 })
 
-                                // sendMailOwner({
-                                //     ...data,
-                                //     orders : orders
-                                // })
-                                // sendMailClient({
-                                //     ...data,
-                                //     orders: orders
-                                // })
+                                sendMailOwner({
+                                    ...data,
+                                    orders : orders
+                                })
+                                sendMailClient({
+                                    ...data,
+                                    orders: orders
+                                })
 
                                 let signature = btoa(md5(signatureRaw + secretKey))
 
                                 if(data.mod_de_plata == "card"){
-                                    const requestOptionsPaynet = {
-                                        method: 'POST',
-                                        headers: { 
-                                            'Content-Type': 'application/json',
-                                            'Host' : 'test.paynet.md'
-                                        },
-                                        body: JSON.stringify({ 
-                                            ExternalID : ExternalID,
-                                            Currency : 498,
-                                            Merchant : "388417",
-                                            Customer : {
-                                                Code : ClientCode,
-                                                NameFirst : userInfo.prenume,
-                                                NameLast : userInfo.nume,
-                                                PhoneNumber : data.phone,
-                                                email : data.email,
-                                                Country : "Moldova",
-                                                City : "Chisinau",
-                                                Address : data.address
-                                            },
-                                            Services : [{
-                                                Name : "Cumpărarea oglinzilor online",
-                                                Description : "Cumpararea oglinzilor pe site-ul mirrors.md",
-                                                Amount : 1,
-                                                products : productsPaynet
-                                            }],
-                                            ExpiryDate : ExpiryDate,
-                                            LinkUrlCancel : "https://www.mirrors.md/cos/checkout",
-                                            LinkUrlSuccess: "https://www.mirrors.md/",
-                                            Lang: "en-US",
-                                            Signature: signature,
-                                            SignVersion : "v05",
-                                            MoneyType : {
-                                                Code : "Paynet"
-                                            }
-                                        })
+    
+                                    var details = {
+                                        'grant_type': 'password',
+                                        'username': '370455',
+                                        'password' : process.env.NEXT_PUBLIC_PAYNET_PASSWORD
                                     };
                                     
-                                    try {
-                                        await fetch("https://test.paynet.md:4446/acquiring/setecom", requestOptionsPaynet)
-                                            .then(response => response.json())
-                                            .then(data => console.log(data))
-                                    } catch (error) {
-                                        console.log("Error with fetch request : ", error)
+                                    var formBody = [];
+                                    for (var property in details) {
+                                      var encodedKey = encodeURIComponent(property);
+                                      var encodedValue = encodeURIComponent(details[property]);
+                                      formBody.push(encodedKey + "=" + encodedValue);
+                                    }
+                                    formBody = formBody.join("&");
+        
+                                    const authRequestOptions = {
+                                        method : 'POST',
+                                        headers : {
+                                            'Content-Type': 'application/x-www-form-urlencoded',
+                                            'Accept-Language' : 'ro-RO'
+                                        },
+                                        body : formBody
                                     }
 
-                                    // let username = "370455"
+                                    fetch("https://nameless-shore-75507.herokuapp.com/https://test.paynet.md:4446/auth", authRequestOptions)
+                                        .then(response => response.json())
+                                        .then(async (dataAuth) => {
 
-                                    // var details = {
-                                    //     'grant_type': 'password',
-                                    //     'username': '370455',
-                                    // };
-                                    
-                                    // var formBody = [];
-                                    // for (var property in details) {
-                                    //   var encodedKey = encodeURIComponent(property);
-                                    //   var encodedValue = encodeURIComponent(details[property]);
-                                    //   formBody.push(encodedKey + "=" + encodedValue);
-                                    // }
-                                    // formBody = formBody.join("&");
+                                            setPopupOpen(1)
+                                            setPopupLoading(1)
 
-                                    // console.log(formBody)
+                                            const requestOptionsPaynet = {
+                                                method: 'POST',
+                                                headers: { 
+                                                    'Content-Type': 'application/json',
+                                                    'Authorization' : `Bearer ${dataAuth.access_token}`
+                                                },
+                                                body: JSON.stringify({ 
+                                                    ExternalID : ExternalID,
+                                                    Currency : 498,
+                                                    Merchant : "388417",
+                                                    Customer : {
+                                                        Code : ClientCode,
+                                                        NameFirst : userInfo.prenume,
+                                                        NameLast : userInfo.nume,
+                                                        PhoneNumber : dataAuth.phone,
+                                                        email : dataAuth.email,
+                                                        Country : "Moldova",
+                                                        City : "Chisinau",
+                                                        Address : dataAuth.address
+                                                    },
+                                                    Services : [{
+                                                        Name : "Cumpărarea oglinzilor online",
+                                                        Description : "Cumpararea oglinzilor pe site-ul mirrors.md",
+                                                        Amount : 1,
+                                                        products : productsPaynet
+                                                    }],
+                                                    ExpiryDate : ExpiryDate,
+                                                    LinkUrlCancel : "https://www.mirrors.md/cos/checkout",
+                                                    LinkUrlSuccess: "https://www.mirrors.md/",
+                                                    Lang: "en-US",
+                                                    Signature: signature,
+                                                    SignVersion : "v05",
+                                                    MoneyType : {
+                                                        Code : "Paynet"
+                                                    }
+                                                })
+                                            };
+                                            
+                                            try {
+                                                await fetch("https://nameless-shore-75507.herokuapp.com/https://test.paynet.md:4446/api/payments/send", requestOptionsPaynet)
+                                                    .then(response => response.json())
+                                                    .then(async (data) => {
 
-                                    // const authRequestOptions = {
-                                    //     method : 'POST',
-                                    //     headers : {
-                                    //         'Content-Type': 'application/x-www-form-urlencoded',
-                                    //         'Accept-Language' : 'ro-RO'
-                                    //     },
-                                    //     body : formBody
-                                    // }
-                                    // fetch("http://test.paynet.md:4446/auth", authRequestOptions)
-                                    //     .then(response => response.json())
-                                    //     .then(data => console.log(data))
+                                                        var detailsRedirect = {
+                                                            'operation': data.PaymentId,
+                                                            'LinkUrlSuccess': "https://www.mirrors.md/",
+                                                            'LinkUrlCancel' : "https://www.mirrors.md/cos/checkout",
+                                                            'ExpiryDate' : '2022-01-01T00:00:00',
+                                                            'Signature' : data.Signature,
+                                                            'Lang' : 'en-US'
+                                                        };
+
+                                                        var formBodyRedirect = [];
+                                                        for (var property in detailsRedirect) {
+                                                        var encodedKey = encodeURIComponent(property);
+                                                        var encodedValue = encodeURIComponent(detailsRedirect[property]);
+                                                        formBodyRedirect.push(encodedKey + "=" + encodedValue);
+                                                        }
+                                                        formBodyRedirect = formBodyRedirect.join("&");
+
+                                                        const redirectRequestOptions = {
+                                                            method : 'POST',
+                                                            headers : {
+                                                                'Content-Type': 'application/x-www-form-urlencoded',
+                                                            },
+                                                            body : formBodyRedirect
+                                                        }
+                                                        
+                                                        try {
+                                                            fetch("https://nameless-shore-75507.herokuapp.com/https://test.paynet.md/acquiring/setecom", redirectRequestOptions)
+                                                                // .then(response => response.json())
+                                                                // .then(data => {
+                                                                //     console.log(data)
+                                                                // })
+                                                                .then((response) => {
+                                                                    console.log("Fetch worked")
+                                                                    setPopupLoading(0)
+                                                                    setPopupDone(1)
+
+                                                                    setTimeout(() => {
+                                                                        setPopupDone(0)
+                                                                        setPopupOpen(0)
+                                                                    }, 1200)
+                                                                })
+                                                        }
+                                                        catch(error){
+                                                            console.log("Error with redirect : ", error)
+                                                        }
+                                                    })
+                                            } catch (error) {
+                                                console.log("Error with fetch request : ", error)
+                                            }
+                                        })
+
+                                }
+                                else{
+                                    setPopupOpen(1)
+                                    setPopupDone(1)
+    
+                                    setTimeout(() => {
+                                        setPopupDone(0)
+                                        setPopupOpen(0)
+                                    }, 1200)
                                 }
 
-                                setPopupOpen(1)
-                                setPopupDone(1)
-
-                                setTimeout(() => {
-                                    setPopupDone(0)
-                                    setPopupOpen(0)
-                                }, 1200)
                             })
                     }
                 })
