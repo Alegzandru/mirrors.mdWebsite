@@ -817,7 +817,7 @@ export default function Checkout({lang}) {
                 </div>
             </form>
             <form method="POST" target="_blank" ref={formRef} action="https://test.paynet.md/acquiring/getecom">
-                <input type="hidden" name="LinkUrlSuccess" value="https://www.mirrors.md/"/>
+                <input type="hidden" name="LinkUrlSucces" value="https://www.mirrors.md/"/>
                 <input type="hidden" name="LinkUrlCancel" value="https://www.mirrors.md/cos"/>
                 <input type="hidden" name="Lang" value="en-US"/>
             </form>
