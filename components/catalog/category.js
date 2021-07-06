@@ -9,7 +9,7 @@ import Link from "next/link"
 import { useForm } from "react-hook-form";
 
 
-export default function Category({category, name, products}) {
+export default function Category({category, name, products, lang}) {
 
     const [productsApi, setProductsApi] = useState(products)
 
@@ -60,24 +60,53 @@ export default function Category({category, name, products}) {
     
     const pages = Math.trunc(productsApi.length / 32) + 1
     
-    const sortingOptions = [
-        {
-            name : "Popularitate",
-            index : 0
-        },
-        {
-            name : "Cele mai recente",
-            index : 1
-        },
-        {
-            name : "Preț: de la mare la mic",
-            index : 2
-        },
-        {
-            name : "Preț: de la mic la mare",
-            index : 3
-        }
-    ]
+    const sortingOptionsRaw = {
+        ro : [
+            {
+                name : "Popularitate",
+                index : 0
+            },
+            {
+                name : "Cele mai recente",
+                index : 1
+            },
+            {
+                name : "Preț: de la mare la mic",
+                index : 2
+            },
+            {
+                name : "Preț: de la mic la mare",
+                index : 3
+            }
+        ],
+        ru : [
+            {
+                name : "Популярность",
+                index : 0
+            },
+            {
+                name : "Новейшие продукты",
+                index : 1
+            },
+            {
+                name : "Цена: от высокой к низкой",
+                index : 2
+            },
+            {
+                name : "Цена: от низкой к высокой",
+                index : 3
+            }
+        ]
+    }
+
+    let sortingOptions
+
+    if(lang == "ru"){
+        sortingOptions = sortingOptionsRaw.ru
+    }
+    else{
+        sortingOptions = sortingOptionsRaw.ro
+    }
 
     const [activeFilters, setActiveFilters] = useState(optionNames.map((option) => {
         return{
@@ -186,6 +215,7 @@ export default function Category({category, name, products}) {
                     onSubmit={onSubmit}
                     reset={reset}
                     activeFilters={activeFilters}
+                    lang={lang}
             ></FilterPopup>
             <div className={`w-full h-auto px-container-sm md:px-container-md lg:px-container-lg xl:px-container-xl pt-128px md:pt-136px lg:pt-234px pb-120px font-Ubuntu bg-ui-darkGrey ${openFilters ? "hidden" : "block"}`}>
                 <div 
@@ -195,7 +225,12 @@ export default function Category({category, name, products}) {
                     <Link href="/">
                         <a>
                             <span className="mr-1 hover:underline transition duration-300">
-                                Pagina principală
+                                {
+                                    lang == "ro" ?
+                                    "Pagina principală"
+                                    :
+                                    "Главная страница"
+                                }
                             </span>
                         </a>
                     </Link>
@@ -221,7 +256,12 @@ export default function Category({category, name, products}) {
                         </svg>
 
                         <div>
-                            36 luni garantie
+                            {
+                                lang == "ro" ?
+                                "36 luni garantie"
+                                :
+                                "Гарантия 3 года"
+                            }
                         </div>
                     </div>
                 </div>
@@ -284,10 +324,15 @@ export default function Category({category, name, products}) {
                 <div className="w-full flex flex-row-reverse lg:flex-row justify-between items-center lg:items-start mb-6 lg:mb-0">
                     <div className="px-2 flex flex-row justify-between items-start">
                         <div className="text-type-grey text-lg-14 mr-4 p-2 hidden lg:block">
-                            Sortează după:
+                            {
+                                lang == "ro" ?
+                                "Sortează după:"
+                                :
+                                "Сортировать по:"
+                            }
                         </div>
 
-                        <Dropdown2 
+                        <Dropdown2
                             options={sortingOptions} 
                             handleChange={handleSortingChange} 
                             chosen={sorting}
@@ -295,7 +340,12 @@ export default function Category({category, name, products}) {
                     </div>
 
                     <div className="px-2 py-4 text-type-grey text-lg-14 hidden smCatalog:block">
-                        {productsApi.length} produse
+                        {
+                            lang == "ro" ?
+                            `${productsApi.length} produse`
+                            :
+                            `${productsApi.length} товаров`
+                        }
                     </div>
 
                     <div 
@@ -309,7 +359,12 @@ export default function Category({category, name, products}) {
                         </div>
 
                         <div className="text-lg-14 font-medium text-ui-dark p-4">
-                            Filtrare
+                            {
+                                lang == "ro" ?
+                                "Filtrare"
+                                :
+                                "Фильтры"
+                            }
                         </div>
                     </div>
 
@@ -358,7 +413,12 @@ export default function Category({category, name, products}) {
                         showNr >= showNr*pages? "" : setShowNr(showNr + 32)
                     }}
                 >
-                    Mai multe produse
+                    {
+                        lang == "ro" ?
+                        "Mai multe produse"
+                        :
+                        "Больше товаров"
+                    }
                 </div>
 
                 <div className="w-full flex flex-row justify-between items-center">
@@ -373,7 +433,7 @@ export default function Category({category, name, products}) {
                                         smooth={true}
                                     >
                                         <div
-                                            className={`${showFrom == page ? "text-accent-accent bg-transparent border border-1.5px border-accent-accent" : "text-type-grey bg-accent-transparent"} h-8 w-auto px-3 flex flex-row items-center justify-center text-lg-1 rounded mr-4 transition duration-300`}
+                                            className={`${showFrom == page ? "text-accent-accent bg-transparent border-1.5px border-accent-accent" : "text-type-grey bg-accent-transparent"} h-8 w-auto px-3 flex flex-row items-center justify-center text-lg-1 rounded mr-4 transition duration-300`}
                                             onClick={() => {
                                                 setShowFrom(page)
                                                 setShowNr(32)
@@ -399,7 +459,12 @@ export default function Category({category, name, products}) {
                     </div>
 
                     <div className="text-lg-14 text-type-grey font-normal">
-                        Afișare {showFrom * 32} - {showFrom * 32 + showNr} (din {productsApi.length})
+                        {
+                            lang == "ro" ?
+                            `Afișare ${showFrom * 32} - ${showFrom * 32 + showNr} (din ${productsApi.length})`
+                            :
+                            `Отображать ${showFrom * 32} - ${showFrom * 32 + showNr} (из ${productsApi.length})`
+                        }
                     </div>
                 </div>
 

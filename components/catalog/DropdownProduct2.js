@@ -149,7 +149,12 @@ export default function DropdownProduct(props) {
                             className="flex flex-row justify-start items-center mt-14px cursor-pointer text-accent-accent hover:text-accent-light mb-6"
                         >
                             <div className="text-lg-card-price lg:text-lg-17 font-medium transition duration-300">
-                                Alegeți dimensiunile
+                                {
+                                    props.lang == "ro" ?
+                                    "Alegeți dimensiunile"
+                                    :
+                                    "Выберите размеры"
+                                }
                             </div>
                         </div>
 
@@ -171,8 +176,18 @@ export default function DropdownProduct(props) {
                                     </span>
                                 </div>
                                 <div className="h-10">
-                                    {errors.height?.type === 'min' && `Înălțimea min - ${props.minHeight}`}
-                                    {errors.height?.type === 'max' && `Înălțimea max - ${props.maxHeight}`}
+                                    {
+                                        props.lang == "ro" ?
+                                        errors.height?.type === 'min' && `Înălțimea min - ${props.minHeight}`
+                                        :
+                                        errors.height?.type === 'min' && `Мин. высота - ${props.minHeight}`
+                                    }
+                                    {
+                                        props.lang == "ro" ?
+                                        errors.height?.type === 'max' && `Înălțimea max - ${props.maxHeight}`
+                                        :
+                                        errors.height?.type === 'max' && `Макс. высота - ${props.maxHeight}`
+                                    }
                                     {""}
                                 </div>
                             </div>
@@ -199,8 +214,18 @@ export default function DropdownProduct(props) {
                                     </span>
                                 </div>
                                 <div className="h-10">
-                                    {errors.width?.type === 'min' && `Lățimea min - ${props.minWidth}`}
-                                    {errors.width?.type === 'max' && `Lățimea max - ${props.maxWidth}`}
+                                    { 
+                                        props.lang == "ro" ?
+                                        errors.width?.type === 'min' && `Lățimea min. - ${props.minWidth}`
+                                        :
+                                        errors.width?.type === 'min' && `Мин. ширина - ${props.minWidth}`
+                                    }
+                                    {
+                                        props.lang == "ro" ? 
+                                        errors.width?.type === 'max' && `Lățimea max. - ${props.maxWidth}`
+                                        :
+                                        errors.width?.type === 'max' && `Макс. ширина - ${props.maxWidth}`
+                                    }
                                     {""}
                                 </div>
                             </div>
@@ -212,7 +237,12 @@ export default function DropdownProduct(props) {
                                     className={`flex flex-row justify-center items-center w-128px px-10 h-34px bg-accent-accent text-ui-white hover:bg-accent-light font-bold rounded-lg transition duration-300 text-lg-14 cursor-pointer mt-14px`}
                                     onClick={handleSubmit(onSubmit)}
                                 >
-                                    Calculează
+                                    { 
+                                        props.lang == "ro" ?
+                                        "Calculează"
+                                        :
+                                        "Рассчитать"
+                                    }
                                 </div>
                             :
                                 ""

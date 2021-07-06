@@ -207,6 +207,7 @@ module.exports = {
         '118px' : '118px',
         '116px' : '116px',
         '112px' : '112px',
+        '98px' : '98px',
         '96px' : '96px',
         '92px' : '92px',
         '88px' : '88px',
@@ -247,6 +248,7 @@ module.exports = {
       scale: ['group-hover'],
       display: ['group-hover'],
       fill: ['hover', 'focus'],
+      margin : ['group-hover']
     }
   },
   plugins: [

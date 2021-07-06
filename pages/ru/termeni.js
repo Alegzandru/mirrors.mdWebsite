@@ -1,11 +1,11 @@
-import TermeniSiConditii from "../components/termeni/termeniSiConditii";
-import Layout from "../components/layout"
+import TermeniSiConditii from "../../components/termeni/termeniSiConditii";
+import Layout from "../../components/layout"
 
 export default function Termeni (){
     return(
         <Layout>
             <TermeniSiConditii
-                lang="ro"
+                lang="ru"
             ></TermeniSiConditii>
         </Layout>
     )

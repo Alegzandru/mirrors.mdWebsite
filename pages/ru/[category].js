@@ -1,16 +1,16 @@
-import Layout from "../components/layout"
-import Category from "../components/catalog/category"
-import {API_URL} from "../utils/urls"
+import Layout from "../../components/layout"
+import Category from "../../components/catalog/category"
+import {API_URL} from "../../utils/urls"
 
 export default function Catalog ({category, products}) {
 
     return (
         <Layout>
             <Category 
+                lang="ru"
                 category={category}
                 name={category[0].name}
                 products={products}
-                lang="ro"
             >
             </Category>
         </Layout>  

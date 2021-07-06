@@ -18,6 +18,7 @@ var qs = require('qs');
 export function Navbar (props) {
 
     const [scrollUp, setScrollUp] = useState(1)
+    const [top, setTop] = useState(1)
 
     const [principala, setPrincipala] = useState(0)
     const [galerie, setGalerie] = useState(0)
@@ -34,6 +35,7 @@ export function Navbar (props) {
     const [catalogOpen, setCatalogOpen] = useState(0)
     const [mobileSearchOpen, setMobileSearchOpen] = useState(0)
     const [mobileCatalogOpen , setMobileCatalogOpen] = useState(0)
+    const [mobileLangOpen, setMobileLangOpen] = useState(0)
 
     const {cart, setCart} = useContext(CartContext)
     const {deviceType, setDeviceType} = useContext(DeviceTypeContext)
@@ -48,6 +50,10 @@ export function Navbar (props) {
 
     const styles2 = useSpring({ 
         height: scrollUp ? 88 : 0
+    })
+
+    const styles3 = useSpring({ 
+        height: top ? 32 : 0
     })
 
     function getPrice(product, size) {
@@ -96,7 +102,8 @@ export function Navbar (props) {
             }
 
             const scrollPosition = () => {
-                setTransparent(window.scrollY == 0 && router.pathname=="/")
+                setTransparent(window.scrollY == 0 && ( router.pathname=="/" || router.pathname=="/ru" ))
+                setTop(window.scrollY == 0)
             }
 
             window.addEventListener("scroll", handleScroll, false);
@@ -225,6 +232,61 @@ export function Navbar (props) {
                     </div>
                 }
             </animated.div>
+
+            <animated.div
+                className={`h-8 ${transparent ? "bg-transparent" : "bg-ui-white" } hidden lg:flex w-full flex-row justify-between items-center lg:px-container-lg xl:px-container-xl transition duration-300 overflow-hidden text-lg-14`}
+                style={styles3}
+            >
+                <div className="flex flex-row justify-start items-center">
+                    <div className="ml-2 mr-6">
+                        <a
+                            href="https://www.instagram.com/mirrorsmd/"
+                            target="blank"
+                        >
+                            <Image
+                                src="/branding/instagram.svg"
+                                height={16}
+                                width={16}
+                            />
+                        </a>
+                    </div>
+                    <div className="">
+                        <a
+                            href="https://www.facebook.com/mirrorsmd"
+                            target="blank"
+                        >
+                            <Image
+                                src="/branding/facebook.svg"
+                                height={16}
+                                width={16}
+                            />
+                        </a>
+                    </div>
+                </div>
+
+                <div className="flex flex-row justify-end items-center">
+                    <div className="text-type-grey mr-4">
+                        Ln−Vn: 9:00 − 18:00
+                    </div>
+
+                    <div className="text-type-grey mr-4">
+                        Sâm: 9:00 − 14:00
+                    </div>
+
+                    <div className="text-type-grey mr-4">
+                        Dum: zi liberă
+                    </div>
+
+                    <a href="tel:37369482034">
+                        <div className="h-8 w-132px rounded hover:bg-accent-transparent text-accent-accent flex flex-row justify-between items-center px-1 transition duration-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                            </svg>
+                            +373 69 482 034
+                        </div>
+                    </a>
+                </div>
+            </animated.div>
             {/* {scrollUp ? */}
                     <animated.div 
                         className={`h-88px ${transparent ? "bg-transparent" : "bg-ui-white" } hidden lg:block w-full transition duration-300 lg:overflow-hidden`}
@@ -322,8 +384,8 @@ export function Navbar (props) {
                                     }
                                 </div>
 
-                                <div className="w-365px flex flex-row justify-between items-center">
-                                    <div className="text-lg-14 -mt-2">
+                                <div className="w-365px flex flex-row justify-end items-center">
+                                    {/* <div className="text-lg-14 -mt-2">
                                         <div className={`${transparent ? "text-ui-blueishGrey" : "text-type-grey"} flex flex-row justify-start items-center`}>
                                             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -370,7 +432,24 @@ export function Navbar (props) {
                                         height={16}
                                         width={16}
                                     />
-                                </a>
+                                </a> */}
+
+                                    <div className="rounded overflow-hidden w-98px group cursor-pointer hover:shadow-md">
+                                        <div className={`h-8 ${transparent ? "bg-ui-dark text-ui-white" : "bg-ui-grey text-type-dark"} flex flex-row justify-between items-center px-2 text-lg-14 z-20 relative group-hover:bg-ui-grey group-hover:text-type-dark transition-all duration-300`}>
+                                            <div>
+                                                Română
+                                            </div>
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-14px w-14px group-hover:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                            </svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-14px w-14px hidden group-hover:block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                                            </svg>
+                                        </div>
+                                        <div className="h-8 bg-ui-white text-type-grey px-2 text-lg-14 py-1 flex flex-row justify-start items-center transition-all duration-300 -mt-8 group-hover:mt-0 z-10 relative">
+                                            Rusă
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -591,6 +670,26 @@ export function Navbar (props) {
                                 </li>
                             </a>
                         </Link>
+
+                        <li 
+                            className={`transition duration-300 w-full p-4 flex flex-row justify-between items-center ${mobileLangOpen ? "bg-accent-transparent" : ""}`}
+                            onClick={() => setMobileLangOpen(!mobileLangOpen)}
+                        >
+                            <div>
+                                Română
+                            </div>
+                            <svg xmlns="http://www.w3.org/2000/svg" className={`h-4 w-4 ${mobileLangOpen ? "hidden" : "block"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                            </svg>
+
+                            <svg xmlns="http://www.w3.org/2000/svg" className={`h-4 w-4 ${mobileLangOpen ? "block" : "hidden"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </li>
+
+                        <li className={`w-full py-4 px-40px ${mobileLangOpen ? "block" : "hidden"}`}>
+                            Rusă
+                        </li>
                     </ul>
                 </Slide>
             </div>

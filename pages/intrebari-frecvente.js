@@ -6,8 +6,12 @@ import RecentProducts from "../components/multiPage/recentProducts"
 export default function IntrebariFrecvente () {
     return (
         <Layout>
-            <IntrebariFrecventeComponent></IntrebariFrecventeComponent>
-            <RecentProducts></RecentProducts>
+            <IntrebariFrecventeComponent
+                lang="ro"
+            ></IntrebariFrecventeComponent>
+            <RecentProducts
+                lang="ro"
+            ></RecentProducts>
         </Layout>
     )
 }

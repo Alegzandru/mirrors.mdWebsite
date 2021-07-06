@@ -6,9 +6,15 @@ import RecentProducts from "../components/multiPage/recentProducts"
 export default function Contacte () {
     return(
         <Layout>
-            <ContacteMap></ContacteMap>
-            <ContacteForm></ContacteForm>
-            <RecentProducts></RecentProducts>
+            <ContacteMap
+                lang="ro"
+            ></ContacteMap>
+            <ContacteForm
+                lang="ro"
+            ></ContacteForm>
+            <RecentProducts
+                lang="ro"
+            ></RecentProducts>
         </Layout>
     )
 }

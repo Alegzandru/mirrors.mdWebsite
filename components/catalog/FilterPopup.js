@@ -18,7 +18,12 @@ export default function FilterPopup (props) {
             </div>
 
             <h3 className="text-md-h3 text-type-dark mb-8 font-bold">
-                Filtre
+                {
+                    props.lang == "ro" ?
+                    "Filtre"
+                    :
+                    "Фильтры"
+                }
             </h3>
 
             <form onSubmit={props.handleSubmit(props.onSubmit)} className="w-full">
@@ -45,9 +50,9 @@ export default function FilterPopup (props) {
 
                     <div className="flex flex-row justify-between items-center h-12 mt-8 text-lg-14 font-medium">
                         <input 
-                            className="h-full w-full mr-2 rounded-lg border border-1.5px border-ui-blueishGrey flex flex-row justify-center items-center text-type-grey"
+                            className="h-full w-full mr-2 rounded-lg border-1.5px border-ui-blueishGrey flex flex-row justify-center items-center text-type-grey"
                             type="submit"
-                            value="Resetează"
+                            value={props.lang == "ro" ? "Resetează" : "Сбросить"}
                             onClick={() => {
                                 props.reset()
                                 props.setOpenFilters(!props.openFilters)
@@ -55,9 +60,9 @@ export default function FilterPopup (props) {
                         />
 
                         <input 
-                            className="h-full w-full mr-2 rounded-lg border border-1.5px border-ui-blueishGrey flex flex-row justify-center items-center text-ui-white bg-accent-accent"
+                            className="h-full w-full mr-2 rounded-lg border-1.5px border-ui-blueishGrey flex flex-row justify-center items-center text-ui-white bg-accent-accent"
                             type="submit"
-                            value="Aplică"
+                            value={props.lang == "ro" ? "Aplică" : "Применить"}
                             onClick={() => {
                                 props.setOpenFilters(!props.openFilters)
                             }}

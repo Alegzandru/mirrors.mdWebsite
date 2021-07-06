@@ -5,8 +5,12 @@ import CosTotal from "../components/cos/cosTotal.js"
 export default function Cos () {
     return(
         <Layout>
-            <CosProducts></CosProducts>
-            <CosTotal></CosTotal>
+            <CosProducts
+                lang="ro"
+            ></CosProducts>
+            <CosTotal
+                lang="ro"
+            ></CosTotal>
         </Layout>
     )
 }

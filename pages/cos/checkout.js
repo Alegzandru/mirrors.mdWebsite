@@ -4,7 +4,7 @@ import Layout from "../../components/layout"
 export default function CheckoutPage(){
     return (
         <Layout>
-            <Checkout></Checkout>
+            <Checkout lang="ro"></Checkout>
         </Layout>
     )
 }

@@ -12,7 +12,7 @@ import Scroll from 'react-scroll';
 
 var Element = Scroll.Element;
 
-export default function ProductComponent ({deviceType, name, images, options, optionVariants, productData, optionsRaw}) {
+export default function ProductComponent ({deviceType, name, images, options, optionVariants, productData, optionsRaw, lang}) {
 
     const router = useRouter()
 
@@ -532,6 +532,7 @@ export default function ProductComponent ({deviceType, name, images, options, op
                         maxWidth={productData[0].biggestsize.width}
                         coeficientFinder={coeficientFinder}
                         productData={productData[0]}
+                        lang={lang}
                     />
                 </div>
 
@@ -563,6 +564,7 @@ export default function ProductComponent ({deviceType, name, images, options, op
                                     setPrice={setPrice}
                                     price={price}
                                     productData={productData[0]}
+                                    lang={lang}
                                 />
                             )}
                         </Element>

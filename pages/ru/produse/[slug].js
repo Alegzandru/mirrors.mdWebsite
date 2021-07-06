@@ -1,9 +1,9 @@
-import Layout from "../../components/layout"
+import Layout from "../../../components/layout"
 import UAParser from "ua-parser-js";
-import ProductPage from "../../components/catalog/productPage"
-import {getAllProductPaths, getProductData} from "../../lib/products"
-import {API_URL} from "../../utils/urls"
-import { DeviceTypeContext, SeenRecentlyContext } from "../../components/context";
+import ProductPage from "../../../components/catalog/productPage"
+import {getAllProductPaths, getProductData} from "../../../lib/products"
+import {API_URL} from "../../../utils/urls"
+import { DeviceTypeContext, SeenRecentlyContext } from "../../../components/context";
 import { useContext, useEffect } from "react";
 
 export function DynamicProduct ({productData}) {
@@ -42,7 +42,7 @@ export function DynamicProduct ({productData}) {
   return (
       <Layout>
           <ProductPage 
-            lang="ro"
+            lang="ru"
             deviceType={deviceType}
             name={productData[0].name}
             price={productData[0].price}

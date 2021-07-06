@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { useState, useContext, useEffect} from 'react'
+import { useState, useContext, useEffect, useRef} from 'react'
 import Image from 'next/image'
 import { CartContext, PopupContext } from '../context'
 import { useForm } from "react-hook-form";
@@ -10,7 +10,7 @@ import loading from "./loading.json"
 var md5 = require('md5');
 
 
-export default function Checkout() {
+export default function Checkout({lang}) {
 
     const [step , setStep] = useState(1)
     const {cart, setCart} = useContext(CartContext)
@@ -23,7 +23,6 @@ export default function Checkout() {
     const { reset, register, handleSubmit, watch, formState: { errors } } = useForm();
 
     const sendMailOwner = async (data) => {
-
         try {
             await fetch("/api/owner", {
                 "method": "POST",
@@ -33,11 +32,9 @@ export default function Checkout() {
         } 
         catch (error) {
         }
-    
     }
 
     const sendMailClient = async (data) => {
-
         try {
             await fetch("/api/client", {
                 "method": "POST",
@@ -47,18 +44,29 @@ export default function Checkout() {
         } 
         catch (error) {
         }
-    
+    }
+
+    const formRef = useRef(null);
+
+    const fillInputs = (PaymentId, ExpiryDate, Signature) => {
+        const inputs = formRef.current.elements;
+
+        inputs[0].name = "operation"
+        inputs[1].name = "ExpiryDate"
+        inputs[2].name = "Signature"
+
+        inputs[0].value = PaymentId;
+        inputs[1].value = ExpiryDate;
+        inputs[2].value = Signature;
     }
 
     const onSubmit = (data) => {
-        console.log(data)
         setUserInfo({...data})
-        // if(step == 3){
-        //     setUserInfo({
-        //         ...data
-        //     })
-        // }
+        
         if(step == 4){
+            setPopupOpen(1)
+            setPopupLoading(1)
+
             let orders = []
             cart.map((cartProduct, index) => {
                 let price = cartProduct.price
@@ -106,19 +114,20 @@ export default function Checkout() {
             
                         fetch(`https://mirrors-md-admin.herokuapp.com/clients`, requestOptionsClient)
                             .then(response => response.json())
-                            .then(async (data) => {
+                            .then(async (strapiData) => {
 
                                 let ClientCode = uuidv4()
-                                let ExternalID = uuidv4()
+                                let ExternalID = Math.floor(Math.random() * Date.now())
+
                                 let ExpiryDate = "2022-01-01T00:00:00"
                                 let secretKey = process.env.NEXT_PUBLIC_PAYNET_SECRET
 
-                                let signatureRaw = "498"+data.address+"Chisinau"+ClientCode+"Moldova"+data.email+userInfo.prenume+userInfo.nume+data.phone+ExpiryDate+ExternalID+"388417"+"Paynet"+"1"+"Cumpararea oglinzilor pe site-ul mirrors.md"+"Cumpărarea oglinzilor online"
+                                let signatureRaw = "498"+strapiData.address+"Chisinau"+ClientCode+"Moldova"+strapiData.email+userInfo.prenume+userInfo.nume+strapiData.phone+ExpiryDate+ExternalID+"388417"+"Paynet"+"1"+"Cumpararea oglinzilor pe site-ul mirrors.md"+"Cumpărarea oglinzilor online"
 
                                 let productsPaynet = orders.map((order, index) => {
                                     signatureRaw += order.number+order.products[0].id+order.products[0].slug+`Produsul ${order.products[0].name}`+order.products[0].category+"Produs"+1+order.products[0].name+order.products[0].price+1
                                     return({
-                                        Amount : order.number,
+                                        Amount : Math.trunc(order.number * order.products[0].price * 100),
                                         Barcode : order.products[0].id,
                                         Code : order.products[0].slug,
                                         Description : `Produsul ${order.products[0].name}`,
@@ -126,7 +135,8 @@ export default function Checkout() {
                                         GroupName : "Produs",
                                         LineNo : 1,
                                         Name : order.products[0].name,
-                                        UnitPrice : order.products[0].price,
+                                        Quantity : Math.trunc(order.number),
+                                        UnitPrice : Math.trunc(order.products[0].price * 100),
                                         UnitProduct : 1
                                     })
                                 })
@@ -135,7 +145,7 @@ export default function Checkout() {
                                     order.add_ons.map((addOn, indexAddon) => {
                                         signatureRaw += order.number+order.add_ons[indexAddon].id+order.add_ons[indexAddon].name+`Addon-ul ${order.add_ons[indexAddon].name}`+2+"Add On"+1+order.add_ons[indexAddon].name+order.add_ons[indexAddon].price+1
                                         productsPaynet.push({
-                                            Amount : order.number,
+                                            Amount : Math.trunc(order.number * order.products[0].price * 100),
                                             Barcode : order.add_ons[indexAddon].id,
                                             Code : order.add_ons[indexAddon].name,
                                             Description : `Addon-ul ${order.add_ons[indexAddon].name}`,
@@ -143,29 +153,31 @@ export default function Checkout() {
                                             GroupName : "Add On",
                                             LineNo : 1,
                                             Name : order.add_ons[indexAddon].name,
-                                            UnitPrice : order.add_ons[indexAddon].price,
+                                            Quantity : Math.trunc(order.number),
+                                            UnitPrice : Math.trunc(order.products[0].price * 100),
                                             UnitProduct : 1
                                         })
                                     })
                                 })
 
                                 sendMailOwner({
-                                    ...data,
+                                    ...strapiData,
                                     orders : orders
                                 })
                                 sendMailClient({
-                                    ...data,
+                                    ...strapiData,
                                     orders: orders
                                 })
 
                                 let signature = btoa(md5(signatureRaw + secretKey))
 
-                                if(data.mod_de_plata == "card"){
+                                if(strapiData.mod_de_plata == "card"){
     
                                     var details = {
                                         'grant_type': 'password',
                                         'username': '370455',
-                                        'password' : process.env.NEXT_PUBLIC_PAYNET_PASSWORD
+                                        'password' : process.env.NEXT_PUBLIC_PAYNET_PASSWORD,
+                                        'merchantcode' : '388417'
                                     };
                                     
                                     var formBody = [];
@@ -189,9 +201,6 @@ export default function Checkout() {
                                         .then(response => response.json())
                                         .then(async (dataAuth) => {
 
-                                            setPopupOpen(1)
-                                            setPopupLoading(1)
-
                                             const requestOptionsPaynet = {
                                                 method: 'POST',
                                                 headers: { 
@@ -199,90 +208,56 @@ export default function Checkout() {
                                                     'Authorization' : `Bearer ${dataAuth.access_token}`
                                                 },
                                                 body: JSON.stringify({ 
-                                                    ExternalID : ExternalID,
+                                                    Invoice : ExternalID,
                                                     Currency : 498,
-                                                    Merchant : "388417",
+                                                    MerchantCode : "388417",
                                                     Customer : {
                                                         Code : ClientCode,
                                                         NameFirst : userInfo.prenume,
                                                         NameLast : userInfo.nume,
-                                                        PhoneNumber : dataAuth.phone,
-                                                        email : dataAuth.email,
+                                                        PhoneNumber : strapiData.phone,
+                                                        email : strapiData.email,
                                                         Country : "Moldova",
                                                         City : "Chisinau",
-                                                        Address : dataAuth.address
+                                                        Address : strapiData.address
                                                     },
                                                     Services : [{
                                                         Name : "Cumpărarea oglinzilor online",
                                                         Description : "Cumpararea oglinzilor pe site-ul mirrors.md",
-                                                        Amount : 1,
+                                                        Amount : Math.trunc(strapiData.pret * 100),
                                                         products : productsPaynet
                                                     }],
                                                     ExpiryDate : ExpiryDate,
-                                                    LinkUrlCancel : "https://www.mirrors.md/cos/checkout",
-                                                    LinkUrlSuccess: "https://www.mirrors.md/",
-                                                    Lang: "en-US",
-                                                    Signature: signature,
                                                     SignVersion : "v05",
                                                     MoneyType : {
                                                         Code : "Paynet"
                                                     }
                                                 })
                                             };
-                                            
+                                           
                                             try {
-                                                await fetch("https://nameless-shore-75507.herokuapp.com/https://test.paynet.md:4446/api/payments/send", requestOptionsPaynet)
+                                                await fetch("https://nameless-shore-75507.herokuapp.com/https://test.paynet.md:4446/api/payments", requestOptionsPaynet)
                                                     .then(response => response.json())
                                                     .then(async (data) => {
-
-                                                        var detailsRedirect = {
-                                                            'operation': data.PaymentId,
-                                                            'LinkUrlSuccess': "https://www.mirrors.md/",
-                                                            'LinkUrlCancel' : "https://www.mirrors.md/cos/checkout",
-                                                            'ExpiryDate' : '2022-01-01T00:00:00',
-                                                            'Signature' : data.Signature,
-                                                            'Lang' : 'en-US'
-                                                        };
-
-                                                        var formBodyRedirect = [];
-                                                        for (var property in detailsRedirect) {
-                                                        var encodedKey = encodeURIComponent(property);
-                                                        var encodedValue = encodeURIComponent(detailsRedirect[property]);
-                                                        formBodyRedirect.push(encodedKey + "=" + encodedValue);
-                                                        }
-                                                        formBodyRedirect = formBodyRedirect.join("&");
-
-                                                        const redirectRequestOptions = {
-                                                            method : 'POST',
-                                                            headers : {
-                                                                'Content-Type': 'application/x-www-form-urlencoded',
-                                                            },
-                                                            body : formBodyRedirect
-                                                        }
                                                         
                                                         try {
-                                                            fetch("https://nameless-shore-75507.herokuapp.com/https://test.paynet.md/acquiring/setecom", redirectRequestOptions)
-                                                                // .then(response => response.json())
-                                                                // .then(data => {
-                                                                //     console.log(data)
-                                                                // })
-                                                                .then((response) => {
-                                                                    console.log("Fetch worked")
-                                                                    setPopupLoading(0)
-                                                                    setPopupDone(1)
+                                                            fillInputs(data.PaymentId, data.ExpiryDate, data.Signature);
+                                                            formRef.current.submit();
 
-                                                                    setTimeout(() => {
-                                                                        setPopupDone(0)
-                                                                        setPopupOpen(0)
-                                                                    }, 1200)
-                                                                })
+                                                            setPopupLoading(0)
+                                                            setPopupDone(1)
+
+                                                            setTimeout(() => {
+                                                                setPopupDone(0)
+                                                                setPopupOpen(0)
+                                                            }, 1200)
                                                         }
                                                         catch(error){
                                                             console.log("Error with redirect : ", error)
                                                         }
                                                     })
                                             } catch (error) {
-                                                console.log("Error with fetch request : ", error)
+                                                console.log("Error with sending payment : ", error)
                                             }
                                         })
 
@@ -314,7 +289,12 @@ export default function Checkout() {
                     <Lottie animationData={done}/>
                 </div>
                 <div className="w-240px text-sm-p md:text-md-p lg:text-lg-p text-type-manatee">
-                    Comanda a fost procesată. Vei fi telefonat in cel mai scurt timp posibil
+                    {
+                        lang == "ro" ? 
+                        "Comanda a fost procesată. Vei fi telefonat in cel mai scurt timp posibil"
+                        :
+                        "Заказ обработан. Вам позвонят в ближайшее время"
+                    }
                 </div>
             </div>
 
@@ -323,7 +303,12 @@ export default function Checkout() {
                     <Lottie animationData={loading}/>
                 </div>
                 <div className="w-240px text-sm-p md:text-md-p lg:text-lg-p text-type-manatee">
-                    Comanda se procesează
+                    {
+                        lang == "ro" ? 
+                        "Comanda se procesează"
+                        :
+                        "Заказ обрабатывается"
+                    }
                 </div>
             </div>
 
@@ -333,7 +318,12 @@ export default function Checkout() {
                     <Link href="/">
                         <a>
                             <span className="mr-1 hover:underline transition duration-300">
-                                Pagina principală
+                                {
+                                    lang == "ro" ?
+                                    "Pagina principală"
+                                    :
+                                    "Главная страница"
+                                }
                             </span>
                         </a>
                     </Link>
@@ -343,7 +333,12 @@ export default function Checkout() {
                     <Link href="/cos">
                         <a>
                             <span className="mr-1 hover:underline transition duration-300">
-                                Coș
+                                {
+                                    lang == "ro" ?
+                                    "Coș"
+                                    :
+                                    "Корзина"
+                                }
                             </span>
                         </a>
                     </Link>
@@ -351,7 +346,12 @@ export default function Checkout() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
                     <span>
-                        Checkout
+                        {
+                            lang == "ro" ?
+                            "Checkout"
+                            :
+                            "Checkout"
+                        }
                     </span>
                 </div>
                 <h2 className="text-sm-h2 md:text-md-h2 lg:text-lg-h2 text-type-dark font-bold w-full text-center mb-3">
@@ -813,7 +813,13 @@ export default function Checkout() {
                             step == 4 ? "Plasează comanda" : "Continuă"
                         }
                     </div>
+
                 </div>
+            </form>
+            <form method="POST" target="_blank" ref={formRef} action="https://test.paynet.md/acquiring/getecom">
+                <input type="hidden" name="LinkUrlSuccess" value="https://www.mirrors.md/"/>
+                <input type="hidden" name="LinkUrlCancel" value="https://www.mirrors.md/cos"/>
+                <input type="hidden" name="Lang" value="en-US"/>
             </form>
         </div>
     )

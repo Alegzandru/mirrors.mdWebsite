@@ -6,7 +6,7 @@ import "react-awesome-lightbox/build/style.css";
 import { DeviceTypeContext } from "../context";
 import Link from "next/link"
 
-export default function ProductDescription ({options, optionVariants, images, name ,description, productData}) {
+export default function ProductDescription ({options, optionVariants, images, name ,description, productData, lang}) {
     
     const {deviceType, setDeviceType} = useContext(DeviceTypeContext)
     
@@ -66,13 +66,23 @@ export default function ProductDescription ({options, optionVariants, images, na
                     className={`${page == 0 ? "text-accent-accent border-b-2 border-t-0 border-l-0 border-r-0 border-accent-accent" : "text-type-dark"} text-sm-p md:text-lg-17 mx-2 md:mx-8 h-12 flex flex-row justify-center items-center cursor-pointer`}
                     onClick={() => setPage(0)}
                 >
-                    Descriere
+                    {
+                        lang == "ro" ? 
+                        "Descriere"
+                        :
+                        "Описание"
+                    }
                 </div>
                 <div 
                     className={`${page == 1 ? "text-accent-accent border-b-2 border-t-0 border-l-0 border-r-0 border-accent-accent" : "text-type-dark"} text-sm-p md:text-lg-17 mx-2 md:mx-8 h-12 flex flex-row justify-center items-center cursor-pointer`}
                     onClick={() => setPage(1)}
                 >
-                    Fotografii({imagesLightbox.length})
+                    {
+                        lang == "ro" ? 
+                        `Fotografii(${imagesLightbox.length})`
+                        :
+                        `Фотографии(${imagesLightbox.length})`
+                    }
                 </div>
                 {/* <div 
                     className={`${page == 2 ? "text-accent-accent border-b-2 border-t-0 border-l-0 border-r-0 border-accent-accent" : "text-type-dark"} text-sm-p md:text-lg-17 mx-2 md:mx-8 h-12 flex flex-row justify-center items-center cursor-pointer`}
@@ -99,7 +109,12 @@ export default function ProductDescription ({options, optionVariants, images, na
                     className="text-accent-accent text-lg-p underline cursor-pointer"
                     onClick={() => setAutoHeight(!autoHeight)}
                 >
-                    mai {autoHeight ? "puține" : "multe"} detalii...
+                    {
+                        lang == "ro" ? 
+                        `mai ${autoHeight ? "puține" : "multe"} detalii...`
+                        :
+                        `${autoHeight ? "меньше деталей..." : "подробнее"}`
+                    }
                 </div>
             </div>
 
@@ -135,7 +150,12 @@ export default function ProductDescription ({options, optionVariants, images, na
                 productData[0].related_products.length != 0 &&  
                 <div className="w-full pt-40 pb-10">
                     <div className="text-lg-32 text-type-dark font-medium mb-3">
-                        Produse similare
+                        {
+                            lang == "ro" ? 
+                            "Produse similare"
+                            :
+                            "Похожие товары"
+                        }
                     </div>
                     <div className="w-full h-px bg-ui-blueishGrey mb-6"/>
                     <div className="flex flex-row justify-between items-start">

@@ -1,14 +1,18 @@
 import Image from "next/image"
 import Link from 'next/link'
 
-export default function ContacteMap () {
+export default function ContacteMap ({lang}) {
     return(
         <div className="w-full h-auto px-container-sm md:px-container-md lg:px-container-lg xl:px-container-xl pt-128px md:pt-136px lg:pt-234px pb-16 md:pb-120px font-Ubuntu bg-ui-darkGrey">
             <div className="flex flex-row justify-start items-center text-lg-14 font-normal text-type-manatee w-auto mb-4 md:mb-8">
                 <Link href="/">
                     <a>
                         <span className="mr-1 hover:underline transition duration-300">
-                            Pagina principală
+                            {lang == "ro" ? 
+                                "Pagina principală"
+                                :
+                                "Главная страница"
+                            }
                         </span>
                     </a>
                 </Link>
@@ -16,12 +20,20 @@ export default function ContacteMap () {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
                 <span>
-                    Contacte
+                    {lang == "ro" ? 
+                        "Contacte"
+                        :
+                        "Контакты"
+                    }
                 </span>
             </div>
 
             <h2 className="text-sm-h2 md:text-md-h3 lg:text-lg-h2 text-accent-text2 font-bold mb-40px md:mb-52px text-shadow-text2">
-                Contacte
+                {lang == "ro" ? 
+                    "Contacte"
+                    :
+                    "Контакты"
+                }
             </h2>
 
             <div className="w-full card-shadow rounded-xl flex flex-col-reverse md:flex-row justify-between items-center overflow-hidden">
@@ -83,7 +95,11 @@ export default function ContacteMap () {
                                 </svg>
 
                                 <span className="group-hover:text-accent-accent transition duration-300">
-                                    str. Ismail 98
+                                {lang == "ro" ? 
+                                    "str Ismail 98"
+                                    :
+                                    "ул Ismail 98"
+                                }
                                 </span>
                             </div>
                         </a>
@@ -96,7 +112,11 @@ export default function ContacteMap () {
                             </svg>
 
                             <div>
-                                Luni−Vineri:  9:00-18:00
+                                {lang == "ro" ? 
+                                    "Luni-Vineri: 9:00-18:00"
+                                    :
+                                    "Понедельник-пятница: 9:00-18:00"
+                                }
                             </div>
                         </div>
                         <div className="text-lg-card-description text-type-grey font-normal flex flex-row justify-start items-center mt-2">
@@ -105,7 +125,11 @@ export default function ContacteMap () {
                             </svg>
 
                             <div>
-                                Sâmbătă:  9:00-14:00
+                                {lang == "ro" ? 
+                                    "Sâmbătă: 9:00-14:00"
+                                    :
+                                    "Суббота: 9:00-14:00"
+                                }
                             </div>
                         </div>
                         <div className="text-lg-card-description text-type-grey font-normal flex flex-row justify-start items-center mt-2">
@@ -114,7 +138,11 @@ export default function ContacteMap () {
                             </svg>
 
                             <div>
-                                Duminică:  zi liberă
+                                {lang == "ro" ? 
+                                    "Duminică: zi liberă"
+                                    :
+                                    "Воскресенье: выходной"
+                                }
                             </div>
                         </div>
                     </div>

@@ -1,14 +1,14 @@
-import Hero from "../components/mainPage/hero"
-import Layout from "../components/layout"
-import PopularProducts from "../components/mainPage/popularProducts"
+import Hero from "../../components/mainPage/hero"
+import Layout from "../../components/layout"
+import PopularProducts from "../../components/mainPage/popularProducts"
 import "react-multi-carousel/lib/styles.css";
 import UAParser from "ua-parser-js";
-import Benefits from "../components/mainPage/benefits"
-import NewProducts from "../components/mainPage/newProducts"
-import Options from "../components/mainPage/options"
+import Benefits from "../../components/mainPage/benefits"
+import NewProducts from "../../components/mainPage/newProducts"
+import Options from "../../components/mainPage/options"
 import { useContext } from "react";
-import { DeviceTypeContext } from "../components/context";
-import { API_URL } from "../utils/urls";
+import { DeviceTypeContext } from "../../components/context";
+import { API_URL } from "../../utils/urls";
 
 export default function MainPage({products}){
 
@@ -17,23 +17,23 @@ export default function MainPage({products}){
     return (
         <Layout>
             <Hero
-              lang="ro"
+              lang="ru"
             ></Hero>
             <PopularProducts 
-              lang="ro"
+              lang="ru"
               deviceType={deviceType}
               products={products}
             ></PopularProducts>
             <Benefits
-              lang="ro"
+              lang="ru"
             ></Benefits>
             <NewProducts 
-              lang="ro"
+              lang="ru"
               deviceType={deviceType}
               products={products}
             ></NewProducts>
             <Options
-              lang="ro"
+              lang="ru"
             ></Options>
         </Layout>
     )
