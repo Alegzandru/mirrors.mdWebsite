@@ -276,23 +276,22 @@ export default function Checkout({lang}) {
                                                                 })
                                                             }
 
-                                                            fetch("https://nameless-shore-75507.herokuapp.com/https://www.mirrors.md/payment/paynet/callback", requestOptionsNotifications)
-
                                                             setPopupLoading(0)
                                                             setPopupDone(1)
-
+                                                            
                                                             setTimeout(() => {
                                                                 setPopupDone(0)
                                                                 setPopupOpen(0)
-
-                                                                setTimeout(() => {
-                                                                    localStorage.setItem('cart', "[]")
-                                                                    setCart([])
-                                                                    router.push("/")
-                                                                }, 200)
-
+                                                                
+                                                                // setTimeout(() => {
+                                                                    //     localStorage.setItem('cart', "[]")
+                                                                    //     setCart([])
+                                                                    //     router.push("/")
+                                                                    // }, 200)
+                                                                    
                                                             }, 1200)
-
+                                                                
+                                                            fetch("https://nameless-shore-75507.herokuapp.com/https://www.mirrors.md/payment/paynet/callback", requestOptionsNotifications)
                                                         }
                                                         catch(error){
                                                             console.log("Error with redirect : ", error)
