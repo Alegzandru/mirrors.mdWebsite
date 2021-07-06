@@ -249,21 +249,29 @@ export default function Checkout({lang}) {
                                                             fillInputs(data.PaymentId, data.ExpiryDate, data.Signature);
                                                             formRef.current.submit();
 
+                                                            let EventDate = Date.now().toString()
+                                                            let StatusDate = Date.now().toString()
+                                                            let NotificationId = Math.trunc(Math.random() * Date.now())
+                                                            let signatureNotification = EventDate + NotificationId + "Paid" + Math.trunc(strapiData.pret * 100) + ClientCode + ExternalID + data.PaymentId + "388417" +  StatusDate
+
                                                             const requestOptionsNotifications = {
                                                                 method: 'POST',
                                                                 headers: { 
                                                                     'Content-Type': 'application/json',
-                                                                    'Authorization' : `Bearer ${dataAuth.access_token}`
+                                                                    'Authorization' : `Bearer ${dataAuth.access_token}`,
+                                                                    'Hash' : signatureNotification
                                                                 },
                                                                 body: JSON.stringify({
-                                                                    Eventid : Math.trunc(Math.random() * Date.now()),
+                                                                    Eventid : NotificationId,
                                                                     EventType : "Paid",
+                                                                    EventDate : EventDate,
                                                                     Payment : {
                                                                         ID : data.PaymentId,
                                                                         ExternalID : ExternalID,
                                                                         Merchant : "388417",
                                                                         Customer : ClientCode,
-                                                                        Amount : Math.trunc(strapiData.pret * 100)
+                                                                        Amount : Math.trunc(strapiData.pret * 100),
+                                                                        StatusDate : StatusDate
                                                                     }
                                                                 })
                                                             }
