@@ -197,7 +197,7 @@ export default function Checkout({lang}) {
                                         body : formBody
                                     }
 
-                                    fetch("https://test.paynet.md:4446/auth", authRequestOptions)
+                                    fetch("https://nameless-shore-75507.herokuapp.com/https://test.paynet.md:4446/auth", authRequestOptions)
                                         .then(response => response.json())
                                         .then(async (dataAuth) => {
 
@@ -236,7 +236,7 @@ export default function Checkout({lang}) {
                                             };
                                            
                                             try {
-                                                await fetch("https://test.paynet.md:4446/api/payments", requestOptionsPaynet)
+                                                await fetch("https://nameless-shore-75507.herokuapp.com/https://test.paynet.md:4446/api/payments", requestOptionsPaynet)
                                                     .then(response => response.json())
                                                     .then(async (data) => {
                                                         
