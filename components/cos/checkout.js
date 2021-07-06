@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 import Lottie from "lottie-react";
 import done from "./done.json"
 import loading from "./loading.json"
+import { useRouter } from 'next/router'
 var md5 = require('md5');
 
 
@@ -21,6 +22,8 @@ export default function Checkout({lang}) {
     let priceTotal = 0
 
     const { reset, register, handleSubmit, watch, formState: { errors } } = useForm();
+
+    const router = useRouter()
 
     const sendMailOwner = async (data) => {
         try {
@@ -104,7 +107,7 @@ export default function Checkout({lang}) {
                                 phone : data.telefon,
                                 address : data.adresa,
                                 email : data.email,
-                                pret : priceTotal,
+                                pret : userInfo.livrare == "livrare_la_usa" ? priceTotal + 150 : priceTotal,
                                 mod_de_plata : data.plata,
                                 mod_de_livrare : data.livrare,
                                 orders : orders,
@@ -160,14 +163,14 @@ export default function Checkout({lang}) {
                                     })
                                 })
 
-                                sendMailOwner({
-                                    ...strapiData,
-                                    orders : orders
-                                })
-                                sendMailClient({
-                                    ...strapiData,
-                                    orders: orders
-                                })
+                                // sendMailOwner({
+                                //     ...strapiData,
+                                //     orders : orders
+                                // })
+                                // sendMailClient({
+                                //     ...strapiData,
+                                //     orders: orders
+                                // })
 
                                 let signature = btoa(md5(signatureRaw + secretKey))
 
@@ -229,6 +232,8 @@ export default function Checkout({lang}) {
                                                     }],
                                                     ExpiryDate : ExpiryDate,
                                                     SignVersion : "v05",
+                                                    LinkUrlSucces : "https://www.mirrors.md",
+                                                    LinkUrlCancel : "https://www.mirrors.md/cos",
                                                     MoneyType : {
                                                         Code : "Paynet"
                                                     }
@@ -244,13 +249,42 @@ export default function Checkout({lang}) {
                                                             fillInputs(data.PaymentId, data.ExpiryDate, data.Signature);
                                                             formRef.current.submit();
 
+                                                            const requestOptionsNotifications = {
+                                                                method: 'POST',
+                                                                headers: { 
+                                                                    'Content-Type': 'application/json',
+                                                                    'Authorization' : `Bearer ${dataAuth.access_token}`
+                                                                },
+                                                                body: JSON.stringify({
+                                                                    Eventid : Math.trunc(Math.random() * Date.now()),
+                                                                    EventType : "Paid",
+                                                                    Payment : {
+                                                                        ID : data.PaymentId,
+                                                                        ExternalID : ExternalID,
+                                                                        Merchant : "388417",
+                                                                        Customer : ClientCode,
+                                                                        Amount : Math.trunc(strapiData.pret * 100)
+                                                                    }
+                                                                })
+                                                            }
+
+                                                            fetch("https://nameless-shore-75507.herokuapp.com/https://www.mirrors.md/payment/paynet/callback", requestOptionsNotifications)
+
                                                             setPopupLoading(0)
                                                             setPopupDone(1)
 
                                                             setTimeout(() => {
                                                                 setPopupDone(0)
                                                                 setPopupOpen(0)
+
+                                                                setTimeout(() => {
+                                                                    localStorage.setItem('cart', "[]")
+                                                                    setCart([])
+                                                                    router.push("/")
+                                                                }, 200)
+
                                                             }, 1200)
+
                                                         }
                                                         catch(error){
                                                             console.log("Error with redirect : ", error)
@@ -263,13 +297,21 @@ export default function Checkout({lang}) {
 
                                 }
                                 else{
-                                    setPopupOpen(1)
+                                    setPopupLoading(0)
                                     setPopupDone(1)
     
                                     setTimeout(() => {
                                         setPopupDone(0)
                                         setPopupOpen(0)
+
+                                        setTimeout(() => {
+                                            localStorage.setItem('cart', "[]")
+                                            setCart([])
+                                            router.push("/")
+                                        }, 200)
+
                                     }, 1200)
+
                                 }
 
                             })
@@ -567,7 +609,7 @@ export default function Checkout({lang}) {
                                 {...register("livrare", { required: step == 2 ? true : false })}
                             />
                             <div className="w-full mr-4 text-lg-14">
-                                Ridicare din oficiu, str. Calea Moșilor 9/1 etaj. 2
+                                Ridicare din oficiu, str. Ismail 98
                             </div>
                             <div className="w-full text-lg-14 font-medium">
                                 gratuit
