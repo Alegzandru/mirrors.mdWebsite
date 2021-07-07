@@ -15,7 +15,7 @@ export default function MainPage({products}){
     const {deviceType, setDeviceType} = useContext(DeviceTypeContext)
 
     return (
-        <Layout>
+        <Layout lang="ro">
             <Hero
               lang="ro"
             ></Hero>

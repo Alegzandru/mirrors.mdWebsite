@@ -4,7 +4,7 @@ import {useEffect, useState, useContext} from "react"
 import { SeenRecentlyContext } from "../../components/context";
 import Link from 'next/link'
 
-export default function RecentProducts ({deviceType}) {
+export default function RecentProducts ({deviceType, lang}) {
     const {seenRecently, setSeenRecently} = useContext(SeenRecentlyContext)
 
     const [itemNr, setItemNr] = useState(0)
@@ -63,42 +63,66 @@ export default function RecentProducts ({deviceType}) {
     ]
 
     return (
-        <div className="hidden md:block w-full bg-ui-grey px-container-sm md:px-container-md lg:px-container-lg xl:px-container-xl py-160px font-Ubuntu">
-            <div className="text-md-h4 lg:text-lg-32 text-type-dark font-medium mb-3">
-                Ați privit mai devreme
-            </div>
-
-            <div className="w-full h-px bg-ui-blueishGrey mb-6"/>
-
-            <div className="w-full flex flex-row justify-start items-center">
-                {seenRecently.slice(4-itemNr, itemNr+1).map((product, index)=>{
-                    return(
-                        <Link href={`/produse/${product.slug}`}>
-                            <a  className="w-full max-w-md">
-                                <div className="flex-grow mr-2 h-140px bg-ui-white rounded-lg flex flex-row items-center justify-start hover:shadow-md transition duration-300 px-4 py-2">
-                                    <div className="h-124px w-124px relative mr-4 rounded-lg overflow-hidden">
-                                        <Image
-                                            src={product.image[0].formats.small.url}
-                                            layout="fill"
-                                            objectFit="cover"
-                                        />
-                                    </div>
-
-                                    <div className="h-auto">
-                                        <div className="text-lg-17 font-medium text-type-dark mb-10px">
-                                            {product.name}
+        <div>
+            {
+                seenRecently.length != 0 ?
+                <div className="hidden md:block w-full bg-ui-grey px-container-sm md:px-container-md lg:px-container-lg xl:px-container-xl py-160px font-Ubuntu">
+                    <div className="text-md-h4 lg:text-lg-32 text-type-dark font-medium mb-3">
+                        {
+                            lang == "ro" ? 
+                            "Ați privit mai devreme"
+                            :
+                            "Вы смотрели раньше"
+                        }
+                    </div>
+    
+                    <div className="w-full h-px bg-ui-blueishGrey mb-6"/>
+    
+                    <div className="w-full flex flex-row justify-start items-center">
+                        {seenRecently.slice(4-itemNr, itemNr+1).map((product, index)=>{
+                            return(
+                                <Link href={`/produse/${product.slug}`}>
+                                    <a  className="w-full max-w-md">
+                                        <div className="flex-grow mr-2 h-140px bg-ui-white rounded-lg flex flex-row items-center justify-start hover:shadow-md transition duration-300 px-4 py-2">
+                                            <div className="h-124px w-124px relative mr-4 rounded-lg overflow-hidden">
+                                                <Image
+                                                    src={product.image[0].formats.small.url}
+                                                    layout="fill"
+                                                    objectFit="cover"
+                                                />
+                                            </div>
+    
+                                            <div className="h-auto">
+                                                <div className="text-lg-17 font-medium text-type-dark mb-10px">
+                                                    {product.name}
+                                                </div>
+                                                <div className="text-lg-14 font-normal text-type-grey">
+                                                    {
+                                                        lang == "ro" ? 
+                                                        "de la"
+                                                        :
+                                                        "от "
+                                                    }
+                                                    {Math.trunc( getPrice(product, product.defaultsize) * (1 + product.smallcoeficient))}
+                                                    {
+                                                        lang == "ro" ? 
+                                                        " lei"
+                                                        :
+                                                        " лей"
+                                                    }
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div className="text-lg-14 font-normal text-type-grey">
-                                            de la {Math.trunc( getPrice(product, product.defaultsize) * (1 + product.smallcoeficient))} lei
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </Link>
-                    )
-                }
-                )}
-            </div>
+                                    </a>
+                                </Link>
+                            )
+                        }
+                        )}
+                    </div>
+                </div>
+                :
+                ""
+            }
         </div>
     )
 }

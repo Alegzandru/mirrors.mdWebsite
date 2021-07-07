@@ -54,17 +54,32 @@ export default function PopularProducts(props){
         <div className="overflow-hidden h-auto bg-ui-darkGrey pt-24 md:pt-24 pb-12 lg:pt-230px lg:pb-156px flex flex-col md:flex-row justify-between items-center font-Ubuntu xl:pl-container-xl">
             <div className="text-center ml-container-sm mr-container-sm md:text-left md:ml-container-md w-full md:w-348px lg:ml-container-lg lg:w-382px">
                 <h2 className="w-full font-bold text-type-dark text-sm-h2 lg:text-lg-h2 md:text-md-h2 tracking-tighter">
-                    Produse populare
+                    {
+                        props.lang == "ro" ? 
+                        "Produse populare"
+                        :
+                        "Популярные товары"
+                    }
                 </h2>
 
                 <p className="mt-5 font-normal lg:text-lg-p md:text-md-p text-type-manatee w-full">
-                    Site-ul nostru conține o gamă largă de oglinzi, printre care cu siguranță o veți găsi pe cea potrivită.
+                    {
+                        props.lang == "ro" ? 
+                        "Site-ul nostru conține o gamă largă de oglinzi, printre care cu siguranță o veți găsi pe cea potrivită."
+                        :
+                        "На нашем сайте представлен широкий выбор зеркал, среди которых вы обязательно найдете подходящее."
+                    }
                 </p>
 
                 <Link href="/oglinzi">
                     <a>
                         <div className="hidden w-238px h-12 md:flex flex-row justify-center items-center text-ui-white mt-12 rounded-lg font-medium bg-accent-accent hover:bg-accent-light transition duration-300">
-                            Află ce este în TREND
+                            {
+                                props.lang == "ro" ? 
+                                "Află ce este în TREND"
+                                :
+                                "Узнайте, что в ТРЕНДЕ"
+                            }
                         </div>
                     </a>
                 </Link>
@@ -109,7 +124,19 @@ export default function PopularProducts(props){
                                                     Seria Juergen LED
                                                 </div>
                                                 <div className="text-sm-button md:text-lg-17 text-accent-accent font-medium mt-4 md:mt-6">
-                                                    de la {Math.trunc( getPrice(product, product.defaultsize) * (1 + product.smallcoeficient) ) } lei
+                                                    {
+                                                        props.lang == "ro" ? 
+                                                        "de la "
+                                                        :
+                                                        "от "
+                                                    }
+                                                    {Math.trunc( getPrice(product, product.defaultsize) * (1 + product.smallcoeficient) ) }
+                                                    {
+                                                        props.lang == "ro" ? 
+                                                        " lei "
+                                                        :
+                                                        " лей"
+                                                    }
                                                 </div>
                                             </div>
                                         </div>
@@ -123,7 +150,12 @@ export default function PopularProducts(props){
                 <Link href="/oglinzi">
                     <a>
                         <div className="w-full h-12 flex flex-row justify-center items-center bg-accent-accent mt-8 text-ui-white rounded-lg focus:bg-accent-light">
-                            Află ce este în TREND
+                            {
+                                props.lang == "ro" ? 
+                                "Află ce este în TREND"
+                                :
+                                "Узнайте, что в ТРЕНДЕ"
+                            }
                         </div>
                     </a>
                 </Link>

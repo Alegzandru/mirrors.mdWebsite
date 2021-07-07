@@ -56,7 +56,7 @@ export default function Layout (props) {
             </Head>
 
             <header className={`transition duration-300 z-50 fixed top-0 left-0 ${popupOpen ? "filter brightness-50" : ""} w-full`}>
-                <Navbar categories={categories}></Navbar>
+                <Navbar categories={categories} lang={props.lang}></Navbar>
             </header>
 
             <main>
@@ -70,7 +70,7 @@ export default function Layout (props) {
             </main>
 
             <footer className={`transition duration-300 ${popupOpen ? "filter brightness-50" : ""}`}>
-                <Footer categories={categories}></Footer>
+                <Footer categories={categories} lang={props.lang}></Footer>
             </footer>
         </div>
     )

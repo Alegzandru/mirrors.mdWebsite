@@ -27,7 +27,12 @@ export default function Footer (props) {
                 </div>
                 <div className="text-type-grey hidden mdFooter:block">
                     <div className="text-ui-white font-bold text-sm-h4">
-                        Catalog
+                        {
+                            props.lang == "ro" ?
+                            "Catalog"
+                            :
+                            "Каталог"
+                        }
                     </div>
                     <ul className="text-lg-14 mt-8">
                         {
@@ -48,42 +53,72 @@ export default function Footer (props) {
                 </div>
                 <div className="text-type-grey hidden mdFooter:block">
                     <div className="text-ui-white font-bold text-sm-h4">
-                        Meniu
+                        {
+                            props.lang == "ro" ?
+                            "Meniu"
+                            :
+                            "Меню"
+                        }
                     </div>
 
                     <ul className="text-lg-14 mt-8">
                         <Link href="/">
                             <a>
                                 <li className="mb-4 hover:text-ui-darkGrey hover:underline transition duration-300">
-                                    Pagina principală
+                                    {
+                                        props.lang == "ro" ?
+                                        "Principală"
+                                        :
+                                        "Главная"
+                                    }
                                 </li>
                             </a>
                         </Link>
                         <Link href="/contacte">
                             <a>
                                 <li className="mb-4 hover:text-ui-darkGrey hover:underline transition duration-300">
-                                    Contacte
+                                    {   
+                                        props.lang == "ro" ?
+                                        "Contacte"
+                                        :
+                                        "Контакты"
+                                    }
                                 </li>
                             </a>
                         </Link>
                         <Link href="/galerie">
                             <a>
                                 <li className="mb-4 hover:text-ui-darkGrey hover:underline transition duration-300">
-                                    Galerie
+                                    {
+                                        props.lang == "ro" ?
+                                        "Galerie"
+                                        :
+                                        "Галерея"
+                                    }
                                 </li>
                             </a>
                         </Link>
                         <Link href="/intrebari-frecvente">
                             <a>
                                 <li className="mb-4 hover:text-ui-darkGrey hover:underline transition duration-300">
-                                    Întrebări frecvente
+                                    {   
+                                        props.lang == "ro" ?
+                                        "Întrebări frecvente"
+                                        :
+                                        "Частые вопросы"
+                                    }
                                 </li>
                             </a>
                         </Link>
                         <Link href="/termeni">
                             <a>
                                 <li className="mb-4 hover:text-ui-darkGrey hover:underline transition duration-300">
-                                    Termeni și condiții
+                                    {   
+                                        props.lang == "ro" ?
+                                        "Termeni și condiții"
+                                        :
+                                        "Условия"
+                                    }
                                 </li>
                             </a>
                         </Link>
@@ -91,7 +126,12 @@ export default function Footer (props) {
                 </div>
                 <div className="text-type-grey hidden mdFooter:block">
                     <div className="text-ui-white font-bold text-sm-h4">
-                        Contacte
+                        {   
+                            props.lang == "ro" ?
+                            "Contacte"
+                            :
+                            "Контакты"
+                        }
                     </div>
                     
                     <ul className="text-lg-14 mt-8">
@@ -109,7 +149,12 @@ export default function Footer (props) {
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                                 </svg>
-                                str. Ismail 98
+                                {   
+                                    props.lang == "ro" ?
+                                    "str. Ismail 98"
+                                    :
+                                    "ул. Ismail 98"
+                                }
                             </li>
                         </a>
                     </ul>
@@ -141,7 +186,12 @@ export default function Footer (props) {
             <div className="flex flex-col items-start justify-start">
                 <div className="text-type-grey mdFooter:hidden mt-12">
                     <div className="text-ui-white font-bold text-sm-h4">
-                        Catalog
+                        {
+                            props.lang == "ro" ?
+                            "Catalog"
+                            :
+                            "Каталог"
+                        }
                     </div>
                     <ul className="text-lg-14 mt-8">
                         {
@@ -162,42 +212,72 @@ export default function Footer (props) {
                 </div>
                 <div className="text-type-grey mdFooter:hidden mt-12">
                     <div className="text-ui-white font-bold text-sm-h4">
-                        Meniu
+                        {
+                            props.lang == "ro" ?
+                            "Meniu"
+                            :
+                            "Меню"
+                        }
                     </div>
 
                     <ul className="text-lg-14 mt-8">
                         <Link href="/">
                             <a>
                                 <li className="mb-4">
-                                    Pagina principală
+                                    {
+                                        props.lang == "ro" ?
+                                        "Principală"
+                                        :
+                                        "Главная"
+                                    }
                                 </li>
                             </a>
                         </Link>
                         <Link href="/contacte">
                             <a>
                                 <li className="mb-4">
-                                    Contacte
+                                    {   
+                                        props.lang == "ro" ?
+                                        "Contacte"
+                                        :
+                                        "Контакты"
+                                    }
                                 </li>
                             </a>
                         </Link>
                         <Link href="/galeria">
                             <a>
                                 <li className="mb-4">
-                                    Galerie
+                                    {
+                                        props.lang == "ro" ?
+                                        "Galerie"
+                                        :
+                                        "Галерея"
+                                    }
                                 </li>
                             </a>
                         </Link>
                         <Link href="/intrebari-frecvente">
                             <a>
                                 <li className="mb-4">
-                                    Întrebări frecvente
+                                    {   
+                                        props.lang == "ro" ?
+                                        "Întrebări frecvente"
+                                        :
+                                        "Частые вопросы"
+                                    }
                                 </li>
                             </a>
                         </Link>
                         <Link href="/termeni">
                             <a>
                                 <li className="mb-4">
-                                    Termeni și condiții
+                                    {   
+                                        props.lang == "ro" ?
+                                        "Termeni și condiții"
+                                        :
+                                        "Условия"
+                                    }
                                 </li>
                             </a>
                         </Link>
@@ -205,7 +285,12 @@ export default function Footer (props) {
                 </div>
                 <div className="text-type-grey mdFooter:hidden mt-12">
                     <div className="text-ui-white font-bold text-sm-h4">
-                        Contacte
+                        {   
+                            props.lang == "ro" ?
+                            "Contacte"
+                            :
+                            "Контакты"
+                        }
                     </div>
                     
                     <ul className="text-lg-14 mt-8">
@@ -220,7 +305,12 @@ export default function Footer (props) {
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                             </svg>
-                            str. Ismail 98
+                            {   
+                                props.lang == "ro" ?
+                                "str. Ismail 98"
+                                :
+                                "ул. Ismail 98"
+                            }
                         </li>
                     </ul>
                 </div>
@@ -233,7 +323,12 @@ export default function Footer (props) {
             <div className="h-px w-full bg-type-grey mb-4 mt-4"></div>
 
             <div className="pb-4 mx-auto text-center text-lg-12 text-type-grey">
-                © 2021 Elisei & Compani SRL. Toate drepturile sunt rezervate.
+                {   
+                    props.lang == "ro" ?
+                    "© 2021 Elisei & Compani SRL. Toate drepturile sunt rezervate."
+                    :
+                    "© 2021 Elisei & Compani SRL. Все права защищены."
+                }
             </div>
 
             <a 

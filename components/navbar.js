@@ -169,7 +169,7 @@ export function Navbar (props) {
                     <input
                         type="text"
                         className="outline-none text-sm-h4 md:text-lg-h2 font-medium text-type-dark border-0 w-full focus:outline-none"
-                        placeholder="Căutare în catalog"
+                        placeholder={props.lang == "ro" ? "Căutare în catalog" : "Поиск по каталогу"}
                         onChange={event => setSearch(event.target.value)}
                     />
                     <svg onClick={() => setMobileSearchOpen(0)} xmlns="http://www.w3.org/2000/svg" className="h-40px w-40px text-type-grey ml-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -201,7 +201,12 @@ export function Navbar (props) {
                         :
                         searchProducts.length == 0 ? 
                             <div className={`h-72px border-b-0 border-t-2 border-l-0 border-r-0 flex flex-row justify-start items-center px-4 py-14px ${search != "" ? "border-ui-darkGrey" : ""}`}>
-                                Nu a fost găsit niciun produs
+                                {
+                                    props.lang == "ro" ?
+                                    "Nu a fost găsit niciun produs"
+                                    :
+                                    "Товаров не найдено"
+                                }
                             </div>
                         :
                         searchProducts.map((product, index) => 
@@ -221,7 +226,19 @@ export function Navbar (props) {
                                                     {product.name}
                                                 </div>
                                                 <div className="text-lg-14">
-                                                    de la {Math.trunc( getPrice(product, product.defaultsize) * (1 + product.smallcoeficient) ) } lei
+                                                    {
+                                                        props.lang == "ro" ?
+                                                        "de la "
+                                                        :
+                                                        "от "
+                                                    }
+                                                    {Math.trunc( getPrice(product, product.defaultsize) * (1 + product.smallcoeficient) ) } 
+                                                    {
+                                                        props.lang == "ro" ?
+                                                        " lei"
+                                                        :
+                                                        " лей"
+                                                    }
                                                 </div>
                                             </div>
                                         </div>
@@ -266,15 +283,30 @@ export function Navbar (props) {
 
                 <div className="flex flex-row justify-end items-center">
                     <div className="text-type-grey mr-4">
-                        Ln−Vn: 9:00 − 18:00
+                        {
+                            props.lang == "ro" ?
+                            "Ln−Vn: 9:00 − 18:00"
+                            :
+                            "Пн-Пт: 9:00 - 18:00"
+                        }
                     </div>
 
                     <div className="text-type-grey mr-4">
-                        Sâm: 9:00 − 14:00
+                        {
+                            props.lang == "ro" ?
+                            "Sâm: 9:00 − 14:00"
+                            :
+                            "Суб: 9:00 - 14:00"
+                        }
                     </div>
 
                     <div className="text-type-grey mr-4">
-                        Dum: zi liberă
+                        {
+                            props.lang == "ro" ?
+                            "Dum: zi liberă"
+                            :
+                            "Вс: выходной"
+                        }
                     </div>
 
                     <a href="tel:37369482034">
@@ -321,7 +353,7 @@ export function Navbar (props) {
                                 <div className={`flex flex-col items-end ${transparent ? "text-ui-blueishGrey" : "text-type-grey"} ${scrollUp ? "flex" : "hidden"} focus-within:text-type-dark absolute mx-auto left-search-left`}>
                                     <input 
                                         className={`h-10 w-504px ${transparent ? "bg-ui-dark" : "bg-ui-grey"} ${search != "" ? "rounded-t-lg border-ui-darkGrey" : "rounded-lg focus:border-ui-blueishGrey"} px-4 flex-row items-center focus:bg-ui-white border-2 border-transparent transition duration-300 outline-none`}
-                                        placeholder="Căutare în catalog"
+                                        placeholder={props.lang == "ro" ? "Căutare în catalog" : "Поиск по каталогу"}
                                         onChange={event => setSearch(event.target.value)}
                                     />
 
@@ -352,7 +384,12 @@ export function Navbar (props) {
                                             :
                                             searchProducts.length == 0 ? 
                                                 <div className={`h-72px border-b-0 border-t-2 border-l-0 border-r-0 flex flex-row justify-start items-center px-4 py-14px ${search != "" ? "border-ui-darkGrey" : ""}`}>
-                                                    Nu a fost găsit niciun produs
+                                                    {
+                                                        props.lang == "ro" ?
+                                                        "Nu a fost găsit niciun produs"
+                                                        :
+                                                        "Товаров не найдено"
+                                                    }
                                                 </div>
                                             :
                                             searchProducts.map((product, index) =>
@@ -372,7 +409,19 @@ export function Navbar (props) {
                                                                         {product.name}
                                                                     </div>
                                                                     <div className="text-lg-14">
-                                                                        de la {Math.trunc( getPrice(product, product.defaultsize) * (1 + product.smallcoeficient) ) } lei
+                                                                        {
+                                                                            props.lang == "ro" ?
+                                                                            "de la "
+                                                                            :
+                                                                            "от "
+                                                                        }
+                                                                        {Math.trunc( getPrice(product, product.defaultsize) * (1 + product.smallcoeficient) ) } 
+                                                                        {
+                                                                            props.lang == "ro" ?
+                                                                            " lei"
+                                                                            :
+                                                                            " лей"
+                                                                        }
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -473,7 +522,12 @@ export function Navbar (props) {
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                                     </svg>
                                     <div>
-                                        Catalog
+                                        {
+                                            props.lang == "ro" ?
+                                            "Catalog"
+                                            :
+                                            "Каталог"
+                                        }
                                     </div>
                                 </div>
                                 <div className={`bg-ui-white py-2 ${catalogOpen ? "block" : "hidden"} transition duration-300`}>
@@ -497,25 +551,45 @@ export function Navbar (props) {
                         <div className={`w-524px flex flex-row justify-center items-center ${transparent ? "text-ui-grey" : "text-type-manatee"}`}>
                             <Link href="/">
                                 <a className={`${principala ? "border border-b-2 border-t-0 border-r-0 border-l-0 border-accent-accent text-accent-accent" : ""} mx-8 w-auto h-56px flex flex-row justify-center items-center font-normal font-14px hover:text-accent-accent transition duration-300`}>
-                                    Principală
+                                    {
+                                        props.lang == "ro" ?
+                                        "Principală"
+                                        :
+                                        "Главная"
+                                    }
                                 </a>
                             </Link>
 
                             <Link href="/galerie">  
                                 <a className={`${galerie ? "border border-b-2 border-t-0 border-r-0 border-l-0 border-accent-accent text-accent-accent" : ""} mx-8 w-auto h-56px flex flex-row justify-center items-center font-normal font-14px hover:text-accent-accent transition duration-300`}>
-                                    Galerie
+                                    {
+                                        props.lang == "ro" ?
+                                        "Galerie"
+                                        :
+                                        "Галерея"
+                                    }
                                 </a>
                             </Link>
 
                             <Link href="/intrebari-frecvente">
                                 <a className={`${faq ? "border border-b-2 border-t-0 border-r-0 border-l-0 border-accent-accent text-accent-accent" : ""} mx-8 w-auto h-56px flex flex-row justify-center items-center font-normal font-14px hover:text-accent-accent transition duration-300`}>
-                                    Întrebări frecvente
+                                    {
+                                        props.lang == "ro" ?
+                                        "Întrebări frecvente"
+                                        :
+                                        "Частые вопросы"
+                                    }
                                 </a>
                             </Link>
 
                             <Link href="/contacte">
                                 <a className={`${contacte ? "border border-b-2 border-t-0 border-r-0 border-l-0 border-accent-accent text-accent-accent" : ""} mx-8 w-auto h-56px flex flex-row justify-center items-center font-normal font-14px hover:text-accent-accent transition duration-300`}>
-                                    Contacte
+                                    {   
+                                        props.lang == "ro" ?
+                                        "Contacte"
+                                        :
+                                        "Контакты"
+                                    }
                                 </a>
                             </Link>
                         </div>
@@ -571,7 +645,12 @@ export function Navbar (props) {
                         onClick={() => setMobileSearchOpen(1)}
                     >
                         <span>
-                            Căutare în catalog
+                            {
+                                props.lang == "ro" ?
+                                "Căutare în catalog"
+                                :
+                                "Поиск по каталогу"
+                            }
                         </span>
 
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -612,7 +691,12 @@ export function Navbar (props) {
                         <Link href="/">
                             <a>
                                 <li className="w-full p-4">
-                                    Pagina Principală
+                                    {
+                                        props.lang == "ro" ?
+                                        "Principală"
+                                        :
+                                        "Главная"
+                                    }
                                 </li>
                             </a>
                         </Link>
@@ -622,7 +706,12 @@ export function Navbar (props) {
                             onClick={() => setMobileCatalogOpen(!mobileCatalogOpen)}
                         >
                             <div>
-                                Catalog
+                                {
+                                    props.lang == "ro" ?
+                                    "Catalog"
+                                    :
+                                    "Каталог"
+                                }
                             </div>
                             <svg xmlns="http://www.w3.org/2000/svg" className={`h-4 w-4 ${mobileCatalogOpen ? "hidden" : "block"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -652,21 +741,36 @@ export function Navbar (props) {
                         <Link href="/galerie">
                             <a>
                                 <li className="w-full p-4">
-                                    Galerie
+                                    {
+                                        props.lang == "ro" ?
+                                        "Galerie"
+                                        :
+                                        "Галерея"
+                                    }
                                 </li>
                             </a>
                         </Link>
                         <Link href="/intrebari-frecvente">
                             <a>
                                 <li className="w-full p-4">
-                                    Întrebări frecvente
+                                    {
+                                        props.lang == "ro" ?
+                                        "Întrebări frecvente"
+                                        :
+                                        "Частые вопросы"
+                                    }
                                 </li>
                             </a>
                         </Link>
                         <Link href="/contacte">
                             <a>
                                 <li className="w-full p-4">
-                                    Contacte
+                                    {   
+                                        props.lang == "ro" ?
+                                        "Contacte"
+                                        :
+                                        "Контакты"
+                                    }
                                 </li>
                             </a>
                         </Link>

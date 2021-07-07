@@ -40,7 +40,7 @@ export function DynamicProduct ({productData}) {
   })
 
   return (
-      <Layout>
+      <Layout lang="ru">
           <ProductPage 
             lang="ru"
             deviceType={deviceType}

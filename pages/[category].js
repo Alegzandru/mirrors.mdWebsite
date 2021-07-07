@@ -5,7 +5,7 @@ import {API_URL} from "../utils/urls"
 export default function Catalog ({category, products}) {
 
     return (
-        <Layout>
+        <Layout lang="ro">
             <Category 
                 category={category}
                 name={category[0].name}

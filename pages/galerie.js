@@ -14,7 +14,7 @@ export default function Galerie({products}){
     console.log(deviceType)
 
     return (
-        <Layout>
+        <Layout lang="ro">
             <InstaBlock
               lang="ro"
             ></InstaBlock>

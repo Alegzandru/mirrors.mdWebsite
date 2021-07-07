@@ -4,7 +4,7 @@ import CosTotal from "../../components/cos/cosTotal.js"
 
 export default function Cos () {
     return(
-        <Layout>
+        <Layout lang="ru">
             <CosProducts
                 lang="ru"
             ></CosProducts>

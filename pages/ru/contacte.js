@@ -5,7 +5,7 @@ import RecentProducts from "../../components/multiPage/recentProducts"
 
 export default function Contacte () {
     return(
-        <Layout>
+        <Layout lang="ru">
             <ContacteMap
                 lang="ru"
             ></ContacteMap>

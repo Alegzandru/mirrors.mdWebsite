@@ -6,7 +6,7 @@ import { DeviceTypeContext } from '../context';
 import Link from "next/link"
 import {CustomButtonGroupAsArrows3} from "../mainPage/CustomButtonGroup"
 
-export default function InstaBlock () {
+export default function InstaBlock ({lang}) {
 
   const {deviceType, setDeviceType} = useContext(DeviceTypeContext)
 
@@ -51,7 +51,12 @@ export default function InstaBlock () {
       <div className="h-2 gradient-line w-full lg:hidden mb-72px"/>
 
       <div className="mx-auto text-ui-grey text-lg-p font-medium w-auto text-center mb-6">
-        {"Urmăriți-ne pe " }
+        {
+          lang == "ro" ? 
+          "Urmăriți-ne pe "
+          :
+          "Подпишитесь на нас в "
+        }
         <span>
           <a 
             className="font-normal underline"
@@ -122,7 +127,12 @@ export default function InstaBlock () {
                       width={36}
                     />
                     <div className="mt-3">
-                      Urmăriți-ne pe Instagram
+                      {
+                        lang == "ro" ? 
+                        "Urmăriți-ne pe Instagram"
+                        :
+                        "Подпишитесь на нас в Instagram"
+                      }
                     </div>
                   </div>
                 </div>

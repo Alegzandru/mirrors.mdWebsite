@@ -3,7 +3,7 @@ import Layout from "../components/layout"
 
 export default function Termeni (){
     return(
-        <Layout>
+        <Layout lang="ro">
             <TermeniSiConditii
                 lang="ro"
             ></TermeniSiConditii>

@@ -3,7 +3,7 @@ import Layout from "../../../components/layout"
 
 export default function CheckoutPage(){
     return (
-        <Layout>
+        <Layout lang="ru">
             <Checkout lang="ru"></Checkout>
         </Layout>
     )

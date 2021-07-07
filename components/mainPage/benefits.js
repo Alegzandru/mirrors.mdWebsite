@@ -4,7 +4,7 @@ import { CSSTransition } from 'react-transition-group';
 import { useState } from "react";
 import { set } from "react-hook-form";
 
-export default function Benefits(props){
+export default function Benefits({lang}){
 
     const [benefit1 ,setBenefit1] = useState(0)
     const [benefit2 ,setBenefit2] = useState(0)
@@ -15,7 +15,12 @@ export default function Benefits(props){
     return(
         <div className="w-full px-container-sm md:px-container-md lg:px-container-lg xl:px-container-xl font-Ubuntu pt-16 pb-24 md:pt-24 md:pb-20 lg:pt-140px lg:pb-130px bg-ui-grey overflow-hidden">
             <h3 className="text-lg-h3 font-bold text-center w-full mx-auto text-type-manatee mb-46px">
-                Beneficii
+                {
+                    lang == "ro" ? 
+                    "Beneficii"
+                    :
+                    "Преимущества"
+                }
             </h3>
             <div className="flex flex-col lg:flex-row justify-between items-center w-full">
                 <div 
@@ -24,7 +29,12 @@ export default function Benefits(props){
                     onMouseLeave={() => setBenefit1(false)}
                 >
                     <div className="w-full md:w-500px">
-                        Ne iubim clienții
+                        {
+                            lang == "ro" ? 
+                            "Ne iubim clienții"
+                            :
+                            "Мы любим наших клиентов"
+                        }
                         <CSSTransition
                             in={benefit1}
                             timeout={300}
@@ -32,7 +42,12 @@ export default function Benefits(props){
                             unmountOnExit
                         >    
                             <div className="text-lg-card-description lg:text-lg-p text-type-grey mt-4">
-                                O vânzare este considerată de succes numai dacă Cumpărătorul se bucură de produsul nostru în casa sa
+                                {
+                                    lang == "ro" ? 
+                                    "O vânzare este considerată de succes numai dacă Cumpărătorul se bucură de produsul nostru în casa sa"
+                                    :
+                                    "Продажа считается успешной только в том случае, если покупатель радуется нашим товаром у себя дома."
+                                }
                             </div>
                         </CSSTransition>                            
                     </div>
@@ -52,7 +67,12 @@ export default function Benefits(props){
                                 />
                             </div>
                             <div className="w-230px">
-                                Configurarea oglinzii
+                                {
+                                    lang == "ro" ? 
+                                    "Configurarea oglinzii"
+                                    :
+                                    "Конфигурация зеркала"
+                                }
                                 <CSSTransition
                                     in={benefit2}
                                     timeout={300}
@@ -60,7 +80,12 @@ export default function Benefits(props){
                                     unmountOnExit
                                 >                                
                                     <div className="text-lg-card-description lg:text-lg-p text-type-grey mt-4">
-                                        Oglinda poate fi completată în mod independent cu o serie largă de opțiuni utile
+                                        {
+                                            lang == "ro" ? 
+                                            "Oglinda poate fi completată în mod independent cu o serie largă de opțiuni utile"
+                                            :
+                                            "Зеркало можно укомплектовать самостоятельно с широким набором полезных опций."
+                                        }
                                     </div>
                                 </CSSTransition>
                             </div>
@@ -78,7 +103,12 @@ export default function Benefits(props){
                                 />
                             </div>
                             <div className="w-230px transition duration-300">
-                                400+ Modele
+                                {
+                                    lang == "ro" ? 
+                                    "400+ Modele"
+                                    :
+                                    "400+ Моделей"
+                                }
                                 <CSSTransition
                                     in={benefit3}
                                     timeout={300}
@@ -88,7 +118,12 @@ export default function Benefits(props){
                                     // onExited={() => setBenefit3(true)}
                                 >                                
                                     <div className="text-lg-card-description lg:text-lg-p text-type-grey mt-4 w-230px transition duration-300">
-                                        Aici veți găsi cea mai largă selecție de modele de oglinzi și dulapuri
+                                        {
+                                            lang == "ro" ? 
+                                            "Aici veți găsi cea mai largă selecție de modele de oglinzi și dulapuri"
+                                            :
+                                            "Здесь вы найдете широчайший выбор моделей зеркал и шкафов."
+                                        }
                                     </div>
                                 </CSSTransition>
                             </div>
@@ -108,7 +143,12 @@ export default function Benefits(props){
                                 />
                             </div>
                             <div className="w-230px">
-                                Iluminare LED
+                                {
+                                    lang == "ro" ? 
+                                    "Iluminare LED"
+                                    :
+                                    "Лед освещение"
+                                }
                                 <CSSTransition
                                     in={benefit4}
                                     timeout={300}
@@ -118,7 +158,12 @@ export default function Benefits(props){
                                     // onExited={() => setBenefit3(true)}
                                 >                                
                                     <div className="text-lg-card-description lg:text-lg-p text-type-grey mt-4">
-                                        Zona de iluminare a oglinzii poate fi sub forma oricărui desen cu o lumină uniformă
+                                        {
+                                            lang == "ro" ? 
+                                            "Zona de iluminare a oglinzii poate fi sub forma oricărui desen cu o lumină uniformă"
+                                            :
+                                            "Зона освещения зеркала может быть в виде любого рисунка с равномерным светом."
+                                        }
                                     </div>
                                 </CSSTransition>
                             </div>
@@ -136,7 +181,12 @@ export default function Benefits(props){
                                 />
                             </div>
                             <div className="w-230px">
-                                100% Garantat
+                                {
+                                    lang == "ro" ? 
+                                    "100% Garantat"
+                                    :
+                                    "100% Гарантия"
+                                }
                                 <CSSTransition
                                     in={benefit5}
                                     timeout={300}
@@ -146,7 +196,12 @@ export default function Benefits(props){
                                     // onExited={() => setBenefit3(true)}
                                 >                                
                                     <div className="text-lg-card-description lg:text-lg-p text-type-grey mt-4">
-                                        Veți fi mulțumit de achiziția din magazinul nostru. În caz contrar, vă vom rambursa banii.
+                                        {
+                                            lang == "ro" ? 
+                                            "Veți fi mulțumit de achiziția din magazinul nostru. În caz contrar, vă vom rambursa banii.Veți fi mulțumit de achiziția din magazinul nostru. În caz contrar, vă vom rambursa banii."
+                                            :
+                                            "Вы останетесь довольны покупкой в ​​нашем магазине. В противном случае мы вернем вам деньги."
+                                        }
                                     </div>
                                 </CSSTransition>
                             </div>
