@@ -4,7 +4,9 @@ sgMail.setApiKey(process.env.NEXT_PUBLIC_EMAIL_API_KEY);
 
 export default async (req, res) => {
   const { name, phone, address, email, pret, orders, comentariu, mod_de_plata, mod_de_livrare, created_at } = req.body
-  
+
+  let created_at_new = created_at.slice(0, created_at.length-5).replace("T", " ")
+
   console.log(req.body)
   const msg = {
     from: '<manager.mirrors.md@gmail.com',
@@ -21,7 +23,7 @@ export default async (req, res) => {
           mod_de_plata : mod_de_plata,
           mod_de_livrare : mod_de_livrare,
           orders : orders,
-          created_at : created_at,
+          created_at : created_at_new,
         }
       }
     ],

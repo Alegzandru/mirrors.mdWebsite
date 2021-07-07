@@ -222,17 +222,25 @@ export default function CosProducts({lang}){
                                             />
                                             {
                                             errors.height?.type === 'min' && 
-                                                lang == "ro" ?
-                                                `Înălțimea minimă este ${popupProduct.product.smallestsize.height}`
-                                                :
-                                                `Минимальная высота - ${popupProduct.product.smallestsize.height}`
+                                            <div>
+                                                {
+                                                    lang == "ro" ?
+                                                    `Înălțimea minimă este ${popupProduct.product.smallestsize.height}`
+                                                    :
+                                                    `Минимальная высота - ${popupProduct.product.smallestsize.height}`
+                                                }
+                                            </div>
                                             }
                                             {
-                                            errors.height?.type === 'max' && 
-                                                lang == "ro" ?
-                                                `Înălțimea maximă este ${popupProduct.product.biggestsize.height}`
-                                                :
-                                                `Максимальная высота - ${popupProduct.product.biggestsize.height}`
+                                            errors.height?.type === 'max' &&
+                                            <div>
+                                                {
+                                                    lang == "ro" ?
+                                                    `Înălțimea maximă este ${popupProduct.product.biggestsize.height}`
+                                                    :
+                                                    `Максимальная высота - ${popupProduct.product.biggestsize.height}`
+                                                }
+                                            </div> 
                                             }
 
                                             <span className="text-ui-black">
@@ -279,18 +287,26 @@ export default function CosProducts({lang}){
                                                 {...register("width", { min: popupProduct.product.smallestsize.width, max: popupProduct.product.biggestsize.width, valueAsNumber : true , required : true })}
                                             />
                                             {
-                                            errors.width?.type === 'min' && 
-                                                lang == "ro" ?
-                                                `Lățimea minimă este ${popupProduct.product.smallestsize.width}`
-                                                :
-                                                `Минимальная ширина - ${popupProduct.product.smallestsize.width}`
+                                            errors.width?.type === 'min' &&
+                                            <div>
+                                                {
+                                                    lang == "ro" ?
+                                                    `Lățimea minimă este ${popupProduct.product.smallestsize.width}`
+                                                    :
+                                                    `Минимальная ширина - ${popupProduct.product.smallestsize.width}`
+                                                }
+                                            </div> 
                                             }
                                             {
                                             errors.width?.type === 'max' && 
-                                                lang == "ro" ?
-                                                `Lățimea maximă este ${popupProduct.product.biggestsize.width}`
-                                                :
-                                                `Максимальная ширина - ${popupProduct.product.biggestsize.width}`
+                                            <div>
+                                                {
+                                                    lang == "ro" ?
+                                                    `Lățimea maximă este ${popupProduct.product.biggestsize.width}`
+                                                    :
+                                                    `Максимальная ширина - ${popupProduct.product.biggestsize.width}`
+                                                }
+                                            </div>
                                             }
 
                                             <span className="text-ui-black">

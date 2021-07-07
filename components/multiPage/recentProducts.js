@@ -99,7 +99,7 @@ export default function RecentProducts ({deviceType, lang}) {
                                                 <div className="text-lg-14 font-normal text-type-grey">
                                                     {
                                                         lang == "ro" ? 
-                                                        "de la"
+                                                        "de la "
                                                         :
                                                         "от "
                                                     }
