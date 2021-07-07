@@ -163,14 +163,14 @@ export default function Checkout({lang}) {
                                     })
                                 })
 
-                                // sendMailOwner({
-                                //     ...strapiData,
-                                //     orders : orders
-                                // })
-                                // sendMailClient({
-                                //     ...strapiData,
-                                //     orders: orders
-                                // })
+                                sendMailOwner({
+                                    ...strapiData,
+                                    orders : orders
+                                })
+                                sendMailClient({
+                                    ...strapiData,
+                                    orders: orders
+                                })
 
                                 let signature = btoa(md5(signatureRaw + secretKey))
 
