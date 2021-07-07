@@ -254,28 +254,6 @@ export default function Checkout({lang}) {
                                                             let NotificationId = Math.trunc(Math.random() * Date.now())
                                                             let signatureNotification = EventDate + NotificationId + "Paid" + Math.trunc(strapiData.pret * 100) + ClientCode + ExternalID + data.PaymentId + "388417" +  StatusDate
 
-                                                            const requestOptionsNotifications = {
-                                                                method: 'POST',
-                                                                headers: { 
-                                                                    'Content-Type': 'application/json',
-                                                                    'Authorization' : `Bearer ${dataAuth.access_token}`,
-                                                                    'Hash' : signatureNotification
-                                                                },
-                                                                body: JSON.stringify({
-                                                                    Eventid : NotificationId,
-                                                                    EventType : "Paid",
-                                                                    EventDate : EventDate,
-                                                                    Payment : {
-                                                                        ID : data.PaymentId,
-                                                                        ExternalID : ExternalID,
-                                                                        Merchant : "388417",
-                                                                        Customer : ClientCode,
-                                                                        Amount : Math.trunc(strapiData.pret * 100),
-                                                                        StatusDate : StatusDate
-                                                                    }
-                                                                })
-                                                            }
-
                                                             setPopupLoading(0)
                                                             setPopupDone(1)
                                                             
@@ -283,15 +261,14 @@ export default function Checkout({lang}) {
                                                                 setPopupDone(0)
                                                                 setPopupOpen(0)
                                                                 
-                                                                // setTimeout(() => {
-                                                                    //     localStorage.setItem('cart', "[]")
-                                                                    //     setCart([])
-                                                                    //     router.push("/")
-                                                                    // }, 200)
+                                                                setTimeout(() => {
+                                                                        localStorage.setItem('cart', "[]")
+                                                                        setCart([])
+                                                                        router.push("/")
+                                                                    }, 200)
                                                                     
                                                             }, 1200)
                                                                 
-                                                            fetch("https://nameless-shore-75507.herokuapp.com/https://www.mirrors.md/payment/paynet/callback", requestOptionsNotifications)
                                                         }
                                                         catch(error){
                                                             console.log("Error with redirect : ", error)
@@ -404,7 +381,12 @@ export default function Checkout({lang}) {
                     </span>
                 </div>
                 <h2 className="text-sm-h2 md:text-md-h2 lg:text-lg-h2 text-type-dark font-bold w-full text-center mb-3">
-                    Înregistrarea comenzii
+                    {
+                        lang == "ro" ?
+                        "Înregistrarea comenzii"
+                        :
+                        "Оформление заказа"
+                    }
                 </h2>
                 <div className="h-px bg-ui-blueishGrey w-full mb-14 md:mb-68px"/>
                 <div className="lg:px-268px">
@@ -432,7 +414,12 @@ export default function Checkout({lang}) {
                                 </div>
                             </div>
                             <div className={`${step == 1 ? "text-accent-accent" : "text-type-manatee"} text-lg-14 text-center`}>
-                                Detalii de contact
+                                {
+                                    lang == "ro" ?
+                                    "Detalii de contact"
+                                    :
+                                    "Контактная информация"
+                                }
                             </div>
                         </div>
 
@@ -463,7 +450,12 @@ export default function Checkout({lang}) {
                                 </div>
                             </div>
                             <div className={`${step == 2 ? "text-accent-accent" : "text-type-manatee"} text-lg-14 text-center`}>
-                                Livrarea
+                                {
+                                    lang == "ro" ?
+                                    "Livrarea"
+                                    :
+                                    "Доставка"
+                                }
                             </div>
                         </div>
 
@@ -494,7 +486,12 @@ export default function Checkout({lang}) {
                                 </div>
                             </div>
                             <div className={`${step == 3 ? "text-accent-accent" : "text-type-manatee"} text-lg-14 text-center`}>
-                                Modalitatea de plată
+                                {
+                                    lang == "ro" ?
+                                    "Modalitatea de plată"
+                                    :
+                                    "Способ оплаты"
+                                }
                             </div>
                         </div>
 
@@ -520,7 +517,12 @@ export default function Checkout({lang}) {
                                 </div>
                             </div>
                             <div className={`${step == 4 ? "text-accent-accent" : "text-type-manatee"} text-lg-14 text-center`}>
-                                Plasarea comenzii
+                                {
+                                    lang == "ro" ?
+                                    "Plasarea comenzii"
+                                    :
+                                    "Размещение заказа"
+                                }
                             </div>
                         </div> 
 
@@ -530,7 +532,13 @@ export default function Checkout({lang}) {
                         <div className="w-full flex flex-col md:flex-row justify-between items-start mb-6">
                             <div className="w-full mr-6 mb-6 md:mb-0">
                                 <div className="mb-2 text-lg-14 font-medium text-type-manatee">
-                                    Nume <span className="text-accent-error">*</span>
+                                    {
+                                        lang == "ro" ?
+                                        "Nume"
+                                        :
+                                        "Фамилия"
+                                    }   
+                                    <span className="text-accent-error">*</span>
                                 </div>
                                 <input
                                     className={`w-full bg-ui-grey border-1.5px border-ui-blueishGrey rounded-md p-4 text-type-dark text-lg-14 ${errors.nume? "errorInput" : "inputFocused"}`}
@@ -539,15 +547,26 @@ export default function Checkout({lang}) {
                                 />
                                 {errors.nume?.type === 'required' && 
                                     <div className="text-accent-error text-lg-12 mt-2">
-                                        * Introduceți numele Dvs.
+                                        {
+                                            lang == "ro" ?
+                                            "* Introduceți numele Dvs."
+                                            :
+                                            "* Введите вашу фамилию."
+                                        }
                                     </div>
                                 }
                                 
                             </div>
 
                             <div className="w-full">
-                                <div className="mb-2 text-lg-14 font-medium text-type-manatee">
-                                    Prenume <span className="text-accent-error">*</span>
+                                <div className="mb-2 text-lg-14 font-medium text-type-manatee"> 
+                                    {
+                                        lang == "ro" ?
+                                        "Prenume"
+                                        :
+                                        "Имя"
+                                    }
+                                    <span className="text-accent-error">*</span>
                                 </div>
                                 <input
                                     className={`w-full bg-ui-grey border-1.5px border-ui-blueishGrey rounded-md p-4 text-type-dark text-lg-14 ${errors.prenume? "errorInput" : "inputFocused"}`}
@@ -556,7 +575,12 @@ export default function Checkout({lang}) {
                                 />
                                 {errors.prenume?.type === 'required' && 
                                     <div className="text-accent-error text-lg-12 mt-2">
-                                        * Introduceți prenumele Dvs.
+                                        {
+                                            lang == "ro" ?
+                                            "* Introduceți prenumele Dvs."
+                                            :
+                                            "* Введите свое имя."
+                                        }
                                     </div>
                                 }
                             </div>
@@ -565,7 +589,13 @@ export default function Checkout({lang}) {
                         <div className="w-full flex flex-col md:flex-row justify-between items-start">
                             <div className="w-full mr-6 mb-6 md:mb-0">
                                 <div className="mb-2 text-lg-14 font-medium text-type-manatee">
-                                    Email <span className="text-accent-error">*</span>
+                                    {
+                                        lang == "ro" ?
+                                        "Email"
+                                        :
+                                        "Электронная почта"
+                                    }
+                                    <span className="text-accent-error">*</span>
                                 </div>
                                 <input
                                     className={`w-full bg-ui-grey border-1.5px border-ui-blueishGrey rounded-md p-4 text-type-dark text-lg-14 ${errors.email? "errorInput" : "inputFocused"}`}
@@ -574,14 +604,25 @@ export default function Checkout({lang}) {
                                 />
                                 {errors.email?.type === 'required' && 
                                     <div className="text-accent-error text-lg-12 mt-2">
-                                        * Introduceți poșta electronică
+                                        {
+                                            lang == "ro" ?
+                                            "* Introduceți poșta electronică"
+                                            :
+                                            "* Введите адрес электронной почты"
+                                        }
                                     </div>
                                 }
                             </div>
 
                             <div className="w-full">
-                                <div className="mb-2 text-lg-14 font-medium text-type-manatee">
-                                    Telefon <span className="text-accent-error">*</span>
+                                <div className="mb-2 text-lg-14 font-medium text-type-manatee"> 
+                                    {
+                                        lang == "ro" ?
+                                        "Telefon"
+                                        :
+                                        "Телефон"
+                                    }
+                                    <span className="text-accent-error">*</span>
                                 </div>
                                 <input
                                     className={`w-full bg-ui-grey border-1.5px border-ui-blueishGrey rounded-md p-4 text-type-dark text-lg-14 ${errors.telefon? "errorInput" : "inputFocused"}`}
@@ -591,12 +632,22 @@ export default function Checkout({lang}) {
                                 />
                                 {errors.telefon?.type === 'required' && 
                                     <div className="text-accent-error text-lg-12 mt-2">
-                                        * Introduceți numărul de telefon
+                                        {
+                                            lang == "ro" ?
+                                            "* Introduceți numărul de telefon"
+                                            :
+                                            "* Введите номер телефона"
+                                        }
                                     </div>
                                 }
                                 {errors.telefon?.type === 'minLength' && 
                                     <div className="text-accent-error text-lg-12 mt-2">
-                                        * Lungimea minimă a numărului este 8 cifre
+                                        {
+                                            lang == "ro" ?
+                                            "* Lungimea minimă a numărului este 8 cifre"
+                                            :
+                                            "* Минимальная длина номера - 8 цифр"
+                                        }
                                     </div>
                                 }
                             </div>
@@ -616,10 +667,20 @@ export default function Checkout({lang}) {
                                 {...register("livrare", { required: step == 2 ? true : false })}
                             />
                             <div className="w-full mr-4 text-lg-14">
-                                Ridicare din oficiu, str. Ismail 98
+                                {
+                                    lang == "ro" ?
+                                    "Ridicare din oficiu, str. Ismail 98"
+                                    :
+                                    "Приём из офиса, улица Измаил 98"
+                                }
                             </div>
                             <div className="w-full text-lg-14 font-medium">
-                                gratuit
+                                {
+                                    lang == "ro" ?
+                                    "gratuit"
+                                    :
+                                    "бесплатно"
+                                }
                             </div>
                         </label>
 
@@ -636,14 +697,29 @@ export default function Checkout({lang}) {
                             />
                             {errors.livrare?.type === 'required' && 
                                 <div className="text-accent-error text-lg-12 mt-2">
-                                    * Introduceți modul de livrare
+                                    {
+                                        lang == "ro" ?
+                                        "* Introduceți modul de livrare"
+                                        :
+                                        "* Введите способ доставки"
+                                    }
                                 </div>
                             }
                             <div className="w-full mr-4 text-lg-14">
-                                Livrare până la ușă
+                                {
+                                    lang == "ro" ?
+                                    "Livrare până la ușă"
+                                    :
+                                    "Доставка до двери"
+                                }
                             </div>
                             <div className="w-full text-lg-14 font-medium">
-                                150 lei
+                                {
+                                    lang == "ro" ?
+                                    "150 lei"
+                                    :
+                                    "150 лей"
+                                }
                             </div>
                         </label>
 
@@ -657,7 +733,13 @@ export default function Checkout({lang}) {
                         </div> */}
 
                         <div className="mb-2 text-lg-14 font-medium text-type-manatee">
-                            Oraș <span className="text-accent-error">*</span>
+                            {
+                                lang == "ro" ?
+                                "Oraș"
+                                :
+                                "Город"
+                            }
+                            <span className="text-accent-error">*</span>
                         </div>
                         <input
                             className={`w-full p-3 text-type-manatee flex flex-row justify-between items-center text-lg-14 border-1.5px border-ui-blueishGrey rounded-md ${errors.oras? "errorInput" : "inputFocused"}`}
@@ -666,12 +748,23 @@ export default function Checkout({lang}) {
                         />
                         {errors.oras?.type === 'required' && 
                             <div className="text-accent-error text-lg-12 mt-2">
-                                * Introduceți orașul Dvs.
+                                {
+                                    lang == "ro" ?
+                                    "* Introduceți orașul Dvs."
+                                    :
+                                    "* Введите свой город."
+                                }
                             </div>
                         }
 
-                        <div className="mb-2 text-lg-14 font-medium text-type-manatee mt-4">
-                            Adresa <span className="text-accent-error">*</span>
+                        <div className="mb-2 text-lg-14 font-medium text-type-manatee mt-4"> 
+                            {
+                                lang == "ro" ?
+                                "Adresa"
+                                :
+                                "Адрес"
+                            }
+                            <span className="text-accent-error">*</span>
                         </div>
                         <input
                             className={`w-full p-3 text-type-manatee flex flex-row justify-between items-center text-lg-14 border-1.5px border-ui-blueishGrey rounded-md ${errors.adresa? "errorInput" : "inputFocused"}`}
@@ -680,7 +773,12 @@ export default function Checkout({lang}) {
                         />
                         {errors.adresa?.type === 'required' && 
                             <div className="text-accent-error text-lg-12 mt-2">
-                                * Introduceți adresa Dvs.
+                                {
+                                    lang == "ro" ?
+                                    "* Introduceți adresa Dvs."
+                                    :
+                                    "* Введите свой адрес."
+                                }
                             </div>
                         }
 
@@ -713,7 +811,12 @@ export default function Checkout({lang}) {
                                 />
                             </div>
                             <div className="flex-grow text-lg-14">
-                                Transfer direct
+                                {
+                                    lang == "ro" ?
+                                    "Transfer direct"
+                                    :
+                                    "Перевод с карты"
+                                }
                             </div>
                         </label>
 
@@ -736,19 +839,34 @@ export default function Checkout({lang}) {
                                 />
                             </div>
                             <div className="flex-grow text-lg-14">
-                                Cash la livrare
+                                {
+                                    lang == "ro" ?
+                                    "Cash la livrare"
+                                    :
+                                    "Оплата при доставке"
+                                }
                             </div>
                         </label>
                         {errors.plata?.type === 'required' && 
                             <div className="text-accent-error text-lg-12 mt-2">
-                                * Introduceți modul de plată
+                                {
+                                    lang == "ro" ?
+                                    "* Introduceți modul de plată"
+                                    :
+                                    "* Введите способ оплаты"
+                                }
                             </div>
                         }
                     </div>
 
                     <div className={`${step == 4 ? "block" : "hidden"} w-full`}>
                         <div className="bg-ui-grey w-full px-6 py-14px text-type-manatee text-lg-p font-medium">
-                            Comanda Dvs
+                            {
+                                lang == "ro" ?
+                                "Comanda Dvs"
+                                :
+                                "Ваш заказ"
+                            }
                         </div>
                         {cart.map((product) => {
                             let addOnsPrice = 0
@@ -782,7 +900,12 @@ export default function Checkout({lang}) {
                         <div className="mt-4 w-full text-lg-p mb-6">
                             <div className="w-full bg-ui-white border-1.5px border-ui-grey px-8 py-6 flex flex-row justify-between items-start">
                                 <div className="font-medium text-type-dark w-full">
-                                    Sub-total
+                                    {
+                                        lang == "ro" ?
+                                        "Sub-total"
+                                        :
+                                        "Промежуточный итог"
+                                    }
                                 </div>
                                 <div className="text-type-manatee w-full">
                                     {priceTotal + " lei"}
@@ -791,31 +914,54 @@ export default function Checkout({lang}) {
 
                             <div className="w-full bg-ui-white border-1.5px border-ui-grey px-8 py-6 flex flex-row justify-between items-start">
                                 <div className="font-medium text-type-dark w-full">
-                                    Livrare
+                                    {
+                                        lang == "ro" ?
+                                        "Livrare"
+                                        :
+                                        "Доставка"
+                                    }
                                 </div>
                                 <div className="text-type-manatee w-full">
                                     <div className="mb-2 font-medium">
                                         {
                                             userInfo.livrare == "livrare_la_usa" ?
-                                            "livrare - 150 lei"
+                                                lang == "ro" ?
+                                                "livrare - 150 lei"
+                                                :
+                                                "доставка - 150 лей"
                                             :
-                                            "livrare - 0 lei"
+                                                lang == "ro" ?
+                                                "livrare - 0 lei"
+                                                :
+                                                "доставка - 0 лей"
                                         }
                                     </div>
                                     <div>
                                         {
                                             userInfo.livrare == "livrare_la_usa" ?
-                                            "Livrare până la ușă"
+                                                lang == "ro" ?
+                                                "Livrare până la ușă"
+                                                :
+                                                "Доставка до двери"
                                             :
-                                            "Preluare din oficiu"
+                                                lang == "ro" ?
+                                                "Preluare din oficiu"
+                                                :
+                                                "Приём из офиса"
                                         }
                                     </div>
                                     <div>
                                         {
                                             userInfo.livrare == "livrare_la_usa" ?
-                                            userInfo.adresa
+                                                lang == "ro" ?
+                                                userInfo.adresa
+                                                :
+                                                userInfo.adresa
                                             :
-                                            "str. Ismail 98"
+                                                lang == "ro" ?
+                                                "str. Ismail 98"
+                                                :
+                                                "улица Исмаил 98"
                                         }
                                     </div>
                                 </div>
@@ -823,7 +969,12 @@ export default function Checkout({lang}) {
 
                             <div className="w-full bg-ui-white border-1.5px border-ui-grey px-8 py-6 flex flex-row justify-between items-start text-accent-accent">
                                 <div className="font-medium w-full">
-                                    Total
+                                    {
+                                        lang == "ro" ?
+                                        "Total"
+                                        :
+                                        "Итого"
+                                    }
                                 </div>
                                 <div className="text-type-manatee w-full">
                                     {
@@ -837,10 +988,20 @@ export default function Checkout({lang}) {
                         </div>
 
                         <div className="text-sm-h4 md:text-lg-28 text-type-manatee font-bold mb-3 mt-10">
-                            Comentariu
+                            {
+                                lang == "ro" ?
+                                "Comentariu"
+                                :
+                                "Комментарий"
+                            }
                         </div>
                         <div className="text-lg-14 text-type-grey mb-4 font-bold">
-                            * Dacă aveți un promo-code, puteți să-l adăugați aici
+                            {
+                                lang == "ro" ?
+                                "* Dacă aveți un promo-code, puteți să-l adăugați aici"
+                                :
+                                "* Если у вас есть промокод, вы можете добавить его здесь"
+                            }
                         </div>
                         <input
                             type="text"
@@ -849,8 +1010,21 @@ export default function Checkout({lang}) {
                             {...register("comentariu")}
                         />
 
-                        <div className="text-lg-p text-type-grey mb-84px">
-                            Datele dvs. personale vor fi utilizate pentru a vă procesa comanda, pentru a vă sprijini experiența pe acest site web și în alte scopuri descrise în pagina noastră <span className="text-accent-accent">politică de confidențialitate</span>.
+                        <div className="text-lg-p text-type-grey mb-84px"> 
+                            {
+                                lang == "ro" ?
+                                "Datele dvs. personale vor fi utilizate pentru a vă procesa comanda, pentru a vă sprijini experiența pe acest site web și în alte scopuri descrise în pagina noastră "
+                                :
+                                "Ваши личные данные будут использоваться для обработки вашего заказа, для поддержки вашего опыта на этом веб-сайте и для других целей, описанных на нашей странице "
+                            }
+                            <span className="text-accent-accent">
+                                {
+                                    lang == "ro" ?
+                                    "politică de confidențialitate"
+                                    :
+                                    "политика конфиденциальности"
+                                }
+                            </span>.
                         </div>
                     </div>
                     
@@ -859,7 +1033,16 @@ export default function Checkout({lang}) {
                         onClick={handleSubmit(onSubmit)}
                     >
                         {
-                            step == 4 ? "Plasează comanda" : "Continuă"
+                            step == 4 ?  
+                                lang == "ro" ?
+                                "Plasează comanda"
+                                :
+                                "Оформите заказ"
+                            : 
+                                lang == "ro" ?
+                                "Continuă"
+                                :
+                                "Продолжить"
                         }
                     </div>
 

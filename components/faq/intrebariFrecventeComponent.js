@@ -44,21 +44,62 @@ export default function IntrebariFrecventeComponent ({lang}) {
                 <div className="w-full mr-40px">
                     <Paper>
                         <h4 className="text-type-dark text-sm-h4 md:text-md-h4 lg:text-lg-h4 font-medium mb-8">
-                            Întrebări despre comandă
+                        {
+                            lang == "ro" ?
+                            "Întrebări despre comandă"
+                            :
+                            "Часто задаваемые вопросы"
+                        }
                         </h4>
 
                         <div className="w-full h-px bg-ui-blueishGrey"/>
                         <Question
-                            question = "Când voi primi produsul comandat?"
-                            answer = "Veți primi produsul în timp de 10-20 zile lucrătoare de la confirmarea comenzii. În acest timp noi confecționăm și livrăm oglinda."
+                            question = 
+                            {
+                                lang == "ro" ?
+                                "Când voi primi produsul comandat?"
+                                :
+                                "Когда я получу заказанный товар?"
+                            }
+                            answer = 
+                            {
+                                lang == "ro" ?
+                                "Veți primi produsul în timp de 10-20 zile lucrătoare de la confirmarea comenzii. În acest timp noi confecționăm și livrăm oglinda."
+                                :
+                                "Вы получите товар в течение 10-20 рабочих дней с момента подтверждения заказа. За это время изготавливаем и доставляем зеркало."
+                            }
                         />
                         <Question
-                            question = "Este posibil să comandați oglinzi de dimensiuni mari?"
-                            answer = "Site-ul nostru vă permite să comandați o oglindă într-o gamă largă de dimensiuni de până la 2,5m."
+                            question = 
+                            {
+                                lang == "ro" ?
+                                "Este posibil să comandați oglinzi de dimensiuni mari?"
+                                :
+                                "Можно ли заказать большие зеркала?"
+                            }
+                            answer = 
+                            {
+                                lang == "ro" ?
+                                "Site-ul nostru vă permite să comandați o oglindă într-o gamă largă de dimensiuni de până la 2,5m."
+                                :
+                                "На нашем сайте вы можете заказать зеркало в широком диапазоне размеров до 2,5м."
+                            }
                         />
                         <Question
-                            question = "Este posibil de comandat oglindă de design personalizat?"
-                            answer = "Pe site-ul nostru web, oferim clienților noștri o selecție mare de modele de oglinzi. Dar, puteți seta dimensiunea oglinzii dvs. și chiar dacă doriți, modificați ușor modelul și poziția desenului!"
+                            question = 
+                            {
+                                lang == "ro" ?
+                                "Este posibil de comandat oglindă de design personalizat?"
+                                :
+                                "Можно ли заказать зеркало нестандартного дизайна?"
+                            }
+                            answer = 
+                            {
+                                lang == "ro" ?
+                                "Pe site-ul nostru web, oferim clienților noștri o selecție mare de modele de oglinzi. Dar, puteți seta dimensiunea oglinzii dvs. și chiar dacă doriți, modificați ușor modelul și poziția desenului!"
+                                :
+                                "На нашем сайте мы предлагаем нашим покупателям большой выбор моделей зеркал. Но вы можете установить размер своего зеркала и даже при желании легко изменить узор и положение рисунка!"
+                            }
                         />
                     </Paper>
 

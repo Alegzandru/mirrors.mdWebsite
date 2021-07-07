@@ -9,7 +9,7 @@ import Scroll from 'react-scroll';
 
 var Element = Scroll.Element;
 
-export default function CosProducts(){
+export default function CosProducts({lang}){
 
     const {deviceType, setDeviceType} = useContext(DeviceTypeContext)
 
@@ -189,7 +189,29 @@ export default function CosProducts(){
                                 <div className="flex flex-col md:flex-row justify-between items-end w-full">
                                     <div className="w-full md:mr-4">
                                         <div className="text-type-grey text-lg-12 mb-2">
-                                            <span className="text-type-manatee text-lg-14 font-medium">Înălțime</span> (de la {popupProduct.product.smallestsize.height}mm pînă la {popupProduct.product.biggestsize.height}mm)
+                                            <span className="text-type-manatee text-lg-14 font-medium">
+                                                {
+                                                    lang == "ro" ?
+                                                    "Înălțime"
+                                                    :
+                                                    "Высота"
+                                                }
+                                            </span> 
+                                                {
+                                                    lang == "ro" ?
+                                                    "(de la "
+                                                    :
+                                                    "(от "
+                                                }
+                                            {popupProduct.product.smallestsize.height}mm 
+                                                {
+                                                    lang == "ro" ?
+                                                    " pînă la "
+                                                    :
+                                                    " до "
+                                                } 
+                                            {popupProduct.product.biggestsize.height}
+                                            mm)
                                         </div>
                                         <div className="flex flex-row justify-start items-center text-lg-17">
                                             <input
@@ -198,8 +220,20 @@ export default function CosProducts(){
                                                 placeholder={popupProduct.size.height}
                                                 {...register("height", { min: popupProduct.product.smallestsize.height, max: popupProduct.product.biggestsize.height, valueAsNumber : true, required : true })}
                                             />
-                                            {errors.height?.type === 'min' && `Min height is ${popupProduct.product.smallestsize.height}`}
-                                            {errors.height?.type === 'max' && `Max height is ${popupProduct.product.biggestsize.height}`}
+                                            {
+                                            errors.height?.type === 'min' && 
+                                                lang == "ro" ?
+                                                `Înălțimea minimă este ${popupProduct.product.smallestsize.height}`
+                                                :
+                                                `Минимальная высота - ${popupProduct.product.smallestsize.height}`
+                                            }
+                                            {
+                                            errors.height?.type === 'max' && 
+                                                lang == "ro" ?
+                                                `Înălțimea maximă este ${popupProduct.product.biggestsize.height}`
+                                                :
+                                                `Максимальная высота - ${popupProduct.product.biggestsize.height}`
+                                            }
 
                                             <span className="text-ui-black">
                                                 mm
@@ -213,7 +247,29 @@ export default function CosProducts(){
 
                                     <div className="w-full md:ml-4">
                                         <div className="text-type-grey text-lg-12 mb-2">
-                                            <span className="text-type-manatee text-lg-14 font-medium">Lățime</span> (de la {popupProduct.product.smallestsize.width}mm pînă la {popupProduct.product.biggestsize.width}mm)
+                                            <span className="text-type-manatee text-lg-14 font-medium">
+                                                {
+                                                    lang == "ro" ?
+                                                    "Lățimea"
+                                                    :
+                                                    "Ширина"
+                                                }
+                                            </span> 
+                                                {
+                                                    lang == "ro" ?
+                                                    "(de la "
+                                                    :
+                                                    "(от "
+                                                }
+                                            {popupProduct.product.smallestsize.height}mm 
+                                                {
+                                                    lang == "ro" ?
+                                                    " pînă la "
+                                                    :
+                                                    " до "
+                                                } 
+                                            {popupProduct.product.biggestsize.height}
+                                            mm)
                                         </div>
                                         <div className="flex flex-row justify-start items-center text-lg-17">
                                             <input
@@ -222,8 +278,20 @@ export default function CosProducts(){
                                                 placeholder={popupProduct.size.width}
                                                 {...register("width", { min: popupProduct.product.smallestsize.width, max: popupProduct.product.biggestsize.width, valueAsNumber : true , required : true })}
                                             />
-                                            {errors.width?.type === 'min' && `Min width is ${popupProduct.product.smallestsize.width}`}
-                                            {errors.width?.type === 'max' && `Max width is ${popupProduct.product.biggestsize.width}`}
+                                            {
+                                            errors.width?.type === 'min' && 
+                                                lang == "ro" ?
+                                                `Lățimea minimă este ${popupProduct.product.smallestsize.width}`
+                                                :
+                                                `Минимальная ширина - ${popupProduct.product.smallestsize.width}`
+                                            }
+                                            {
+                                            errors.width?.type === 'max' && 
+                                                lang == "ro" ?
+                                                `Lățimea maximă este ${popupProduct.product.biggestsize.width}`
+                                                :
+                                                `Максимальная ширина - ${popupProduct.product.biggestsize.width}`
+                                            }
 
                                             <span className="text-ui-black">
                                                 mm
@@ -237,7 +305,12 @@ export default function CosProducts(){
                                 className="w-full h-11 rounded-lg bg-accent-accent text-ui-white font-bold text-lg-button mt-8 md:mt-0"
                                 onClick={handleSubmit(onSubmit)}
                             >
-                                Salvează
+                                {
+                                    lang == "ro" ? 
+                                    "Salvează"
+                                    :
+                                    "Сохранить"
+                                }
                             </button>
 
                         </form>
@@ -304,7 +377,12 @@ export default function CosProducts(){
                     <Link href="/">
                         <a>
                             <span className="mr-1 hover:underline transition duration-300">
-                                Pagina principală
+                                {
+                                    lang == "ro" ?
+                                    "Pagina principală"
+                                    :
+                                    "Главная страница"
+                                }
                             </span>
                         </a>
                     </Link>
@@ -312,12 +390,22 @@ export default function CosProducts(){
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
                     <span>
-                        Coș
+                        {
+                            lang == "ro" ?
+                            "Coș"
+                            :
+                            "Корзина"
+                        }
                     </span>
                 </div>
 
                 <h2 className="text-sm-h2 md:text-md-h3 lg:text-lg-h2 text-accent-text2 font-bold mb-2 md:mb-3 text-shadow-text2">
-                    Coș
+                    {
+                        lang == "ro" ?
+                        "Coș"
+                        :
+                        "Корзина"
+                    }
                 </h2>
 
                 <div className="w-full h-px bg-ui-blueishGrey mb-8"/>
@@ -333,7 +421,12 @@ export default function CosProducts(){
                         />
                     </div>
                     <div className="text-sm-p md:text-md-h3 lg:text-lg-28 font-bold text-type-dark w-full text-center">
-                        Coșul dumneavoastră este gol. Ajutați-l să se umple, întorceți-vă înapoi la cumpărături!
+                        {
+                            lang == "ro" ?
+                            "Coșul dumneavoastră este gol. Ajutați-l să se umple, întorceți-vă înapoi la cumpărături!"
+                            :
+                            "Ваша корзина пуста. Помогите ей наполниться, вернитесь к покупкам!"
+                        }
                     </div>
                 </div>
                 :
@@ -389,7 +482,12 @@ export default function CosProducts(){
                                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
                                                         </svg>
                                                         <div className="text-lg-12">
-                                                            Alegeți altă dimensiune
+                                                            {
+                                                                lang == "ro" ?
+                                                                "Alegeți altă dimensiune"
+                                                                :
+                                                                "Выберите другой размер"
+                                                            }
                                                         </div>
                                                     </div>
                                                 </div>
@@ -399,7 +497,12 @@ export default function CosProducts(){
                                             {
                                                 product.addOns.length == 0 ? 
                                                 <div>
-                                                    Nu sunt optiuni
+                                                    {
+                                                        lang == "ro" ?
+                                                        "Nu sunt optiuni"
+                                                        :
+                                                        "Нет дополнительных опций"
+                                                    }
                                                 </div>
                                                 :
                                                 product.addOns.map((addOn) => {
@@ -410,7 +513,13 @@ export default function CosProducts(){
                                                                 {addOn.name}
                                                             </div>
                                                             <div>
-                                                                {addOn.price} lei
+                                                                {addOn.price} 
+                                                                {
+                                                                    lang == "ro" ?
+                                                                    " lei"
+                                                                    :
+                                                                    " лей"
+                                                                }
                                                             </div>
                                                         </div>
                                                     )
@@ -458,7 +567,12 @@ export default function CosProducts(){
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
                                                 </svg>
                                                 <div className="text-lg-12">
-                                                    Configurați opțiunile
+                                                    {
+                                                        lang == "ro" ?
+                                                        "Configurați opțiunile"
+                                                        :
+                                                        "Настроить параметры"
+                                                    }
                                                 </div>
                                             </div>
                                         </div>
@@ -513,27 +627,60 @@ export default function CosProducts(){
                                             <div className="w-full">
                                                 <div className="flex flex-row justify-between items-start w-full mb-2">
                                                     <div>
-                                                        Oglinda
+                                                        {
+                                                            lang == "ro" ?
+                                                            "Oglinda"
+                                                            :
+                                                            "Зеркало"
+                                                        }
                                                     </div>
                                                     <div>
-                                                        {product.price * product.number} lei
+                                                        {product.price * product.number}
+                                                        {
+                                                            lang == "ro" ?
+                                                            " lei"
+                                                            :
+                                                            " лей"
+                                                        }
                                                     </div>
                                                 </div>
                                                 <div className="flex flex-row justify-between items-start w-full mb-2">
                                                     <div>
-                                                        Optiuni
+                                                        {
+                                                            lang == "ro" ?
+                                                            "Optiuni"
+                                                            :
+                                                            "Дополнительные опции"
+                                                        }
                                                     </div>
                                                     <div>
-                                                        {optionsPrice * product.number} lei
+                                                        {optionsPrice * product.number} 
+                                                        {
+                                                            lang == "ro" ?
+                                                            " lei"
+                                                            :
+                                                            " лей"
+                                                        }
                                                     </div>
                                                 </div>
                                             </div>
                                             <div className="flex flex-row justify-between items-start text-type-manatee font-bold w-full">
                                                 <div>
-                                                    Total
+                                                    {
+                                                        lang == "ro" ?
+                                                        "Total"
+                                                        :
+                                                        "Итого"
+                                                    }
                                                 </div>
                                                 <div>
-                                                    {(product.price + optionsPrice) * product.number} lei
+                                                    {(product.price + optionsPrice) * product.number} 
+                                                    {
+                                                        lang == "ro" ?
+                                                        " lei"
+                                                        :
+                                                        " лей"
+                                                    }
                                                 </div>
                                             </div>
                                         </div>
@@ -548,15 +695,31 @@ export default function CosProducts(){
                         </div>
                         <div className="w-full">
                             <div className="text-sm-h4 md:text-lg-28 text-type-dark font-bold mb-4">
-                                Total
+                                {
+                                    lang == "ro" ?
+                                    "Total"
+                                    :
+                                    "Итого"
+                                }
                             </div>
                             <div className="rounded-xl bg-ui-white w-full">
                                 <div className="flex flex-row justify-between items-start py-6 px-2 lg:px-8 text-type-dark font-medium text-lg-p border border-ui-darkGrey w-full">
                                     <div>
-                                        Total
+                                        {
+                                            lang == "ro" ?
+                                            "Total"
+                                            :
+                                            "Итого"
+                                        }
                                     </div>
                                     <div>
-                                        {totalPrice} lei
+                                        {totalPrice} 
+                                        {
+                                            lang == "ro" ?
+                                            " lei"
+                                            :
+                                            " лей"
+                                        }
                                     </div>
                                 </div>
 
@@ -566,7 +729,12 @@ export default function CosProducts(){
                                         <Link href="/cos/checkout">
                                             <a className="flex flex-row justify-center itemes-start w-full">
                                                 <div className="w-full bg-accent-accent text-ui-white h-52px text-lg-button font-bold flex flex-row justify-center items-center rounded-lg hover:bg-accent-light transition duration-300">
-                                                    Finalizează comanda
+                                                    {
+                                                        lang == "ro" ?
+                                                        "Finalizează comanda"
+                                                        :
+                                                        "Завершить заказ"
+                                                    }
                                                 </div>
                                             </a>
                                         </Link>
