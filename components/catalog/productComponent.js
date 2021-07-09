@@ -605,18 +605,18 @@ export default function ProductComponent ({deviceType, name, images, options, op
                         <div className="w-full flex flex-col md:flex-row justify-between items-center mt-6">
 
                             <input 
-                                value="La pagina de Check-Out" 
+                                value={lang == "ro" ? "La pagina de Check-Out" : "Оформить заказ"} 
                                 type="submit" 
                                 className="w-full bg-transparent border-2 rounded-lg border-accent-accent h-12 flex flex-row justify-center items-center text-accent-accent font-medium mb-6 md:mb-0 hover:bg-accent-transparent transition duration-300 md:mr-4 cursor-pointer"
                                 onClick={() => setCheckout(true)}
                             />
 
                             <input 
-                                value="Adaugă în coș" 
+                                value={lang == "ro" ? "Adaugă în coș" : "Добавить в корзину"}
                                 type="submit" 
                                 className="w-full bg-accent-accent rounded-lg h-12 flex flex-row justify-center items-center text-ui-white font-medium hover:bg-accent-light transition duration-300 cursor-pointer"
                                 onClick={() => setCheckout(false)}
-                                data-tip="Produs adăugat la coș"
+                                data-tip={lang == "ro" ? "Produs adăugat la coș" : "Товар добавлен в корзину"}
                                 data-event={"click"}
                             />
 

@@ -105,29 +105,75 @@ export default function IntrebariFrecventeComponent ({lang}) {
 
                     <Paper>
                         <h4 className="text-type-dark text-sm-h4 md:text-md-h4 lg:text-lg-h4 font-medium mb-8">
-                            Întrebări despre opțiunile oglinzilor
+                            {
+                                lang == "ro" ?
+                                "Întrebări despre opțiunile oglinzilor"
+                                :
+                                "Вопросы по опциям зеркала"
+                            }
                         </h4>
 
                         <div className="w-full h-px bg-ui-blueishGrey"/>
                         <Question
-                            question = "Cum să alegeți dimensiunea încălzitorului pentru a elimina aburirea?"
-                            answer = "Alegerea dimensiunii încălzitorului este determinată de partea din oglindă pe care doriți să o încălziți. Dimensiunea încălzitorului 25 * 25 cm este suficientă pentru a vedea reflectarea feței într-o baie foarte umezită. Un încălzitor mai mare va furniza o suprafață corespunzătoare de încălzire. De asemenea, merită luat în considerare faptul că zona încălzită a oglinzii este puțin mai mare decât dimensiunea încălzitorului. Zonele oglinzii din imediată apropiere a zonelor ilumunate tot se încălzesc ușor și nu fac ceață."
+                            question = 
+                            {
+                                lang == "ro" ?
+                                "Cum să alegeți dimensiunea încălzitorului pentru a elimina aburirea?"
+                                :
+                                "Как выбрать размер каменки для отвода пара?"
+                            }
+                            answer = 
+                            {
+                                lang == "ro" ?
+                                "Alegerea dimensiunii încălzitorului este determinată de partea din oglindă pe care doriți să o încălziți. Dimensiunea încălzitorului 25 * 25 cm este suficientă pentru a vedea reflectarea feței într-o baie foarte umezită. Un încălzitor mai mare va furniza o suprafață corespunzătoare de încălzire. De asemenea, merită luat în considerare faptul că zona încălzită a oglinzii este puțin mai mare decât dimensiunea încălzitorului. Zonele oglinzii din imediată apropiere a zonelor ilumunate tot se încălzesc ușor și nu fac ceață."
+                                :
+                                "Выбор размера обогревателя определяется той частью зеркала, которую вы хотите обогреть. Размер утеплителя 25 * 25 см хватит, чтобы увидеть отражение лица в очень влажной ванной. Нагреватель большего размера обеспечит подходящую поверхность нагрева. Также стоит отметить, что нагреваемая площадь зеркала немного больше, чем размер нагревателя. Зеркальные участки в непосредственной близости от освещенных участков еще немного нагреваются и не запотевают."
+                            }
                         />
                         <Question
-                            question = "Aplicații și logotipuri color?"
-                            answer = "Da, folosim banda color care se lipește pe interior. Pentru un efect mai mare, instalam diode suplimentare care ilumineaza logotipul."
+                            question = 
+                            {
+                                lang == "ro" ?
+                                "Aplicații și logotipuri color?"
+                                :
+                                "Вы также применяете цветные логотипы?"
+                            }
+                            answer = 
+                            {
+                                lang == "ro" ?
+                                "Da, folosim banda color care se lipește pe interior. Pentru un efect mai mare, instalam diode suplimentare care ilumineaza logotipul."
+                                :
+                                "Да, мы используем цветной скотч, который наклеивается с внутренней стороны. Для большего эффекта устанавливаем дополнительные диоды, подсвечивающие логотип."
+                            }
                         />
                     </Paper>
 
                     <Paper>
                         <h4 className="text-type-dark text-sm-h4 md:text-md-h4 lg:text-lg-h4 font-medium mb-8">
-                            Garanție și servicii post-garanție
+                            {
+                                lang == "ro" ?
+                                "Garanție și servicii post-garanție"
+                                :
+                                "Гарантия"
+                            }
                         </h4>
 
                         <div className="w-full h-px bg-ui-blueishGrey"/>
                         <Question
-                            question = "Oferiti garantie?"
-                            answer = "Da, noi garantăm ca LED-urile, senzorul și transformatoarele vor functiona impecabil cel puțin 2 ani. Dacă sistemul de iluminare nu funcționează perfect, contactați-ne și acesta va fi înlocuit."
+                            question = 
+                            {
+                                lang == "ro" ?
+                                "Oferiti garantie?"
+                                :
+                                "Вы предлагаете гарантию?"
+                            }
+                            answer = 
+                            {
+                                lang == "ro" ?
+                                "Da, noi garantăm ca LED-urile, senzorul și transformatoarele vor functiona impecabil cel puțin 2 ani. Dacă sistemul de iluminare nu funcționează perfect, contactați-ne și acesta va fi înlocuit."
+                                :
+                                "Да, мы гарантируем, что светодиоды, датчик и трансформаторы будут безупречно работать как минимум 2 года. Если система освещения не работает идеально, свяжитесь с нами, и она будет заменена."
+                            }
                         />
                     </Paper>
                 </div>
@@ -135,69 +181,235 @@ export default function IntrebariFrecventeComponent ({lang}) {
                 <div className="w-full">
                     <Paper>
                         <h4 className="text-type-dark text-sm-h4 md:text-md-h4 lg:text-lg-h4 font-medium mb-8">
-                            Livrare și plată
+                            {
+                                lang == "ro" ?
+                                "Livrare și plată"
+                                :
+                                "Доставка и оплата"
+                            }
                         </h4>
 
                         <div className="w-full h-px bg-ui-blueishGrey"/>
                         <Question
-                            question = "Cât costă livrarea?"
-                            answer = "Livrăm comanda gratuit pe teritoriului Chișinău. Livrarea pe teritoriul Moldovei sau în altă țară este contra-cost, prețul se stabilește în dependență de greutatea oglinzii."
+                            question = 
+                            {
+                                lang == "ro" ?
+                                "Cât costă livrarea?"
+                                :
+                                "Сколько стоит доставка?"
+                            }
+                            answer = 
+                            {
+                                lang == "ro" ?
+                                "Livrăm comanda gratuit pe teritoriului Chișinău. Livrarea pe teritoriul Moldovei sau în altă țară este contra-cost, prețul se stabilește în dependență de greutatea oglinzii."
+                                :
+                                "Доставляем заказ бесплатно по Кишиневу. Доставка по территории Молдовы или в другую страну платная, цена устанавливается в зависимости от веса зеркала."
+                            }
                         />
                         <Question
-                            question = "Care sunt modalitățile de plata?"
-                            answer = "Pentru a achita produsele comandate aveți la dispoziție mai multe opțiuni: plata cu card bancar, transfer bancar sau plata ramburs (doar pentru produsele din categoria Livrare Express)."
+                            question =
+                            {
+                                lang == "ro" ?
+                                "Care sunt modalitățile de plata?"
+                                :
+                                "Какие существуют способы оплаты?."
+                            }
+                            answer = 
+                            {
+                                lang == "ro" ?
+                                "Pentru a achita produsele comandate aveți la dispoziție mai multe opțiuni: plata cu card bancar, transfer bancar sau plata ramburs (doar pentru produsele din categoria Livrare Express)."
+                                :
+                                "Для оплаты заказанных товаров у вас есть несколько вариантов: оплата банковской картой, банковский перевод или наложенный платеж (только для товаров категории Экспресс-доставка)."
+                            }
                         />
                         <Question
-                            question = "Este posibil achitare și în rate?"
-                            answer = "Aveți posibilitatea de a achiziționa oglinda în rate cu ajutorul companiei de creditare."
+                            question = 
+                            {
+                                lang == "ro" ?
+                                "Este posibil achitare și în rate?"
+                                :
+                                "Можно ли платить в рассрочку?"
+                            }
+                            answer = 
+                            {
+                                lang == "ro" ?
+                                "Aveți posibilitatea de a achiziționa oglinda în rate cu ajutorul companiei de creditare."
+                                :
+                                "Купить зеркало можно в рассрочку с помощью кредитной компании."
+                            }
                         />
                     </Paper>
 
                     <Paper>
                         <h4 className="text-type-dark text-sm-h4 md:text-md-h4 lg:text-lg-h4 font-medium mb-8">
-                            Întrebări tehnice
+                            {
+                                lang == "ro" ?
+                                "Întrebări tehnice"
+                                :
+                                "Технические вопросы"
+                            }
                         </h4>
 
                         <div className="w-full h-px bg-ui-blueishGrey"/>
                         <Question
-                            question = "Cum pot schimba dimensiunile oglinzii?"
-                            answer = "Pe site-ul nostru web, oferim clienților noștri o selecție mare de modele de oglinzi. Dar, puteți seta dimensiunea oglinzii dvs. și chiar dacă doriți, modificați ușor modelul și poziția desenului! Pe lângă modelele prezentate, la solicitarea dvs., suntem pregătiți să producem o oglindă de design individuală."
+                            question = 
+                            {
+                                lang == "ro" ?
+                                "Cum pot schimba dimensiunile oglinzii?"
+                                :
+                                "Как изменить размер зеркала?"
+                            }
+                            answer = 
+                            {
+                                lang == "ro" ?
+                                "Pe site-ul nostru web, oferim clienților noștri o selecție mare de modele de oglinzi. Dar, puteți seta dimensiunea oglinzii dvs. și chiar dacă doriți, modificați ușor modelul și poziția desenului! Pe lângă modelele prezentate, la solicitarea dvs., suntem pregătiți să producem o oglindă de design individuală."
+                                :
+                                "На нашем сайте мы предлагаем нашим покупателям большой выбор моделей зеркал. Но вы можете установить размер своего зеркала и даже при желании легко изменить узор и положение рисунка! Помимо представленных моделей, по вашему запросу мы готовы изготовить зеркало индивидуального дизайна."
+                            }
                         />
                         <Question
-                            question = "Ce să faceți dacă oglinda este deteriorată în timpul transportării?"
-                            answer = "Responsabilitatea pentru siguranța oglinzii în timpul livrării revine magazinului. Oglinzile noastre au ambalaje speciale pentru transportare care le protejează de posibile deteriorări în timpul livrării. Oglinzile mari sunt ambalate în ambalaj din lemn. Cu toate acestea, atunci când primiți o oglindă în serviciul de livrare, trebuie să vă asigurați că oglinda nu este deteriorată. Deschideți pachetul la primire și verificați oglinda."
+                            question = 
+                            {
+                                lang == "ro" ?
+                                "Ce să faceți dacă oglinda este deteriorată în timpul transportării?"
+                                :
+                                "Что делать, если зеркало было повреждено при транспортировке?."
+                            }
+                            answer = 
+                            {
+                                lang == "ro" ?
+                                "Responsabilitatea pentru siguranța oglinzii în timpul livrării revine magazinului. Oglinzile noastre au ambalaje speciale pentru transportare care le protejează de posibile deteriorări în timpul livrării. Oglinzile mari sunt ambalate în ambalaj din lemn. Cu toate acestea, atunci când primiți o oglindă în serviciul de livrare, trebuie să vă asigurați că oglinda nu este deteriorată. Deschideți pachetul la primire și verificați oglinda."
+                                :
+                                "Ответственность за сохранность зеркала при доставке лежит на магазине. Наши зеркала имеют специальную транспортную упаковку, которая защищает их от возможных повреждений при доставке. Большие зеркала упакованы в деревянную тару. Однако при получении зеркала в службе доставки нужно убедиться, что зеркало не повреждено. Откройте посылку при получении и проверьте зеркало."
+                            }
                         />
                         <Question
-                            question = "Cum se aprinde lumina?"
-                            answer = "Pe oglinzile cu iluminare montăm, de bază, întrerupător mecanic (în dependență de model, pentru unele modele trebuie strict prevăzut un întrerupator pe perete). Oferim posibilitatea să alegeți alt tip de întrerupator: buton touch, senzor de misșcare sau buton touch dublu. Indicați tipul de întrerupator ales în formularul de comanda."
+                            question = 
+                            {
+                                lang == "ro" ?
+                                "Cum se aprinde lumina?"
+                                :
+                                "Как включается свет?"
+                            }
+                            answer = 
+                            {
+                                lang == "ro" ?
+                                "Pe oglinzile cu iluminare montăm, de bază, întrerupător mecanic (în dependență de model, pentru unele modele trebuie strict prevăzut un întrerupator pe perete). Oferim posibilitatea să alegeți alt tip de întrerupator: buton touch, senzor de misșcare sau buton touch dublu. Indicați tipul de întrerupator ales în formularul de comanda."
+                                :
+                                "На зеркала с подсветкой монтируем, базовый, механический выключатель (в зависимости от модели, для некоторых моделей обязательно должен быть настенный выключатель). Мы предлагаем возможность выбора другого типа переключателя: сенсорная кнопка, датчик движения или кнопка двойного касания. Укажите выбранный тип переключателя в форме заказа."
+                            }
                         />
                         <Question
-                            question = "Care este temperatura de culoare a luminii?"
-                            answer = "Temperatura de culoare a luminii emanată de LED-uri este de 6000K. La dorință, puteți comanda o lumina cu nuanță mai caldă – 4000K. Puteți alege aceasta opțiune din pagina produsului."
+                            question = 
+                            {
+                                lang == "ro" ?
+                                "Care este temperatura de culoare a luminii?"
+                                :
+                                "Какая цветовая температура света?"
+                            }
+                            answer = 
+                            {
+                                lang == "ro" ?
+                                "Temperatura de culoare a luminii emanată de LED-uri este de 6000K. La dorință, puteți comanda o lumina cu nuanță mai caldă – 4000K. Puteți alege aceasta opțiune din pagina produsului."
+                                :
+                                "Цветовая температура света, излучаемого светодиодами, составляет 6000К. При желании можно заказать более теплый свет - 4000К. Вы можете выбрать этот вариант на странице продукта."
+                            }
                         />
                         <Question
-                            question = "Am nevoie de o oglinda de marime atipica. Mi-o puteti face?"
-                            answer = "Da, noi putem produce o oglinda de marime atipică, dacă aceasta nu depaseste 2,5 x 2,1 metri. De asemenea, producem oglinzi-mozaic dintr-un număr mare de elemente. Pentru a discuta comanda, vă rugăm să ne contactați."
+                            question = 
+                            {
+                                lang == "ro" ?
+                                "Am nevoie de o oglinda de marime atipica. Mi-o puteti face?"
+                                :
+                                "Мне нужно зеркало нестандартного размера. Ты можешь сделать это для меня?"
+                            }
+                            answer = 
+                            {
+                                lang == "ro" ?
+                                "Da, noi putem produce o oglinda de marime atipică, dacă aceasta nu depaseste 2,5 x 2,1 metri. De asemenea, producem oglinzi-mozaic dintr-un număr mare de elemente. Pentru a discuta comanda, vă rugăm să ne contactați."
+                                :
+                                "Да, мы можем изготовить зеркало нестандартного размера, если оно не превышает 2,5 х 2,1 метра. Также мы производим мозаичные зеркала из большого количества элементов. Для обсуждения заказа свяжитесь с нами."
+                            }
                         />
                         <Question
-                            question = "Ce grosime are oglinda?"
-                            answer = "Grosimea oglinzilor cu LED este de 25 mm, luand in calcul și carcasa pentru sistemul de iluminat."
+                            question = 
+                            {
+                                lang == "ro" ?
+                                "Ce grosime are oglinda?"
+                                :
+                                "Какая толщина у зеркала?"
+                            }
+                            answer = 
+                            {
+                                lang == "ro" ?
+                                "Grosimea oglinzilor cu LED este de 25 mm, luand in calcul și carcasa pentru sistemul de iluminat."
+                                :
+                                "Толщина светодиодных зеркал составляет 25 мм с учетом корпуса для системы освещения."
+                            }
                         />
                         <Question
-                            question = "Ramele sunt vopsite manual sau în camera de pulverizare?"
-                            answer = "Toate produsele sunt vopsite într-o cameră specială. Aceasta metoda asigura o suprafața uniformă, fără striații și rizuri."
+                            question = 
+                            {
+                                lang == "ro" ?
+                                "Ramele sunt vopsite manual sau în camera de pulverizare?"
+                                :
+                                "Рамы окрашиваются вручную или в распылительной камере?"
+                            }
+                            answer = 
+                            {
+                                lang == "ro" ?
+                                "Toate produsele sunt vopsite într-o cameră specială. Aceasta metoda asigura o suprafața uniformă, fără striații și rizuri."
+                                :
+                                "Все изделия расписываются в специальном помещении. Этот метод обеспечивает однородную поверхность без разводов и морщин."
+                            }
                         />
                         <Question
-                            question = "Ce culori sunt disponibile?"
-                            answer = "Pentru fiecare produs care poate avea rama colorata, pe site sunt afișate culorile disponibile. Daca doriti sa comandati o alta culoare decat cele prezentate, vă rugăm să ne contactați."
+                            question = 
+                            {
+                                lang == "ro" ?
+                                "Ce culori sunt disponibile?"
+                                :
+                                "Какие цвета доступны?"
+                            }
+                            answer = 
+                            {
+                                lang == "ro" ?
+                                "Pentru fiecare produs care poate avea rama colorata, pe site sunt afișate culorile disponibile. Daca doriti sa comandati o alta culoare decat cele prezentate, vă rugăm să ne contactați."
+                                :
+                                "Доступные цвета отображаются на сайте для каждого товара, который может иметь цветную рамку. Если вы хотите заказать цвет, отличный от представленных, свяжитесь с нами."
+                            }
                         />
                         <Question
-                            question = "Din ce sunt făcute ramele pentru oglindă?"
-                            answer = "În dependență de modelul oglinzii, ramele sunt produse din metal, plastic, lemn și mdf."
+                            question = 
+                            {
+                                lang == "ro" ?
+                                "Din ce sunt făcute ramele pentru oglindă?"
+                                :
+                                "Из чего сделаны зеркальные рамы?"
+                            }
+                            answer = 
+                            {
+                                lang == "ro" ?
+                                "În dependență de modelul oglinzii, ramele sunt produse din metal, plastic, lemn și mdf."
+                                :
+                                "В зависимости от модели зеркала рамы изготавливаются из металла, пластика, дерева и МДФ."
+                            }
                         />
                         <Question
-                            question = "În regiunea mea se produc cutremure de pământ. Oglinda nu va cădea?"
-                            answer = "Nu. Dacă veți instala oglinda drept, folosind toate piesele de fixare din set, oglinda va rămâne pe perete chiar și în cazul unor vibrații puternice."
+                            question = 
+                            {
+                                lang == "ro" ?
+                                "În regiunea mea se produc cutremure de pământ. Oglinda nu va cădea?"
+                                :
+                                "Землетрясения происходят в моем регионе. Зеркало не упадет?"
+                            }
+                            answer = 
+                            {
+                                lang == "ro" ?
+                                "Nu. Dacă veți instala oglinda drept, folosind toate piesele de fixare din set, oglinda va rămâne pe perete chiar și în cazul unor vibrații puternice."
+                                :
+                                "Нет. Если установить зеркало прямо, используя все приспособления в комплекте, зеркало останется на стене даже при сильных вибрациях."
+                            }
                         />
                     </Paper>
                 </div>

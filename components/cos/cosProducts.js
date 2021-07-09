@@ -545,7 +545,12 @@ export default function CosProducts({lang}){
                                                     return(
                                                         <div className="flex flex-row justify-between items-start mb-2">
                                                             <div className="max-w-130px">
-                                                                {addOn.name}
+                                                                {
+                                                                    lang == "ro" ?
+                                                                    addOn.name
+                                                                    :
+                                                                    addOn.nameru
+                                                                }
                                                             </div>
                                                             <div>
                                                                 {addOn.price} 
@@ -695,7 +700,7 @@ export default function CosProducts({lang}){
                                                             lang == "ro" ?
                                                             "Optiuni"
                                                             :
-                                                            "Дополнительные опции"
+                                                            "Опции"
                                                         }
                                                     </div>
                                                     <div>

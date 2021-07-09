@@ -45,6 +45,7 @@ export default function DropdownProduct(props) {
     }
 
     const onSubmit = (data) => {
+        console.log(data)
         if(lastChosen === 0){
             props.setPrice(Math.trunc( props.price + ( getPrice(props.productData, data) * (1 + props.coeficientFinder(data))) - props.initialPrice))
             setLastChosen("custom")
@@ -177,6 +178,7 @@ export default function DropdownProduct(props) {
                                         placeholder={props.sizeGlobal.height}
                                         {...register("height", { min: props.minHeight, max: props.maxHeight, valueAsNumber : true , required : true})}
                                         onChange={(e) => handleChange(e)}
+                                        // onBlur={handleSubmit(onSubmit)}
                                     />
                                     <span className="text-ui-black font-medium">
                                         mm
@@ -221,6 +223,7 @@ export default function DropdownProduct(props) {
                                         placeholder={props.sizeGlobal.width}
                                         {...register("width", { min: props.minWidth, max: props.maxWidth, valueAsNumber : true , required : true})}
                                         onChange={(e) => handleChange(e)}
+                                        // onBlur={handleSubmit(onSubmit)}
                                     />
 
                                     <span className="text-ui-black font-medium">
