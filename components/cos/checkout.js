@@ -341,7 +341,7 @@ export default function Checkout({lang}) {
             <form className={`w-full h-auto px-container-sm md:px-container-md lg:px-container-lg xl:px-container-xl pt-128px md:pt-136px lg:pt-234px pb-120px font-Ubuntu bg-ui-darkGrey ${popupOpen ? "filter brightness-50" : ""} transition duration-300`}>
 
                 <div className="flex flex-row justify-start items-center text-lg-14 font-normal text-type-manatee w-auto mb-8 md:mb-12">
-                    <Link href="/">
+                    <Link href={lang == "ro" ? "/" : "/ru"}>
                         <a>
                             <span className="mr-1 hover:underline transition duration-300">
                                 {
@@ -356,7 +356,7 @@ export default function Checkout({lang}) {
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
-                    <Link href="/cos">
+                    <Link href={lang == "ro" ? "/cos" : "/ru/cos"}>
                         <a>
                             <span className="mr-1 hover:underline transition duration-300">
                                 {
@@ -768,7 +768,7 @@ export default function Checkout({lang}) {
                         </div>
                         <input
                             className={`w-full p-3 text-type-manatee flex flex-row justify-between items-center text-lg-14 border-1.5px border-ui-blueishGrey rounded-md ${errors.adresa? "errorInput" : "inputFocused"}`}
-                            placeholder="Ex : str. Calea Moșilor 9/1 etaj. 2"
+                            placeholder="Ex : str. Ismail 98"
                             {...register("adresa", { required: step == 2 ? true : false })}
                         />
                         {errors.adresa?.type === 'required' && 
@@ -887,7 +887,12 @@ export default function Checkout({lang}) {
                                     </div>
                                     <div className="">
                                         <div className="text-lg-17 text-type-dark mb-10px font-medium">
-                                            {product.product.name}
+                                            {
+                                                lang == "ro" ?
+                                                product.product.name
+                                                :
+                                                product.product.nameru
+                                            }
                                         </div>
                                         <div className="text-lg-14 text-accent-accent">
                                             {product.number + " x " + priceSingular + " lei"}
@@ -908,7 +913,12 @@ export default function Checkout({lang}) {
                                     }
                                 </div>
                                 <div className="text-type-manatee w-full">
-                                    {priceTotal + " lei"}
+                                    {
+                                        lang == "ro" ?
+                                        priceTotal + " lei"
+                                        :
+                                        priceTotal + " лей"
+                                    }
                                 </div>
                             </div>
 

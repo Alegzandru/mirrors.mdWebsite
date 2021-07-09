@@ -23,6 +23,11 @@
     -webkit-text-stroke-color: white;
 }
 
+.withStrokeSmall{
+    -webkit-text-stroke-width: 0.1px;
+    -webkit-text-stroke-color: white;
+}
+
 .bgFilter{
     backdrop-filter: brightness(50%);
     -webkit-backdrop-filter : brightness(50%);

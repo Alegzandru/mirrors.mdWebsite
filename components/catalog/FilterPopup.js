@@ -45,6 +45,8 @@ export default function FilterPopup (props) {
                             active={props.activeFilters[index].active}
                             handleSubmit={props.handleSubmit}
                             onSubmit={props.onSubmit}
+                            lang={props.lang}
+                            nameru={props.optiuniRu[index]}
                         ></Dropdown>
                     )}
 

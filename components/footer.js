@@ -38,12 +38,17 @@ export default function Footer (props) {
                         {
                             props.categories.map((category, index) => 
                                 <Link 
-                                    href={`/${category.slug}`}
+                                    href={props.lang == "ro" ? `/${category.slug}` : `/ru/${category.slug}`}
                                     key={index}
                                 >
                                     <a>
                                         <li className="mb-4 hover:text-ui-darkGrey hover:underline transition duration-300">
-                                            {category.name}
+                                            {
+                                                props.lang == "ro" ?
+                                                category.name
+                                                :
+                                                category.nameru
+                                            }
                                         </li>
                                     </a>
                                 </Link>
@@ -62,7 +67,7 @@ export default function Footer (props) {
                     </div>
 
                     <ul className="text-lg-14 mt-8">
-                        <Link href="/">
+                        <Link href={props.lang == "ro" ? "/" : "/ru"}>
                             <a>
                                 <li className="mb-4 hover:text-ui-darkGrey hover:underline transition duration-300">
                                     {
@@ -74,7 +79,7 @@ export default function Footer (props) {
                                 </li>
                             </a>
                         </Link>
-                        <Link href="/contacte">
+                        <Link href={props.lang == "ro" ? "/contacte" : "/ru/contacte"}>
                             <a>
                                 <li className="mb-4 hover:text-ui-darkGrey hover:underline transition duration-300">
                                     {   
@@ -86,7 +91,7 @@ export default function Footer (props) {
                                 </li>
                             </a>
                         </Link>
-                        <Link href="/galerie">
+                        <Link href={props.lang == "ro" ? "/galerie" : "/ru/galerie"}>
                             <a>
                                 <li className="mb-4 hover:text-ui-darkGrey hover:underline transition duration-300">
                                     {
@@ -98,7 +103,7 @@ export default function Footer (props) {
                                 </li>
                             </a>
                         </Link>
-                        <Link href="/intrebari-frecvente">
+                        <Link href={props.lang == "ro" ? "/intrebari-frecvente" : "/ru/intrebari-frecvente"}>
                             <a>
                                 <li className="mb-4 hover:text-ui-darkGrey hover:underline transition duration-300">
                                     {   
@@ -110,7 +115,7 @@ export default function Footer (props) {
                                 </li>
                             </a>
                         </Link>
-                        <Link href="/termeni">
+                        <Link href={props.lang == "ro" ? "/termeni" : "/ru/termeni"}>
                             <a>
                                 <li className="mb-4 hover:text-ui-darkGrey hover:underline transition duration-300">
                                     {   
@@ -155,6 +160,15 @@ export default function Footer (props) {
                                     :
                                     "ул. Ismail 98"
                                 }
+                            </li>
+                        </a>
+                        <a href="mailto:spmirrors@gmail.com" target="blank">
+                            <li className="mb-4 flex flex-row justify-start items-center hover:text-ui-darkGrey hover:underline transition duration-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
+                                </svg>
+
+                                spmirrors@gmail.com
                             </li>
                         </a>
                     </ul>
@@ -202,7 +216,12 @@ export default function Footer (props) {
                                 >
                                     <a>
                                         <li className="mb-4">
-                                            {category.name}
+                                            {
+                                                props.lang == "ro" ?
+                                                category.name
+                                                :
+                                                category.nameru
+                                            }
                                         </li>
                                     </a>
                                 </Link>
@@ -221,7 +240,7 @@ export default function Footer (props) {
                     </div>
 
                     <ul className="text-lg-14 mt-8">
-                        <Link href="/">
+                        <Link href={props.lang == "ro" ? "/" : "/ru"}>
                             <a>
                                 <li className="mb-4">
                                     {
@@ -233,7 +252,7 @@ export default function Footer (props) {
                                 </li>
                             </a>
                         </Link>
-                        <Link href="/contacte">
+                        <Link href={props.lang == "ro" ? "/contacte" : "/ru/contacte"}>
                             <a>
                                 <li className="mb-4">
                                     {   
@@ -245,7 +264,7 @@ export default function Footer (props) {
                                 </li>
                             </a>
                         </Link>
-                        <Link href="/galeria">
+                        <Link href={props.lang == "ro" ? "/galerie" : "/ru/galerie"}>
                             <a>
                                 <li className="mb-4">
                                     {
@@ -257,7 +276,7 @@ export default function Footer (props) {
                                 </li>
                             </a>
                         </Link>
-                        <Link href="/intrebari-frecvente">
+                        <Link href={props.lang == "ro" ? "/intrebari-frecvente" : "/ru/intrebari-frecvente"}>
                             <a>
                                 <li className="mb-4">
                                     {   
@@ -269,7 +288,7 @@ export default function Footer (props) {
                                 </li>
                             </a>
                         </Link>
-                        <Link href="/termeni">
+                        <Link href={props.lang == "ro" ? "/termeni" : "/ru/termeni"}>
                             <a>
                                 <li className="mb-4">
                                     {   
@@ -294,24 +313,37 @@ export default function Footer (props) {
                     </div>
                     
                     <ul className="text-lg-14 mt-8">
-                        <li className="mb-4 flex flex-row justify-start items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                            </svg>
-                            +373 69 482 034
-                        </li>
-                        <li className="mb-4 flex flex-row justify-start items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                            </svg>
-                            {   
-                                props.lang == "ro" ?
-                                "str. Ismail 98"
-                                :
-                                "ул. Ismail 98"
-                            }
-                        </li>
+                        <a href="tel:37369482034" target="blank">
+                            <li className="mb-4 flex flex-row justify-start items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                                </svg>
+                                +373 69 482 034
+                            </li>
+                        </a>
+                        <a href="https://goo.gl/maps/Cr1ju6WohV8NYeYf6" target="blank">
+                            <li className="mb-4 flex flex-row justify-start items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                                {   
+                                    props.lang == "ro" ?
+                                    "str. Ismail 98"
+                                    :
+                                    "ул. Ismail 98"
+                                }
+                            </li>
+                        </a>
+                        <a href="mailto:spmirrors@gmail.com" target="blank">
+                            <li className="mb-4 flex flex-row justify-start items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
+                                </svg>
+
+                                spmirrors@gmail.com
+                            </li>
+                        </a>
                     </ul>
                 </div>
             </div>

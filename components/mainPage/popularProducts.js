@@ -71,7 +71,7 @@ export default function PopularProducts(props){
                     }
                 </p>
 
-                <Link href="/oglinzi">
+                <Link href={props.lang == "ro" ? "/oglinzi" : "/ru/oglinzi"}>
                     <a>
                         <div className="hidden w-238px h-12 md:flex flex-row justify-center items-center text-ui-white mt-12 rounded-lg font-medium bg-accent-accent hover:bg-accent-light transition duration-300">
                             {
@@ -105,7 +105,7 @@ export default function PopularProducts(props){
                     {props.products.map((product, index) => {
                             return (
                                 index < 6 &&
-                                <Link href={`produse/${product.slug}`}>
+                                <Link href={props.lang == "ro" ? `/produse/${product.slug}` : `/ru/produse/${product.slug}`}>
                                     <a>
                                         <div key={index} className="h-352px md:h-481px">
                                             <div className="h-296px md:h-425px bg-ui-white rounded-xl mb-4 mr-4 ml-4 md:ml-4 md:mr-0 flex-grow p-5 border-2 border-transparent hover:border-accent-accent transition duration-300 group">
@@ -118,7 +118,12 @@ export default function PopularProducts(props){
                                                     />
                                                 </div>
                                                 <div className="text-sm-card-name md:text-lg-card-name-bold text-type-dark mt-6 md:mt-8 font-medium">
-                                                    {product.name}
+                                                    {
+                                                        props.lang == "ro" ?
+                                                        product.name
+                                                        :
+                                                        product.nameru
+                                                    }
                                                 </div>
                                                 <div className="text-sm-p md:text-lg-p text-type-manatee font-normal mt-2">
                                                     Seria Juergen LED
@@ -147,7 +152,7 @@ export default function PopularProducts(props){
                 </Carousel>
             </div>
             <div className="md:hidden px-container-sm block w-full">
-                <Link href="/oglinzi">
+                <Link href={props.lang == "ro" ? "/oglinzi" : "/ru/oglinzi"}>
                     <a>
                         <div className="w-full h-12 flex flex-row justify-center items-center bg-accent-accent mt-8 text-ui-white rounded-lg focus:bg-accent-light">
                             {

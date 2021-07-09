@@ -4,7 +4,7 @@ import RecentProducts from "../multiPage/recentProducts"
 import { DeviceTypeContext, SeenRecentlyContext } from "../../components/context";
 import { useContext, useEffect, useState } from "react";
 
-export default function ProductPage ({deviceType, name, price, images, description, category, options, optionVariants, productData, optionsRaw, lang}) {
+export default function ProductPage ({deviceType, name, price, images, description, category, options, optionVariants, productData, optionsRaw, lang, nameru, optionsRu}) {
 
     const {seenRecently, setSeenRecently} = useContext(SeenRecentlyContext)
     const [contor, setContor] = useState(productData[0].name)
@@ -44,12 +44,14 @@ export default function ProductPage ({deviceType, name, price, images, descripti
                 options={options} 
                 optionVariants={optionVariants}
                 name={name}
+                nameru={nameru}
                 price={price}
                 images={images}
                 category={category}
                 productData={productData}
                 optionsRaw={optionsRaw}
                 lang={lang}
+                optionsRu={optionsRu}
             />
             <ProductDescription 
                 deviceType={deviceType} 
@@ -57,6 +59,7 @@ export default function ProductPage ({deviceType, name, price, images, descripti
                 options={options} 
                 optionVariants={optionVariants}
                 name={name}
+                nameru={nameru}
                 description={description}
                 productData={productData}
                 lang={lang}

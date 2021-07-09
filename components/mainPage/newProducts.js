@@ -85,7 +85,7 @@ export default function NewProducts(props) {
                     {props.products.map((product, index) => {
                         return (
                             index < 15 &&
-                            <Link href={`produse/${product.slug}`}>
+                            <Link href={props.lang == "ro" ? `/produse/${product.slug}` : `/ru/produse/${product.slug}`}>
                                 <a>
                                     <div key={index} className="h-auto w-full px-container-sm md:px-0">
                                         <div className="h-296px md:h-425px bg-ui-white rounded-xl md:ml-4 md:mr-0 p-5 border-2 border-transparent hover:border-accent-accent transition duration-300 group">
@@ -98,7 +98,12 @@ export default function NewProducts(props) {
                                                 />
                                             </div>
                                             <div className="text-sm-card-name md:text-lg-card-name-bold text-type-dark mt-6 md:mt-8 font-medium">
-                                                {product.name}
+                                                {
+                                                    props.lang == "ro" ?
+                                                    product.name
+                                                    :
+                                                    product.nameru
+                                                }
                                             </div>
                                             <div className="text-sm-p md:text-lg-p text-type-manatee font-normal mt-2">
                                                 Seria Juergen LED
@@ -127,7 +132,7 @@ export default function NewProducts(props) {
                 </Carousel>
             </div>
 
-            <Link href="/oglinzi">
+            <Link href={props.lang == "ro" ? "/oglinzi" : "/ru/oglinzi"}>
                 <a>
                     <div className="hidden mx-auto md:mt-40px lg:mt-72px w-234px h-48px rounded-lg text-lg-button md:text-sm-button font-bold bg-accent-accent text-ui-white md:flex flex-row justify-center items-center  border-2 border-transparent hover:bg-accent-light transition duration-300">
                         {
@@ -141,7 +146,7 @@ export default function NewProducts(props) {
             </Link>
 
             <div className="mx-container-sm">
-                <Link href="/oglinzi">
+                <Link href={props.lang == "ro" ? "/oglinzi" : "/ru/oglinzi"}>
                     <a>
                         <div className="text-sm-button mx-auto mt-12 w-full h-48px rounded-lg bg-accent-accent text-ui-white md:hidden flex flex-row justify-center items-center">
                             {

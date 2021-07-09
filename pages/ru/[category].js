@@ -5,12 +5,13 @@ import {API_URL} from "../../utils/urls"
 export default function Catalog ({category, products}) {
 
     return (
-        <Layout lang="ru">
+        <Layout lang="ru" category={category[0].slug}>
             <Category 
-                lang="ru"
                 category={category}
                 name={category[0].name}
                 products={products}
+                lang="ru"
+                nameru={category[0].nameru}
             >
             </Category>
         </Layout>  
@@ -29,7 +30,8 @@ export async function getStaticProps ({params}){
             category : category,
             products : products,
             key: category[0].id
-        }
+        },
+        revalidate : 10
     }
 }
 

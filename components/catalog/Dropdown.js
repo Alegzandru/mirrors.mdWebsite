@@ -38,7 +38,11 @@ export default function Dropdown (props) {
             >
                 <div className="flex flex-row justify-start items-center">
                     <div className={`h-10px w-10px mr-10px ${props.active == true ? "block" : "hidden"} bg-accent-accent rounded-full`}/>
-                    {props.name}
+                    {
+                        props.lang == "ro" ?
+                        props.name:
+                        props.nameru
+                    }
                 </div>
 
                 <svg xmlns="http://www.w3.org/2000/svg" className={`${open ? "hidden" : "block"} h-20px w-20px group-hover:text-type-manatee text-ui-blueishGrey transition duration-300`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -67,7 +71,12 @@ export default function Dropdown (props) {
                             value={option.value}
                             className="mr-3"
                         />
-                        {option.value}
+                        {
+                            props.lang == "ro" ?
+                            option.value
+                            :
+                            option.valueru
+                        }
                     </label>
                 )}
             </div>

@@ -6,7 +6,7 @@ export default function IntrebariFrecventeComponent ({lang}) {
     return (
         <div className="w-full h-auto px-container-sm md:px-container-md lg:px-container-lg xl:px-container-xl pt-128px md:pt-136px lg:pt-234px pb-120px font-Ubuntu bg-ui-darkGrey">
             <div className="flex flex-row justify-start items-center text-lg-14 font-normal text-type-manatee w-auto mb-4 md:mb-8">
-                <Link href="/">
+                <Link href={lang == "ro" ? "/" : "/ru"}>
                     <a>
                         <span className="mr-1 hover:underline transition duration-300">
                             {

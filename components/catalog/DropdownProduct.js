@@ -170,7 +170,9 @@ export default function DropdownProduct(props) {
                         <form className={`flex flex-row justify-start items-center ${openCustom ? "block" : "hidden"} mt-4`}>
                             <div className="mr-4">
                                 <div className="text-type-grey text-lg-12 mb-2">
-                                    <span className="text-type-manatee text-lg-14 font-medium">Înălțime</span>
+                                    <span className="text-type-manatee text-lg-14 font-medium">
+                                        Înălțime
+                                    </span>
                                 </div>
                                 <div className="flex flex-row justify-start items-center text-lg-17">
                                     <input
@@ -194,7 +196,9 @@ export default function DropdownProduct(props) {
 
                             <div className="ml-4">
                                 <div className="text-type-grey text-lg-12 mb-2">
-                                    <span className="text-type-manatee text-lg-14 font-medium">Lățime</span>
+                                    <span className="text-type-manatee text-lg-14 font-medium">
+                                        Lățime
+                                    </span>
                                 </div>
                                 <div className="flex flex-row justify-start items-center text-lg-17">
                                     <input
@@ -260,7 +264,13 @@ export default function DropdownProduct(props) {
                             </div>
                         </div>
                         <div className="md:w-200px text-lg-14 font-medium">
-                            {option.price} lei
+                            {option.price} 
+                            {
+                                lang == "ro" ?
+                                " lei"
+                                :
+                                " лей"
+                            }
                         </div>
                     </label>
                     <div className={`${props.options.length != 1 ? chosen == option.typename ? "block" : "hidden" : checked ? "block" : "hidden"} text-type-grey text-lg-12 pl-34px pb-14px max-w-4xl`}>

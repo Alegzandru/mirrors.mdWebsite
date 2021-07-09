@@ -6,7 +6,7 @@ import "react-awesome-lightbox/build/style.css";
 import { DeviceTypeContext } from "../context";
 import Link from "next/link"
 
-export default function ProductDescription ({options, optionVariants, images, name ,description, productData, lang}) {
+export default function ProductDescription ({options, optionVariants, images, name ,description, productData, lang, nameru}) {
     
     const {deviceType, setDeviceType} = useContext(DeviceTypeContext)
     
@@ -94,7 +94,12 @@ export default function ProductDescription ({options, optionVariants, images, na
 
             <div className={`${page == 0 ? "block" : "hidden"} w-full lg:px-300px pb-10`}>
                 <h4 className="text-type-dark text-sm-h4 md:text-md-h4 lg:text-lg-h4 mb-10">
-                    {name}
+                    {
+                        lang=="ro" ?
+                        name
+                        :
+                        nameru
+                    }
                 </h4>
 
                 <pre 
@@ -163,7 +168,7 @@ export default function ProductDescription ({options, optionVariants, images, na
                             return (
                             deviceType == "desktop" ?
                                 index < 4 &&
-                                <Link href={`/produse/${product.slug}`}>
+                                <Link href={lang == "ro" ? `/produse/${product.slug}` : `/ru/produse/${product.slug}`}>
                                     <a className="w-full mx-1">
                                         <div className=" bg-ui-white rounded-lg border border-ui-darkGrey w-full px-5 py-10px hover:shadow-md transition duration-300">
                                             <div className="w-full h-92px md:h-204px relative mb-6 rounded-lg overflow-hidden">
@@ -174,7 +179,12 @@ export default function ProductDescription ({options, optionVariants, images, na
                                                 />
                                             </div>
                                             <div className="w-full text-center text-lg-card-name text-type-dark mb-1">
-                                                {product.name}
+                                                {   
+                                                    lang == "ro" ?
+                                                    product.name
+                                                    :
+                                                    product.nameru
+                                                }
                                             </div>
                                             {/* <div className="text-card-description text-type-grey w-full text-center">
                                                 {Math.trunc(product.defaultsize.width * product.defaultsize.height / 1000000 * product.m2price * (1 + coeficientFinder(product.defaultsize)))}
@@ -185,7 +195,7 @@ export default function ProductDescription ({options, optionVariants, images, na
                             :
                             deviceType == "tablet" ?
                                 index < 3 &&
-                                <Link href={`/produse/${product.slug}`}>
+                                <Link href={lang == "ro" ? `/produse/${product.slug}` : `/ru/produse/${product.slug}`}>
                                     <a className="w-full mx-1">
                                         <div className=" bg-ui-white rounded-lg border border-ui-darkGrey w-full px-5 py-10px hover:shadow-md transition duration-300">
                                             <div className="w-full h-92px md:h-204px relative mb-6 rounded-lg overflow-hidden">
@@ -196,7 +206,12 @@ export default function ProductDescription ({options, optionVariants, images, na
                                                 />
                                             </div>
                                             <div className="w-full text-center text-lg-card-name text-type-dark mb-1">
-                                                {product.name}
+                                                {
+                                                    lang == "ro" ?
+                                                    product.name
+                                                    :
+                                                    product.nameru
+                                                }
                                             </div>
                                             {/* <div className="text-card-description text-type-grey w-full text-center">
                                                 {Math.trunc(product.defaultsize.width * product.defaultsize.height / 1000000 * product.m2price * (1 + coeficientFinder(product.defaultsize)))}
@@ -207,7 +222,7 @@ export default function ProductDescription ({options, optionVariants, images, na
                             :
                             deviceType == "mobile" ?
                                 index < 2 &&
-                                <Link href={`/produse/${product.slug}`}>
+                                <Link href={lang == "ro" ? `/produse/${product.slug}` : `/ru/produse/${product.slug}`}>
                                     <a className="w-full mx-1">
                                         <div className=" bg-ui-white rounded-lg border border-ui-darkGrey w-full px-5 py-10px mx-1 hover:shadow-md transition duration-300 min-h-216px">
                                         <div className="w-full h-92px md:h-204px relative mb-6 rounded-lg overflow-hidden">
@@ -218,7 +233,12 @@ export default function ProductDescription ({options, optionVariants, images, na
                                             />
                                         </div>
                                         <div className="w-full text-center text-lg-card-name text-type-dark mb-1">
-                                            {product.name}
+                                            {
+                                                lang == "ro" ?
+                                                product.name
+                                                :
+                                                product.nameru
+                                            }
                                         </div>
                                         {/* <div className="text-card-description text-type-grey w-full text-center">
                                             {Math.trunc(product.defaultsize.width * product.defaultsize.height / 1000000 * product.m2price * (1 + coeficientFinder(product.defaultsize)))}
@@ -228,7 +248,7 @@ export default function ProductDescription ({options, optionVariants, images, na
                                 </Link>
                             :
                                 index < 2 &&
-                                <Link href={`/produse/${product.slug}`}>
+                                <Link href={lang == "ro" ? `/produse/${product.slug}` : `/ru/produse/${product.slug}`}>
                                     <a className="w-full mx-1">
                                         <div className=" bg-ui-white rounded-lg border border-ui-darkGrey w-full px-5 py-10px mx-1 hover:shadow-md transition duration-300">
                                         <div className="w-full h-92px md:h-204px relative mb-6 rounded-lg overflow-hidden">
@@ -239,7 +259,12 @@ export default function ProductDescription ({options, optionVariants, images, na
                                             />
                                         </div>
                                         <div className="w-full text-center text-lg-card-name text-type-dark mb-1">
-                                            {product.name}
+                                            {
+                                                lang == "ro" ?
+                                                product.name
+                                                :
+                                                product.nameru
+                                            }
                                         </div>
                                         {/* <div className="text-card-description text-type-grey w-full text-center">
                                             {Math.trunc(product.defaultsize.width * product.defaultsize.height / 1000000 * product.m2price * (1 + coeficientFinder(product.defaultsize)))}

@@ -9,7 +9,7 @@ import Link from "next/link"
 import { useForm } from "react-hook-form";
 
 
-export default function Category({category, name, products, lang}) {
+export default function Category({category, name, products, lang, nameru}) {
 
     const [productsApi, setProductsApi] = useState(products)
 
@@ -26,6 +26,10 @@ export default function Category({category, name, products, lang}) {
     
     const optionNamesUnfiltered = category[0].filters.map((option) => {
         return option.name
+    })
+
+    const optionNamesUnfilteredRu = category[0].filters.map((option) => {
+        return option.nameru
     })
     
     function getPrice(product, size) {
@@ -57,6 +61,7 @@ export default function Category({category, name, products, lang}) {
     }
     
     const optionNames = uniq(optionNamesUnfiltered)
+    const optionNamesRu = uniq(optionNamesUnfilteredRu)
     
     const pages = Math.trunc(productsApi.length / 32) + 1
     
@@ -216,13 +221,14 @@ export default function Category({category, name, products, lang}) {
                     reset={reset}
                     activeFilters={activeFilters}
                     lang={lang}
+                    optiuniRu={optionNamesRu}
             ></FilterPopup>
             <div className={`w-full h-auto px-container-sm md:px-container-md lg:px-container-lg xl:px-container-xl pt-128px md:pt-136px lg:pt-234px pb-120px font-Ubuntu bg-ui-darkGrey ${openFilters ? "hidden" : "block"}`}>
                 <div 
                     className="flex flex-row justify-start items-center text-lg-14 font-normal text-type-manatee w-auto mb-4 md:mb-8"
                     name="top"
                 >
-                    <Link href="/">
+                    <Link href={lang == "ro" ? "/" : "/ru"}>
                         <a>
                             <span className="mr-1 hover:underline transition duration-300">
                                 {
@@ -238,7 +244,12 @@ export default function Category({category, name, products, lang}) {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
                     <span>
-                        {name}
+                        {
+                            lang == "ro" ?
+                            name
+                            :
+                            nameru
+                        }
                     </span>
                 </div>
 
@@ -246,7 +257,12 @@ export default function Category({category, name, products, lang}) {
                     className="flex flex-row justify-between items-end mb-2 md:mb-3"
                 >
                     <h2 className="text-sm-h2 md:text-md-h3 lg:text-lg-h2 text-accent-text2 font-bold text-shadow-text2">
-                        {name}
+                        {
+                            lang == "ro" ?
+                            name
+                            :
+                            nameru
+                        }
                     </h2>
 
                     <div className="w-190px bg-accent-transparent text-accent-dark rounded-xl h-9 flex-row justify-between items-center pr-6 pl-4 hidden smCatalog:flex">
@@ -300,6 +316,8 @@ export default function Category({category, name, products, lang}) {
                                         active={activeFilters[index].active}
                                         handleSubmit={handleSubmit}
                                         onSubmit={onSubmit}
+                                        nameru={optionNamesRu[index]}
+                                        lang={lang}
                                     ></Dropdown>
                                 </div>
                             )
@@ -336,6 +354,7 @@ export default function Category({category, name, products, lang}) {
                             options={sortingOptions} 
                             handleChange={handleSortingChange} 
                             chosen={sorting}
+                            lang={lang}
                         ></Dropdown2>
                     </div>
 
@@ -378,7 +397,7 @@ export default function Category({category, name, products, lang}) {
                         {productsApi.slice(showFrom*showNr, showFrom*showNr + showNr).map((product, index) => {
                             return (
                                 <div key={index} className="h-auto w-full col-span-12 smCatalog:col-span-6 md:col-span-4 lg:col-span-3">
-                                    <Link href={`/produse/${product.slug}`}>
+                                    <Link href={lang == "ro" ? `/produse/${product.slug}` : `/ru/produse/${product.slug}`}>
                                         <a>
                                             <div className="h-296px md:h-425px bg-ui-white rounded-xl p-5 border-2 border-transparent hover:border-accent-accent transition duration-300 group">
                                                 <div className="w-auto h-156px md:h-245px relative rounded-lg overflow-hidden transform group-hover:scale-105 transition duration-300">
@@ -390,13 +409,30 @@ export default function Category({category, name, products, lang}) {
                                                     />
                                                 </div>
                                                 <div className="text-sm-card-name md:text-lg-card-name-bold text-type-dark mt-6 md:mt-8 font-medium">
-                                                    {product.name}
+                                                    {
+                                                        lang == "ro" ?
+                                                        product.name
+                                                        :
+                                                        product.nameru
+                                                    }
                                                 </div>
                                                 <div className="text-sm-p md:text-lg-p text-type-manatee font-normal mt-2">
                                                     Seria Juergen LED
                                                 </div>
                                                 <div className="text-sm-button md:text-lg-17 text-accent-accent font-medium mt-4 md:mt-6">
-                                                    de la {Math.trunc( getPrice(product, product.defaultsize) * (1 + product.smallcoeficient) ) } lei
+                                                    {
+                                                        lang == "ro" ?
+                                                        "de la "
+                                                        :
+                                                        "от "
+                                                    }
+                                                    {Math.trunc( getPrice(product, product.defaultsize) * (1 + product.smallcoeficient) ) } 
+                                                    {
+                                                        lang == "ro" ?
+                                                        " lei"
+                                                        :
+                                                        " лей"
+                                                    }
                                                 </div>
                                             </div>
                                         </a>

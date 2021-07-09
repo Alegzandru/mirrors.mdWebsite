@@ -12,9 +12,11 @@ import Scroll from 'react-scroll';
 
 var Element = Scroll.Element;
 
-export default function ProductComponent ({deviceType, name, images, options, optionVariants, productData, optionsRaw, lang}) {
+export default function ProductComponent ({deviceType, name, images, options, optionVariants, productData, optionsRaw, lang, nameru, optionsRu}) {
 
     const router = useRouter()
+    console.log(options)
+    console.log(optionsRu)
 
     function getPrice(product, size) {
         let price = 0
@@ -439,10 +441,15 @@ export default function ProductComponent ({deviceType, name, images, options, op
     return (
         <div className="w-full h-auto px-container-sm md:px-container-md lg:px-container-lg xl:px-container-xl pt-128px md:pt-136px lg:pt-234px pb-88px md:pb-120px font-Ubuntu bg-ui-darkGrey">
             <div className="flex flex-row justify-start items-center text-lg-14 font-normal text-type-manatee w-auto mb-6">
-                <Link href="/">
+                <Link href={lang == "ro" ? "/" : "/ru"}>
                     <a>
                         <span className="mr-1 hover:underline transition duration-300">
-                            Pagina principală
+                            {
+                                lang == "ro" ?
+                                "Pagina principală"
+                                :
+                                "Главная страница"
+                            }
                         </span>
                     </a>
                 </Link>
@@ -451,10 +458,15 @@ export default function ProductComponent ({deviceType, name, images, options, op
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
 
-                <Link href={`/${productData[0].category.slug}`}>
+                <Link href={lang == "ro" ? `/${productData[0].category.slug}` : `/ru/${productData[0].category.slug}`}>
                     <a>
                         <span className="mr-1">
-                            {productData[0].category.name}
+                            {
+                                lang=="ro" ?
+                                productData[0].category.name
+                                :
+                                productData[0].category.nameru
+                            }
                         </span>
                     </a>
                 </Link>
@@ -464,7 +476,12 @@ export default function ProductComponent ({deviceType, name, images, options, op
                 </svg>
 
                 <span>
-                    {name}
+                    {
+                        lang=="ro" ?
+                        name
+                        :
+                        nameru
+                    }
                 </span>
             </div>
 
@@ -510,12 +527,14 @@ export default function ProductComponent ({deviceType, name, images, options, op
                 <div className="w-full lg:w-408px bg-ui-white py-56px px-2 md:px-8">
                     <DropdownProduct2
                         name={"Dimensiuni recomandate"}
+                        nameru={"Рекомендуемые размеры"}
                         options={productData[0].linkedsizes.map((size, index) => {
                             return (
                                 {
                                     height : size.height,
                                     width : size.width,
                                     typename : size.name,
+                                    typenameru : size.name,
                                     price : Math.trunc(getPrice(productData[0], size) * ( 1 + coeficientFinder(size)))
                                 }
                             )
@@ -533,16 +552,28 @@ export default function ProductComponent ({deviceType, name, images, options, op
                         coeficientFinder={coeficientFinder}
                         productData={productData[0]}
                         lang={lang}
+                        optionsRaw={optionsRaw}
                     />
                 </div>
 
                 <div className="w-full lg:w-544px pt-6 lg:pt-72px pb-16 px-2 md:px-6 lg:px-8 bg-ui-white lg:bg-ui-grey relative h-full">
                     <h2 className="text-sm-h2 md:text-md-h2 lg:text-lg-h2 text-type-dark font-bold mb-5">
-                        {name}
+                        {
+                            lang=="ro" ?
+                            name
+                            :
+                            nameru
+                        }
                     </h2>
 
                     <div className="text-lg-32 text-accent-accent mb-12">
-                        {price} Lei
+                        {price} 
+                        {
+                            lang == "ro" ?
+                            " Lei"
+                            :
+                            " Лей"
+                        }
                     </div>
 
                     <form onSubmit={handleSubmit(onSubmit)} className="">
@@ -558,6 +589,7 @@ export default function ProductComponent ({deviceType, name, images, options, op
                             {options.map((option, index) =>
                                 <DropdownProduct2
                                     name={option}
+                                    nameru={optionsRu[index]}
                                     options={optionVariants.filter((optionObj) => optionObj.group == option || optionObj.name == option)}
                                     register={register}
                                     key={index}
@@ -565,6 +597,7 @@ export default function ProductComponent ({deviceType, name, images, options, op
                                     price={price}
                                     productData={productData[0]}
                                     lang={lang}
+                                    optionsRaw={optionsRaw}
                                 />
                             )}
                         </Element>

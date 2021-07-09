@@ -5,7 +5,7 @@ export default function Hero({lang}){
         <div className="w-full overflow-hidden h-70vh md:h-screen bg-ui-darkGrey">
             <div className="h-70vh md:h-screen w-full overflow-hidden relative">
                 <video autoPlay muted loop playsInline className="filter brightness-25 -mt-4 z-10 relative object-cover">
-                    <source src="/mainPage/heroBg2.mp4" type="video/mp4"/>
+                    <source src="/mainPage/heroGif.mp4" type="video/mp4"/>
                 </video>
             </div>
             <div className="overflow-hidden h-70vh md:h-screen bg-transparent bg-cover bg-center -mt-70vh md:-mt-hero z-20 relative">
@@ -29,7 +29,7 @@ export default function Hero({lang}){
                             }
                         </p>
 
-                        <Link href="/oglinzi">
+                        <Link href={lang == "ro" ? "/oglinzi" : "/ru/oglinzi"}>
                             <a>
                                 <div className="text-sm-button md:text-md-button lg:text-lg-button font-bold mt-48px lg:mt-56px mx-auto rounded-lg h-48px w-full md:w-210px bg-accent-transparent text-accent-accent flex flex-row justify-center items-center border-2 border-transparent hover:border-accent-accent transition duration-300">
                                     {

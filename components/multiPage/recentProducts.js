@@ -34,34 +34,6 @@ export default function RecentProducts ({deviceType, lang}) {
         }
     }, [deviceType])
 
-    const items = [
-        {
-            name : "Hollywood 2",
-            description : "de la 2 144 lei",
-            img : "/multiPage/item1.png"
-        },
-        {
-            name : "Silvia",
-            description : "de la 2 144 lei",
-            img : "/multiPage/item2.png"
-        },
-        {
-            name : "Beatrice",
-            description : "de la 2 144 lei",
-            img : "/multiPage/item3.png"
-        },
-        {
-            name : "Hollywood 2",
-            description : "de la 2 144 lei",
-            img : "/multiPage/item1.png"
-        },
-        {
-            name : "Shape 004",
-            description : "de la 2 144 lei",
-            img : "/multiPage/item4.png"
-        }
-    ]
-
     return (
         <div>
             {
@@ -81,7 +53,7 @@ export default function RecentProducts ({deviceType, lang}) {
                     <div className="w-full flex flex-row justify-start items-center">
                         {seenRecently.slice(4-itemNr, itemNr+1).map((product, index)=>{
                             return(
-                                <Link href={`/produse/${product.slug}`}>
+                                <Link href={lang == "ro" ? `/produse/${product.slug}` : `/ru/produse/${product.slug}`}>
                                     <a  className="w-full max-w-md">
                                         <div className="flex-grow mr-2 h-140px bg-ui-white rounded-lg flex flex-row items-center justify-start hover:shadow-md transition duration-300 px-4 py-2">
                                             <div className="h-124px w-124px relative mr-4 rounded-lg overflow-hidden">
@@ -94,7 +66,12 @@ export default function RecentProducts ({deviceType, lang}) {
     
                                             <div className="h-auto">
                                                 <div className="text-lg-17 font-medium text-type-dark mb-10px">
-                                                    {product.name}
+                                                    {
+                                                        lang == "ro" ?
+                                                        product.name
+                                                        :
+                                                        product.nameru
+                                                    }
                                                 </div>
                                                 <div className="text-lg-14 font-normal text-type-grey">
                                                     {

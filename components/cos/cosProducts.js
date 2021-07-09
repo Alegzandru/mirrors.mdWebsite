@@ -20,6 +20,7 @@ export default function CosProducts({lang}){
     const {popupOpen, setPopupOpen} = useContext(PopupContext)
     const [popupProduct , setPopupProduct] = useState(cart[0])
     const [optionNames, setOptionNames] = useState([])
+    const [optionNamesRu, setOptionNamesRu] = useState([])
     const [optionVariants, setOptionVariants] = useState([])
     const [price, setPrice] = useState(0)
 
@@ -184,7 +185,12 @@ export default function CosProducts({lang}){
                         <form className="lg:w-444px h-full flex flex-col justify-start md:justify-between items-start pt-6 md:w-320px w-full md:w-auto">
                             <div className="w-full md:w-auto">
                                 <h3 className="w-full text-type-dark text-sm-h3 md:text-md-h3 lg:text-lg-h3 font-bold mb-8">
-                                    {popupProduct.product.name}
+                                    {
+                                        lang == "ro" ?
+                                        popupProduct.product.name
+                                        :
+                                        popupProduct.product.nameru
+                                    }
                                 </h3>
                                 <div className="flex flex-col md:flex-row justify-between items-end w-full">
                                     <div className="w-full md:mr-4">
@@ -348,7 +354,12 @@ export default function CosProducts({lang}){
                                 />
                             </div>
                             <h3 className="w-full text-type-dark text-sm-h3 md:text-md-h3 lg:text-lg-h3 font-bold mt-6">
-                                {popupProduct.product.name}
+                                {
+                                    lang == "ro" ?
+                                    popupProduct.product.name
+                                    :
+                                    popupProduct.product.nameru
+                                }
                             </h3>
                         </div>
                         <div className="md:w-320px lg:w-444px h-full flex flex-col justify-start items-start w-full">
@@ -364,11 +375,14 @@ export default function CosProducts({lang}){
                                     {optionNames.map((option, index) =>
                                         <DropdownProduct2
                                             name={option}
+                                            nameru={optionNamesRu[index]}
                                             options={optionVariants.filter((optionObj) => optionObj.group == option || optionObj.name == option)}
                                             register={register}
                                             key={index}
                                             setPrice={setPrice}
                                             price={price}
+                                            lang={lang}
+                                            optionsRaw={optionVariants}
                                         />
                                     )}
                                 </Element>
@@ -390,7 +404,7 @@ export default function CosProducts({lang}){
                 className={`transition duration-300 w-full h-auto px-container-sm md:px-container-md lg:px-container-lg xl:px-container-xl pt-128px md:pt-136px lg:pt-234px pb-180px font-Ubuntu bg-ui-darkGrey filter ${popupOpen ? "brightness-50" : ""}`}
             >
                 <div className="flex flex-row justify-start items-center text-lg-14 font-normal text-type-manatee w-auto mb-4 md:mb-8">
-                    <Link href="/">
+                    <Link href={lang == "ro" ? "/" : "/ru"}>
                         <a>
                             <span className="mr-1 hover:underline transition duration-300">
                                 {
@@ -482,7 +496,12 @@ export default function CosProducts({lang}){
                                                 </div>
                                                 <div>
                                                     <div className="text-lg-17 text-type-manatee font-medium mb-2">
-                                                        {product.product.name}
+                                                        {
+                                                            lang == "ro" ?
+                                                            product.product.name
+                                                            :
+                                                            product.product.nameru
+                                                        }
                                                     </div>
                                                     <div className="text-lg-14 text-type-grey mb-4">
                                                         {product.size.height+"x"+product.size.width+" mm"}
@@ -561,6 +580,15 @@ export default function CosProducts({lang}){
                                                                 return option.name
                                                             }
                                                         })
+
+                                                        const optionNamesUnfilteredRu = optionsRaw.map((option) => {
+                                                            if(option.group){
+                                                                return option.groupru
+                                                            }
+                                                            else{
+                                                                return option.nameru
+                                                            }
+                                                        })
         
                                                         function uniq(a) {
                                                             var prims = {"boolean":{}, "number":{}, "string":{}}, objs = [];
@@ -575,6 +603,7 @@ export default function CosProducts({lang}){
                                                         }
                                                     
                                                         setOptionNames(uniq(optionNamesUnfiltered))
+                                                        setOptionNamesRu(uniq(optionNamesUnfilteredRu))
                                                         setPopupOpen("addOns")
                                                     })
                                                 }}
@@ -742,7 +771,7 @@ export default function CosProducts({lang}){
                                 {
                                     cart.length != 0 &&
                                     <div className="p-2 border-ui-darkGrey w-full">
-                                        <Link href="/cos/checkout">
+                                        <Link href={lang == "ro" ? "/cos/checkout" : "/ru/cos/checkout"}>
                                             <a className="flex flex-row justify-center itemes-start w-full">
                                                 <div className="w-full bg-accent-accent text-ui-white h-52px text-lg-button font-bold flex flex-row justify-center items-center rounded-lg hover:bg-accent-light transition duration-300">
                                                     {

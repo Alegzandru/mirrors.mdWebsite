@@ -21,7 +21,65 @@ export default function Options({lang}) {
                             "Доступные опции"
                         }
                     </h2>
-                    <ul className="list-inside list-disc text-lg-p text-type-manatee">
+                    <ul className="list-inside list-disc text-lg-p text-type-manatee h-180px relative z-0">
+                        <li>
+                            {
+                                lang == "ro" ? 
+                                "Senzor de mișcare, senzor-dimmer sau comutatoare tactile"
+                                :
+                                "Датчик движения, датчик-диммер или сенсорные переключатели"
+                            }
+                        </li>
+                        <li>
+                            {
+                                lang == "ro" ? 
+                                "Element de încălzire pentru a preveni aburirea oglinzii"
+                                :
+                                "Нагревательный элемент для предотвращения запотевания зеркала"
+                            }
+                        </li>
+                        <li>
+                            {
+                                lang == "ro" ? 
+                                "Tenta de iluminare a oglinzii: rece, neutră sau caldă"
+                                :
+                                "Оттенок подсветки зеркал: холодный, нейтральный или теплый"
+                            }
+                        </li>
+                        <li>
+                            {
+                                lang == "ro" ? 
+                                "Lumina de fundal RGB 64K și telecomandă"
+                                :
+                                "Подсветка RGB 64K и пульт дистанционного управления"
+                            }
+                        </li>
+                        <li>
+                            {
+                                lang == "ro" ? 
+                                "Sistem audio wireless încorporat: bluetooth, radio, ceas"
+                                :
+                                "Встроенная беспроводная аудиосистема: блютуз, радио, часы"
+                            }
+                        </li>
+                        <li>
+                            {
+                                lang == "ro" ? 
+                                "Oglindă măritoare cu zonă separată de iluminat"
+                                :
+                                "Увеличительное зеркало с отдельной зоной освещения"
+                            }
+                        </li>
+                        <li>           
+                            {
+                                lang == "ro" ? 
+                                "Senzor cu termometru sau ceas electronic"
+                                :
+                                "Датчик с термометром или электронными часами"
+                            }             
+                        </li>
+                    </ul>
+                    <ul className="list-inside list-disc text-lg-p h-180px text-transparent withStrokeSmall -mt-180px z-20 relative">
                         <li>
                             {
                                 lang == "ro" ? 

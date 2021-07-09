@@ -161,7 +161,14 @@ export default function DropdownProduct(props) {
                         <form className={`flex flex-row justify-start items-center mt-4`}>
                             <div className="mr-4">
                                 <div className="text-type-grey text-lg-12 mb-2">
-                                    <span className="text-type-manatee text-lg-17 lg:text-lg-14 font-medium">Înălțime</span>
+                                    <span className="text-type-manatee text-lg-17 lg:text-lg-14 font-medium">
+                                        {
+                                            props.lang == "ro" ?
+                                            "Înălțime"
+                                            :
+                                            "Высота"
+                                        }
+                                    </span>
                                 </div>
                                 <div className="flex flex-row justify-start items-center text-lg-card-price">
                                     <input
@@ -198,7 +205,14 @@ export default function DropdownProduct(props) {
 
                             <div className="ml-4">
                                 <div className="text-type-grey text-lg-12 mb-2">
-                                    <span className="text-type-manatee text-lg-17 lg:text-lg-14 font-medium">Lățime</span>
+                                    <span className="text-type-manatee text-lg-17 lg:text-lg-14 font-medium">
+                                        {
+                                            props.lang == "ro" ?
+                                            "Lățime"
+                                            :
+                                            "Ширина"
+                                        }
+                                    </span>
                                 </div>
                                 <div className="flex flex-row justify-start items-center text-lg-card-price">
                                     <input
@@ -251,21 +265,68 @@ export default function DropdownProduct(props) {
                 }
             </div>
             
-            <div className={`w-full ${props.name == "Dimensiuni recomandate" ? "bg-ui-white mt-40px" : "bg-ui-grey"} h-auto py-3 flex flex-row justify-between items-start px-2 font-Ubuntu group transition duration-300 cursor-pointer`}>
-                <div className={`flex-grow text-lg-17 lg:text-lg-14 text-type-manatee group-hover:text-type-manatee transition duration-300 flex flex-row justify-start items-center font-medium`}>
+            <div 
+                className={`w-full ${props.name == "Dimensiuni recomandate" ? "bg-ui-white mt-40px" : "bg-ui-grey"} h-auto py-3 flex flex-row justify-between items-start px-2 font-Ubuntu group transition duration-300 cursor-pointer border-b border-ui-blueishGrey`}
+                onClick={() => setOpen(!open)}
+            >
+                {/* <div className={`flex-grow text-lg-17 lg:text-lg-14 text-type-manatee group-hover:text-type-manatee transition duration-300 flex flex-row justify-start items-center font-medium`}>
                     <div>
-                        {props.name}
+                        {props.lang == "ro" ? 
+                            props.name
+                            :
+                            props.nameru
+                        }
                     </div>
+                </div> */}
+
+                <div className={`${open ? "font-medium" : "font-normal"} flex-grow text-lg-17 md:text-lg-14 text-type-grey group-hover:text-type-manatee transition duration-300 flex flex-row justify-start items-center`}>
+                    <svg xmlns="http://www.w3.org/2000/svg" className={`${open ? "block" : "hidden"} h-4 w-4 text-accent-accent mr-2`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+
+                    {props.lang == "ro" ? 
+                        props.name
+                        :
+                        props.nameru
+                    }
                 </div>
 
                 <div className="flex flex-row justify-between items-center">
-                    <div className="text-lg-17 lg:text-lg-14 font-medium text-type-dark mr-2 md:mr-0">
-                        {props.name == "Dimensiuni recomandate" ? `${props.sizeGlobal.height}x${props.sizeGlobal.width}` : props.options.length != 1 ? chosen ? chosen : "" : checked ? "Da" : ""}
+                    <div className="text-lg-17 lg:text-lg-14 font-medium text-type-dark mr-2 md:mr-2">
+                        {
+                            props.name == "Dimensiuni recomandate" ? 
+                                `${props.sizeGlobal.height}x${props.sizeGlobal.width}` 
+                                : 
+                                props.options.length != 1 ? 
+                                    chosen ? 
+                                        props.lang == "ro" ?
+                                            chosen
+                                            :
+                                            props.optionsRaw.filter((optionRaw, index) => optionRaw.typename == chosen )[0].typenameru 
+                                        : 
+                                        "" 
+                                    : 
+                                    checked ? 
+                                        props.lang == "ro" ? 
+                                            "Da" 
+                                            : 
+                                            "Да" 
+                                        : 
+                                        ""
+                        }
                     </div>
+
+                    <svg xmlns="http://www.w3.org/2000/svg" className={`${open ? "hidden" : "block"} h-4 w-4 text-ui-blueishGrey group-hover:text-type-manatee transition duration-300`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+
+                    <svg xmlns="http://www.w3.org/2000/svg" className={`${open ? "block" : "hidden"} h-4 w-4 text-type-manatee transition duration-300`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                    </svg>
                 </div>
             </div>
 
-            <div className="w-full pb-3 bg-ui-white">
+            <div className={`w-full pb-3 bg-ui-white ${open ? "block" : "hidden"}`}>
 
                 {props.options.map((option, index)=>
                 <div className="w-full bg-ui-white">
@@ -301,11 +362,22 @@ export default function DropdownProduct(props) {
                                 />
                             }
                             <div>
-                                {props.options.length != 1? option.typename : option.name}
+                                {
+                                    props.lang == "ro" ?
+                                    props.options.length != 1? option.typename : option.name
+                                    :
+                                    props.options.length != 1? option.typenameru : option.nameru
+                                }
                             </div>
                         </div>
                         <div className="text-lg-17 lg:text-lg-14 font-medium">
-                            {option.price} lei
+                            {option.price} 
+                            {
+                                props.lang == "ro" ?
+                                " lei"
+                                :
+                                " лей"
+                            }
                         </div>
                     </label>
                     <div className={`${props.options.length != 1 ? chosen == option.typename ? "block" : "hidden" : checked ? "block" : "hidden"} text-type-grey text-lg-12 px-34px max-w-4xl`}>

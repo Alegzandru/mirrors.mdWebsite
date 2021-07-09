@@ -9,28 +9,6 @@ import { useContext, useEffect } from "react";
 export function DynamicProduct ({productData}) {
 
   const {seenRecently, setSeenRecently} = useContext(SeenRecentlyContext)
-  // useEffect(() => {
-  //   console.log("Loaded page")
-  //   if(seenRecently.length < 4){
-  //     console.log("Updated seen recently under 4")
-  //     setSeenRecently([
-  //       ...seenRecently,
-  //       productData[0]
-  //     ])
-  //   }
-  //   else{
-  //     console.log("Updated seen recently over 4")
-  //     let mutableRecent = seenRecently.shift()
-  //     setSeenRecently([
-  //       ...mutableRecent,
-  //       productData[0]
-  //     ])
-  //   }
-  // }, [])
-
-  // useEffect(() => {
-  //   localStorage.setItem('seenRecently',JSON.stringify(seenRecently))
-  // }, [seenRecently])
 
   const {deviceType, setDeviceType} = useContext(DeviceTypeContext)
   const images = productData[0].image.map((imageObj) => {
@@ -40,7 +18,7 @@ export function DynamicProduct ({productData}) {
   })
 
   return (
-      <Layout lang="ru">
+      <Layout lang="ru" slug={productData[0].slug}>
           <ProductPage 
             lang="ru"
             deviceType={deviceType}
@@ -50,9 +28,11 @@ export function DynamicProduct ({productData}) {
             description={productData[0].description}
             category={productData[0].category.name}
             options={productData.optionNames}
+            optionsRu={productData.optionNamesRu}
             optionVariants={productData.optionsRaw}
             productData={productData}
             optionsRaw={productData.optionsRaw}
+            nameru={productData[0].nameru}
           ></ProductPage>
       </Layout>
   )
@@ -63,10 +43,12 @@ export async function getStaticProps({ params }) {
     const productsRes = await fetch(`${API_URL}/products?slug_eq=${slug}`)
     const productStrapi = await productsRes.json()
 
-    const category = productStrapi[0].category.name
-    const categoryRes = await fetch(`${API_URL}/categories?name_eq=${category}`)
-    const optionsUnflitered = await categoryRes.json()
-    const optionsRaw = optionsUnflitered[0].add_ons
+    // const category = productStrapi[0].category.name
+    // const categoryRes = await fetch(`${API_URL}/categories?name_eq=${category}`)
+    // const optionsUnflitered = await categoryRes.json()
+    // const optionsRaw = optionsUnflitered[0].add_ons
+
+    const optionsRaw = productStrapi[0].add_ons
 
     const optionNamesUnfiltered = optionsRaw.map((option) => {
       if(option.group){
@@ -74,6 +56,15 @@ export async function getStaticProps({ params }) {
       }
       else{
         return option.name
+      }
+    })
+
+    const optionNamesUnfilteredRu = optionsRaw.map((option) => {
+      if(option.group){
+        return option.groupru
+      }
+      else{
+        return option.nameru
       }
     })
 
@@ -90,12 +81,14 @@ export async function getStaticProps({ params }) {
     }
   
     const optionNames = uniq(optionNamesUnfiltered)
+    const optionNamesRu = uniq(optionNamesUnfilteredRu)
 
     const productData = {
       slug,
       ...productStrapi,
       optionNames,
       optionsRaw,
+      optionNamesRu
     }
 
     // productData.key = slug; 
@@ -105,7 +98,8 @@ export async function getStaticProps({ params }) {
       props: {
         productData,
         key: productData[0].id
-      }
+      },
+      revalidate : 10
     }
 }  
 
