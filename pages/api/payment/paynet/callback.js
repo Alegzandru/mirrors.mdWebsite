@@ -1,4 +1,4 @@
-export default function handler(req, res) {
+export default async (req, res) => {
     if (req.method !== 'POST') {
       res.status(400).send({ message: 'Only POST requests allowed' })
       return
@@ -7,24 +7,27 @@ export default function handler(req, res) {
     const body = JSON.parse(req.body)
 
     const requestOptionsNotifications = {
-        Eventid : body.Eventid,
-        EventType : body.EventType,
-        EventDate : body.EventDate,
+        Eventid : body[0].Eventid,
+        EventType : body[0].EventType,
+        EventDate : body[0].EventDate,
         Payment : {
-            ID : body.Payment.ID,
-            ExternalID : body.Payment.ExternalID,
-            Merchant : body.Payment.Merchant,
-            Customer : body.Payment.Customer,
-            Amount : body.Payment.Amount,
-            StatusDate : body.Payment.StatusDate
+            ID : body[0].Payment.ID,
+            ExternalID : body[0].Payment.ExternalID,
+            Merchant : body[0].Payment.Merchant,
+            Customer : body[0].Payment.Customer,
+            Amount : body[0].Payment.Amount,
+            StatusDate : body[0].Payment.StatusDate
         },
         ResultCode : "SUCCESS",
         ResultMessage : "Success Message"
     }
 
-    res.json({
-        requestOptionsNotifications
-    })
-    // the rest of your code
+    try {
+        res.status(200).json({
+            requestOptionsNotifications
+        })
+      } catch (error) {
+        res.status(500).json({ error: error })
+      }
 }
   

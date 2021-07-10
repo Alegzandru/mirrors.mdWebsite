@@ -4,6 +4,7 @@ import {DeviceTypeContext, CartContext, PopupContext, SeenRecentlyContext} from 
 import UAParser from "ua-parser-js";
 import NextNProgress from "../components/NextNProgress"
 import {deviceType as deviceTypeWSpaces, isTablet, isMobile, isDesktop} from 'react-device-detect';
+import TagManager from 'react-gtm-module';
 
 function MyApp({ Component, pageProps, deviceTypeReq, isMobile, isTablet }) {
 
@@ -22,6 +23,10 @@ function MyApp({ Component, pageProps, deviceTypeReq, isMobile, isTablet }) {
   useEffect(() => {
     localStorage.setItem('seenRecently', JSON.stringify(seenRecently))
   }, [seenRecently])
+
+  useEffect(() => {
+    TagManager.initialize({ gtmId: 'GTM-KQLD9P8' });
+  }, []);
  
   return (
     <SeenRecentlyContext.Provider value={valueSeenRecently}>
