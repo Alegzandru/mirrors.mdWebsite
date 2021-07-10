@@ -51,6 +51,8 @@ export default function ProductComponent ({deviceType, name, images, options, op
     const [price, setPrice] = useState(Math.trunc(getPrice(productData[0], productData[0].defaultsize) * ( 1 + coeficientFinder(productData[0].defaultsize))))
     const [sizeGlobal, setSizeGlobal] = useState(productData[0].defaultsize)
 
+    const [openOptions, setOpenOptions] = useState(0)
+
     let contorAddons = 1
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
@@ -578,12 +580,35 @@ export default function ProductComponent ({deviceType, name, images, options, op
 
                     <form onSubmit={handleSubmit(onSubmit)} className="">
 
+                        <div 
+                            className="w-full cursor-pointer"
+                            onClick={() => setOpenOptions(!openOptions)}
+                        >
+                            <div className="w-full flex flex-row justify-between items-center mb-2">
+                                <div className="text-lg-28 font-medium text-type-manatee">
+                                    Opțiuni adăugătoare
+                                </div>
+
+                                <svg xmlns="http://www.w3.org/2000/svg" className={`h-6 w-6 ${openOptions ? "hidden" : "block"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                </svg>
+
+                                <svg xmlns="http://www.w3.org/2000/svg" className={`h-6 w-6 ${openOptions ? "block" : "hidden"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                                </svg>
+                            </div>
+
+                            <div className={`w-full h-0.5 bg-ui-blueishGrey ${openOptions ? "hidden" : "block"}`}/>
+                        </div>
+
                         <Element name="test7" className="element" id="containerElement" style={{
                             position: 'relative',
                             height: '508px',
                             overflow: 'scroll',
-                            borderRadius: "8px",
-                            border : "2px solid #C2D1D9"
+                            borderRadius: "0px 0px 8px 8px",
+                            border : "2px solid #C2D1D9",
+                            boxShadow : "0px 2px 6px rgba(0, 0, 0, 0.08)",
+                            display : openOptions ? "block" : "none"
                         }}>  
 
                             {options.map((option, index) =>
@@ -602,7 +627,7 @@ export default function ProductComponent ({deviceType, name, images, options, op
                             )}
                         </Element>
 
-                        <div className="w-full flex flex-col md:flex-row justify-between items-center mt-6">
+                        <div className={`w-full flex flex-col md:flex-row justify-between items-center ${openOptions ? "mt-6" : "mt-14"}`}>
 
                             <input 
                                 value={lang == "ro" ? "La pagina de Check-Out" : "Оформить заказ"} 

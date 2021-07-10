@@ -269,8 +269,12 @@ export default function DropdownProduct(props) {
             </div>
             
             <div 
-                className={`w-full ${props.name == "Dimensiuni recomandate" ? "bg-ui-white mt-40px" : "bg-ui-grey"} h-auto py-3 flex flex-row justify-between items-start px-2 font-Ubuntu group transition duration-300 cursor-pointer border-b border-ui-blueishGrey`}
-                onClick={() => setOpen(!open)}
+                className={`w-full ${props.name == "Dimensiuni recomandate" ? "bg-ui-white mt-40px" : "bg-ui-grey"} h-auto py-3 flex flex-row justify-between items-start px-2 font-Ubuntu group transition duration-300 cursor-pointer ${props.name == "Dimensiuni recomandate" ? "border-ui-blueishGrey border-b" : ""}`}
+                onClick={() => {
+                    if(props.name == "Dimensiuni recomandate"){
+                        setOpen(!open)
+                    }
+                }}
             >
                 {/* <div className={`flex-grow text-lg-17 lg:text-lg-14 text-type-manatee group-hover:text-type-manatee transition duration-300 flex flex-row justify-start items-center font-medium`}>
                     <div>
@@ -282,7 +286,7 @@ export default function DropdownProduct(props) {
                     </div>
                 </div> */}
 
-                <div className={`${open ? "font-medium" : "font-normal"} flex-grow text-lg-17 md:text-lg-14 text-type-grey group-hover:text-type-manatee transition duration-300 flex flex-row justify-start items-center`}>
+                <div className={`${props.name == "Dimensiuni recomandate" ? open ? "font-medium" : "font-normal" : "font-medium"} flex-grow text-lg-17 md:text-lg-14 text-type-grey group-hover:text-type-manatee transition duration-300 flex flex-row justify-start items-center`}>
                     <svg xmlns="http://www.w3.org/2000/svg" className={`${open ? "block" : "hidden"} h-4 w-4 text-accent-accent mr-2`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
@@ -319,17 +323,19 @@ export default function DropdownProduct(props) {
                         }
                     </div>
 
-                    <svg xmlns="http://www.w3.org/2000/svg" className={`${open ? "hidden" : "block"} h-4 w-4 text-ui-blueishGrey group-hover:text-type-manatee transition duration-300`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
+                    <div className={`${props.name === "Dimensiuni recomandate" ? "block" : "hidden"}`}>
+                        <svg xmlns="http://www.w3.org/2000/svg" className={`${open ? "hidden" : "block"} h-4 w-4 text-ui-blueishGrey group-hover:text-type-manatee transition duration-300`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
 
-                    <svg xmlns="http://www.w3.org/2000/svg" className={`${open ? "block" : "hidden"} h-4 w-4 text-type-manatee transition duration-300`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
-                    </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" className={`${open ? "block" : "hidden"} h-4 w-4 text-type-manatee transition duration-300`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                        </svg>
+                    </div>
                 </div>
             </div>
 
-            <div className={`w-full pb-3 bg-ui-white ${open ? "block" : "hidden"}`}>
+            <div className={`w-full pb-3 bg-ui-white ${props.name == "Dimensiuni recomandate" ? open ? "block" : "hidden" : "block"}`}>
 
                 {props.options.map((option, index)=>
                 <div className="w-full bg-ui-white">
