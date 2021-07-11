@@ -15,8 +15,6 @@ var Element = Scroll.Element;
 export default function ProductComponent ({deviceType, name, images, options, optionVariants, productData, optionsRaw, lang, nameru, optionsRu}) {
 
     const router = useRouter()
-    console.log(options)
-    console.log(optionsRu)
 
     function getPrice(product, size) {
         let price = 0
@@ -585,7 +583,7 @@ export default function ProductComponent ({deviceType, name, images, options, op
                             onClick={() => setOpenOptions(!openOptions)}
                         >
                             <div className="w-full flex flex-row justify-between items-center mb-2">
-                                <div className="text-lg-28 font-medium text-type-manatee">
+                                <div className="text-sm-h3 font-medium text-type-manatee">
                                     Opțiuni adăugătoare
                                 </div>
 
@@ -627,7 +625,7 @@ export default function ProductComponent ({deviceType, name, images, options, op
                             )}
                         </Element>
 
-                        <div className={`w-full flex flex-col md:flex-row justify-between items-center ${openOptions ? "mt-6" : "mt-14"}`}>
+                        <div className={`w-full flex flex-col md:flex-row justify-between items-center ${openOptions ? "mt-6" : "mt-56px"}`}>
 
                             <input 
                                 value={lang == "ro" ? "La pagina de Check-Out" : "Оформить заказ"} 

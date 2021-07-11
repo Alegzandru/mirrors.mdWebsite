@@ -45,7 +45,6 @@ export default function DropdownProduct(props) {
     }
 
     const onSubmit = (data) => {
-        console.log(data)
         if(lastChosen === 0){
             props.setPrice(Math.trunc( props.price + ( getPrice(props.productData, data) * (1 + props.coeficientFinder(data))) - props.initialPrice))
             setLastChosen("custom")

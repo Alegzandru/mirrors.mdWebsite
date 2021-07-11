@@ -198,7 +198,7 @@ export default function Benefits({lang}){
                                     <div className="text-lg-card-description lg:text-lg-p text-type-grey mt-4">
                                         {
                                             lang == "ro" ? 
-                                            "Veți fi mulțumit de achiziția din magazinul nostru. În caz contrar, vă vom rambursa banii.Veți fi mulțumit de achiziția din magazinul nostru. În caz contrar, vă vom rambursa banii."
+                                            "Veți fi mulțumit de achiziția din magazinul nostru. În caz contrar, vă vom rambursa banii."
                                             :
                                             "Вы останетесь довольны покупкой в ​​нашем магазине. В противном случае мы вернем вам деньги."
                                         }

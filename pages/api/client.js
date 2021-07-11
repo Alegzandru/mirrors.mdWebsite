@@ -7,7 +7,6 @@ export default async (req, res) => {
 
   let created_at_new = created_at.slice(0, created_at.length-5).replace("T", " ")
 
-  console.log(req.body)
   const msg = {
     from: '<manager.mirrors.md@gmail.com',
     personalizations : [

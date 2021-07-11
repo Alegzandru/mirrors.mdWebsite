@@ -11,7 +11,6 @@ import Head from "next/head";
 export default function Galerie({products}){
 
     const {deviceType, setDeviceType} = useContext(DeviceTypeContext)
-    console.log(deviceType)
 
     return (
         <Layout lang="ru">

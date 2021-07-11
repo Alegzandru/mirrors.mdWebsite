@@ -120,7 +120,6 @@ export function Navbar (props) {
             handleScroll()
             scrollPosition()
 
-            console.log(router.pathname)
             switch(router.pathname){
                 case "/" :
                     setPrincipala(1)
@@ -188,10 +187,6 @@ export function Navbar (props) {
     useEffect(() => {
         getSearchProducts()
     },[search])
-
-    useEffect(() => {
-        console.log(path)
-    }, [path])
 
     return (
         <animated.div 
