@@ -225,7 +225,7 @@ export default function DropdownProduct(props) {
                                         {...register("height", { min: props.minHeight, max: props.maxHeight, valueAsNumber: true, required: true })}
                                         onChange={(e) => {
                                             handleChange(e)
-                                            handleSubmit(onSubmit)()
+                                            // handleSubmit(onSubmit)()
                                         }}
                                     />
                                     <span className="text-ui-black font-medium">
@@ -272,7 +272,7 @@ export default function DropdownProduct(props) {
                                         {...register("width", { min: props.minWidth, max: props.maxWidth, valueAsNumber : true , required : true})}
                                         onChange={(e) => {
                                             handleChange(e)
-                                            handleSubmit(onSubmit)()
+                                            // handleSubmit(onSubmit)()
                                         }}
                                     />
 

@@ -4,26 +4,29 @@ import { useEffect, useRef } from 'react';
 
 export default function Hero({lang}){
 
-    const videoRef = useRef(null);
+    // const videoRef = useRef(null);
 
-    useEffect(() => {
-        enableInlineVideo(videoRef);
+    // useEffect(() => {
+    //     enableInlineVideo(videoRef);
 
-        var promise = videoRef.current.play();
+    //     var promise = videoRef.current.play();
 
-        if (promise !== undefined) {
-        promise.then(_ => {
-        }).catch(error => {
-            videoRef.current.muted = true;
-            videoRef.current.play();
-        });
-    }
-    }, [])
+    //     if (promise !== undefined) {
+    //     promise.then(_ => {
+    //     }).catch(error => {
+    //         videoRef.current.muted = true;
+    //         videoRef.current.play();
+    //     });
+    // }
+    // }, [])
 
     return(
         <div className="w-full overflow-hidden h-70vh md:h-screen bg-ui-darkGrey">
             <div className="h-70vh md:h-screen w-full overflow-hidden relative">
-                <video autoPlay loop playsInline className="filter brightness-25 -mt-4 z-10 relative object-cover" ref={videoRef}>
+                <video 
+                    autoPlay loop muted playsInline className="filter brightness-25 -mt-4 z-10 relative object-cover" 
+                    // ref={videoRef}
+                >
                     <source src="/mainPage/heroGif.mp4" type="video/mp4"/>
                 </video>
             </div>
