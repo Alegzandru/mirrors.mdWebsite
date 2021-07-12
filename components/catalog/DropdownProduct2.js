@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react"
+import { useEffect, useState, useContext, useRef } from "react"
 import {PopupContext} from "../context"
 import { useForm } from "react-hook-form";
 
@@ -13,6 +13,27 @@ export default function DropdownProduct(props) {
     const [checked, setChecked] = useState(0)
     const [openCustom, setOpenCustom] = useState(0)
     const [showButton, setShowButton] = useState(0)
+
+    function useOutsideAlerter(ref) {
+        useEffect(() => {
+            function handleClickOutside(event) {
+                if (ref.current && !ref.current.contains(event.target)) {
+                    alert("You clicked outside of me!");
+                }
+            }
+                document.addEventListener("mousedown", handleClickOutside);
+            return () => {
+                document.removeEventListener("mousedown", handleClickOutside);
+            };
+        }, [ref]);
+    }
+
+    const inputRef1 = useRef(null);
+    const inputRef2 = useRef(null);
+
+    useOutsideAlerter(inputRef1);
+    useOutsideAlerter(inputRef2)
+    
 
     function getPrice(product, size) {
         let price = 0
@@ -60,6 +81,7 @@ export default function DropdownProduct(props) {
     }
 
     const onSubmit = (data) => {
+        console.log(data)
         if(lastChosen === 0){
             props.setPrice(Math.trunc( props.price + ( getPrice(props.productData, data) * (1 + props.coeficientFinder(data))) - props.initialPrice))
             setLastChosen("custom")
@@ -200,12 +222,11 @@ export default function DropdownProduct(props) {
                                         className="bg-ui-grey border-0 outline-none rounded w-84px mr-2"
                                         type="number"
                                         placeholder={props.sizeGlobal.height}
-                                        {...register("height", { min: props.minHeight, max: props.maxHeight, valueAsNumber : true , required : true})}
+                                        {...register("height", { min: props.minHeight, max: props.maxHeight, valueAsNumber: true, required: true })}
                                         onChange={(e) => {
                                             handleChange(e)
                                             handleSubmit(onSubmit)()
                                         }}
-                                        // onBlur={handleSubmit(onSubmit)}
                                     />
                                     <span className="text-ui-black font-medium">
                                         mm
@@ -253,7 +274,6 @@ export default function DropdownProduct(props) {
                                             handleChange(e)
                                             handleSubmit(onSubmit)()
                                         }}
-                                        // onBlur={handleSubmit(onSubmit)}
                                     />
 
                                     <span className="text-ui-black font-medium">
