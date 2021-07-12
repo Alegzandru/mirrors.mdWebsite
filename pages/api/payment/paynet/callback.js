@@ -4,7 +4,8 @@ export default async (req, res) => {
       return
     }
   
-    const body = JSON.parse(req.body)
+    const body = req.body
+    // const body = JSON.parse(req.body)
 
     // const requestOptionsNotifications = {
     //     Eventid : body[0].Eventid,
@@ -24,16 +25,16 @@ export default async (req, res) => {
 
     try {
         res.status(200).json({
-          Eventid : body[0].Eventid,
-          EventType : body[0].EventType,
-          EventDate : body[0].EventDate,
+          Eventid : body.Eventid,
+          EventType : body.EventType,
+          EventDate : body.EventDate,
           Payment : {
-              ID : body[0].Payment.ID,
-              ExternalID : body[0].Payment.ExternalID,
-              Merchant : body[0].Payment.Merchant,
-              Customer : body[0].Payment.Customer,
-              StatusDate : body[0].Payment.StatusDate,
-              Amount : body[0].Payment.Amount
+              ID : body.Payment.ID,
+              ExternalID : body.Payment.ExternalID,
+              Merchant : body.Payment.Merchant,
+              Customer : body.Payment.Customer,
+              StatusDate : body.Payment.StatusDate,
+              Amount : body.Payment.Amount
           },
           ResultCode : "SUCCESS",
           ResultMessage : "Success Message"
