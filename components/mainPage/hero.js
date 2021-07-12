@@ -1,10 +1,19 @@
 import Link from 'next/link'
+import enableInlineVideo from 'iphone-inline-video';
+import { useEffect, useRef } from 'react';
 
 export default function Hero({lang}){
+
+    const videoRef = useRef(null);
+    
+    useEffect(() => {
+        enableInlineVideo(videoRef);
+    }, [])
+
     return(
         <div className="w-full overflow-hidden h-70vh md:h-screen bg-ui-darkGrey">
             <div className="h-70vh md:h-screen w-full overflow-hidden relative">
-                <video autoPlay muted loop playsInline className="filter brightness-25 -mt-4 z-10 relative object-cover">
+                <video autoPlay muted loop playsInline className="filter brightness-25 -mt-4 z-10 relative object-cover" ref={videoRef}>
                     <source src="/mainPage/heroGif.mp4" type="video/mp4"/>
                 </video>
             </div>

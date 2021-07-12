@@ -24,7 +24,6 @@ export default function CosProducts({lang}){
     const [optionNamesRu, setOptionNamesRu] = useState([])
     const [optionVariants, setOptionVariants] = useState([])
     const [price, setPrice] = useState(0)
-    console.log(cart)
     
     let optionsPrice = 0
 

@@ -20,7 +20,6 @@ export default function Checkout({lang}) {
     const [popupDone, setPopupDone] = useState()
     const {popupOpen, setPopupOpen} = useContext(PopupContext)
     let priceTotal = 0
-    console.log(cart)
 
     const { reset, register, handleSubmit, watch, formState: { errors } } = useForm();
 
