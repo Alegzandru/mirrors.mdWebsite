@@ -20,6 +20,7 @@ export default function Checkout({lang}) {
     const [popupDone, setPopupDone] = useState()
     const {popupOpen, setPopupOpen} = useContext(PopupContext)
     let priceTotal = 0
+    console.log(cart)
 
     const { reset, register, handleSubmit, watch, formState: { errors } } = useForm();
 
@@ -49,6 +50,49 @@ export default function Checkout({lang}) {
         }
     }
 
+    function getPriceAddon(addon, size) {
+        let price = 0
+        if(addon.type == "ml"){
+            price = addon.price * (size.height + size.width) * 2 / 1000
+        }
+        else if(addon.type == "m2"){
+            price = addon.price * size.height * size.width / 1000000
+        }
+        else{
+            price = addon.price
+        }
+
+        return Math.trunc(price)
+    }
+
+    function getPrice(product, size) {
+        let price = 0
+        product.materials.forEach((material, index) => {
+            if(material.type == "ml"){
+                price += material.price * (size.height + size.width) * 2 / 1000
+            }
+            else if(material.type == "m2"){
+                price += material.price * size.height * size.width / 1000000
+            }
+            else{
+                price += material.price
+            }
+        });
+        return price
+    }
+
+    const coeficientFinder = (size, product) => {
+        if(size.width*size.height < product.mediumsize.height * product.mediumsize.width){
+            return product.smallcoeficient
+        }
+        else if(size.width*size.height < product.bigsize.height * product.bigsize.width) {
+            return product.mediumcoeficient
+        }
+        else{
+            return product.bigcoeficient
+        }
+    }
+
     const formRef = useRef(null);
 
     const fillInputs = (PaymentId, ExpiryDate, Signature) => {
@@ -73,9 +117,9 @@ export default function Checkout({lang}) {
             let orders = []
             cart.map((cartProduct, index) => {
                 let price = cartProduct.price
-                cartProduct.addOns.map((addOn) => {
-                    price += addOn.price
-                })
+                // cartProduct.addOns.map((addOn) => {
+                //     price += addOn.price
+                // })
 
                 const requestOptions = {
                     method: 'POST',
@@ -84,7 +128,8 @@ export default function Checkout({lang}) {
                         products : [cartProduct.product],
                         add_ons : cartProduct.addOns,
                         price : price,
-                        number : cartProduct.number
+                        number : cartProduct.number,
+                        size : cartProduct.size
                     })
                 }
 
@@ -870,10 +915,10 @@ export default function Checkout({lang}) {
                         </div>
                         {cart.map((product) => {
                             let addOnsPrice = 0
-                            product.addOns.map((addOn) => {
-                                addOnsPrice += addOn.price
+                            product.addOns.forEach((addOn) => {
+                                addOnsPrice += getPriceAddon( addOn, product.size )
                             })
-                            let priceSingular = product.price + addOnsPrice
+                            let priceSingular = Math.trunc(getPrice(product.product, product.size) * ( 1 + coeficientFinder(product.size, product.product))) + addOnsPrice
                             let price = priceSingular * product.number
                             priceTotal += price
                             return (
@@ -991,7 +1036,7 @@ export default function Checkout({lang}) {
                                         userInfo.livrare == "livrare_la_usa" ?
                                         priceTotal +  150 + " lei"
                                         :
-                                        priceTotal + "lei"
+                                        priceTotal + " lei"
                                     }
                                 </div>
                             </div>

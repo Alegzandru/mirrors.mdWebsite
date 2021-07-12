@@ -11,10 +11,11 @@ var Element = Scroll.Element;
 
 export default function CosProducts({lang}){
 
+    
     const {deviceType, setDeviceType} = useContext(DeviceTypeContext)
-
+    
     const { reset, register, handleSubmit, watch, formState: { errors } } = useForm();
-
+    
     const {cart, setCart} = useContext(CartContext)
     const [totalPrice, setTotalPrice] = useState(0)
     const {popupOpen, setPopupOpen} = useContext(PopupContext)
@@ -23,7 +24,8 @@ export default function CosProducts({lang}){
     const [optionNamesRu, setOptionNamesRu] = useState([])
     const [optionVariants, setOptionVariants] = useState([])
     const [price, setPrice] = useState(0)
-
+    console.log(cart)
+    
     let optionsPrice = 0
 
     function getPrice(product, size) {
@@ -40,6 +42,21 @@ export default function CosProducts({lang}){
             }
         });
         return price
+    }
+
+    function getPriceAddon(addon, size) {
+        let price = 0
+        if(addon.type == "ml"){
+            price = addon.price * (size.height + size.width) * 2 / 1000
+        }
+        else if(addon.type == "m2"){
+            price = addon.price * size.height * size.width / 1000000
+        }
+        else{
+            price = addon.price
+        }
+
+        return Math.trunc(price)
     }
 
     const coeficientFinder = (size, product) => {
@@ -79,6 +96,9 @@ export default function CosProducts({lang}){
                             .then(dataInside2 => {
                                 changeProduct.size = dataInside2
                                 changeProduct.price = Math.trunc( getPrice(changeProduct.product, data) * ( 1 + coeficientFinder(data, changeProduct.product)))
+                                changeProduct.addOns.forEach((addOn, index) => {
+                                    changeProduct.price += getPriceAddon(addOn, changeProduct.size)
+                                })
                                 mutableCart[index] = changeProduct
                                 setCart(mutableCart)   
                                 setPopupOpen("")  
@@ -88,6 +108,9 @@ export default function CosProducts({lang}){
                     else{
                         changeProduct.size = dataInside[0]
                         changeProduct.price = Math.trunc( getPrice(changeProduct.product, data) * ( 1 + coeficientFinder(data, changeProduct.product)))
+                        changeProduct.addOns.forEach((addOn, index) => {
+                            changeProduct.price += getPriceAddon(addOn, changeProduct.size)
+                        })
                         mutableCart[index] = changeProduct
                         setCart(mutableCart)   
                         setPopupOpen("") 
@@ -102,15 +125,16 @@ export default function CosProducts({lang}){
             let mutableCart = [...cart]
             let index = mutableCart.indexOf(changeProduct)
     
-            let productCart = {
-                product : {},
-                addOns : [],
-                size : changeProduct.size,
-                number : changeProduct.number,
-                price : changeProduct.size
-            }
+            // let productCart = {
+            //     product : {},
+            //     addOns : [],
+            //     size : changeProduct.size,
+            //     number : changeProduct.number,
+            //     price : Math.trunc( getPrice(popupProduct.product, popupProduct.size) * ( 1 + coeficientFinder(popupProduct.size, popupProduct.product)))
+            // }
     
             changeProduct.addOns = []
+            changeProduct.price = Math.trunc( getPrice(changeProduct.product, changeProduct.size) * ( 1 + coeficientFinder(changeProduct.size, changeProduct.product)))
     
             addOns.map((addOn, index) => {
                 if(addOn[1] == true){
@@ -118,6 +142,7 @@ export default function CosProducts({lang}){
                         return addOnRaw.name == addOn[0]
                     })
                     changeProduct.addOns.push(addOnRaw[0])
+                    changeProduct.price += getPriceAddon(addOnRaw[0], changeProduct.size)
                     // addOnsPrice += addOnRaw[0].price
                 }
                 else{
@@ -125,6 +150,7 @@ export default function CosProducts({lang}){
                         return addOnRaw.group == addOn[0] && addOnRaw.typename == addOn[1]
                     })
                     changeProduct.addOns.push(addOnRaw[0])
+                    changeProduct.price += getPriceAddon(addOnRaw[0], changeProduct.size)
                     // addOnsPrice += addOnRaw[0].price
                 }
             })
@@ -141,9 +167,9 @@ export default function CosProducts({lang}){
         let mutablePrice = 0
         cart.map((product) => {
             mutablePrice += product.price * product.number
-            product.addOns.map((addOn, index) => {
-                mutablePrice += addOn.price * product.number
-            })
+            // product.addOns.map((addOn, index) => {
+            //     mutablePrice += addOn.price * product.number
+            // })
         })
         setTotalPrice(mutablePrice)
     }, [cart])
@@ -383,6 +409,8 @@ export default function CosProducts({lang}){
                                             price={price}
                                             lang={lang}
                                             optionsRaw={optionVariants}
+                                            productData={popupProduct.product}
+                                            sizeGlobal={popupProduct.size}
                                         />
                                     )}
                                 </Element>
@@ -541,7 +569,7 @@ export default function CosProducts({lang}){
                                                 </div>
                                                 :
                                                 product.addOns.map((addOn) => {
-                                                    optionsPrice += addOn.price
+                                                    optionsPrice += getPriceAddon(addOn, product.size)
                                                     return(
                                                         <div className="flex flex-row justify-between items-start mb-2">
                                                             <div className="max-w-130px">
@@ -553,7 +581,7 @@ export default function CosProducts({lang}){
                                                                 }
                                                             </div>
                                                             <div>
-                                                                {addOn.price} 
+                                                                {getPriceAddon(addOn, product.size)} 
                                                                 {
                                                                     lang == "ro" ?
                                                                     " lei"
@@ -685,7 +713,7 @@ export default function CosProducts({lang}){
                                                         }
                                                     </div>
                                                     <div>
-                                                        {product.price * product.number}
+                                                        {Math.trunc(getPrice(product.product, product.size) * ( 1 + coeficientFinder(product.size, product.product)) ) * product.number}
                                                         {
                                                             lang == "ro" ?
                                                             " lei"
@@ -724,7 +752,7 @@ export default function CosProducts({lang}){
                                                     }
                                                 </div>
                                                 <div>
-                                                    {(product.price + optionsPrice) * product.number} 
+                                                    {( Math.trunc(getPrice(product.product, product.size) * ( 1 + coeficientFinder(product.size, product.product)) ) + optionsPrice) * product.number} 
                                                     {
                                                         lang == "ro" ?
                                                         " lei"

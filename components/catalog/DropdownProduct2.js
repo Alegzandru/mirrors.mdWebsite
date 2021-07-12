@@ -30,6 +30,21 @@ export default function DropdownProduct(props) {
         return price
     }
 
+    function getPriceAddon(addon, size) {
+        let price = 0
+        if(addon.type == "ml"){
+            price = addon.price * (size.height + size.width) * 2 / 1000
+        }
+        else if(addon.type == "m2"){
+            price = addon.price * size.height * size.width / 1000000
+        }
+        else{
+            price = addon.price
+        }
+
+        return Math.trunc(price)
+    }
+
     const handleClick = (e) => {
         if(props.options.length != 1) {
             if(chosen == e.target.value){
@@ -71,10 +86,10 @@ export default function DropdownProduct(props) {
         if(checked === 0 ){
         }
         else if(checked){
-            props.setPrice(props.price + props.options[0].price)
+            props.setPrice(props.price + getPriceAddon(props.options[0], props.sizeGlobal) )
         }
         else{
-            props.setPrice(props.price - props.options[0].price)
+            props.setPrice(props.price - getPriceAddon(props.options[0], props.sizeGlobal) )
         }
     }, [checked])
 
@@ -82,7 +97,8 @@ export default function DropdownProduct(props) {
         if(chosen === 0){
             if(lastChosen != 0 && props.name != "Dimensiuni recomandate"){
                 let lastOptionPriceRaw = props.options.filter((option) => option.typename == lastChosen)
-                let lastOptionPrice = lastOptionPriceRaw[0].price
+                // let lastOptionPrice = lastOptionPriceRaw[0].price
+                let lastOptionPrice = getPriceAddon(lastOptionPriceRaw[0], props.sizeGlobal)
     
                 props.setPrice(props.price - lastOptionPrice)
                 setLastChosen(0)
@@ -90,8 +106,17 @@ export default function DropdownProduct(props) {
         }
         else{
             let optionPriceRaw = props.options.filter((option) => option.typename == chosen)
-            let optionPrice = optionPriceRaw[0].price
+            // let optionPrice = optionPriceRaw[0].price
+            let optionPrice = 0
+            if(props.name == "Dimensiuni recomandate"){
+                optionPrice = optionPriceRaw[0].price
+            }
+            else{
+                optionPrice = getPriceAddon(optionPriceRaw[0], props.sizeGlobal)
+            }
+
             if(lastChosen === 0){
+                
                 if(props.name == "Dimensiuni recomandate"){
                     props.setPrice(props.price + optionPrice - props.initialPrice)
                     props.setSizeGlobal({
@@ -176,14 +201,17 @@ export default function DropdownProduct(props) {
                                         type="number"
                                         placeholder={props.sizeGlobal.height}
                                         {...register("height", { min: props.minHeight, max: props.maxHeight, valueAsNumber : true , required : true})}
-                                        onChange={(e) => handleChange(e)}
+                                        onChange={(e) => {
+                                            handleChange(e)
+                                            handleSubmit(onSubmit)()
+                                        }}
                                         // onBlur={handleSubmit(onSubmit)}
                                     />
                                     <span className="text-ui-black font-medium">
                                         mm
                                     </span>
                                 </div>
-                                <div className="h-10">
+                                <div className="h-10 text-accent-error">
                                     {
                                         props.lang == "ro" ?
                                         errors.height?.type === 'min' && `Înălțimea min - ${props.minHeight}`
@@ -221,7 +249,10 @@ export default function DropdownProduct(props) {
                                         type="number"
                                         placeholder={props.sizeGlobal.width}
                                         {...register("width", { min: props.minWidth, max: props.maxWidth, valueAsNumber : true , required : true})}
-                                        onChange={(e) => handleChange(e)}
+                                        onChange={(e) => {
+                                            handleChange(e)
+                                            handleSubmit(onSubmit)()
+                                        }}
                                         // onBlur={handleSubmit(onSubmit)}
                                     />
 
@@ -229,7 +260,7 @@ export default function DropdownProduct(props) {
                                         mm
                                     </span>
                                 </div>
-                                <div className="h-10">
+                                <div className="h-10 text-accent-error">
                                     { 
                                         props.lang == "ro" ?
                                         errors.width?.type === 'min' && `Lățimea min. - ${props.minWidth}`
@@ -379,7 +410,7 @@ export default function DropdownProduct(props) {
                             </div>
                         </div>
                         <div className="text-lg-17 lg:text-lg-14 font-medium">
-                            {option.price} 
+                            {getPriceAddon(option, props.sizeGlobal)} 
                             {
                                 props.lang == "ro" ?
                                 " lei"

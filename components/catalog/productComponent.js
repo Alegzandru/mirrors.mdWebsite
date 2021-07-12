@@ -32,6 +32,21 @@ export default function ProductComponent ({deviceType, name, images, options, op
         return price
     }
 
+    function getPriceAddon(addon, size) {
+        let price = 0
+        if(addon.type == "ml"){
+            price = addon.price * (size.height + size.width) * 2 / 1000
+        }
+        else if(addon.type == "m2"){
+            price = addon.price * size.height * size.width / 1000000
+        }
+        else{
+            price = addon.price
+        }
+
+        return Math.trunc(price)
+    }
+
     const coeficientFinder = (size) => {
         if(size.width*size.height < productData[0].mediumsize.height * productData[0].mediumsize.width){
             return productData[0].smallcoeficient
@@ -142,8 +157,10 @@ export default function ProductComponent ({deviceType, name, images, options, op
                                                     contorAddons = 0
                                                 }
                                             }
+
                                             productCart.addOns.push(addOnRaw[0])
-                                            addOnsPrice += addOnRaw[0].price
+                                            addOnsPrice += getPriceAddon( addOnRaw[0] , productCart.size)
+
                                             if (index == addOns.length-1){
                                                 if( contorAddons && cart[cart.length - 1].size.name == `${size.height}x${size.width}`){
                                                     let mutableCart = [...cart]
@@ -156,6 +173,7 @@ export default function ProductComponent ({deviceType, name, images, options, op
                                                     }
                                                 }
                                                 else{
+                                                    productCart.price += addOnsPrice
                                                     setCart([
                                                         ...cart,
                                                         productCart
@@ -183,7 +201,7 @@ export default function ProductComponent ({deviceType, name, images, options, op
                                             }
 
                                             productCart.addOns.push(addOnRaw[0])
-                                            addOnsPrice += addOnRaw[0].price
+                                            addOnsPrice += getPriceAddon( addOnRaw[0] , productCart.size)
 
                                             if (index == addOns.length-1){
                                                 if( contorAddons && cart[cart.length - 1].size.name == `${size.height}x${size.width}`){
@@ -197,6 +215,7 @@ export default function ProductComponent ({deviceType, name, images, options, op
                                                     }
                                                 }
                                                 else{
+                                                    productCart.price += addOnsPrice
                                                     setCart([
                                                         ...cart,
                                                         productCart
@@ -275,8 +294,10 @@ export default function ProductComponent ({deviceType, name, images, options, op
                                             contorAddons = 0
                                         }
                                     }
+
                                     productCart.addOns.push(addOnRaw[0])
-                                    addOnsPrice += addOnRaw[0].price
+                                    addOnsPrice += getPriceAddon( addOnRaw[0] , productCart.size)
+
                                     if (index == addOns.length-1){
                                         if( contorAddons && cart[cart.length - 1].size.name == `${size.height}x${size.width}`){
                                             let mutableCart = [...cart]
@@ -289,6 +310,7 @@ export default function ProductComponent ({deviceType, name, images, options, op
                                             }
                                         }
                                         else{
+                                            productCart.price += addOnsPrice
                                             setCart([
                                                 ...cart,
                                                 productCart
@@ -316,7 +338,7 @@ export default function ProductComponent ({deviceType, name, images, options, op
                                     }
 
                                     productCart.addOns.push(addOnRaw[0])
-                                    addOnsPrice += addOnRaw[0].price
+                                    addOnsPrice += getPriceAddon( addOnRaw[0] , productCart.size)
 
                                     if (index == addOns.length-1){
                                         if( contorAddons && cart[cart.length - 1].size.name == `${size.height}x${size.width}`){
@@ -330,6 +352,7 @@ export default function ProductComponent ({deviceType, name, images, options, op
                                             }
                                         }
                                         else{
+                                            productCart.price += addOnsPrice
                                             setCart([
                                                 ...cart,
                                                 productCart
@@ -345,67 +368,11 @@ export default function ProductComponent ({deviceType, name, images, options, op
                     )
                 }
             })
-
-        // fetch(`https://mirrors-md-admin.herokuapp.com/products?name_eq=${name}`)
-        //     .then(response => response.json())
-        //     .then(data => {
-        //         const requestOptions = {
-        //             method: 'POST',
-        //             headers: { 'Content-Type': 'application/json' },
-        //             body: JSON.stringify({ 
-        //                 name : 'React Order',
-        //                 products: data
-        //             })
-        //         };
-
-        //         fetch(`https://mirrors-md-admin.herokuapp.com/orders`, requestOptions)
-        //             .then(response => response.json())
-        //             .then(data => console.log(data))
-        // });
-
-        // console.log(addOns)
-
-        // addOns.map((addOn) => {
-        //     if(addOn[1] == true){
-        //         fetch(`https://mirrors-md-admin.herokuapp.com/add-ons?name_eq=${addOn[0]}`)
-        //             .then(response => response.json())
-        //             .then(data => {
-        //                 console.log(data)
-        //                 fetchedAddons.push(data)
-        //                 console.log(fetchedAddons)
-
-
-            //             const requestOptions = {
-            //                 method: 'POST',
-            //                 headers: { 'Content-Type': 'application/json' },
-            //                 body: JSON.stringify({ 
-            //                     name : 'React Order',
-            //                     add_ons: data
-            //                 })
-            //             };
-        
-            //             fetch(`https://mirrors-md-admin.herokuapp.com/orders`, requestOptions)
-            //                 .then(response => response.json())
-            //                 .then(data => console.log(data))
-
-            //     })
-            // }
-        //     else{
-        //         fetch(`https://mirrors-md-admin.herokuapp.com/add-ons?group_eq=${addOn[0]}&typename_eq=${addOn[1]}`)
-        //             .then(response => response.json())
-        //             .then(data => {
-        //                 console.log(data)
-        //                 fetchedAddons.push(data)
-        //                 console.log(fetchedAddons)
-        //         })
-        //     }
-        // })
         
     }
 
     useEffect(() => {
-        // console.log("Cart object", cart)
-        // console.log("JSON.stringify cart : ", JSON.stringify(cart))
+
         localStorage.setItem('cart', JSON.stringify(cart))
         const localCart = localStorage.getItem('cart')
         
@@ -584,7 +551,12 @@ export default function ProductComponent ({deviceType, name, images, options, op
                         >
                             <div className="w-full flex flex-row justify-between items-center mb-2">
                                 <div className="text-sm-h3 font-medium text-type-manatee">
-                                    Opțiuni adăugătoare
+                                    {
+                                        lang == "ro" ?
+                                        "Opțiuni adăugătoare"
+                                        :
+                                        "Дополнительные опции"
+                                    }
                                 </div>
 
                                 <svg xmlns="http://www.w3.org/2000/svg" className={`h-6 w-6 ${openOptions ? "hidden" : "block"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -621,6 +593,7 @@ export default function ProductComponent ({deviceType, name, images, options, op
                                     productData={productData[0]}
                                     lang={lang}
                                     optionsRaw={optionsRaw}
+                                    sizeGlobal={sizeGlobal}
                                 />
                             )}
                         </Element>
