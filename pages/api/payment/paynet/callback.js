@@ -30,8 +30,8 @@ export default async (req, res) => {
           EventType : body.EventType,
           EventDate : body.EventDate,
           Payment : {
-              ID : body.Payment.ID,
-              ExternalID : body.Payment.ExternalID,
+              Id : body.Payment.Id,
+              ExternalId : body.Payment.ExternalId,
               Merchant : body.Payment.Merchant,
               Customer : body.Payment.Customer,
               StatusDate : body.Payment.StatusDate,
