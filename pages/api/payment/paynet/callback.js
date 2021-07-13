@@ -5,6 +5,7 @@ export default async (req, res) => {
     }
   
     const body = req.body
+    console.log(body)
     // const body = JSON.parse(req.body)
 
     // const requestOptionsNotifications = {
