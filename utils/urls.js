@@ -1,12 +1,4 @@
-// export const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:1337"
-
 export const API_URL = "https://mirrors-md-admin.herokuapp.com"
-
-// export const API_URL = "http://localhost:1337"
-
-// export const MAGIC_PUBLIC_KEY = process.env.NEXT_PUBLIC_MAGIC_PUBLIC_KEY || 'pk_test_42B2064C668798B5'
-
-// export const STRIPE_PK = process.env.NEXT_PUBLIC_STRIPE_PK || 'pk_test_42B2064C668798B5'
 
 /**
  * Given a image object return the proper path to display it
