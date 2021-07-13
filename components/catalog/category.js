@@ -416,8 +416,13 @@ export default function Category({category, name, products, lang, nameru}) {
                                                         product.nameru
                                                     }
                                                 </div>
-                                                <div className="text-sm-p md:text-lg-p text-type-manatee font-normal mt-2">
-                                                    Seria Juergen LED
+                                                <div className={`text-sm-p md:text-lg-p text-type-manatee font-normal mt-2 ${product.seria != null ? "block" : "hidden"}`}>
+                                                    {
+                                                        lang == "ro" ?
+                                                        `Seria ${product.seria}`
+                                                        :
+                                                        `Серия ${product.seria}`
+                                                    }
                                                 </div>
                                                 <div className="text-sm-button md:text-lg-17 text-accent-accent font-medium mt-4 md:mt-6">
                                                     {

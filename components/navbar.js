@@ -675,9 +675,9 @@ export function Navbar (props) {
                 </div>
             </div>
 
-            <div className={`block lg:hidden h-16 -mb-16 overflow-hidden ${transparent ? "bg-transparent" : "bg-ui-white"} header-shadow`}>
+            <div className={`block lg:hidden h-16 -mb-16 overflow-hidden ${transparent ? "bg-transparent" : "bg-ui-white"} header-shadow transition-all duration-300`}>
                 <div className="h-full mx-container-md flex flex-row justify-between items-center">
-                    <div className={`w-112px h-40px ${transparent? "block" : "hidden"}`}>
+                    <div className={`w-112px h-40px ${open ? "hidden" : transparent? "block" : "hidden"}`}>
                         <Link href={props.lang == "ro" ? "/" : "/ru"}>
                             <a>
                                 <Image
@@ -689,7 +689,7 @@ export function Navbar (props) {
                         </Link>
                     </div>
 
-                    <div className={`w-112px h-40px ${transparent? "hidden" : "block"}`}>
+                    <div className={`w-112px h-40px ${open ? "block" : transparent? "hidden" : "block"}`}>
                         <Link href={props.lang == "ro" ? "/" : "/ru"}>
                             <a>
                                 <Image

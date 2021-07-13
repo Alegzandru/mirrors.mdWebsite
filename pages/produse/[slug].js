@@ -26,6 +26,7 @@ export function DynamicProduct ({productData}) {
             price={productData[0].price}
             images={images}
             description={productData[0].description}
+            descriptionru={productData[0].descriptionru}
             category={productData[0].category.name}
             options={productData.optionNames}
             optionsRu={productData.optionNamesRu}

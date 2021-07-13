@@ -6,7 +6,7 @@ import "react-awesome-lightbox/build/style.css";
 import { DeviceTypeContext } from "../context";
 import Link from "next/link"
 
-export default function ProductDescription ({options, optionVariants, images, name ,description, productData, lang, nameru}) {
+export default function ProductDescription ({options, optionVariants, images, name ,description, productData, lang, nameru, descriptionru}) {
     
     const {deviceType, setDeviceType} = useContext(DeviceTypeContext)
     
@@ -106,7 +106,7 @@ export default function ProductDescription ({options, optionVariants, images, na
                     style={{
                         fontFamily : "Ubuntu"
                     }} 
-                    dangerouslySetInnerHTML={{ __html: description.replace(/###/g, `<b style="font-size:24px">`).replace(/##/g, "</b>").replace(/-# /g, "&#9679 ") }} className={`md:text-md-p lg:text-lg-p text-type-manatee mb-11 w-full ${autoHeight ? "h-auto" : "h-240px"} overflow-y-hidden font-medium`}>
+                    dangerouslySetInnerHTML={{ __html: lang == "ro" ? description != null ? description.replace(/###/g, `<b style="font-size:24px">`).replace(/##/g, "</b>").replace(/-# /g, "&#9679 ") : "<div></div>" : descriptionru != null ? descriptionru.replace(/###/g, `<b style="font-size:24px">`).replace(/##/g, "</b>").replace(/-# /g, "&#9679 ") : "<div></div>"}} className={`md:text-md-p lg:text-lg-p text-type-manatee mb-11 w-full ${autoHeight ? "h-auto" : "max-h-240px"} overflow-y-hidden font-medium`}>
                         {/* {description} */}
                 </pre>
 
