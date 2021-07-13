@@ -35,9 +35,7 @@ export default async (req, res) => {
               Customer : body.Payment.Customer,
               StatusDate : body.Payment.StatusDate,
               Amount : body.Payment.Amount
-          },
-          ResultCode : "SUCCESS",
-          ResultMessage : "Success Message"
+          }
         })
       } catch (error) {
         res.status(500).json({ error: error })
