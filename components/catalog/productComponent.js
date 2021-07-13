@@ -385,14 +385,14 @@ export default function ProductComponent ({deviceType, name, images, options, op
     const responsive = {
         desktop: {
           breakpoint: { max: 3000, min: 1367 },
-          items: 4,
-          slidesToSlide: 4,
+          items: 2,
+          slidesToSlide: 2,
           partialVisibilityGutter: 40
         },
         tablet: {
           breakpoint: { max: 1366, min: 769 },
-          items: 4,
-          slidesToSlide: 4,
+          items: 2,
+          slidesToSlide: 2,
           partialVisibilityGutter: 40
         },
         mobile: {
@@ -461,7 +461,7 @@ export default function ProductComponent ({deviceType, name, images, options, op
                             objectFit="cover"
                         />
                     </div>
-                    <div className="w-full relative h-128px mt-6 mb-4 z-10">
+                    <div className="w-full relative h-128px md:h-165px mt-6 mb-4 z-10">
                         <Carousel
                             swipeable={true}
                             ssr
@@ -476,7 +476,7 @@ export default function ProductComponent ({deviceType, name, images, options, op
                             {images.map((image, index) =>
                                 <div key={index} className="w-full px-1">
                                     <div 
-                                        className="w-full h-128px relative cursor-pointer"
+                                        className="w-full h-128px md:h-165px relative cursor-pointer"
                                         onClick={() => setOpenImage(index)}
                                     >
                                         <Image
