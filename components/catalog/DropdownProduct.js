@@ -137,20 +137,6 @@ export default function DropdownProduct(props) {
 
             <div 
                 className={`${open ? "block" : "hidden"} w-full`}
-                // onChange={(e) => {
-                //     if(props.options.length != 1) {
-                //         if(chosen == e.target.value){
-                //             setChosen(0)
-                //         }
-                //         else{
-                //             setChosen(e.target.value)
-                //         }
-                //     }
-                //     else{
-                //         chosen ? setChosen(0) : setChosen(e.target.value)
-                //     }
-                //     console.log(chosen)
-                // }}
             >
                 {
                     props.name == "Dimensiuni recomandate" &&
