@@ -110,7 +110,7 @@ export default function ProductDescription ({options, optionVariants, images, na
                         {/* {description} */}
                 </pre>
 
-                <div 
+                <div
                     className="text-accent-accent text-lg-p underline cursor-pointer"
                     onClick={() => setAutoHeight(!autoHeight)}
                 >
