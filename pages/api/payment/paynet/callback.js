@@ -22,7 +22,7 @@ export default async (req, res) => {
       })
     }
     // fetch(`https://mirrors-md-admin.herokuapp.com/clients/${body.Payment.ExternalId}`, 
-    const response = await fetch(`https://mirrors-md-admin.herokuapp.com/clients/783770178653`, requestOptions)
+    const response = await fetch(`https://mirrors-md-admin.herokuapp.com/clients/${body.Payment.ExternalId}`, requestOptions)
     console.log("Response from fetch: ", await response.json())
 
     try {
