@@ -226,9 +226,9 @@ export default function Checkout({lang}) {
 
     const onSubmit = (data) => {
         setUserInfo({...data})
-        setExternalID(Math.floor(Math.random() * Date.now()))
         
         if(step == 4){
+            setExternalID(Math.floor(Math.random() * Date.now()))
             setPopupOpen(1)
             setPopupLoading(1)
 
