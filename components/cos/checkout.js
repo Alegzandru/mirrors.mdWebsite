@@ -115,6 +115,14 @@ export default function Checkout({lang}) {
         inputs.LinkUrlCancel.value = "https://www.mirrors.md/cos"
     }
 
+    useEffect(() => {
+        setExternalID(Math.floor(Math.random() * Date.now()))
+    }, [])
+
+    useEffect(() => {
+        console.log(ExternalID)
+    }, [ExternalID])
+
     useEffect(()=> {
         console.log(agreed)
     }, [agreed])
@@ -228,7 +236,6 @@ export default function Checkout({lang}) {
         setUserInfo({...data})
         
         if(step == 4){
-            setExternalID(Math.floor(Math.random() * Date.now()))
             setPopupOpen(1)
             setPopupLoading(1)
 
