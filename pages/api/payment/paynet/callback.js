@@ -9,7 +9,7 @@ export default async (req, res) => {
     console.log("body.EventType == 'Paid' ",body.EventType == 'PAID')
 
     if(body.EventType == 'PAID'){
-      fetch(`https://mirrors-md-admin.herokuapp.com/clients/${body.Payment.id}`, 
+      fetch(`https://mirrors-md-admin.herokuapp.com/clients/${body.Payment.ExternalId}`, 
         {
           method: 'PUT',
           headers: { 
@@ -22,7 +22,7 @@ export default async (req, res) => {
       )
       .then(response => response.json())
       .then(data => console.log(data))
-      
+
       try {
           res.status(200).json({
             Eventid : body.Eventid,
