@@ -120,14 +120,6 @@ export default function Checkout({lang}) {
     }, [])
 
     useEffect(() => {
-        console.log(ExternalID)
-    }, [ExternalID])
-
-    useEffect(()=> {
-        console.log(agreed)
-    }, [agreed])
-
-    useEffect(() => {
         if(buttonClicked == 1){
 
         let ClientCode = uuidv4()

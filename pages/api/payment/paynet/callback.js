@@ -5,12 +5,8 @@ export default async (req, res) => {
   }
 
   const body = req.body
-  console.log(body)
-  console.log("body.EventType == 'Paid' ", body.EventType == 'PAID')
 
   if (body.EventType == 'PAID') {
-    console.log("Trying fetch")
-    console.log("External ID : ", body.Payment.ExternalId)
 
     const requestOptions = {
       method: 'PUT',
@@ -23,7 +19,6 @@ export default async (req, res) => {
     }
     // fetch(`https://mirrors-md-admin.herokuapp.com/clients/${body.Payment.ExternalId}`, 
     const response = await fetch(`https://mirrors-md-admin.herokuapp.com/clients/${body.Payment.ExternalId}`, requestOptions)
-    console.log("Response from fetch is: ", await response.json())
 
     try {
       res.status(200).json({
@@ -40,12 +35,10 @@ export default async (req, res) => {
         }
       })
     } catch (error) {
-      console.log('Error inside PAID EventType')
       res.status(500).json({ error: error })
     }
   }
   else {
-    console.log('Error outside PAID EventType')
     res.status(400).json({ error: "Wrong request" })
   }
 }
