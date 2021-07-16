@@ -8,18 +8,14 @@ export default async (req, res) => {
     console.log(body)
 
     if(body.EventType == 'PAID'){
-      fetch(`https://mirrors-md-admin.herokuapp.com/clients?paynetid_eq=${body.Payment.Id}`)
-      .then(response => response.json())
-      .then((data) => {
-        fetch(`https://mirrors-md-admin.herokuapp.com/clients/${data.id}`, 
-          {
-            method: 'PUT',
-            body: JSON.stringify({
-              status_plata : "platit"
-            })
-          }
-        )
-      })
+      fetch(`https://mirrors-md-admin.herokuapp.com/clients/${body.Payment.id}`, 
+        {
+          method: 'PUT',
+          body: JSON.stringify({
+            status_plata : "platit"
+          })
+        }
+      )
       try {
           res.status(200).json({
             Eventid : body.Eventid,
@@ -39,6 +35,6 @@ export default async (req, res) => {
       }
     }
     else{
-      res.status(500).json({error: "Wrong reqest"})
+      res.status(400).json({error: "Wrong reqest"})
     }
 }

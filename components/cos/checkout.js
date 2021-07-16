@@ -109,8 +109,8 @@ export default function Checkout({lang}) {
         inputs.operation.value = PaymentId;
         inputs.ExpiryDate.value = ExpiryDate;
         inputs.Signature.value = Signature;
-        inputs.LinkUrlSuccess.value= `http://localhost:3000/comanda/?status=paid&id=${PaymentId}`
-        inputs.LinkUrlCancel.value = `http://localhost:3000/comanda/?status=canceled&id=${PaymentId}`
+        inputs.LinkUrlSuccess.value= "https://www.mirrors.md/"
+        inputs.LinkUrlCancel.value = "https://www.mirrors.md/cos"
     }
 
     useEffect(()=> {
