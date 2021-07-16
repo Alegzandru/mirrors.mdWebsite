@@ -9,12 +9,14 @@ export default async (req, res) => {
     console.log("body.EventType == 'Paid' ",body.EventType == 'PAID')
 
     if(body.EventType == 'PAID'){
-      try{
-        fetch(`https://mirrors-md-admin.herokuapp.com/clients/${body.Payment.ExternalId}`, 
+        console.log("Trying fetch")
+        console.log("External ID : ", body.Payment.ExternalId)
+        // fetch(`https://mirrors-md-admin.herokuapp.com/clients/${body.Payment.ExternalId}`, 
+        fetch(`https://mirrors-md-admin.herokuapp.com/clients/783770178653`, 
           {
             method: 'PUT',
             headers: { 
-              'Content-Type': 'application/json; charset=utf-8',
+              'Content-Type': 'application/json',
             },
             body: JSON.stringify({
               status_plata : "platit"
@@ -27,10 +29,7 @@ export default async (req, res) => {
         .then(
           data => console.log(data)
         )
-      }
-      catch(error){
-        console.log(error)
-      }
+        .catch(error => console.log("Error with fetch request ", error))
 
       try {
           res.status(200).json({
