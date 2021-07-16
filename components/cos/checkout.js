@@ -24,6 +24,7 @@ export default function Checkout({lang}) {
     const [price, setPrice] = useState(0)
     const [productsPaynet, setProductsPaynet] = useState(0)
     const [agreed, setAgreed] = useState(false)
+    const [ExternalID, setExternalID] = useState(0)
     let priceTotal = 0
 
     const { reset, register, handleSubmit, watch, formState: { errors } } = useForm();
@@ -120,7 +121,6 @@ export default function Checkout({lang}) {
         if(buttonClicked == 1){
 
         let ClientCode = uuidv4()
-        let ExternalID = Math.floor(Math.random() * Date.now())
         let ExpiryDate = "2022-01-01T00:00:00"
 
         var details = {
@@ -224,6 +224,7 @@ export default function Checkout({lang}) {
 
     const onSubmit = (data) => {
         setUserInfo({...data})
+        setExternalID(Math.floor(Math.random() * Date.now()))
         
         if(step == 4){
             setPopupOpen(1)
@@ -269,7 +270,8 @@ export default function Checkout({lang}) {
                                 mod_de_plata : data.plata,
                                 mod_de_livrare : data.livrare,
                                 orders : orders,
-                                comentariu : data.comentariu
+                                comentariu : data.comentariu,
+                                paynetid: ExternalID
                             })
                         };
             

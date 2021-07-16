@@ -7,21 +7,38 @@ export default async (req, res) => {
     const body = req.body
     console.log(body)
 
-    try {
-        res.status(200).json({
-          Eventid : body.Eventid,
-          EventType : body.EventType,
-          EventDate : body.EventDate,
-          Payment : {
-              Id : body.Payment.Id,
-              ExternalId : body.Payment.ExternalId,
-              Merchant : body.Payment.Merchant,
-              Customer : body.Payment.Customer,
-              StatusDate : body.Payment.StatusDate,
-              Amount : body.Payment.Amount
+    if(body.EventType == 'PAID'){
+      fetch(`https://mirrors-md-admin.herokuapp.com/clients?paynetid_eq=${body.Payment.Id}`)
+      .then(response => response.json())
+      .then((data) => {
+        fetch(`https://mirrors-md-admin.herokuapp.com/clients/${data.id}`, 
+          {
+            method: 'PUT',
+            body: JSON.stringify({
+              status_plata : "platit"
+            })
           }
-        })
-    } catch (error) {
-      res.status(500).json({ error: error })
+        )
+      })
+      try {
+          res.status(200).json({
+            Eventid : body.Eventid,
+            EventType : body.EventType,
+            EventDate : body.EventDate,
+            Payment : {
+                Id : body.Payment.Id,
+                ExternalId : body.Payment.ExternalId,
+                Merchant : body.Payment.Merchant,
+                Customer : body.Payment.Customer,
+                StatusDate : body.Payment.StatusDate,
+                Amount : body.Payment.Amount
+            }
+          })
+      } catch (error) {
+        res.status(500).json({ error: error })
+      }
+    }
+    else{
+      res.status(500).json({error: "Wrong reqest"})
     }
 }
