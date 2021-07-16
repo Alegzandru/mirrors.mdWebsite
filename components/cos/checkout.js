@@ -43,6 +43,7 @@ export default function Checkout({lang}) {
             })
         } 
         catch (error) {
+            console.log(error)
         }
     }
 
@@ -55,6 +56,7 @@ export default function Checkout({lang}) {
             })
         } 
         catch (error) {
+            console.log(error)
         }
     }
 

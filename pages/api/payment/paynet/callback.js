@@ -8,14 +8,17 @@ export default async (req, res) => {
     console.log(body)
 
     if(body.EventType == 'PAID'){
-      fetch(`https://mirrors-md-admin.herokuapp.com/clients/${body.Payment.id}`, 
-        {
-          method: 'PUT',
-          body: JSON.stringify({
-            status_plata : "platit"
-          })
-        }
-      )
+      // fetch(`https://mirrors-md-admin.herokuapp.com/clients/${body.Payment.id}`, 
+      //   {
+      //     method: 'PUT',
+      //     headers: { 
+      //       'Content-Type': 'application/json',
+      //     },
+      //     body: JSON.stringify({
+      //       status_plata : "platit"
+      //     })
+      //   }
+      // )
       try {
           res.status(200).json({
             Eventid : body.Eventid,
