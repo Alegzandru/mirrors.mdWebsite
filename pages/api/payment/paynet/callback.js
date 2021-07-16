@@ -7,7 +7,7 @@ export default async (req, res) => {
     const body = req.body
     console.log(body)
 
-    if(body.EventType == 'PAID'){
+    // if(body.EventType == 'PAID'){
       // fetch(`https://mirrors-md-admin.herokuapp.com/clients/${body.Payment.id}`, 
       //   {
       //     method: 'PUT',
@@ -36,8 +36,8 @@ export default async (req, res) => {
       } catch (error) {
         res.status(500).json({ error: error })
       }
-    }
-    else{
-      res.status(400).json({error: "Wrong reqest"})
-    }
+    // }
+    // else{
+    //   res.status(400).json({error: "Wrong request"})
+    // }
 }
