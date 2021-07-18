@@ -13,6 +13,28 @@ import ChangingProgressProvider from "./progress/ChangingProgressProvider"
 import 'react-circular-progressbar/dist/styles.css';
 import { useSpring, animated } from 'react-spring'
 var qs = require('qs');
+const categories = [
+    {
+        name : "Oglinzi",
+        nameru: "Зеркала",
+        slug: "oglinzi"
+    },
+    {
+        name : "Dulapuri",
+        nameru: "Шкафы",
+        slug: "dulapuri"
+    },
+    {
+        name : "Mese pentru Make Up",
+        nameru: "Гримёрные",
+        slug: "mesemakeup"
+    },
+    {
+        name : "Text Acrilic",
+        nameru: "Акриловый Текст",
+        slug: "textacrilic"
+    }
+]
 
 
 export function Navbar (props) {
@@ -72,18 +94,10 @@ export function Navbar (props) {
         });
         return price
     }
-
-    // const stylesSearchMobile = useSpring({
-    //     height : mobileSearchOpen ? deviceType == "mobile" ? 150 : 226 : 0
-    // })
     
     async function getSearchProducts() {
         setLoading(1)
-        // const query = qs.stringify({
-        //     _where : [{name_contains : search}, {_limit : 5}]
-        // })
         const productsResponse = await fetch(`${API_URL}/products?_where[name_contains]=${search}&[_limit]=5`)
-        // const productsResponse = await fetch(`${API_URL}/products?${query}`)
         const products = await productsResponse.json().then(setLoading(0))
         setSearchProducts(products)
     }
@@ -588,7 +602,7 @@ export function Navbar (props) {
                                 </div>
                                 <div className={`bg-ui-white py-2 ${catalogOpen ? "block" : "hidden"} transition duration-300`}>
                                     {
-                                        props.categories.map((category, index) => 
+                                        categories.map((category, index) => 
                                         <div key={index}>
                                             <Link href={props.lang == "ro" ? `/${category.slug}` : `/ru/${category.slug}`}>
                                                 <a>
@@ -785,7 +799,7 @@ export function Navbar (props) {
 
                         <li className={`w-full ${mobileCatalogOpen ? "block" : "hidden"}`}>
                             {
-                                props.categories.map((category, index) => 
+                                categories.map((category, index) => 
                                 <div key={index}>
                                     <Link href={props.lang == "ro" ? `/${category.slug}` : `/ru/${category.slug}`}>
                                         <a>

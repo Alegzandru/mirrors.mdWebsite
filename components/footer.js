@@ -1,5 +1,27 @@
 import Image from "next/image"
 import Link from "next/link"
+const categories = [
+    {
+        name : "Oglinzi",
+        nameru: "Зеркала",
+        slug: "oglinzi"
+    },
+    {
+        name : "Dulapuri",
+        nameru: "Шкафы",
+        slug: "dulapuri"
+    },
+    {
+        name : "Mese pentru Make Up",
+        nameru: "Гримёрные",
+        slug: "mesemakeup"
+    },
+    {
+        name : "Text Acrilic",
+        nameru: "Акриловый Текст",
+        slug: "textacrilic"
+    }
+]
 
 export default function Footer (props) {
 
@@ -36,7 +58,7 @@ export default function Footer (props) {
                     </div>
                     <ul className="text-lg-14 mt-8">
                         {
-                            props.categories.map((category, index) => 
+                            categories.map((category, index) => 
                                 <Link 
                                     href={props.lang == "ro" ? `/${category.slug}` : `/ru/${category.slug}`}
                                     key={index}
@@ -209,7 +231,7 @@ export default function Footer (props) {
                     </div>
                     <ul className="text-lg-14 mt-8">
                         {
-                            props.categories.map((category, index) => 
+                            categories.map((category, index) => 
                                 <Link 
                                     href={`/${category.slug}`}
                                     key={index}

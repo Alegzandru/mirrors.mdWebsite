@@ -62,7 +62,7 @@ export default function PopularProducts(props){
                     }
                 </h2>
 
-                <p className="mt-5 font-normal lg:text-lg-p md:text-md-p text-type-manatee w-full">
+                <p className="mt-5 font-normal lg:text-lg-p md:text-md-p text-type-manatee w-full px-container-sm md:px-0">
                     {
                         props.lang == "ro" ? 
                         "Site-ul nostru conține o gamă largă de oglinzi, printre care cu siguranță o veți găsi pe cea potrivită."

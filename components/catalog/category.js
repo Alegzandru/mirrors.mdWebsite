@@ -449,7 +449,7 @@ export default function Category({category, name, products, lang, nameru}) {
                 }
 
                 <div 
-                    className="mt-8 mx-auto w-230px h-12 flex flex-row justify-center items-center rounded-lg bg-accent-transparent text-accent-accent font-bold text-lg-button mb-4"
+                    className={`mt-8 mx-auto w-230px h-12 flex flex-row justify-center items-center rounded-lg font-bold text-lg-button mb-4 ${showNr >= showNr*pages? "bg-ui-blueishGrey text-ui-white" : "bg-accent-transparent text-accent-accent"}`}
                     onClick={() => {
                         showNr >= showNr*pages? "" : setShowNr(showNr + 32)
                     }}

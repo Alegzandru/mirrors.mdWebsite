@@ -9,6 +9,7 @@ import done from "./done.json"
 import loading from "./loading.json"
 import { useRouter } from 'next/router'
 var md5 = require('md5');
+const ExternalId = (Math.floor(Math.random() * Date.now()))
 
 
 export default function Checkout({lang}) {
@@ -160,7 +161,7 @@ export default function Checkout({lang}) {
                         'Authorization' : `Bearer ${dataAuth.access_token}`
                     },
                     body: JSON.stringify({ 
-                        Invoice : ExternalID,
+                        Invoice : ExternalId,
                         Currency : 498,
                         MerchantCode : "388417",
                         Customer : {
@@ -272,7 +273,7 @@ export default function Checkout({lang}) {
                                 mod_de_livrare : data.livrare,
                                 orders : orders,
                                 comentariu : data.comentariu,
-                                paynetid: ExternalID
+                                paynetid: ExternalId
                             })
                         };
             
