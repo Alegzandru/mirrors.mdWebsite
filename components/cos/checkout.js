@@ -9,8 +9,10 @@ import done from "./done.json"
 import loading from "./loading.json"
 import { useRouter } from 'next/router'
 var md5 = require('md5');
-const ExternalId = (Math.floor(Math.random() * Date.now()))
-
+// const ExternalId = (Math.floor(Math.random() * Date.now()))
+let PaymentId = 0
+let ExpiryDate = ""
+let Signature = ""
 
 export default function Checkout({lang}) {
 
@@ -26,6 +28,7 @@ export default function Checkout({lang}) {
     const [productsPaynet, setProductsPaynet] = useState(0)
     const [agreed, setAgreed] = useState(false)
     const [ExternalID, setExternalID] = useState(0)
+    const [paynetInfo, setPaynetInfo] = useState({})
     let priceTotal = 0
 
     const { reset, register, handleSubmit, watch, formState: { errors } } = useForm();
@@ -116,116 +119,42 @@ export default function Checkout({lang}) {
         inputs.LinkUrlCancel.value = "https://www.mirrors.md/cos"
     }
 
-    useEffect(() => {
-        setExternalID(Math.floor(Math.random() * Date.now()))
-    }, [])
+    const redirectCall = async() => {
+        // console.log(paynetInfo)
+        try {
+            // fillInputs(paynetInfo.PaymentId, paynetInfo.ExpiryDate, paynetInfo.Signature);
+            fillInputs(PaymentId, ExpiryDate, Signature);
+            formRef.current.submit();
 
-    useEffect(() => {
-        if(buttonClicked == 1){
-
-        let ClientCode = uuidv4()
-        let ExpiryDate = "2022-01-01T00:00:00"
-
-        var details = {
-            'grant_type': 'password',
-            'username': '370455',
-            'password' : process.env.NEXT_PUBLIC_PAYNET_PASSWORD,
-            'merchantcode' : '388417'
-        };
-        
-        var formBody = [];
-        for (var property in details) {
-          var encodedKey = encodeURIComponent(property);
-          var encodedValue = encodeURIComponent(details[property]);
-          formBody.push(encodedKey + "=" + encodedValue);
+            setPopupLoading(0)
+            setPopupDone(1)
+            
+            setTimeout(() => {
+                setPopupDone(0)
+                setPopupOpen(0)
+                
+                setTimeout(() => {
+                    localStorage.setItem('cart', "[]")
+                    setCart([])
+                    router.push("/")
+                }, 200)
+                setButtonClicked(2)
+                    
+            }, 1200)
+                
         }
-        formBody = formBody.join("&");
-
-        const authRequestOptions = {
-            method : 'POST',
-            headers : {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'Accept-Language' : 'ro-RO'
-            },
-            body : formBody
+        catch(error){
+            console.log("Error with redirect : ", error)
         }
+    }
 
-        fetch("https://nameless-shore-75507.herokuapp.com/https://test.paynet.md:4446/auth", authRequestOptions)
-            .then(response => response.json())
-            .then(async (dataAuth) => {
+    // useEffect(() => { 
+    //     if(paynetInfo !== {}){
+    //         setButton(1)
+    //     }
+    // }, [paynetInfo])
 
-                const requestOptionsPaynet = {
-                    method: 'POST',
-                    headers: { 
-                        'Content-Type': 'application/json',
-                        'Authorization' : `Bearer ${dataAuth.access_token}`
-                    },
-                    body: JSON.stringify({ 
-                        Invoice : ExternalId,
-                        Currency : 498,
-                        MerchantCode : "388417",
-                        Customer : {
-                            Code : ClientCode,
-                            NameFirst : userInfo.prenume,
-                            NameLast : userInfo.nume,
-                            PhoneNumber : userInfo.telefon,
-                            email : userInfo.email,
-                            Country : "Moldova",
-                            City : "Chisinau",
-                            Address : userInfo.address
-                        },
-                        Services : [{
-                            Name : "Cumpărarea oglinzilor online",
-                            Description : "Cumpararea oglinzilor pe site-ul mirrors.md",
-                            Amount : Math.trunc(price * 100),
-                            products : productsPaynet
-                        }],
-                        ExpiryDate : ExpiryDate,
-                        SignVersion : "v05",
-                        MoneyType : {
-                            Code : "Paynet"
-                        }
-                    })
-                };
-               
-                try {
-                    await fetch("https://nameless-shore-75507.herokuapp.com/https://test.paynet.md:4446/api/payments", requestOptionsPaynet)
-                        .then(response => response.json())
-                        .then(async (data) => {
-                            
-                            try {
-                                fillInputs(data.PaymentId, data.ExpiryDate, data.Signature);
-                                formRef.current.submit();
-
-                                setPopupLoading(0)
-                                setPopupDone(1)
-                                
-                                setTimeout(() => {
-                                    setPopupDone(0)
-                                    setPopupOpen(0)
-                                    
-                                    setTimeout(() => {
-                                        localStorage.setItem('cart', "[]")
-                                        setCart([])
-                                        router.push("/")
-                                    }, 200)
-                                    setButtonClicked(2)
-                                        
-                                }, 1200)
-                                    
-                            }
-                            catch(error){
-                                console.log("Error with redirect : ", error)
-                            }
-                        })
-                } catch (error) {
-                    console.log("Error with sending payment : ", error)
-                }
-            })
-        }
-    }, [buttonClicked])
-
-    const onSubmit = (data) => {
+    const onSubmit = async (data) => {
         setUserInfo({...data})
         
         if(step == 4){
@@ -233,7 +162,7 @@ export default function Checkout({lang}) {
             setPopupLoading(1)
 
             let orders = []
-            cart.map((cartProduct, index) => {
+            cart.map(async (cartProduct, index) => {
                 let price = cartProduct.price
 
                 const requestOptions = {
@@ -249,213 +178,189 @@ export default function Checkout({lang}) {
                 }
 
                 
-                fetch(`https://mirrors-md-admin.herokuapp.com/orders`, requestOptions)
-                .then(response => response.json())
-                .then(dataInside => {
-                    orders.push(
-                        {
-                            ...dataInside,
-                            image : dataInside.products[0].image[0].formats.small.url
-                        }
-                    )
-                    if(index == cart.length -1 ){
-                        userInfo.livrare == "livrare_la_usa" ? setPrice(priceTotal + 150) : setPrice(priceTotal)
-                        const requestOptionsClient = {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ 
-                                name : data.nume + " " + data.prenume,
-                                phone : data.telefon,
-                                address : data.adresa,
-                                email : data.email,
-                                pret : userInfo.livrare == "livrare_la_usa" ? priceTotal + 150 : priceTotal,
-                                mod_de_plata : data.plata,
-                                mod_de_livrare : data.livrare,
-                                orders : orders,
-                                comentariu : data.comentariu,
-                                paynetid: ExternalId
-                            })
-                        };
-            
-                        fetch(`https://mirrors-md-admin.herokuapp.com/clients`, requestOptionsClient)
-                            .then(response => response.json())
-                            .then(async (strapiData) => {
-
-                                // let ClientCode = uuidv4()
-                                // let ExternalID = Math.floor(Math.random() * Date.now())
-
-                                // let ExpiryDate = "2022-01-01T00:00:00"
-                                // let secretKey = process.env.NEXT_PUBLIC_PAYNET_SECRET
-
-                                // let signatureRaw = "498"+strapiData.address+"Chisinau"+ClientCode+"Moldova"+strapiData.email+userInfo.prenume+userInfo.nume+strapiData.phone+ExpiryDate+ExternalID+"388417"+"Paynet"+"1"+"Cumpararea oglinzilor pe site-ul mirrors.md"+"Cumpărarea oglinzilor online"
-
-                                let productsPaynet = orders.map((order, index) => {
-                                    // signatureRaw += order.number+order.products[0].id+order.products[0].slug+`Produsul ${order.products[0].name}`+order.products[0].category+"Produs"+1+order.products[0].name+order.products[0].price+1
-                                    return({
-                                        Amount : Math.trunc(order.number * order.products[0].price * 100),
-                                        Barcode : order.products[0].id,
-                                        Code : order.products[0].slug,
-                                        Description : `Produsul ${order.products[0].name}`,
-                                        GroupId : order.products[0].category,
-                                        GroupName : "Produs",
-                                        LineNo : 1,
-                                        Name : order.products[0].name,
-                                        Quantity : Math.trunc(order.number),
-                                        UnitPrice : Math.trunc(order.products[0].price * 100),
-                                        UnitProduct : 1
-                                    })
-                                })
-                                
-                                orders.map((order, index) => {
-                                    order.add_ons.map((addOn, indexAddon) => {
-                                        // signatureRaw += order.number+order.add_ons[indexAddon].id+order.add_ons[indexAddon].name+`Addon-ul ${order.add_ons[indexAddon].name}`+2+"Add On"+1+order.add_ons[indexAddon].name+order.add_ons[indexAddon].price+1
-                                        productsPaynet.push({
-                                            Amount : Math.trunc(order.number * order.products[0].price * 100),
-                                            Barcode : order.add_ons[indexAddon].id,
-                                            Code : order.add_ons[indexAddon].name,
-                                            Description : `Addon-ul ${order.add_ons[indexAddon].name}`,
-                                            GroupId : 2,
-                                            GroupName : "Add On",
-                                            LineNo : 1,
-                                            Name : order.add_ons[indexAddon].name,
-                                            Quantity : Math.trunc(order.number),
-                                            UnitPrice : Math.trunc(order.products[0].price * 100),
-                                            UnitProduct : 1
-                                        })
-                                    })
-                                })
-
-                                setProductsPaynet(productsPaynet)
-                                sendMailOwner({
-                                    ...strapiData,
-                                    orders : orders
-                                })
-                                sendMailClient({
-                                    ...strapiData,
-                                    orders: orders
-                                })
-
-                                if(strapiData.mod_de_plata == "card"){
-
-                                    setButton(1)
-                                    // var details = {
-                                    //     'grant_type': 'password',
-                                    //     'username': '370455',
-                                    //     'password' : process.env.NEXT_PUBLIC_PAYNET_PASSWORD,
-                                    //     'merchantcode' : '388417'
-                                    // };
-                                    
-                                    // var formBody = [];
-                                    // for (var property in details) {
-                                    //   var encodedKey = encodeURIComponent(property);
-                                    //   var encodedValue = encodeURIComponent(details[property]);
-                                    //   formBody.push(encodedKey + "=" + encodedValue);
-                                    // }
-                                    // formBody = formBody.join("&");
-        
-                                    // const authRequestOptions = {
-                                    //     method : 'POST',
-                                    //     headers : {
-                                    //         'Content-Type': 'application/x-www-form-urlencoded',
-                                    //         'Accept-Language' : 'ro-RO'
-                                    //     },
-                                    //     body : formBody
-                                    // }
-
-                                    // fetch("https://nameless-shore-75507.herokuapp.com/https://test.paynet.md:4446/auth", authRequestOptions)
-                                    //     .then(response => response.json())
-                                    //     .then(async (dataAuth) => {
-
-                                    //         const requestOptionsPaynet = {
-                                    //             method: 'POST',
-                                    //             headers: { 
-                                    //                 'Content-Type': 'application/json',
-                                    //                 'Authorization' : `Bearer ${dataAuth.access_token}`
-                                    //             },
-                                    //             body: JSON.stringify({ 
-                                    //                 Invoice : ExternalID,
-                                    //                 Currency : 498,
-                                    //                 MerchantCode : "388417",
-                                    //                 Customer : {
-                                    //                     Code : ClientCode,
-                                    //                     NameFirst : userInfo.prenume,
-                                    //                     NameLast : userInfo.nume,
-                                    //                     PhoneNumber : strapiData.phone,
-                                    //                     email : strapiData.email,
-                                    //                     Country : "Moldova",
-                                    //                     City : "Chisinau",
-                                    //                     Address : strapiData.address
-                                    //                 },
-                                    //                 Services : [{
-                                    //                     Name : "Cumpărarea oglinzilor online",
-                                    //                     Description : "Cumpararea oglinzilor pe site-ul mirrors.md",
-                                    //                     Amount : Math.trunc(strapiData.pret * 100),
-                                    //                     products : productsPaynet
-                                    //                 }],
-                                    //                 ExpiryDate : ExpiryDate,
-                                    //                 SignVersion : "v05",
-                                    //                 MoneyType : {
-                                    //                     Code : "Paynet"
-                                    //                 }
-                                    //             })
-                                    //         };
-                                           
-                                    //         try {
-                                    //             await fetch("https://nameless-shore-75507.herokuapp.com/https://test.paynet.md:4446/api/payments", requestOptionsPaynet)
-                                    //                 .then(response => response.json())
-                                    //                 .then(async (data) => {
-                                                        
-                                    //                     try {
-                                    //                         fillInputs(data.PaymentId, data.ExpiryDate, data.Signature);
-                                    //                         formRef.current.submit();
-
-                                    //                         setPopupLoading(0)
-                                    //                         setPopupDone(1)
-                                                            
-                                    //                         setTimeout(() => {
-                                    //                             setPopupDone(0)
-                                    //                             setPopupOpen(0)
-                                                                
-                                    //                             setTimeout(() => {
-                                    //                                 localStorage.setItem('cart', "[]")
-                                    //                                 setCart([])
-                                    //                                 router.push("/")
-                                    //                             }, 200)
-                                                                    
-                                    //                         }, 1200)
-                                                                
-                                    //                     }
-                                    //                     catch(error){
-                                    //                         console.log("Error with redirect : ", error)
-                                    //                     }
-                                    //                 })
-                                    //         } catch (error) {
-                                    //             console.log("Error with sending payment : ", error)
-                                    //         }
-                                    //     })
-
-                                }
-                                else{
-                                    setPopupLoading(0)
-                                    setPopupDone(1)
-    
-                                    setTimeout(() => {
-                                        setPopupDone(0)
-                                        setPopupOpen(0)
-
-                                        setTimeout(() => {
-                                            localStorage.setItem('cart', "[]")
-                                            setCart([])
-                                            router.push("/")
-                                        }, 200)
-
-                                    }, 1200)
-
-                                }
-
-                            })
+                const response1 = await fetch(`https://mirrors-md-admin.herokuapp.com/orders`, requestOptions)
+                const dataInside = await response1.json()
+                orders.push(
+                    {
+                        ...dataInside,
+                        image : dataInside.products[0].image[0].formats.small.url
                     }
-                })
+                )
+                if(index == cart.length -1 ){
+                    let ExternalId = Math.floor(Math.random() * Date.now())
+
+                    userInfo.livrare == "livrare_la_usa" ? setPrice(priceTotal + 150) : setPrice(priceTotal)
+                    const requestOptionsClient = {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ 
+                            name : data.nume + " " + data.prenume,
+                            phone : data.telefon,
+                            address : data.adresa,
+                            email : data.email,
+                            pret : userInfo.livrare == "livrare_la_usa" ? priceTotal + 150 : priceTotal,
+                            mod_de_plata : data.plata,
+                            mod_de_livrare : data.livrare,
+                            orders : orders,
+                            comentariu : data.comentariu,
+                            paynetid: ExternalId
+                        })
+                    };
+        
+                    const response2 = await fetch(`https://mirrors-md-admin.herokuapp.com/clients`, requestOptionsClient)
+                    const strapiData = await response2.json()
+
+                    let ClientCode = uuidv4()                    
+
+                    let ExpiryDate = "2022-01-01T00:00:00"
+                    // let ExternalId = Math.floor(Math.random() * Date.now())
+                    // let secretKey = process.env.NEXT_PUBLIC_PAYNET_SECRET
+
+                    // let signatureRaw = "498"+strapiData.address+"Chisinau"+ClientCode+"Moldova"+strapiData.email+userInfo.prenume+userInfo.nume+strapiData.phone+ExpiryDate+ExternalID+"388417"+"Paynet"+"1"+"Cumpararea oglinzilor pe site-ul mirrors.md"+"Cumpărarea oglinzilor online"
+
+                    let productsPaynet = orders.map((order, index) => {
+                        // signatureRaw += order.number+order.products[0].id+order.products[0].slug+`Produsul ${order.products[0].name}`+order.products[0].category+"Produs"+1+order.products[0].name+order.products[0].price+1
+                        return({
+                            Amount : Math.trunc(order.number * order.products[0].price * 100),
+                            Barcode : order.products[0].id,
+                            Code : order.products[0].slug,
+                            Description : `Produsul ${order.products[0].name}`,
+                            GroupId : order.products[0].category,
+                            GroupName : "Produs",
+                            LineNo : 1,
+                            Name : order.products[0].name,
+                            Quantity : Math.trunc(order.number),
+                            UnitPrice : Math.trunc(order.products[0].price * 100),
+                            UnitProduct : 1
+                        })
+                    })
+                            
+                    orders.map((order, index) => {
+                        order.add_ons.map((addOn, indexAddon) => {
+                            // signatureRaw += order.number+order.add_ons[indexAddon].id+order.add_ons[indexAddon].name+`Addon-ul ${order.add_ons[indexAddon].name}`+2+"Add On"+1+order.add_ons[indexAddon].name+order.add_ons[indexAddon].price+1
+                            productsPaynet.push({
+                                Amount : Math.trunc(order.number * order.products[0].price * 100),
+                                Barcode : order.add_ons[indexAddon].id,
+                                Code : order.add_ons[indexAddon].name,
+                                Description : `Addon-ul ${order.add_ons[indexAddon].name}`,
+                                GroupId : 2,
+                                GroupName : "Add On",
+                                LineNo : 1,
+                                Name : order.add_ons[indexAddon].name,
+                                Quantity : Math.trunc(order.number),
+                                UnitPrice : Math.trunc(order.products[0].price * 100),
+                                UnitProduct : 1
+                            })
+                        })
+                    })
+
+                    // setProductsPaynet(productsPaynet)
+                    sendMailOwner({
+                        ...strapiData,
+                        orders : orders
+                    })
+                    sendMailClient({
+                        ...strapiData,
+                        orders: orders
+                    })
+
+                    if(strapiData.mod_de_plata == "card"){
+
+                        var details = {
+                            'grant_type': 'password',
+                            'username': '370455',
+                            'password' : process.env.NEXT_PUBLIC_PAYNET_PASSWORD,
+                            'merchantcode' : '388417'
+                        };
+                        
+                        var formBody = [];
+                        for (var property in details) {
+                            var encodedKey = encodeURIComponent(property);
+                            var encodedValue = encodeURIComponent(details[property]);
+                            formBody.push(encodedKey + "=" + encodedValue);
+                        }
+                        formBody = formBody.join("&");
+
+                        const authRequestOptions = {
+                            method : 'POST',
+                            headers : {
+                                'Content-Type': 'application/x-www-form-urlencoded',
+                                'Accept-Language' : 'ro-RO'
+                            },
+                            body : formBody
+                        }
+
+                        const response3 = await fetch("https://nameless-shore-75507.herokuapp.com/https://test.paynet.md:4446/auth", authRequestOptions)
+                        const dataAuth = await response3.json()
+                            const requestOptionsPaynet = {
+                                method: 'POST',
+                                headers: { 
+                                    'Content-Type': 'application/json',
+                                    'Authorization' : `Bearer ${dataAuth.access_token}`
+                                },
+                                body: JSON.stringify({ 
+                                    Invoice : ExternalId,
+                                    Currency : 498,
+                                    MerchantCode : "388417",
+                                    Customer : {
+                                        Code : ClientCode,
+                                        NameFirst : userInfo.prenume,
+                                        NameLast : userInfo.nume,
+                                        PhoneNumber : strapiData.phone,
+                                        email : strapiData.email,
+                                        Country : "Moldova",
+                                        City : "Chisinau",
+                                        Address : strapiData.address
+                                    },
+                                    Services : [{
+                                        Name : "Cumpărarea oglinzilor online",
+                                        Description : "Cumpararea oglinzilor pe site-ul mirrors.md",
+                                        Amount : Math.trunc(strapiData.pret * 100),
+                                        products : productsPaynet
+                                    }],
+                                    ExpiryDate : ExpiryDate,
+                                    SignVersion : "v05",
+                                    MoneyType : {
+                                        Code : "Paynet"
+                                    }
+                                })
+                            };
+                            
+                            try {
+                                const response4 = await fetch("https://nameless-shore-75507.herokuapp.com/https://test.paynet.md:4446/api/payments", requestOptionsPaynet)
+                                const dataPayment = await response4.json()
+                                // const {PaymentId, ExpiryDate, Signature} = dataPayment
+                                // setPaynetInfo({
+                                //     PaymentId: PaymentId,
+                                //     ExpiryDate: ExpiryDate,
+                                //     Signature: Signature 
+                                // })
+                                PaymentId = dataPayment.PaymentId
+                                ExpiryDate = dataPayment.ExpiryDate
+                                Signature = dataPayment.Signature
+                                setButton(1)
+                            }
+                            catch(e){
+                                console.log("Error : ", e)
+                            }
+                        }
+                    }
+                    else{
+                        setPopupLoading(0)
+                        setPopupDone(1)
+
+                        setTimeout(() => {
+                            setPopupDone(0)
+                            setPopupOpen(0)
+
+                            setTimeout(() => {
+                                localStorage.setItem('cart', "[]")
+                                setCart([])
+                                router.push("/")
+                            }, 200)
+
+                        }, 1200)
+                    }
             })
         }
         else{
@@ -488,7 +393,7 @@ export default function Checkout({lang}) {
                                 height={108}
                                 width={240}
                             ></Image>
-                            <button onClick={() => setButtonClicked(buttonClicked + 1)} className={`${button ? "flex" : "hidden"} flex-row justify-center items-center bg-accent-accent rounded-lg text-ui-white font-bold hover:bg-accent-light h-12 w-full transition duration-300 mt-4`}>
+                            <button onClick={() => redirectCall()} className={`${button ? "flex" : "hidden"} flex-row justify-center items-center bg-accent-accent rounded-lg text-ui-white font-bold hover:bg-accent-light h-12 w-full transition duration-300 mt-4`}>
                                 Plătește comanda
                             </button>
                         </div>
@@ -1245,7 +1150,12 @@ export default function Checkout({lang}) {
                                         </a>
                                     </Link>
                                     <span className="text-accent-error">
-                                        {" (Obligator)"}
+                                        {
+                                            lang == "ro" ?
+                                            " (Obligatoriu)"
+                                            :                                            
+                                            " (Обязательнo)"
+                                        }
                                     </span>
                                 </label>
                             </div>
