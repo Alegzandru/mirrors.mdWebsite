@@ -92,7 +92,7 @@ export default function ProductDescription ({options, optionVariants, images, na
                 </div> */}
             </div>
 
-            <div className={`${page == 0 ? "block" : "hidden"} w-full lg:px-300px pb-10`}>
+            <div className={`${page == 0 ? "block" : "hidden"} w-full lg:px-300px pb-60px`}>
                 <h4 className="text-type-dark text-sm-h4 md:text-md-h4 lg:text-lg-h4 mb-10">
                     {
                         lang=="ro" ?
@@ -123,7 +123,7 @@ export default function ProductDescription ({options, optionVariants, images, na
                 </div>
             </div>
 
-            <div className={`${page == 1 ? "block" : "hidden"} w-full`}>
+            <div className={`${page == 1 ? "block" : "hidden"} w-full pb-60px`}>
                 <div className="grid grid-flow-row grid-cols-12 gap-2 md:gap-4">                
                     {images.map((img, index)=>{
                         return(
