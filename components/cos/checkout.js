@@ -650,7 +650,7 @@ export default function Checkout({lang}) {
                                     {...register("prenume", { required: step == 1 ? true : false })}
                                 />
                                 {errors.prenume?.type === 'required' && 
-                                    <div className="text-accent-error text-lg-12 mt-2">
+                                <div className="text-accent-error text-lg-12 mt-2">
                                         {
                                             lang == "ro" ?
                                             "* Introduceți prenumele Dvs."

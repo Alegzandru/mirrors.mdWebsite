@@ -5,14 +5,19 @@ import { useForm } from "react-hook-form";
 export default function DropdownProduct(props) {
 
     const {popupOpen, setPopupOpen} = useContext(PopupContext)
-    const { register, handleSubmit, watch, formState: { errors } } = useForm();
+    // const { register, handleSubmit, watch, formState: { errors } } = useForm();
 
     const [open, setOpen] = useState(0)
     const [chosen , setChosen] = useState(0)
     const [lastChosen, setLastChosen] = useState(0)
     const [checked, setChecked] = useState(0)
     const [openCustom, setOpenCustom] = useState(0)
-    const [showButton, setShowButton] = useState(0)
+    // const [showButton, setShowButton] = useState(0)
+    const [inputValues, setInputValues] = useState({
+        height : props.sizeGlobal.height,
+        width: props.sizeGlobal.width
+    })
+    const [errorInputs, setErrorInputs] = useState({})
 
     function useOutsideAlerter(ref) {
         useEffect(() => {
@@ -100,8 +105,37 @@ export default function DropdownProduct(props) {
                 height : data.height,
                 width : data.width,
             }
-        )        
+        )
     }
+
+    useEffect(() => {
+        if(props.name == "Dimensiuni recomandate"){
+            if(inputValues.height < props.minHeight-1){
+                console.log("Height smaller than min height")
+                return setErrorInputs({...errorInputs, height : "min"})
+            }
+            else if(inputValues.height > props.maxHeight+1){
+                console.log("Height biggger than max height")
+                return setErrorInputs({...errorInputs, height : "max"})
+            }
+            else if(inputValues.width < props.minWidth-1){
+                return setErrorInputs({...errorInputs, width : "min"})
+            }
+            else if(inputValues.width > props.maxWidth+1){
+                return setErrorInputs({...errorInputs, width : "max"})
+            }
+            else if(inputValues.width > props.minWidth-1 && inputValues.width < props.maxWidth+1 && inputValues.height > props.minHeight-1 && inputValues.height < props.maxHeight+1){
+                setErrorInputs({height: "", width: ""})
+                onSubmit({height: parseInt(inputValues.height), width: parseInt(inputValues.width)})
+            }
+            else if(inputValues.height > props.minHeight-1 && inputValues.height < props.maxHeight+1){
+                setErrorInputs({...errorInputs, height: ""})
+            }
+            else if(inputValues.width > props.minWidth-1 && inputValues.width < props.maxWidth+1){
+                setErrorInputs({...errorInputs, width: ""})
+            }
+        }
+    }, [inputValues])
 
     useEffect(() => {
         if(checked === 0 ){
@@ -175,13 +209,8 @@ export default function DropdownProduct(props) {
         }
     }, [chosen])
 
-    function handleChange(event) {
-        if(event.target.value != ""){
-            setShowButton(1)
-        }
-        else{
-            setShowButton(0)
-        }
+    const handleOnChange = (type) => ({target: {value}}) => {
+        setInputValues({...inputValues, [type]:value})
     }
 
     return (
@@ -220,12 +249,9 @@ export default function DropdownProduct(props) {
                                     <input
                                         className="bg-ui-grey border-0 outline-none rounded w-84px mr-2"
                                         type="number"
-                                        placeholder={props.sizeGlobal.height}
-                                        {...register("height", { min: props.minHeight, max: props.maxHeight, valueAsNumber: true, required: true })}
-                                        onChange={(e) => {
-                                            handleChange(e)
-                                            // handleSubmit(onSubmit)()
-                                        }}
+                                        value={inputValues.height}
+                                        // {...register("height", { min: props.minHeight, max: props.maxHeight, valueAsNumber: true, required: true })}
+                                        onChange={handleOnChange("height")}
                                     />
                                     <span className="text-ui-black font-medium">
                                         mm
@@ -234,15 +260,15 @@ export default function DropdownProduct(props) {
                                 <div className="h-10 text-accent-error">
                                     {
                                         props.lang == "ro" ?
-                                        errors.height?.type === 'min' && `Înălțimea min - ${props.minHeight}`
+                                        errorInputs.height === 'min' && `Înălțimea min - ${props.minHeight}`
                                         :
-                                        errors.height?.type === 'min' && `Мин. высота - ${props.minHeight}`
+                                        errorInputs.height === 'min' && `Мин. высота - ${props.minHeight}`
                                     }
                                     {
                                         props.lang == "ro" ?
-                                        errors.height?.type === 'max' && `Înălțimea max - ${props.maxHeight}`
+                                        errorInputs.height === 'max' && `Înălțimea max - ${props.maxHeight}`
                                         :
-                                        errors.height?.type === 'max' && `Макс. высота - ${props.maxHeight}`
+                                        errorInputs.height === 'max' && `Макс. высота - ${props.maxHeight}`
                                     }
                                     {""}
                                 </div>
@@ -267,12 +293,9 @@ export default function DropdownProduct(props) {
                                     <input
                                         className="bg-ui-grey border-0 outline-none rounded w-84px mr-2"
                                         type="number"
-                                        placeholder={props.sizeGlobal.width}
-                                        {...register("width", { min: props.minWidth, max: props.maxWidth, valueAsNumber : true , required : true})}
-                                        onChange={(e) => {
-                                            handleChange(e)
-                                            // handleSubmit(onSubmit)()
-                                        }}
+                                        value={inputValues.width}
+                                        // {...register("width", { min: props.minWidth, max: props.maxWidth, valueAsNumber : true , required : true})}
+                                        onChange={handleOnChange("width")}
                                     />
 
                                     <span className="text-ui-black font-medium">
@@ -282,22 +305,22 @@ export default function DropdownProduct(props) {
                                 <div className="h-10 text-accent-error">
                                     { 
                                         props.lang == "ro" ?
-                                        errors.width?.type === 'min' && `Lățimea min. - ${props.minWidth}`
+                                        errorInputs.width === 'min' && `Lățimea min. - ${props.minWidth}`
                                         :
-                                        errors.width?.type === 'min' && `Мин. ширина - ${props.minWidth}`
+                                        errorInputs.width === 'min' && `Мин. ширина - ${props.minWidth}`
                                     }
                                     {
                                         props.lang == "ro" ? 
-                                        errors.width?.type === 'max' && `Lățimea max. - ${props.maxWidth}`
+                                        errorInputs.width === 'max' && `Lățimea max. - ${props.maxWidth}`
                                         :
-                                        errors.width?.type === 'max' && `Макс. ширина - ${props.maxWidth}`
+                                        errorInputs.width === 'max' && `Макс. ширина - ${props.maxWidth}`
                                     }
                                     {""}
                                 </div>
                             </div>
                         </form>
 
-                        {
+                        {/* {
                             showButton ?
                                 <div 
                                     className={`flex flex-row justify-center items-center w-128px px-10 h-34px bg-accent-accent text-ui-white hover:bg-accent-light font-bold rounded-lg transition duration-300 text-lg-14 cursor-pointer mt-14px`}
@@ -312,7 +335,7 @@ export default function DropdownProduct(props) {
                                 </div>
                             :
                                 ""
-                        }
+                        } */}
                     </div>
                 }
             </div>
@@ -336,9 +359,9 @@ export default function DropdownProduct(props) {
                 </div> */}
 
                 <div className={`${props.name == "Dimensiuni recomandate" ? open ? "font-medium" : "font-normal" : "font-medium"} flex-grow text-lg-17 md:text-lg-14 text-type-grey group-hover:text-type-manatee transition duration-300 flex flex-row justify-start items-center`}>
-                    <svg xmlns="http://www.w3.org/2000/svg" className={`${open ? "block" : "hidden"} h-4 w-4 text-accent-accent mr-2`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    {/* <svg xmlns="http://www.w3.org/2000/svg" className={`${open ? "block" : "hidden"} h-4 w-4 text-accent-accent mr-2`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
+                    </svg> */}
 
                     {props.lang == "ro" ? 
                         props.name
