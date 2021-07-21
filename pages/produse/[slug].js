@@ -11,7 +11,6 @@ export function DynamicProduct ({productData}) {
   const {seenRecently, setSeenRecently} = useContext(SeenRecentlyContext)
 
   const {deviceType, setDeviceType} = useContext(DeviceTypeContext)
-  console.log(productData[0].image)
   const images = productData[0].image.length === 0 ?
     [
       {

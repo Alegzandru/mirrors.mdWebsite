@@ -110,28 +110,38 @@ export default function DropdownProduct(props) {
 
     useEffect(() => {
         if(props.name == "Dimensiuni recomandate"){
-            if(inputValues.height < props.minHeight-1){
-                console.log("Height smaller than min height")
-                return setErrorInputs({...errorInputs, height : "min"})
+            if(inputValues.height <= props.minHeight-1 && inputValues.width >= props.minWidth-1 && inputValues.width <= props.maxWidth+1){
+                return setErrorInputs({...errorInputs, height : "min", width: ""})
             }
-            else if(inputValues.height > props.maxHeight+1){
-                console.log("Height biggger than max height")
+            else if(inputValues.height >= props.maxHeight+1 && inputValues.width >= props.minWidth-1 && inputValues.width <= props.maxWidth+1){
+                return setErrorInputs({...errorInputs, height : "max", width: ""})
+            }
+            else if(inputValues.width <= props.minWidth-1 && inputValues.height >= props.minHeight-1 && inputValues.height <= props.maxHeight+1){
+                return setErrorInputs({...errorInputs, width : "min", height: ""})
+            }
+            else if(inputValues.width >= props.maxWidth+1 && inputValues.height >= props.minHeight-1 && inputValues.height <= props.maxHeight+1){
+                return setErrorInputs({...errorInputs, width : "max", height: ""})
+            }
+            else if(inputValues.height <= props.minHeight-1){
+              return setErrorInputs({...errorInputs, height : "min"})
+            }
+            else if(inputValues.height >= props.maxHeight+1){
                 return setErrorInputs({...errorInputs, height : "max"})
             }
-            else if(inputValues.width < props.minWidth-1){
+            else if(inputValues.width <= props.minWidth-1){
                 return setErrorInputs({...errorInputs, width : "min"})
             }
-            else if(inputValues.width > props.maxWidth+1){
+            else if(inputValues.width >= props.maxWidth+1){
                 return setErrorInputs({...errorInputs, width : "max"})
             }
-            else if(inputValues.width > props.minWidth-1 && inputValues.width < props.maxWidth+1 && inputValues.height > props.minHeight-1 && inputValues.height < props.maxHeight+1){
+            else if(inputValues.width >= props.minWidth-1 && inputValues.width <= props.maxWidth+1 && inputValues.height >= props.minHeight-1 && inputValues.height <= props.maxHeight+1){
                 setErrorInputs({height: "", width: ""})
                 onSubmit({height: parseInt(inputValues.height), width: parseInt(inputValues.width)})
             }
-            else if(inputValues.height > props.minHeight-1 && inputValues.height < props.maxHeight+1){
+            else if(inputValues.height >= props.minHeight-1 && inputValues.height <= props.maxHeight+1){
                 setErrorInputs({...errorInputs, height: ""})
             }
-            else if(inputValues.width > props.minWidth-1 && inputValues.width < props.maxWidth+1){
+            else if(inputValues.width >= props.minWidth-1 && inputValues.width <= props.maxWidth+1){
                 setErrorInputs({...errorInputs, width: ""})
             }
         }

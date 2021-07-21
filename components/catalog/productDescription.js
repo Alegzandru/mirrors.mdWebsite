@@ -168,7 +168,7 @@ export default function ProductDescription ({options, optionVariants, images, na
                                                     objectFit="cover"
                                                 />
                                             </div>
-                                            <div className="w-full text-center text-lg-card-name text-type-dark mb-1">
+                                            <div className="w-full text-center text-lg-card-name text-type-dark mb-1 font-medium">
                                                 {   
                                                     lang == "ro" ?
                                                     product.name
@@ -195,7 +195,7 @@ export default function ProductDescription ({options, optionVariants, images, na
                                                     objectFit="cover"
                                                 />
                                             </div>
-                                            <div className="w-full text-center text-lg-card-name text-type-dark mb-1">
+                                            <div className="w-full text-center text-lg-card-name text-type-dark mb-1 font-medium">
                                                 {
                                                     lang == "ro" ?
                                                     product.name
@@ -222,7 +222,7 @@ export default function ProductDescription ({options, optionVariants, images, na
                                                 objectFit="cover"
                                             />
                                         </div>
-                                        <div className="w-full text-center text-lg-card-name text-type-dark mb-1">
+                                        <div className="w-full text-center text-lg-card-name text-type-dark mb-1 font-medium">
                                             {
                                                 lang == "ro" ?
                                                 product.name
@@ -248,7 +248,7 @@ export default function ProductDescription ({options, optionVariants, images, na
                                                 objectFit="cover"
                                             />
                                         </div>
-                                        <div className="w-full text-center text-lg-card-name text-type-dark mb-1">
+                                        <div className="w-full text-center text-lg-card-name text-type-dark mb-1 font-medium">
                                             {
                                                 lang == "ro" ?
                                                 product.name
