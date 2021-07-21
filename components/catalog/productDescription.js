@@ -17,16 +17,6 @@ export default function ProductDescription ({options, optionVariants, images, na
     })
     const [autoHeight, setAutoHeight] = useState(0)
 
-    const products = [
-        "Norma",
-        "Norma",
-        "Norma",
-        "Norma",
-        "Norma",
-        "Norma",
-        "Norma",
-    ]
-
     const coeficientFinder = (size) => {
         if(size.width*size.height < productData[0].mediumsize.height * productData[0].mediumsize.width){
             return productData[0].smallcoeficient

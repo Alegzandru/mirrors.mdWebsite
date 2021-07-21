@@ -40,15 +40,6 @@ export default function PopularProducts(props){
           slidesToSlide: 1 // optional, default to 1.
         }
       };
-
-      const images = [
-        "/mainPage/popularProducts/Copy of  Veronica.png",
-        "/mainPage/popularProducts/Copy of Acacia.png",
-        "/mainPage/popularProducts/Copy of Adina Alumin.png",
-        "/mainPage/popularProducts/Copy of Afina.png",
-        "/mainPage/popularProducts/Copy of Alexandra.png",
-        "/mainPage/popularProducts/Copy of Alexandrina (1).png",
-    ];
     
     return(
         <div className="overflow-hidden h-auto bg-ui-darkGrey pt-24 md:pt-24 pb-12 lg:pt-230px lg:pb-156px flex flex-col md:flex-row justify-between items-center font-Ubuntu xl:pl-container-xl">
@@ -112,7 +103,7 @@ export default function PopularProducts(props){
                                                 <div className="w-auto h-156px md:h-245px relative rounded-xl overflow-hidden transform group-hover:scale-105 transition duration-300">
                                                     <Image
                                                         draggable={false}
-                                                        src={product.image[0].formats.medium.url}
+                                                        src={product.image.length === 0 ? "/product/placeholder.png" : product.image[0].formats.medium.url}
                                                         layout="fill"
                                                         objectFit="cover"
                                                     />

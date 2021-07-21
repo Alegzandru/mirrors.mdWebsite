@@ -403,7 +403,7 @@ export default function Category({category, name, products, lang, nameru}) {
                                                 <div className="w-auto h-156px md:h-245px relative rounded-lg overflow-hidden transform group-hover:scale-105 transition duration-300">
                                                     <Image
                                                         draggable={false}
-                                                        src={product.image[0].formats.medium.url}
+                                                        src={product.image.length === 0 ? "/product/placeholder.png" : product.image[0].formats.medium.url}
                                                         layout="fill"
                                                         objectFit="cover"
                                                     />

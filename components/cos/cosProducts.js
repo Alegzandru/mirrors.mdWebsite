@@ -202,7 +202,7 @@ export default function CosProducts({lang}){
                         </svg>
                         <div className="relative lg:w-368px md:h-288px md:w-320px w-full h-240px">
                             <Image
-                                src={popupProduct.product.image[0].formats.small.url}
+                                src={popupProduct.product.image.length === 0 ? "/product/placeholder.png" : popupProduct.product.image[0].formats.small.url}
                                 layout="fill"
                                 objectFit="cover"
                             />
@@ -373,7 +373,7 @@ export default function CosProducts({lang}){
                         <div className="w-full md:w-auto">
                             <div className="relative lg:w-368px md:h-288px md:w-320px w-full h-240px">
                                 <Image
-                                    src={popupProduct.product.image[0].formats.small.url}
+                                    src={popupProduct.product.image.length === 0 ? "/product/placeholder.png" : popupProduct.product.image[0].formats.small.url}
                                     layout="fill"
                                     objectFit="cover"
                                 />
@@ -516,7 +516,7 @@ export default function CosProducts({lang}){
                                             <div className="w-full flex flex-row md:flex-col lg:flex-row justify-start items-start lg:items-center">
                                                 <div className="lg:ml-6 w-20 h-20 lg:w-112px lg:h-112px relative mr-6 md:mb-6 lg:mb-0 rounded-lg overflow-hidden">
                                                     <Image
-                                                        src={product.product.image[0].formats.small.url}
+                                                        src={popupProduct.product.image.length === 0 ? "/product/placeholder.png" : product.product.image[0].formats.small.url}
                                                         layout="fill"
                                                         objectFit="cover"
                                                     />

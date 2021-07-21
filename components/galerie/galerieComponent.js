@@ -10,7 +10,10 @@ export default function GalerieComponent (props) {
     const [photoNr, setPhotoNr] = useState(28)
     const [lightboxOpen, setLightboxOpen] = useState(0)
     const images = props.products.map((product) => {
-        return product.image[0].formats.medium.url
+      if(product.image.length === 0 ){
+        return "/product/placeholder.png"
+      }
+      else return product.image[0].formats.medium.url
     })
 
     function getColSpan(deviceType, index) {

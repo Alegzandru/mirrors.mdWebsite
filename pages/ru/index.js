@@ -41,8 +41,24 @@ export default function MainPage({products}){
 
 export async function getStaticProps() {
 
-  const productsRes = await fetch(`${API_URL}/products`)
-  const products = await productsRes.json()
+  const products_res = await fetch(`${API_URL}/products`)
+  const products_raw = await products_res.json()
+  const products = products_raw.filter((product) => 
+    product.name !== "" && product.name !== null &&
+    product.nameru !== "" && product.nameru !== null &&
+    product.slug !== "" && product.slug !== null &&
+    product.smallcoeficient !== null && 
+    product.mediumcoeficient !== null && 
+    product.bigcoeficient !== null &&
+    product.smallestsize !== null &&
+    product.mediumsize !== null &&
+    product.bigsize !== null &&
+    product.biggestsize !== null &&
+    product.defaultsize !== null &&
+    product.linkedsizes.length !== 0 && product.linkedsizes.length !== null &&
+    product.materials.length !== 0 && product.materials.length !== null &&
+    product.add_ons.length !== 0 && product.add_ons.length !== null
+  )
 
   return {
     props: {

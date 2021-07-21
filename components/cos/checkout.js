@@ -183,10 +183,10 @@ export default function Checkout({lang}) {
                 orders.push(
                     {
                         ...dataInside,
-                        image : dataInside.products[0].image[0].formats.small.url
+                        image : dataInside.products[0].image.length === 0 ? "/product/placeholder.png" : dataInside.products[0].image[0].formats.small.url
                     }
                 )
-                if(index == cart.length -1 ){
+                  if(index == cart.length -1 ){
                     let ExternalId = Math.floor(Math.random() * Date.now())
 
                     userInfo.livrare == "livrare_la_usa" ? setPrice(priceTotal + 150) : setPrice(priceTotal)
@@ -344,22 +344,22 @@ export default function Checkout({lang}) {
                                 console.log("Error : ", e)
                             }
                         }
-                    }
-                    else{
-                        setPopupLoading(0)
-                        setPopupDone(1)
-
-                        setTimeout(() => {
-                            setPopupDone(0)
-                            setPopupOpen(0)
-
+                        else{
+                            setPopupLoading(0)
+                            setPopupDone(1)
+    
                             setTimeout(() => {
-                                localStorage.setItem('cart', "[]")
-                                setCart([])
-                                router.push("/")
-                            }, 200)
-
-                        }, 1200)
+                                setPopupDone(0)
+                                setPopupOpen(0)
+    
+                                setTimeout(() => {
+                                    localStorage.setItem('cart', "[]")
+                                    setCart([])
+                                    router.push("/")
+                                }, 200)
+    
+                            }, 1200)
+                        }
                     }
             })
         }
@@ -956,7 +956,7 @@ export default function Checkout({lang}) {
                                 <div className="px-8 py-2 border-1.5px border-ui-grey flex flex-row justify-start items-center bg-ui-white">
                                     <div className="w-20 h-20 relative mr-4">
                                         <Image
-                                            src={product.product.image[0].formats.small.url}
+                                            src={product.product.image.length === 0 ? "/product/placeholder.png" : product.product.image[0].formats.small.url}
                                             layout="fill"
                                             objectFit="cover"
                                         />
@@ -1166,8 +1166,8 @@ export default function Checkout({lang}) {
                     </div>
                     
                     <div 
-                        className={`${step == 4 ? agreed ? "bg-accent-accent hover:bg-accent-light cursor-pointer" : "bg-ui-blueishGrey" : "bg-accent-accent hover:bg-accent-light cursor-pointer"} text-ui-white rounded-md text-lg-button font-bold flex flex-row justify-center items-center mx-auto h-52px w-full lg:w-500px transition duration-300`}
-                        onClick={step == 4 ? agreed ? handleSubmit(onSubmit) : donothing() : handleSubmit(onSubmit)}
+                        className={`${step == 4 ? agreed || userInfo.plata === "numerar" ? "bg-accent-accent hover:bg-accent-light cursor-pointer" : "bg-ui-blueishGrey" : "bg-accent-accent hover:bg-accent-light cursor-pointer"} text-ui-white rounded-md text-lg-button font-bold flex flex-row justify-center items-center mx-auto h-52px w-full lg:w-500px transition duration-300`}
+                        onClick={step == 4 ? agreed || userInfo.plata === "numerar" ? handleSubmit(onSubmit) : donothing() : handleSubmit(onSubmit)}
                     >
                         {
                             step == 4 ?  

@@ -11,7 +11,14 @@ export function DynamicProduct ({productData}) {
   const {seenRecently, setSeenRecently} = useContext(SeenRecentlyContext)
 
   const {deviceType, setDeviceType} = useContext(DeviceTypeContext)
-  const images = productData[0].image.map((imageObj) => {
+  const images = productData[0].image.length === 0 ?
+    [
+      {
+        src: "/product/placeholder.png"
+      }
+    ]
+    :
+    productData[0].image.map((imageObj) => {
     return {
       src : imageObj.formats.medium.url
     }

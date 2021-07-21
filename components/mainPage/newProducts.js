@@ -92,7 +92,7 @@ export default function NewProducts(props) {
                                             <div className="w-auto h-156px md:h-245px relative transform group-hover:scale-105 transition duration-300 rounded-lg overflow-hidden">
                                                 <Image
                                                     draggable={false}
-                                                    src={product.image[0].formats.medium.url}
+                                                    src={product.image.length === 0 ? "/product/placeholder.png" : product.image[0].formats.medium.url}
                                                     layout="fill"
                                                     objectFit="cover"
                                                 />

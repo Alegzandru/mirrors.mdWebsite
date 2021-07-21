@@ -58,7 +58,7 @@ export default function RecentProducts ({deviceType, lang}) {
                                         <div className="flex-grow mr-2 h-140px bg-ui-white rounded-lg flex flex-row items-center justify-start hover:shadow-md transition duration-300 px-4 py-2">
                                             <div className="h-124px w-124px relative mr-4 rounded-lg overflow-hidden">
                                                 <Image
-                                                    src={product.image[0].formats.small.url}
+                                                    src={product.image.length === 0 ? "/product/placeholder.png" : product.image[0].formats.small.url}
                                                     layout="fill"
                                                     objectFit="cover"
                                                 />
