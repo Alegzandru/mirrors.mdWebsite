@@ -13,9 +13,9 @@ export default function CosProducts({lang}){
 
     
     const {deviceType, setDeviceType} = useContext(DeviceTypeContext)
-    
+
     const { reset, register, handleSubmit, watch, formState: { errors } } = useForm();
-    
+
     const {cart, setCart} = useContext(CartContext)
     const [totalPrice, setTotalPrice] = useState(0)
     const {popupOpen, setPopupOpen} = useContext(PopupContext)
@@ -173,6 +173,10 @@ export default function CosProducts({lang}){
         setTotalPrice(mutablePrice)
     }, [cart])
 
+    useEffect(() => {
+      console.log("Produs in pop-up: ", popupProduct)
+    }, [popupProduct])
+
     function useOutsideAlerter(ref) {
         useEffect(() => {
             function handleClickOutside(event) {
@@ -207,7 +211,7 @@ export default function CosProducts({lang}){
                                 objectFit="cover"
                             />
                         </div>
-                        <form className="lg:w-444px h-full flex flex-col justify-start md:justify-between items-start pt-6 md:w-320px w-full md:w-auto">
+                        <form className="lg:w-444px h-full flex flex-col justify-start md:justify-between items-start pt-6 w-full md:w-auto">
                             <div className="w-full md:w-auto">
                                 <h3 className="w-full text-type-dark text-sm-h3 md:text-md-h3 lg:text-lg-h3 font-bold mb-8">
                                     {
@@ -491,6 +495,7 @@ export default function CosProducts({lang}){
                     <div className="w-full rounded-xl bg-ui-white mb-20">
                         {
                             cart.map((product, index) => {
+                                console.log(product)
                                 optionsPrice = 0
                                 return(
                                     <div className="flex flex-col md:flex-row w-full border-l-0 border-b-2 border-t-0 border-r-0 border-ui-darkGrey">
@@ -516,9 +521,9 @@ export default function CosProducts({lang}){
                                             <div className="w-full flex flex-row md:flex-col lg:flex-row justify-start items-start lg:items-center">
                                                 <div className="lg:ml-6 w-20 h-20 lg:w-112px lg:h-112px relative mr-6 md:mb-6 lg:mb-0 rounded-lg overflow-hidden">
                                                     <Image
-                                                        src={popupProduct.product.image.length === 0 ? "/product/placeholder.png" : product.product.image[0].formats.small.url}
-                                                        layout="fill"
-                                                        objectFit="cover"
+                                                      src={product.product.image.length === 0 ? "/product/placeholder.png" : product.product.image[0].formats.small.url}
+                                                      layout="fill"
+                                                      objectFit="cover"
                                                     />
                                                 </div>
                                                 <div>
@@ -535,9 +540,9 @@ export default function CosProducts({lang}){
                                                     </div>
                                                     <div 
                                                         className="flex flex-row justify-start items-center text-accent-accent cursor-pointer"
-                                                        onClick={() => {
-                                                        setPopupOpen("size")
-                                                        setPopupProduct(product)
+                                                        onClick={async () => {
+                                                          setPopupProduct(product)
+                                                          setPopupOpen("size")
                                                         }}
                                                     >
                                                         <svg xmlns="http://www.w3.org/2000/svg" className="h-14px w-14px mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">

@@ -8,7 +8,6 @@ import { Slide } from "react-awesome-reveal";
 import {API_URL} from "../utils/urls"
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import { Fade } from "react-awesome-reveal";
-// import AnimatedProgressProvider from "./AnimatedProgressProvider";
 import ChangingProgressProvider from "./progress/ChangingProgressProvider"
 import 'react-circular-progressbar/dist/styles.css';
 import { useSpring, animated } from 'react-spring'
@@ -209,7 +208,6 @@ export function Navbar (props) {
         >
             <animated.div 
                 className={`${mobileSearchOpen ? "fixed block" : "hidden"} w-screen bg-ui-white z-40 px-18px md:px-16 pt-52px md:pt-72px pb-4 md:pb-10`}
-                // style={stylesSearchMobile}
             >
                 <div className="w-full flex flex-row justify-between items-center mb-3 md:mb-4">
                     <input
@@ -262,7 +260,7 @@ export function Navbar (props) {
                                         <div className={`h-72px border-b-0 border-t-2 border-l-0 border-r-0 flex flex-row justify-start items-center px-4 py-14px ${search != "" ? "border-ui-darkGrey" : ""}`}>
                                             <div className="w-14 h-14 rounded-lg overflow-hidden relative">
                                                 <Image
-                                                    src={product.image[0].formats.small.url}
+                                                    src={product.image.length === 0 ? "/product/placeholder.png" : product.image[0].formats.small.url}
                                                     layout="fill"
                                                     objectFit="cover"
                                                 />
@@ -450,7 +448,7 @@ export function Navbar (props) {
                                                             <div className={`h-72px border-b-0 border-t-2 border-l-0 border-r-0 flex flex-row justify-start items-center px-4 py-14px ${search != "" ? "border-ui-darkGrey" : ""}`}>
                                                                 <div className="w-14 h-14 rounded-lg overflow-hidden relative">
                                                                     <Image
-                                                                        src={product.image[0].formats.small.url}
+                                                                        src={product.image.length === 0 ? "/product/placeholder.png" : product.image[0].formats.small.url}
                                                                         layout="fill"
                                                                         objectFit="cover"
                                                                     />

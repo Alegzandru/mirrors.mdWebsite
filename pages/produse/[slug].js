@@ -20,7 +20,7 @@ export function DynamicProduct ({productData}) {
     :
     productData[0].image.map((imageObj) => {
     return {
-      src : imageObj.formats.medium.url
+      src : imageObj.formats.medium? imageObj.formats.medium.url : "/product/placeholder.png"
     }
   })
 

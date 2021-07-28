@@ -268,9 +268,9 @@ export default function Checkout({lang}) {
 
                         var details = {
                             'grant_type': 'password',
-                            'username': '370455',
+                            'username': '723112',
                             'password' : process.env.NEXT_PUBLIC_PAYNET_PASSWORD,
-                            'merchantcode' : '388417'
+                            'merchantcode' : '944726'
                         };
                         
                         var formBody = [];
@@ -290,7 +290,7 @@ export default function Checkout({lang}) {
                             body : formBody
                         }
 
-                        const response3 = await fetch("https://nameless-shore-75507.herokuapp.com/https://test.paynet.md:4446/auth", authRequestOptions)
+                        const response3 = await fetch("https://nameless-shore-75507.herokuapp.com/https://paynet.md:4448/auth", authRequestOptions)
                         const dataAuth = await response3.json()
                             const requestOptionsPaynet = {
                                 method: 'POST',
@@ -301,7 +301,7 @@ export default function Checkout({lang}) {
                                 body: JSON.stringify({ 
                                     Invoice : ExternalId,
                                     Currency : 498,
-                                    MerchantCode : "388417",
+                                    MerchantCode : "944726",
                                     Customer : {
                                         Code : ClientCode,
                                         NameFirst : userInfo.prenume,
@@ -327,7 +327,7 @@ export default function Checkout({lang}) {
                             };
                             
                             try {
-                                const response4 = await fetch("https://nameless-shore-75507.herokuapp.com/https://test.paynet.md:4446/api/payments", requestOptionsPaynet)
+                                const response4 = await fetch("https://nameless-shore-75507.herokuapp.com/https://paynet.md:4448/api/payments", requestOptionsPaynet)
                                 const dataPayment = await response4.json()
                                 // const {PaymentId, ExpiryDate, Signature} = dataPayment
                                 // setPaynetInfo({
@@ -1185,7 +1185,7 @@ export default function Checkout({lang}) {
 
                 </div>
             </form>
-            <form method="POST" target="_blank" ref={formRef} action="https://test.paynet.md/acquiring/getecom">
+            <form method="POST" target="_blank" ref={formRef} action="https://paynet.md/acquiring/getecom">
                 <input type="hidden" name="Lang" value="ro-RO"/>
                 <input type="hidden" name="operation" value=""/>
                 <input type="hidden" name="ExpiryDate" value=""/>

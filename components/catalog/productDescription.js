@@ -163,7 +163,7 @@ export default function ProductDescription ({options, optionVariants, images, na
                                         <div className=" bg-ui-white rounded-lg border border-ui-darkGrey w-full px-5 py-10px hover:shadow-md transition duration-300">
                                             <div className="w-full h-92px md:h-204px relative mb-6 rounded-lg overflow-hidden">
                                                 <Image
-                                                    src={product.image[0].formats.small.url}
+                                                    src={product.image.length === 0 ? "/product/placeholder.png" : product.image[0].formats.small.url}
                                                     layout="fill"
                                                     objectFit="cover"
                                                 />
@@ -190,7 +190,7 @@ export default function ProductDescription ({options, optionVariants, images, na
                                         <div className=" bg-ui-white rounded-lg border border-ui-darkGrey w-full px-5 py-10px hover:shadow-md transition duration-300">
                                             <div className="w-full h-92px md:h-204px relative mb-6 rounded-lg overflow-hidden">
                                                 <Image
-                                                    src={product.image[0].formats.small.url}
+                                                    src={product.image.length === 0 ? "/product/placeholder.png" : product.image[0].formats.small.url}
                                                     layout="fill"
                                                     objectFit="cover"
                                                 />
@@ -217,8 +217,8 @@ export default function ProductDescription ({options, optionVariants, images, na
                                         <div className=" bg-ui-white rounded-lg border border-ui-darkGrey w-full px-5 py-10px mx-1 hover:shadow-md transition duration-300 min-h-216px">
                                         <div className="w-full h-92px md:h-204px relative mb-6 rounded-lg overflow-hidden">
                                             <Image
-                                                src={product.image[0].formats.small.url}
-                                                layout="fill"
+                                                  src={product.image.length === 0 ? "/product/placeholder.png" : product.image[0].formats.small.url}
+                                                  layout="fill"
                                                 objectFit="cover"
                                             />
                                         </div>
@@ -243,7 +243,7 @@ export default function ProductDescription ({options, optionVariants, images, na
                                         <div className=" bg-ui-white rounded-lg border border-ui-darkGrey w-full px-5 py-10px mx-1 hover:shadow-md transition duration-300">
                                         <div className="w-full h-92px md:h-204px relative mb-6 rounded-lg overflow-hidden">
                                             <Image
-                                                src={product.image[0].formats.small.url}
+                                                src={product.image.length === 0 ? "/product/placeholder.png" : product.image[0].formats.small.url}
                                                 layout="fill"
                                                 objectFit="cover"
                                             />
