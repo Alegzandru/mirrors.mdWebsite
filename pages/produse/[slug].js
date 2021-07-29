@@ -5,8 +5,13 @@ import {getAllProductPaths, getProductData} from "../../lib/products"
 import {API_URL} from "../../utils/urls"
 import { DeviceTypeContext, SeenRecentlyContext } from "../../components/context";
 import { useContext, useEffect } from "react";
+import {useRouter} from 'next/router'
 
 export function DynamicProduct ({productData}) {
+  const router = useRouter()
+  if(router.isFallback){
+    return <p className="my-10">Loading...</p>
+  }
 
   const {seenRecently, setSeenRecently} = useContext(SeenRecentlyContext)
 
@@ -51,11 +56,6 @@ export async function getStaticProps({ params }) {
     const productsRes = await fetch(`${API_URL}/products?slug_eq=${slug}`)
     const productStrapi = await productsRes.json()
 
-    // const category = productStrapi[0].category.name
-    // const categoryRes = await fetch(`${API_URL}/categories?name_eq=${category}`)
-    // const optionsUnflitered = await categoryRes.json()
-    // const optionsRaw = optionsUnflitered[0].add_ons
-
     const optionsRaw = productStrapi[0].add_ons
 
     const optionNamesUnfiltered = optionsRaw.map((option) => {
@@ -99,9 +99,6 @@ export async function getStaticProps({ params }) {
       optionNamesRu
     }
 
-    // productData.key = slug; 
-
-    // const productData = getProductData(params.slug)
     return {
       props: {
         productData,
@@ -124,11 +121,9 @@ export async function getStaticPaths() {
       })
   })
 
-  // const paths = getAllProductPaths()
-
   return {
     paths,
-    fallback: false
+    fallback: true
   }
 
 }
