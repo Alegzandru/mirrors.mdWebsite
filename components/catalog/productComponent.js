@@ -453,8 +453,8 @@ export default function ProductComponent ({deviceType, name, images, options, op
             </div>
 
             <div className="w-full bg-ui-grey flex flex-col lg:flex-row justify-between items-stretch">
-                <div className="w-full lg:w-640px xl:w-720px">
-                    <div className="relative h-288px md:h-720px lg:h-608px w-full">
+                <div className="w-full lg:w-600px xl:w-720px">
+                    <div className="relative h-288px md:h-720px lg:h-544px w-full">
                         <Image
                             src={images[openImage].src}
                             layout="fill"
@@ -596,12 +596,12 @@ export default function ProductComponent ({deviceType, name, images, options, op
                             )}
                         </Element>
 
-                        <div className={`w-full flex flex-col md:flex-row justify-between items-center ${openOptions ? "mt-6" : "mt-56px"}`}>
+                        <div className={`w-full flex flex-col md:flex-row lg:flex-col mdButtons:flex-row justify-between items-center ${openOptions ? "mt-6" : "mt-56px"}`}>
 
                             <input 
                                 value={lang == "ro" ? "La pagina de Check-Out" : "Оформить заказ"} 
                                 type="submit" 
-                                className="w-full bg-transparent border-2 rounded-lg border-accent-accent h-12 flex flex-row justify-center items-center text-accent-accent font-medium mb-6 md:mb-0 hover:bg-accent-transparent transition duration-300 md:mr-4 cursor-pointer"
+                                className="w-full bg-transparent border-2 rounded-lg border-accent-accent h-12 flex flex-row justify-center items-center text-accent-accent font-medium mb-6 md:mb-0 hover:bg-accent-transparent transition duration-300 md:mr-4 lg:mr-0 mdButtons:mr-4 cursor-pointer lg:mb-4 mdButtons:mb-0"
                                 onClick={() => setCheckout(true)}
                             />
 

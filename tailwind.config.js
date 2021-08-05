@@ -82,8 +82,10 @@ module.exports = {
       'md': '768px',
 
       'mdFooter' : '1088px', 
-
+      
       'lg': '1366px',
+      
+      'mdButtons' : '1500px',
 
       'xl': '1656px'
     },
@@ -125,7 +127,7 @@ module.exports = {
         'dropdown-lg' : 'calc( (100vw - 64px - 8px) / 4 )',
         'dropdown-xl' : 'calc( ( 1656px - 8px) / 4 )',
         'photos' : 'calc( (100vw - 64px - 952px) )',
-        'options-lg' : 'calc( (100vw - 64px - 980px) )',
+        'options-lg' : 'calc( (100vw - 64px - 940px) )',
         'options-xl' : '586px',
         'search-left' : 'calc( (100vw - 504px) / 2 )',
         'cart-lg' : 'calc( (100% - 544px) / 2 )',
