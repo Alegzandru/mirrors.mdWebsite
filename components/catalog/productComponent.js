@@ -385,14 +385,14 @@ export default function ProductComponent ({deviceType, name, images, options, op
     const responsive = {
         desktop: {
           breakpoint: { max: 3000, min: 1367 },
-          items: 2,
-          slidesToSlide: 2,
+          items: 4,
+          slidesToSlide: 4,
           partialVisibilityGutter: 40
         },
         tablet: {
           breakpoint: { max: 1366, min: 769 },
-          items: 2,
-          slidesToSlide: 2,
+          items: 4,
+          slidesToSlide: 4,
           partialVisibilityGutter: 40
         },
         mobile: {
@@ -453,7 +453,7 @@ export default function ProductComponent ({deviceType, name, images, options, op
             </div>
 
             <div className="w-full bg-ui-grey flex flex-col lg:flex-row justify-between items-stretch">
-                <div className="w-full lg:w-photos">
+                <div className="w-full lg:w-640px xl:w-720px">
                     <div className="relative h-288px md:h-720px lg:h-608px w-full">
                         <Image
                             src={images[openImage].src}
@@ -469,8 +469,6 @@ export default function ProductComponent ({deviceType, name, images, options, op
                             deviceType={deviceType}
                             responsive={responsive}
                             infinite
-                            arrows={true}
-                            focusOnSelect
                             itemClass="image-item"
                         >
                             {images.map((image, index) =>
@@ -491,7 +489,7 @@ export default function ProductComponent ({deviceType, name, images, options, op
                     </div>
                 </div>
 
-                <div className="w-full lg:w-408px bg-ui-white py-56px px-2 md:px-8">
+                <div className="w-full lg:w-340px bg-ui-white py-56px px-2 md:px-4">
                     <DropdownProduct2
                         name={"Dimensiuni recomandate"}
                         nameru={"Рекомендуемые размеры"}
@@ -523,7 +521,7 @@ export default function ProductComponent ({deviceType, name, images, options, op
                     />
                 </div>
 
-                <div className="w-full lg:w-544px pt-6 lg:pt-72px pb-16 px-2 md:px-6 lg:px-8 bg-ui-white lg:bg-ui-grey relative h-full">
+                <div className="w-full lg:w-options-lg xl:w-options-xl pt-6 lg:pt-72px pb-16 px-2 md:px-6 lg:px-8 bg-ui-white lg:bg-ui-grey relative h-full">
                     <h2 className="text-sm-h2 md:text-md-h2 lg:text-lg-h2 text-type-dark font-bold mb-5">
                         {
                             lang=="ro" ?
