@@ -6,7 +6,7 @@ const CustomButtonGroupAsArrows = ({ next, previous }) => {
   const [rightHovered, setRightHovered] = React.useState(0)
 
   return (
-    <div className="absolute top-320px md:top-449px left-0 w-full px-62px flex flex-row justify-between items-center">
+    <div className="absolute top-408px md:top-449px left-0 w-full px-62px flex flex-row justify-between items-center">
 
       <div 
         className="h-8 w-8 rounded-full hover:border-transparent border-type-grey border-2 text-type-manatee flex flex-row justify-center items-center cursor-pointer group transition duration-300" onClick={previous}

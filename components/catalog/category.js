@@ -399,8 +399,8 @@ export default function Category({category, name, products, lang, nameru}) {
                                 <div key={index} className="h-auto w-full col-span-12 smCatalog:col-span-6 md:col-span-4 lg:col-span-3">
                                     <Link href={lang == "ro" ? `/produse/${product.slug}` : `/ru/produse/${product.slug}`}>
                                         <a>
-                                            <div className="h-296px md:h-425px bg-ui-white rounded-xl p-5 border-2 border-transparent hover:border-accent-accent transition duration-300 group">
-                                                <div className="w-auto h-156px md:h-245px relative rounded-lg overflow-hidden transform group-hover:scale-105 transition duration-300">
+                                            <div className="h-auto md:h-425px bg-ui-white rounded-xl p-5 border-2 border-transparent hover:border-accent-accent transition duration-300 group">
+                                                <div className="w-auto h-245px relative rounded-lg overflow-hidden transform group-hover:scale-105 transition duration-300">
                                                     <Image
                                                         draggable={false}
                                                         src={product.image.length === 0 ? "/product/placeholder.png" : product.image[0].formats.medium.url}

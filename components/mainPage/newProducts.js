@@ -88,8 +88,8 @@ export default function NewProducts(props) {
                             <Link href={props.lang == "ro" ? `/produse/${product.slug}` : `/ru/produse/${product.slug}`}>
                                 <a>
                                     <div key={index} className="h-auto w-full px-container-sm md:px-0">
-                                        <div className="h-296px md:h-425px bg-ui-white rounded-xl md:ml-4 md:mr-0 p-5 border-2 border-transparent hover:border-accent-accent transition duration-300 group">
-                                            <div className="w-auto h-156px md:h-245px relative transform group-hover:scale-105 transition duration-300 rounded-lg overflow-hidden">
+                                        <div className="h-auto md:h-425px bg-ui-white rounded-xl md:ml-4 md:mr-0 p-5 border-2 border-transparent hover:border-accent-accent transition duration-300 group">
+                                            <div className="w-auto h-245px relative transform group-hover:scale-105 transition duration-300 rounded-lg overflow-hidden">
                                                 <Image
                                                     draggable={false}
                                                     src={product.image.length === 0 ? "/product/placeholder.png" : product.image[0].formats.medium.url}
