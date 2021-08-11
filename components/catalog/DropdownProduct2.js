@@ -383,7 +383,7 @@ export default function DropdownProduct(props) {
                               }
                           </div>
 
-                          {option.popup &&
+                          {option[`popup${props.lang === 'ro' ? '' : 'ru'}`] &&
                           <svg 
                             xmlns="http://www.w3.org/2000/svg" className={`${props.name == "Dimensiuni recomandate" ? "hidden" : "block"} h-4 w-4 text-accent-accent ml-2 cursor-pointer`} 
                             fill="none" viewBox="0 0 24 24" stroke="currentColor" onClick={() => {

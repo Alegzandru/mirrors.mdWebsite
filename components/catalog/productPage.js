@@ -52,6 +52,10 @@ export default function ProductPage ({deviceType, name, price, images, descripti
         setPopupData(lang === "ro" ? addon[0].popup : addon[0].popupru)
         setPopupName(lang === "ro" ? addon[0].name : addon[0].nameru)
       }
+      else{
+        setPopupData('')
+        setPopupName('')
+      }
     }, [addonOpen])
 
     function useOutsideAlerter(ref) {
