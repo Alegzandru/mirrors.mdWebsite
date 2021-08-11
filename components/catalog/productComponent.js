@@ -1,51 +1,24 @@
-import DropdownProduct2 from "./DropdownProduct2"
-import { useForm } from "react-hook-form";
-import Image from "next/image"
-import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
-import {useState, useContext, useEffect, useRef} from "react"
-import {CartContext} from "../../components/context"
-import Link from 'next/link'
-import { useRouter } from 'next/router'
-import ReactTooltip from 'react-tooltip';
+
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useContext, useEffect, useRef, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import Carousel from 'react-multi-carousel';
 import Scroll from 'react-scroll';
+import ReactTooltip from 'react-tooltip';
+
+import { CartContext } from '../../components/context';
+import { getPrice } from '../../utils/general';
+import DropdownProduct2 from './DropdownProduct2';
+import { getPriceAddon } from '../../utils/general';
 
 var Element = Scroll.Element;
 
 export default function ProductComponent ({deviceType, name, images, options, optionVariants, productData, optionsRaw, lang, nameru, optionsRu}) {
 
     const router = useRouter()
-
-    function getPrice(product, size) {
-        let price = 0
-        product.materials.forEach((material, index) => {
-            if(material.type == "ml"){
-                price += material.price * (size.height + size.width) * 2 / 1000
-            }
-            else if(material.type == "m2"){
-                price += material.price * size.height * size.width / 1000000
-            }
-            else{
-                price += material.price
-            }
-        });
-        return price
-    }
-
-    function getPriceAddon(addon, size) {
-        let price = 0
-        if(addon.type == "ml"){
-            price = addon.price * (size.height + size.width) * 2 / 1000
-        }
-        else if(addon.type == "m2"){
-            price = addon.price * size.height * size.width / 1000000
-        }
-        else{
-            price = addon.price
-        }
-
-        return Math.trunc(price)
-    }
 
     const coeficientFinder = (size) => {
         if(size.width*size.height < productData[0].mediumsize.height * productData[0].mediumsize.width){

@@ -1,16 +1,18 @@
-import Image from 'next/image'
-import Link from 'next/link'
-import { useContext, useEffect, useState , useRef} from 'react'
-import {CartContext, DeviceTypeContext, PopupContext} from "../../components/context"
-import {API_URL} from "../../utils/urls"
-import { get, useForm } from "react-hook-form";
-import DropdownProduct2 from "../catalog/DropdownProduct2"
+import Image from 'next/image';
+import Link from 'next/link';
+import { useContext, useEffect, useRef, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import Scroll from 'react-scroll';
+
+import { CartContext, DeviceTypeContext, PopupContext } from '../../components/context';
+import { getPrice } from '../../utils/general';
+import { API_URL } from '../../utils/urls';
+import DropdownProduct2 from '../catalog/DropdownProduct2';
+import { getPriceAddon } from '../../utils/general';
 
 var Element = Scroll.Element;
 
 export default function CosProducts({lang}){
-
     
     const {deviceType, setDeviceType} = useContext(DeviceTypeContext)
 
@@ -26,37 +28,6 @@ export default function CosProducts({lang}){
     const [price, setPrice] = useState(0)
     
     let optionsPrice = 0
-
-    function getPrice(product, size) {
-        let price = 0
-        product.materials.forEach((material, index) => {
-            if(material.type == "ml"){
-                price += material.price * (size.height + size.width) * 2 / 1000
-            }
-            else if(material.type == "m2"){
-                price += material.price * size.height * size.width / 1000000
-            }
-            else{
-                price += material.price
-            }
-        });
-        return price
-    }
-
-    function getPriceAddon(addon, size) {
-        let price = 0
-        if(addon.type == "ml"){
-            price = addon.price * (size.height + size.width) * 2 / 1000
-        }
-        else if(addon.type == "m2"){
-            price = addon.price * size.height * size.width / 1000000
-        }
-        else{
-            price = addon.price
-        }
-
-        return Math.trunc(price)
-    }
 
     const coeficientFinder = (size, product) => {
         if(size.width*size.height < product.mediumsize.height * product.mediumsize.width){
@@ -124,14 +95,6 @@ export default function CosProducts({lang}){
             let mutableCart = [...cart]
             let index = mutableCart.indexOf(changeProduct)
     
-            // let productCart = {
-            //     product : {},
-            //     addOns : [],
-            //     size : changeProduct.size,
-            //     number : changeProduct.number,
-            //     price : Math.trunc( getPrice(popupProduct.product, popupProduct.size) * ( 1 + coeficientFinder(popupProduct.size, popupProduct.product)))
-            // }
-    
             changeProduct.addOns = []
             changeProduct.price = Math.trunc( getPrice(changeProduct.product, changeProduct.size) * ( 1 + coeficientFinder(changeProduct.size, changeProduct.product)))
     
@@ -142,7 +105,6 @@ export default function CosProducts({lang}){
                     })
                     changeProduct.addOns.push(addOnRaw[0])
                     changeProduct.price += getPriceAddon(addOnRaw[0], changeProduct.size)
-                    // addOnsPrice += addOnRaw[0].price
                 }
                 else{
                     let addOnRaw = optionVariants.filter((addOnRaw) => {
@@ -150,7 +112,6 @@ export default function CosProducts({lang}){
                     })
                     changeProduct.addOns.push(addOnRaw[0])
                     changeProduct.price += getPriceAddon(addOnRaw[0], changeProduct.size)
-                    // addOnsPrice += addOnRaw[0].price
                 }
             })
     
@@ -166,32 +127,24 @@ export default function CosProducts({lang}){
         let mutablePrice = 0
         cart.map((product) => {
             mutablePrice += product.price * product.number
-            // product.addOns.map((addOn, index) => {
-            //     mutablePrice += addOn.price * product.number
-            // })
         })
         setTotalPrice(mutablePrice)
     }, [cart])
 
-    useEffect(() => {
-      console.log("Produs in pop-up: ", popupProduct)
-    }, [popupProduct])
-
     function useOutsideAlerter(ref) {
-        useEffect(() => {
-            function handleClickOutside(event) {
-                if (ref.current && !ref.current.contains(event.target)) {
-                    setPopupOpen("")
-                }
-            }
-    
-            document.addEventListener("mousedown", handleClickOutside);
-            return () => {
-                document.removeEventListener("mousedown", handleClickOutside);
-            };
-        }, [ref]);
+      useEffect(() => {
+          function handleClickOutside(event) {
+              if (ref.current && !ref.current.contains(event.target)) {
+                  setPopupOpen("")
+              }
+          }
+  
+          document.addEventListener("mousedown", handleClickOutside);
+          return () => {
+              document.removeEventListener("mousedown", handleClickOutside);
+          };
+      }, [ref]);
     }
-
 
     const wrapperRef = useRef(null);
     useOutsideAlerter(wrapperRef);
@@ -495,7 +448,6 @@ export default function CosProducts({lang}){
                     <div className="w-full rounded-xl bg-ui-white mb-20">
                         {
                             cart.map((product, index) => {
-                                console.log(product)
                                 optionsPrice = 0
                                 return(
                                     <div className="flex flex-col md:flex-row w-full border-l-0 border-b-2 border-t-0 border-r-0 border-ui-darkGrey">

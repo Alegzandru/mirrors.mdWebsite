@@ -1,13 +1,17 @@
-import Link from 'next/link'
-import { useState, useContext, useEffect, useRef} from 'react'
-import Image from 'next/image'
-import { CartContext, PopupContext } from '../context'
-import { useForm } from "react-hook-form";
+import Lottie from 'lottie-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useContext, useEffect, useRef, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
-import Lottie from "lottie-react";
-import done from "./done.json"
-import loading from "./loading.json"
-import { useRouter } from 'next/router'
+
+import { getPrice } from '../../utils/general';
+import { CartContext, PopupContext } from '../context';
+import done from './done.json';
+import loading from './loading.json';
+import { getPriceAddon } from '../../utils/general';
+
 var md5 = require('md5');
 // const ExternalId = (Math.floor(Math.random() * Date.now()))
 let PaymentId = 0
@@ -64,37 +68,6 @@ export default function Checkout({lang}) {
         }
     }
 
-    function getPriceAddon(addon, size) {
-        let price = 0
-        if(addon.type == "ml"){
-            price = addon.price * (size.height + size.width) * 2 / 1000
-        }
-        else if(addon.type == "m2"){
-            price = addon.price * size.height * size.width / 1000000
-        }
-        else{
-            price = addon.price
-        }
-
-        return Math.trunc(price)
-    }
-
-    function getPrice(product, size) {
-        let price = 0
-        product.materials.forEach((material, index) => {
-            if(material.type == "ml"){
-                price += material.price * (size.height + size.width) * 2 / 1000
-            }
-            else if(material.type == "m2"){
-                price += material.price * size.height * size.width / 1000000
-            }
-            else{
-                price += material.price
-            }
-        });
-        return price
-    }
-
     const coeficientFinder = (size, product) => {
         if(size.width*size.height < product.mediumsize.height * product.mediumsize.width){
             return product.smallcoeficient
@@ -147,12 +120,6 @@ export default function Checkout({lang}) {
             console.log("Error with redirect : ", error)
         }
     }
-
-    // useEffect(() => { 
-    //     if(paynetInfo !== {}){
-    //         setButton(1)
-    //     }
-    // }, [paynetInfo])
 
     const onSubmit = async (data) => {
         setUserInfo({...data})

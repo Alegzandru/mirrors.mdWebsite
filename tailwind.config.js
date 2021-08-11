@@ -103,10 +103,17 @@ module.exports = {
       minHeight : {
         '96px' : '96px',
         '216px' : '216px',
+        '4' : '4rem'
+      },
+
+      minWidth : {
+        '4' : '4rem',
+        '75px' : '75px'
       },
   
       maxWidth : {
-        '130px' : '130px'
+        '130px' : '130px',
+        '1050px' : '1050px'
       },
       
       brightness : {
@@ -142,6 +149,7 @@ module.exports = {
         'checkout-left' : 'calc( (100vw - 288px) / 2 )',
         '70vh' : '70vh',
         '1.5px' : '1.5px',
+        '1050px' : '1050px',
         '981px' : '981px',
         '800px' : '800px',
         '776px' : '776px',

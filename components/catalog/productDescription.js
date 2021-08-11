@@ -93,9 +93,7 @@ export default function ProductDescription ({options, optionVariants, images, na
                 </h4>
 
                 <pre 
-                    style={{
-                        fontFamily : "Ubuntu"
-                    }} 
+                    className="font-Ubuntu"
                     dangerouslySetInnerHTML={{ __html: lang == "ro" ? description != null ? description.replace(/###/g, `<b style="font-size:24px">`).replace(/##/g, "</b>").replace(/-# /g, "&#9679 ") : "<div></div>" : descriptionru != null ? descriptionru.replace(/###/g, `<b style="font-size:24px">`).replace(/##/g, "</b>").replace(/-# /g, "&#9679 ") : "<div></div>"}} className={`md:text-md-p lg:text-lg-p text-type-manatee mb-11 w-full ${autoHeight ? "h-auto" : "max-h-240px"} overflow-y-hidden font-medium`}>
                         {/* {description} */}
                 </pre>

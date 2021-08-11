@@ -20,6 +20,11 @@ export const PopupContext = React.createContext({
     setPopupOpen : () => {}
 })
 
+export const AddonPopupContext = React.createContext({
+  addonOpen : '',
+  setAddonOpen : () => {}
+})
+
 export const SeenRecentlyContext = React.createContext({
     seenRecently : [],
     setSeenRecently : () => {}

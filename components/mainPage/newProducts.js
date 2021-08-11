@@ -1,27 +1,14 @@
-import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
-import Image from "next/image"
-import {CustomButtonGroupAsArrows2} from "./CustomButtonGroup"
-import Link from 'next/link'
+
+import Image from 'next/image';
+import Link from 'next/link';
+import Carousel from 'react-multi-carousel';
+
+import { getPrice } from '../../utils/general';
+import { CustomButtonGroupAsArrows2 } from './CustomButtonGroup';
 
 
 export default function NewProducts(props) {
-
-    function getPrice(product, size) {
-        let price = 0
-        product.materials.forEach((material, index) => {
-            if(material.type == "ml"){
-                price += material.price * (size.height + size.width) * 2 / 1000
-            }
-            else if(material.type == "m2"){
-                price += material.price * size.height * size.width / 1000000
-            }
-            else{
-                price += material.price
-            }
-        });
-        return price
-    }
 
     const responsive = {
         desktop: {

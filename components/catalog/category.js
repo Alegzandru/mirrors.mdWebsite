@@ -1,12 +1,13 @@
-import { useEffect, useState } from "react"
-import Dropdown from "./Dropdown"
-import Dropdown2 from "./Dropdown2"
-import FilterPopup from "./FilterPopup"
-import Image from "next/image"
-import {Link as LinkScroll} from 'react-scroll'
-import {API_URL} from "../../utils/urls"
-import Link from "next/link"
-import { useForm } from "react-hook-form";
+import Image from 'next/image';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { Link as LinkScroll } from 'react-scroll';
+
+import { getPrice } from '../../utils/general';
+import Dropdown from './Dropdown';
+import Dropdown2 from './Dropdown2';
+import FilterPopup from './FilterPopup';
 
 
 export default function Category({category, name, products, lang, nameru}) {
@@ -31,22 +32,6 @@ export default function Category({category, name, products, lang, nameru}) {
     const optionNamesUnfilteredRu = category[0].filters.map((option) => {
         return option.nameru
     })
-    
-    function getPrice(product, size) {
-        let price = 0
-        product.materials.forEach((material, index) => {
-            if(material.type == "ml"){
-                price += material.price * (size.height + size.width) * 2 / 1000
-            }
-            else if(material.type == "m2"){
-                price += material.price * size.height * size.width / 1000000
-            }
-            else{
-                price += material.price
-            }
-        });
-        return price
-    }
     
     function uniq(a) {
         var prims = {"boolean":{}, "number":{}, "string":{}}, objs = [];

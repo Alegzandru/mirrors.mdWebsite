@@ -171,6 +171,10 @@ input[type=number] {
     -moz-appearance:textfield; /* Firefox */
 }
   
+.modal-body {
+  transform: translate(-50%, -50%)
+}
+
 @media screen and (max-width: 1366px){
     .produseWidth{
         width : calc(100% - 382px - 32px - 24px);

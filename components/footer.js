@@ -195,7 +195,7 @@ export default function Footer (props) {
                         </a>
                     </ul>
                 </div>
-                <div className="flex flex-row items-start justify-between w-80px">
+                <div className="flex flex-row items-start justify-between w-118px">
                     <a 
                         href="https://www.facebook.com/mirrorsmd"
                         target="blank"
@@ -214,6 +214,16 @@ export default function Footer (props) {
                             src="/branding/instagramWhite.svg"
                             width={24}
                             height={24}
+                        />
+                    </a>
+                    <a
+                        href="https://www.tiktok.com/@mirrorsmd?lang=ru-RU&is_copy_url=1&is_from_webapp=v1"
+                        target="blank"
+                    >
+                        <Image
+                            src="/branding/tiktokFooter.svg"
+                            height={24}
+                            width={24}
                         />
                     </a>
                 </div>

@@ -3,27 +3,12 @@ import UAParser from "ua-parser-js";
 import {useEffect, useState, useContext} from "react"
 import { SeenRecentlyContext } from "../../components/context";
 import Link from 'next/link'
+import {getPrice} from '../../utils/general'
 
 export default function RecentProducts ({deviceType, lang}) {
     const {seenRecently, setSeenRecently} = useContext(SeenRecentlyContext)
 
     const [itemNr, setItemNr] = useState(0)
-
-    function getPrice(product, size) {
-        let price = 0
-        product.materials.forEach((material, index) => {
-            if(material.type == "ml"){
-                price += material.price * (size.height + size.width) * 2 / 1000
-            }
-            else if(material.type == "m2"){
-                price += material.price * size.height * size.width / 1000000
-            }
-            else{
-                price += material.price
-            }
-        });
-        return price
-    }
     
     useEffect(() => {
         if(deviceType == "desktop"){
@@ -103,19 +88,3 @@ export default function RecentProducts ({deviceType, lang}) {
         </div>
     )
 }
-
-// RecentProducts.getInitialProps = ({ req }) => {
-//     let userAgent;
-//     if (req) {
-//       userAgent = req.headers["user-agent"];
-//     } else {
-//       userAgent = navigator.userAgent;
-//     }
-//     const parser = new UAParser();
-//     parser.setUA(userAgent);
-//     const result = parser.getResult();
-//     const deviceType = (result.device && result.device.type) || "desktop";
-//     return { deviceType };
-// };
-
-// export default RecentProducts;

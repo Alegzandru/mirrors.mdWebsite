@@ -1,16 +1,19 @@
-import Image from 'next/image'
-import {useContext, useEffect, useState} from "react"
-import { useRouter } from 'next/router'
-import { CartContext, WidthContext, DeviceTypeContext } from './context';
-import Link from "next/link"
-import { Turn as Hamburger } from 'hamburger-react'
-import { Slide } from "react-awesome-reveal";
-import {API_URL} from "../utils/urls"
-import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
-import { Fade } from "react-awesome-reveal";
-import ChangingProgressProvider from "./progress/ChangingProgressProvider"
 import 'react-circular-progressbar/dist/styles.css';
-import { useSpring, animated } from 'react-spring'
+
+import { Turn as Hamburger } from 'hamburger-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useContext, useEffect, useState } from 'react';
+import { Slide } from 'react-awesome-reveal';
+import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
+import { animated, useSpring } from 'react-spring';
+
+import { getPrice } from '../utils/general';
+import { API_URL } from '../utils/urls';
+import { CartContext, DeviceTypeContext } from './context';
+import ChangingProgressProvider from './progress/ChangingProgressProvider';
+
 var qs = require('qs');
 const categories = [
     {
@@ -77,22 +80,6 @@ export function Navbar (props) {
     const styles3 = useSpring({ 
         height: top ? 32 : 0
     })
-
-    function getPrice(product, size) {
-        let price = 0
-        product.materials.forEach((material, index) => {
-            if(material.type == "ml"){
-                price += material.price * (size.height + size.width) * 2 / 1000
-            }
-            else if(material.type == "m2"){
-                price += material.price * size.height * size.width / 1000000
-            }
-            else{
-                price += material.price
-            }
-        });
-        return price
-    }
     
     async function getSearchProducts() {
         setLoading(1)
@@ -316,13 +303,25 @@ export function Navbar (props) {
                             />
                         </a>
                     </div>
-                    <div className="">
+                    <div className="ml-2 mr-6">
                         <a
                             href="https://www.facebook.com/mirrorsmd"
                             target="blank"
                         >
                             <Image
                                 src="/branding/facebook.svg"
+                                height={16}
+                                width={16}
+                            />
+                        </a>
+                    </div>
+                    <div className="">
+                        <a
+                            href="https://www.tiktok.com/@mirrorsmd?lang=ru-RU&is_copy_url=1&is_from_webapp=v1"
+                            target="blank"
+                        >
+                            <Image
+                                src="/branding/tiktok.svg"
                                 height={16}
                                 width={16}
                             />
