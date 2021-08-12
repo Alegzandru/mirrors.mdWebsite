@@ -37,13 +37,14 @@ export default function ContacteMap ({lang}) {
             </h2>
 
             <div className="w-full card-shadow rounded-xl flex flex-col-reverse md:flex-row justify-between items-center overflow-hidden">
-                <div className="pt-8 md:pt-72px pb-8 md:pb-16 px-8 md:px-8 lg:px-24 bg-ui-white flex flex-col justify-between items-start h-auto md:h-588px lg:h-600px w-full md:w-1/2 lg:w-auto">
+                <div className="pt-8 md:pt-72px pb-8 md:pb-16 px-8 md:px-8 lg:px-24 bg-ui-white flex flex-col justify-between items-start h-auto md:h-588px lg:h-600px w-full md:w-1/2 lg:w-504px">
                     <div className="flex flex-row justify-between items-center w-full">
                         <a 
                             href="https://www.facebook.com/mirrorsmd"
                             target="blank"
+                            className="flex-grow mr-2"
                         >
-                            <div className="h-72px w-148px bg-ui-grey rounded-xl flex flex-col items-center justify-between py-2 mr-4 flex-grow hover:bg-accent-transparent transition duration-300">
+                            <div className="h-72px bg-ui-grey rounded-xl flex flex-col items-center justify-between py-2 px-1 hover:bg-accent-transparent transition duration-300">
                                 <Image
                                     src="/branding/facebook.svg"
                                     height={24}
@@ -59,15 +60,34 @@ export default function ContacteMap ({lang}) {
                         <a 
                             href="https://www.instagram.com/mirrorsmd/"
                             target="blank"
+                            className="flex-grow"
                         >
-                            <div className="h-72px w-148px bg-ui-grey rounded-xl flex flex-col items-center justify-between py-2 flex-grow hover:bg-accent-transparent transition duration-300">
+                            <div className="h-72px bg-ui-grey rounded-xl flex flex-col items-center justify-between py-2 px-1 hover:bg-accent-transparent transition duration-300">
                                 <Image
                                     src="/branding/instagram.svg"
                                     height={24}
                                     width={24}
                                 />
 
-                                <div className="text-lg-14 gradient-text font-black mt-3">
+                                <div className="text-lg-14 gradient-instagram font-black mt-3">
+                                    mirrorsmd
+                                </div>
+                            </div>
+                        </a>
+
+                        <a 
+                            href="https://www.tiktok.com/@mirrorsmd?lang=ru-RU&is_copy_url=1&is_from_webapp=v1"
+                            target="blank"
+                            className="flex-grow ml-2"
+                        >
+                            <div className="h-72px bg-ui-grey rounded-xl flex flex-col items-center justify-between py-2 px-1 hover:bg-accent-transparent transition duration-300">
+                                <Image
+                                    src="/branding/tiktok.svg"
+                                    height={24}
+                                    width={24}
+                                />
+
+                                <div className="text-lg-14 gradient-tiktok font-black mt-3">
                                     mirrorsmd
                                 </div>
                             </div>
