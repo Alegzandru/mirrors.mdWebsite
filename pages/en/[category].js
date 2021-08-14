@@ -5,12 +5,12 @@ import {API_URL} from "../../utils/urls"
 export default function Catalog ({category, products}) {
 
     return (
-        <Layout lang="ru" category={category[0].slug}>
+        <Layout lang="en" category={category[0].slug}>
             <Category 
                 category={category}
                 name={category[0].name}
                 products={products}
-                lang="ru"
+                lang="en"
                 nameru={category[0].nameru}
                 nameen={category[0].nameen}
             >

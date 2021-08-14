@@ -6,7 +6,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { PopupContext } from "../../components/context";
 import {API_URL} from '../../utils/urls'
 
-export default function ProductPage ({deviceType, name, price, images, description, category, options, optionVariants, productData, optionsRaw, lang, nameru, optionsRu, descriptionru}) {
+export default function ProductPage ({deviceType, name, price, images, description, category, options, optionVariants, productData, optionsRaw, lang, nameru, nameen, optionsRu, optionsEn, descriptionru, descriptionen}) {
 
     const {seenRecently, setSeenRecently} = useContext(SeenRecentlyContext)
     const [contor, setContor] = useState(productData[0].name)
@@ -49,8 +49,8 @@ export default function ProductPage ({deviceType, name, price, images, descripti
       if(addonOpen){
         const addonRes = await fetch(`${API_URL}/add-ons?name_eq=${addonOpen}`)
         const addon = await addonRes.json()
-        setPopupData(lang === "ro" ? addon[0].popup : addon[0].popupru)
-        setPopupName(lang === "ro" ? addon[0].name : addon[0].nameru)
+        setPopupData(lang === "ro" ? addon[0].popup : lang == "ru" ? addon[0].popupru : addon[0].popupen)
+        setPopupName(lang === "ro" ? addon[0].name : lang == "ru" ? addon[0].nameru : addon[0].nameen)
       }
       else{
         setPopupData('')
@@ -106,6 +106,7 @@ export default function ProductPage ({deviceType, name, price, images, descripti
                 optionVariants={optionVariants}
                 name={name}
                 nameru={nameru}
+                nameen={nameen}
                 price={price}
                 images={images}
                 category={category}
@@ -113,6 +114,7 @@ export default function ProductPage ({deviceType, name, price, images, descripti
                 optionsRaw={optionsRaw}
                 lang={lang}
                 optionsRu={optionsRu}
+                optionsEn={optionsEn}
             />
             <ProductDescription 
                 deviceType={deviceType} 
@@ -121,8 +123,10 @@ export default function ProductPage ({deviceType, name, price, images, descripti
                 optionVariants={optionVariants}
                 name={name}
                 nameru={nameru}
+                nameen={nameen}
                 description={description}
                 descriptionru={descriptionru}
+                descriptionen={descriptionen}
                 productData={productData}
                 lang={lang}
             />

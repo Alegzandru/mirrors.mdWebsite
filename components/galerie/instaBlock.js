@@ -79,7 +79,10 @@ export default function InstaBlock ({lang}) {
           lang == "ro" ? 
           "Urmăriți-ne pe "
           :
+          lang == "ru" ?
           "Подпишитесь на нас в "
+          :
+          "Follow us on "
         }
         <span>
           <a 
@@ -100,13 +103,13 @@ export default function InstaBlock ({lang}) {
             src="/branding/instagram2.svg"
           />
         </div>
-        <div className="font-extrabold text-lg-32 h-12 flex flex-row justify-center items-center gradient-text">
+        <div className="font-extrabold text-lg-32 h-12 flex flex-row justify-center items-center gradient-instagram">
           mirrorsmd
         </div>
       </div>
 
       <a className="https://www.instagram.com/mirrorsmd/">
-        <div className="font-Pacifico gradient-text text-lg-insta mx-auto text-center lg:hidden">
+        <div className="font-Pacifico gradient-instagram text-lg-insta mx-auto text-center lg:hidden">
           @mirrorsmd
         </div>
       </a>
@@ -155,7 +158,10 @@ export default function InstaBlock ({lang}) {
                         lang == "ro" ? 
                         "Urmăriți-ne pe Instagram"
                         :
+                        lang == "ru" ?
                         "Подпишитесь на нас в Instagram"
+                        :
+                        "Follow us on Instagram"
                       }
                     </div>
                   </div>

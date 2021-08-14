@@ -346,7 +346,10 @@ export default function Checkout({lang}) {
                         lang == "ro" ? 
                         "Comanda a fost procesată. Vei fi telefonat in cel mai scurt timp posibil"
                         :
+                        lang == "ru" ?
                         "Заказ обработан. Вам позвонят в ближайшее время"
+                        :
+                        "Your order was processed. You will be called as soon as possible."
                     }
                 </div>
             </div>
@@ -361,7 +364,15 @@ export default function Checkout({lang}) {
                                 width={240}
                             ></Image>
                             <button onClick={() => redirectCall()} className={`${button ? "flex" : "hidden"} flex-row justify-center items-center bg-accent-accent rounded-lg text-ui-white font-bold hover:bg-accent-light h-12 w-full transition duration-300 mt-4`}>
-                                Plătește comanda
+                                {
+                                  lang == "ro" ?
+                                  "Plătește comanda"
+                                  :
+                                  lang == "ru" ?
+                                  "Оплатить заказ"
+                                  :
+                                  "Pay the order"
+                                }
                             </button>
                         </div>
                     :
@@ -371,10 +382,13 @@ export default function Checkout({lang}) {
                             </div>
                             <div className="w-240px text-sm-p md:text-md-p lg:text-lg-p text-type-manatee">
                                 {
-                                    lang == "ro" ? 
+                                    lang == "ro" ?
                                     "Comanda se procesează"
                                     :
+                                    lang == "ru" ?
                                     "Заказ обрабатывается"
+                                    :
+                                    "Your order is being processed"
                                 }
                             </div>
                         </div>
@@ -384,14 +398,25 @@ export default function Checkout({lang}) {
             <form className={`w-full h-auto px-container-sm md:px-container-md lg:px-container-lg xl:px-container-xl pt-128px md:pt-136px lg:pt-234px pb-120px font-Ubuntu bg-ui-darkGrey ${popupOpen ? "filter brightness-50" : ""} transition duration-300`}>
 
                 <div className="flex flex-row justify-start items-center text-lg-14 font-normal text-type-manatee w-auto mb-8 md:mb-12">
-                    <Link href={lang == "ro" ? "/" : "/ru"}>
+                    <Link href={
+                      lang == "ro" ? 
+                      "/" 
+                      : 
+                      lang == "ru" ?
+                      "/ru"
+                      :
+                      "/en"
+                    }>
                         <a>
                             <span className="mr-1 hover:underline transition duration-300">
                                 {
                                     lang == "ro" ?
                                     "Pagina principală"
                                     :
+                                    lang == "ru" ?
                                     "Главная страница"
+                                    :
+                                    "Homepage"
                                 }
                             </span>
                         </a>
@@ -399,14 +424,25 @@ export default function Checkout({lang}) {
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
-                    <Link href={lang == "ro" ? "/cos" : "/ru/cos"}>
+                    <Link href={
+                      lang == "ro" ? 
+                      "/cos" 
+                      : 
+                      lang == "ru" ?
+                      "/ru/cos"
+                      :
+                      "/en/cos"
+                    }>
                         <a>
                             <span className="mr-1 hover:underline transition duration-300">
                                 {
                                     lang == "ro" ?
                                     "Coș"
                                     :
+                                    lang == "ru" ?
                                     "Корзина"
+                                    :
+                                    "Cart"
                                 }
                             </span>
                         </a>
@@ -416,9 +452,6 @@ export default function Checkout({lang}) {
                     </svg>
                     <span>
                         {
-                            lang == "ro" ?
-                            "Checkout"
-                            :
                             "Checkout"
                         }
                     </span>
@@ -428,7 +461,10 @@ export default function Checkout({lang}) {
                         lang == "ro" ?
                         "Înregistrarea comenzii"
                         :
+                        lang == "ru" ?
                         "Оформление заказа"
+                        :
+                        "Order registration"
                     }
                 </h2>
                 <div className="h-px bg-ui-blueishGrey w-full mb-14 md:mb-68px"/>
@@ -461,7 +497,10 @@ export default function Checkout({lang}) {
                                     lang == "ro" ?
                                     "Detalii de contact"
                                     :
+                                    lang == "ru" ?
                                     "Контактная информация"
+                                    :
+                                    "Contact details"
                                 }
                             </div>
                         </div>
@@ -497,7 +536,10 @@ export default function Checkout({lang}) {
                                     lang == "ro" ?
                                     "Livrarea"
                                     :
+                                    lang == "ru" ?
                                     "Доставка"
+                                    :
+                                    "Delivery"
                                 }
                             </div>
                         </div>
@@ -533,7 +575,10 @@ export default function Checkout({lang}) {
                                     lang == "ro" ?
                                     "Modalitatea de plată"
                                     :
+                                    lang == "ru" ?
                                     "Способ оплаты"
+                                    :
+                                    "Payment method"
                                 }
                             </div>
                         </div>
@@ -564,7 +609,10 @@ export default function Checkout({lang}) {
                                     lang == "ro" ?
                                     "Plasarea comenzii"
                                     :
+                                    lang == "ru" ?
                                     "Размещение заказа"
+                                    :
+                                    "Order placement"
                                 }
                             </div>
                         </div> 
@@ -579,7 +627,10 @@ export default function Checkout({lang}) {
                                         lang == "ro" ?
                                         "Nume"
                                         :
+                                        lang == "ru" ?
                                         "Фамилия"
+                                        :
+                                        "Last name"
                                     }   
                                     <span className="text-accent-error">*</span>
                                 </div>
@@ -594,7 +645,10 @@ export default function Checkout({lang}) {
                                             lang == "ro" ?
                                             "* Introduceți numele Dvs."
                                             :
+                                            lang == "ru" ?
                                             "* Введите вашу фамилию."
+                                            :
+                                            "* Insert you last name"
                                         }
                                     </div>
                                 }
@@ -607,7 +661,10 @@ export default function Checkout({lang}) {
                                         lang == "ro" ?
                                         "Prenume"
                                         :
+                                        lang == "ru" ?
                                         "Имя"
+                                        :
+                                        "First name"
                                     }
                                     <span className="text-accent-error">*</span>
                                 </div>
@@ -622,7 +679,10 @@ export default function Checkout({lang}) {
                                             lang == "ro" ?
                                             "* Introduceți prenumele Dvs."
                                             :
+                                            lang == "ru" ?
                                             "* Введите свое имя."
+                                            :
+                                            "* Insert your first name"
                                         }
                                     </div>
                                 }
@@ -636,7 +696,10 @@ export default function Checkout({lang}) {
                                         lang == "ro" ?
                                         "Email"
                                         :
+                                        lang == "ru" ?
                                         "Электронная почта"
+                                        :
+                                        "Email"
                                     }
                                     <span className="text-accent-error">*</span>
                                 </div>
@@ -651,7 +714,10 @@ export default function Checkout({lang}) {
                                             lang == "ro" ?
                                             "* Introduceți poșta electronică"
                                             :
+                                            lang == "ru" ?
                                             "* Введите адрес электронной почты"
+                                            :
+                                            "* Insert your email"
                                         }
                                     </div>
                                 }
@@ -663,7 +729,10 @@ export default function Checkout({lang}) {
                                         lang == "ro" ?
                                         "Telefon"
                                         :
+                                        lang == "ru" ?
                                         "Телефон"
+                                        :
+                                        "Phone number"
                                     }
                                     <span className="text-accent-error">*</span>
                                 </div>
@@ -679,7 +748,10 @@ export default function Checkout({lang}) {
                                             lang == "ro" ?
                                             "* Introduceți numărul de telefon"
                                             :
+                                            lang == "ru" ?
                                             "* Введите номер телефона"
+                                            :
+                                            "* Insert your phone number"
                                         }
                                     </div>
                                 }
@@ -689,7 +761,10 @@ export default function Checkout({lang}) {
                                             lang == "ro" ?
                                             "* Lungimea minimă a numărului este 8 cifre"
                                             :
+                                            lang == "ru" ?
                                             "* Минимальная длина номера - 8 цифр"
+                                            :
+                                            "* Minimum phone number length - 8 digits"
                                         }
                                     </div>
                                 }
@@ -699,9 +774,6 @@ export default function Checkout({lang}) {
 
                     <div className={`${step == 2 ? "block" : "hidden"} w-full bg-ui-white md:pt-14 px-6 py-10 md:pb-16 md:px-12 mb-12`}>
                         <label className="w-full py-20px border-1.5px border-ui-darkGrey flex flex-row justify-between items-center mb-6 focus-within:text-type-dark text-type-grey transition duration-300 cursor-pointer">
-                            {/* <div className="w-4 h-4 flex flex-row justify-center items-center mx-4">
-                                <div className="border-ui-blueishGrey rounded-full w-3 h-3 border-2"/>
-                            </div> */}
                             <input
                                 type="radio"
                                 name="livrare"
@@ -714,7 +786,10 @@ export default function Checkout({lang}) {
                                     lang == "ro" ?
                                     "Ridicare din oficiu, str. Ismail 98"
                                     :
+                                    lang == "ru" ?
                                     "Приём из офиса, улица Измаил 98"
+                                    :
+                                    "Pick-up from office, Ismail 98 street"
                                 }
                             </div>
                             <div className="w-full text-lg-14 font-medium">
@@ -722,15 +797,15 @@ export default function Checkout({lang}) {
                                     lang == "ro" ?
                                     "gratuit"
                                     :
+                                    lang == "ru" ?
                                     "бесплатно"
+                                    :
+                                    "free"
                                 }
                             </div>
                         </label>
 
                         <label className="w-full py-20px border-1.5px border-ui-darkGrey flex flex-row justify-between items-center mb-6 focus-within:text-type-dark text-type-grey transition duration-300 cursor-pointer">
-                            {/* <div className="w-4 h-4 flex flex-row justify-center items-center mx-4">
-                                <div className="border-ui-blueishGrey rounded-full w-3 h-3 border-2"/>
-                            </div> */}
                             <input
                                 type="radio"
                                 name="livrare"
@@ -744,7 +819,10 @@ export default function Checkout({lang}) {
                                         lang == "ro" ?
                                         "* Introduceți modul de livrare"
                                         :
+                                        lang == "ru" ?
                                         "* Введите способ доставки"
+                                        :
+                                        "* Select a shipping method"
                                     }
                                 </div>
                             }
@@ -753,12 +831,15 @@ export default function Checkout({lang}) {
                                     lang == "ro" ?
                                     "Livrare până la ușă"
                                     :
+                                    lang == "ru" ?
                                     "Доставка до двери"
+                                    :
+                                    "Delivery to the door"
                                 }
                             </div>
                             <div className="w-full text-lg-14 font-medium">
                                 {
-                                    lang == "ro" ?
+                                    lang == "ro" || lang == "en" ?
                                     "150 lei"
                                     :
                                     "150 лей"
@@ -780,7 +861,10 @@ export default function Checkout({lang}) {
                                 lang == "ro" ?
                                 "Oraș"
                                 :
+                                lang == "ru" ?
                                 "Город"
+                                :
+                                "City"
                             }
                             <span className="text-accent-error">*</span>
                         </div>
@@ -795,7 +879,10 @@ export default function Checkout({lang}) {
                                     lang == "ro" ?
                                     "* Introduceți orașul Dvs."
                                     :
+                                    lang == "ru" ?
                                     "* Введите свой город."
+                                    :
+                                    "* Insert a city"
                                 }
                             </div>
                         }
@@ -805,7 +892,10 @@ export default function Checkout({lang}) {
                                 lang == "ro" ?
                                 "Adresa"
                                 :
+                                lang == "ru" ?
                                 "Адрес"
+                                :
+                                "Address"
                             }
                             <span className="text-accent-error">*</span>
                         </div>
@@ -820,7 +910,10 @@ export default function Checkout({lang}) {
                                     lang == "ro" ?
                                     "* Introduceți adresa Dvs."
                                     :
+                                    lang == "ru" ?
                                     "* Введите свой адрес."
+                                    :
+                                    "* Insert your address"
                                 }
                             </div>
                         }
@@ -829,9 +922,6 @@ export default function Checkout({lang}) {
 
                     <div className={`${step == 3 ? "block" : "hidden"} w-full bg-ui-white md:pt-14 px-6 py-10 md:pb-16 md:px-12 mb-12`}>
                         <label className="w-full py-20px border-1.5px border-ui-darkGrey flex flex-row justify-start items-center mb-6 text-type-grey focus-within:text-type-dark transition duration-300 cursor-pointer">
-                            {/* <div className="w-4 h-4 flex flex-row justify-center items-center mx-4">
-                                <div className="border-ui-blueishGrey rounded-full w-3 h-3 border-2"/>
-                            </div> */}
                             <input
                                 type="radio"
                                 name="plata"
@@ -858,15 +948,15 @@ export default function Checkout({lang}) {
                                     lang == "ro" ?
                                     "Transfer direct"
                                     :
+                                    lang == "ru" ?
                                     "Перевод с карты"
+                                    :
+                                    "Direct transfer"
                                 }
                             </div>
                         </label>
 
                         <label className="w-full py-20px border-1.5px border-ui-darkGrey flex flex-row justify-start items-center mb-6 text-type-grey focus-within:text-type-dark transition duration-300 cursor-pointer">
-                            {/* <div className="w-4 h-4 flex flex-row justify-center items-center mx-4">
-                                <div className="border-ui-blueishGrey rounded-full w-3 h-3 border-2"/>
-                            </div> */}
                             <input
                                 type="radio"
                                 name="plata"
@@ -886,7 +976,10 @@ export default function Checkout({lang}) {
                                     lang == "ro" ?
                                     "Cash la livrare"
                                     :
+                                    lang == "ru" ?
                                     "Оплата при доставке"
+                                    :
+                                    "Cash on delivery"
                                 }
                             </div>
                         </label>
@@ -896,7 +989,10 @@ export default function Checkout({lang}) {
                                     lang == "ro" ?
                                     "* Introduceți modul de plată"
                                     :
+                                    lang == "ru" ?
                                     "* Введите способ оплаты"
+                                    :
+                                    "* Insert a payment method"
                                 }
                             </div>
                         }
@@ -908,7 +1004,10 @@ export default function Checkout({lang}) {
                                 lang == "ro" ?
                                 "Comanda Dvs"
                                 :
-                                "Ваш заказ"
+                                lang == "ru" ?
+                                "Ваш заказ" 
+                                :
+                                "Your order"
                             }
                         </div>
                         {cart.map((product) => {
@@ -934,7 +1033,10 @@ export default function Checkout({lang}) {
                                                 lang == "ro" ?
                                                 product.product.name
                                                 :
+                                                lang == "ru" ?
                                                 product.product.nameru
+                                                :
+                                                product.product.nameen
                                             }
                                         </div>
                                         <div className="text-lg-14 text-accent-accent">
@@ -949,7 +1051,7 @@ export default function Checkout({lang}) {
                             <div className="w-full bg-ui-white border-1.5px border-ui-grey px-8 py-6 flex flex-row justify-between items-start">
                                 <div className="font-medium text-type-dark w-full">
                                     {
-                                        lang == "ro" ?
+                                        lang == "ro" || lang == "en"?
                                         "Sub-total"
                                         :
                                         "Промежуточный итог"
@@ -957,7 +1059,7 @@ export default function Checkout({lang}) {
                                 </div>
                                 <div className="text-type-manatee w-full">
                                     {
-                                        lang == "ro" ?
+                                        lang == "ro" || lang == "en" ?
                                         priceTotal + " lei"
                                         :
                                         priceTotal + " лей"
@@ -971,7 +1073,10 @@ export default function Checkout({lang}) {
                                         lang == "ro" ?
                                         "Livrare"
                                         :
+                                        lang == "ru" ?
                                         "Доставка"
+                                        :
+                                        "Delivery"
                                     }
                                 </div>
                                 <div className="text-type-manatee w-full">
@@ -981,12 +1086,18 @@ export default function Checkout({lang}) {
                                                 lang == "ro" ?
                                                 "livrare - 150 lei"
                                                 :
+                                                lang == "ru" ?
                                                 "доставка - 150 лей"
+                                                :
+                                                "delivery - 150 lei"
                                             :
                                                 lang == "ro" ?
                                                 "livrare - 0 lei"
                                                 :
+                                                lang == "ru" ?
                                                 "доставка - 0 лей"
+                                                :
+                                                "delivery - 0 lei"
                                         }
                                     </div>
                                     <div>
@@ -995,26 +1106,32 @@ export default function Checkout({lang}) {
                                                 lang == "ro" ?
                                                 "Livrare până la ușă"
                                                 :
+                                                lang == "ru" ?
                                                 "Доставка до двери"
+                                                :
+                                                "Delivery to the door"
                                             :
                                                 lang == "ro" ?
                                                 "Preluare din oficiu"
                                                 :
+                                                lang == "ru" ?
                                                 "Приём из офиса"
+                                                :
+                                                "Pickup from the office"
                                         }
                                     </div>
                                     <div>
                                         {
                                             userInfo.livrare == "livrare_la_usa" ?
-                                                lang == "ro" ?
-                                                userInfo.adresa
-                                                :
-                                                userInfo.adresa
+                                                userInfo.address
                                             :
                                                 lang == "ro" ?
                                                 "str. Ismail 98"
                                                 :
+                                                lang == "ru" ?
                                                 "улица Исмаил 98"
+                                                :
+                                                "Ismail 98 street"
                                         }
                                     </div>
                                 </div>
@@ -1026,7 +1143,10 @@ export default function Checkout({lang}) {
                                         lang == "ro" ?
                                         "Total"
                                         :
+                                        lang == "ru" ?
                                         "Итого"
+                                        :
+                                        "Total"
                                     }
                                 </div>
                                 <div className="text-type-manatee w-full">
@@ -1045,7 +1165,10 @@ export default function Checkout({lang}) {
                                 lang == "ro" ?
                                 "Comentariu"
                                 :
+                                lang == "ru" ?
                                 "Комментарий"
+                                :
+                                "Commentary"
                             }
                         </div>
                         <div className="text-lg-14 text-type-grey mb-4 font-bold">
@@ -1053,7 +1176,10 @@ export default function Checkout({lang}) {
                                 lang == "ro" ?
                                 "* Dacă aveți un promo-code, puteți să-l adăugați aici"
                                 :
+                                lang == "ru" ?
                                 "* Если у вас есть промокод, вы можете добавить его здесь"
+                                :
+                                "* If you have a promocode, you can insert it here"
                             }
                         </div>
                         <input
@@ -1066,18 +1192,36 @@ export default function Checkout({lang}) {
                         <div className="text-lg-p text-type-grey mb-84px"> 
                             {
                                 lang == "ro" ?
-                                "Datele dvs. personale vor fi utilizate pentru a vă procesa comanda, pentru a vă sprijini experiența pe acest site web și în alte scopuri descrise în pagina noastră "
+                                "Datele dvs. personale vor fi utilizate pentru a vă procesa comanda, pentru a vă sprijini experiența pe acest site web și în alte scopuri descrise în pagina noastră"
                                 :
+                                lang == "ru" ?
                                 "Ваши личные данные будут использоваться для обработки вашего заказа, для поддержки вашего опыта на этом веб-сайте и для других целей, описанных на нашей странице "
+                                :
+                                "Your personal data will be used to process your order, to support your experience on this website and for other purposes described on our "
                             }
-                            <span className="text-accent-accent">
-                                {
-                                    lang == "ro" ?
-                                    "politică de confidențialitate"
-                                    :
-                                    "политика конфиденциальности"
-                                }
-                            </span>.
+                            <Link href={
+                              lang == "ro" ? 
+                              "/termeni"
+                              :
+                              lang == "ru"?
+                              "/ru/termeni"
+                              :
+                              "/en/termeni"
+                            }>
+                              <a>
+                                <span className="text-accent-accent">
+                                    {
+                                        lang == "ro" ?
+                                        "politică de confidențialitate"
+                                        :
+                                        lang == "ru" ?
+                                        "политика конфиденциальности"
+                                        :
+                                        "terms and conditions page"
+                                    }
+                                </span>.
+                              </a>
+                            </Link>
                         </div>
 
                         {
@@ -1102,7 +1246,10 @@ export default function Checkout({lang}) {
                                         lang == "ro" ?
                                         "Am citit și sunt deacord cu condițiile enunțiate în "
                                         :
+                                        lang == "ru" ?
                                         "Я прочитал и согласен с условиями, изложенными в "
+                                        :
+                                        "I have read and agree to the conditions set out in "
                                     }
                                     <Link href={lang == "ro" ? "/termeni" : "/ru/termeni"}>
                                         <a>
@@ -1111,7 +1258,10 @@ export default function Checkout({lang}) {
                                                     lang == "ro" ?
                                                     " termeni și condiții"
                                                     :
+                                                    lang == "ru" ?
                                                     " условия"
+                                                    :
+                                                    "terms and conditions"
                                                 }
                                             </span>.
                                         </a>
@@ -1120,8 +1270,11 @@ export default function Checkout({lang}) {
                                         {
                                             lang == "ro" ?
                                             " (Obligatoriu)"
-                                            :                                            
+                                            :        
+                                            lang == "ru" ?                                    
                                             " (Обязательнo)"
+                                            :
+                                            " (Compulsory)"
                                         }
                                     </span>
                                 </label>
@@ -1141,19 +1294,25 @@ export default function Checkout({lang}) {
                                 lang == "ro" ?
                                 "Plasează comanda"
                                 :
+                                lang == "ru" ?
                                 "Оформите заказ"
+                                :
+                                "Place the order"
                             : 
                                 lang == "ro" ?
                                 "Continuă"
                                 :
+                                lang == "ru" ?
                                 "Продолжить"
+                                :
+                                "Continue"
                         }
                     </div>
 
                 </div>
             </form>
             <form method="POST" target="_blank" ref={formRef} action="https://paynet.md/acquiring/getecom">
-                <input type="hidden" name="Lang" value="ro-RO"/>
+                <input type="hidden" name="Lang" value={lang == "ro" ? "ro-RO" : lang == "ru" ? "ru-RU" : "en-US"}/>
                 <input type="hidden" name="operation" value=""/>
                 <input type="hidden" name="ExpiryDate" value=""/>
                 <input type="hidden" name="Signature" value=""/>

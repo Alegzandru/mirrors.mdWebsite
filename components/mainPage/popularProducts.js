@@ -49,7 +49,10 @@ export default function PopularProducts(props){
                         props.lang == "ro" ? 
                         "Produse populare"
                         :
+                        props.lang == "ru" ?
                         "Популярные товары"
+                        :
+                        "Popular products"
                     }
                 </h2>
 
@@ -58,7 +61,10 @@ export default function PopularProducts(props){
                         props.lang == "ro" ? 
                         "Site-ul nostru conține o gamă largă de oglinzi, printre care cu siguranță o veți găsi pe cea potrivită."
                         :
+                        props.lang == "ru" ?
                         "На нашем сайте представлен широкий выбор зеркал, среди которых вы обязательно найдете подходящее."
+                        :
+                        "Our website contains a wide range of mirrors, among which you will surely find the right one."
                     }
                 </p>
 
@@ -69,7 +75,10 @@ export default function PopularProducts(props){
                                 props.lang == "ro" ? 
                                 "Află ce este în TREND"
                                 :
+                                props.lang == "ru" ?
                                 "Узнайте, что в ТРЕНДЕ"
+                                :
+                                "Find out what is trending"
                             }
                         </div>
                     </a>
@@ -96,7 +105,15 @@ export default function PopularProducts(props){
                     {props.products.map((product, index) => {
                             return (
                                 index < 6 &&
-                                <Link href={props.lang == "ro" ? `/produse/${product.slug}` : `/ru/produse/${product.slug}`}>
+                                <Link href={
+                                  props.lang == "ro" ? 
+                                  `/produse/${product.slug}` 
+                                  : 
+                                  props.lang == "ru" ?
+                                  `/ru/produse/${product.slug}`
+                                  :
+                                  `/en/produse/${product.slug}`
+                                }>
                                     <a>
                                         <div key={index} className="h-444px md:h-481px">
                                             <div className="h-auto md:h-425px bg-ui-white rounded-xl mb-4 mr-4 ml-4 md:ml-4 md:mr-0 flex-grow p-5 border-2 border-transparent hover:border-accent-accent transition duration-300 group">
@@ -113,7 +130,10 @@ export default function PopularProducts(props){
                                                         props.lang == "ro" ?
                                                         product.name
                                                         :
+                                                        props.lang == "ru" ?
                                                         product.nameru
+                                                        :
+                                                        product.nameen
                                                     }
                                                 </div>
                                                 <div className={`text-sm-p md:text-lg-p text-type-manatee font-normal mt-2 ${product.seria != null ? "block" : "hidden"}`}>
@@ -121,7 +141,10 @@ export default function PopularProducts(props){
                                                         props.lang == "ro" ?
                                                         `Seria ${product.seria}`
                                                         :
+                                                        props.lang == "ru" ?
                                                         `Серия ${product.seria}`
+                                                        :
+                                                        `${product.seria} series`
                                                     }
                                                 </div>
                                                 <div className="text-sm-button md:text-lg-17 text-accent-accent font-medium mt-4 md:mt-6">
@@ -129,11 +152,14 @@ export default function PopularProducts(props){
                                                         props.lang == "ro" ? 
                                                         "de la "
                                                         :
+                                                        props.lang == "ru" ?
                                                         "от "
+                                                        :
+                                                        "from "
                                                     }
                                                     {Math.trunc( getPrice(product, product.defaultsize) * (1 + product.smallcoeficient) ) }
                                                     {
-                                                        props.lang == "ro" ? 
+                                                        props.lang == "ro" || props.lang == "en"? 
                                                         " lei "
                                                         :
                                                         " лей"
@@ -148,14 +174,25 @@ export default function PopularProducts(props){
                 </Carousel>
             </div>
             <div className="md:hidden px-container-sm block w-full">
-                <Link href={props.lang == "ro" ? "/oglinzi" : "/ru/oglinzi"}>
+                <Link href={
+                  props.lang == "ro" ? 
+                  "/oglinzi" 
+                  : 
+                  props.lang == "ru" ?
+                  "/ru/oglinzi"
+                  :
+                  "/en/oglinzi"
+                }>
                     <a>
                         <div className="w-full h-12 flex flex-row justify-center items-center bg-accent-accent mt-8 text-ui-white rounded-lg focus:bg-accent-light">
                             {
                                 props.lang == "ro" ? 
                                 "Află ce este în TREND"
                                 :
+                                props.lang == "ru" ?
                                 "Узнайте, что в ТРЕНДЕ"
+                                :
+                                "Find out what is trending"
                             }
                         </div>
                     </a>

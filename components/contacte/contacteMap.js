@@ -5,13 +5,25 @@ export default function ContacteMap ({lang}) {
     return(
         <div className="w-full h-auto px-container-sm md:px-container-md lg:px-container-lg xl:px-container-xl pt-128px md:pt-136px lg:pt-234px pb-16 md:pb-120px font-Ubuntu bg-ui-darkGrey">
             <div className="flex flex-row justify-start items-center text-lg-14 font-normal text-type-manatee w-auto mb-4 md:mb-8">
-                <Link href={lang == "ro" ? "/" : "/ru"}>
+                <Link href={
+                  lang == "ro" ? 
+                  "/" 
+                  : 
+                  lang == "ru" ?
+                  "/ru"
+                  :
+                  "/en"
+                }>
                     <a>
                         <span className="mr-1 hover:underline transition duration-300">
-                            {lang == "ro" ? 
-                                "Pagina principală"
-                                :
-                                "Главная страница"
+                            {
+                              lang == "ro" ? 
+                              "Pagina principală"
+                              :
+                              lang == "ru" ?
+                              "Главная страница"
+                              :
+                              "Homepage"
                             }
                         </span>
                     </a>
@@ -20,7 +32,8 @@ export default function ContacteMap ({lang}) {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
                 <span>
-                    {lang == "ro" ? 
+                    {
+                      lang == "ro" ? 
                         "Contacte"
                         :
                         "Контакты"
@@ -29,10 +42,14 @@ export default function ContacteMap ({lang}) {
             </div>
 
             <h2 className="text-sm-h2 md:text-md-h3 lg:text-lg-h2 text-accent-text2 font-bold mb-40px md:mb-52px text-shadow-text2">
-                {lang == "ro" ? 
-                    "Contacte"
-                    :
-                    "Контакты"
+                {
+                  lang == "ro" ? 
+                  "Contacte"
+                  :
+                  lang == "ru" ?
+                  "Контакты"
+                  :
+                  "Contacts"
                 }
             </h2>
 
@@ -115,10 +132,14 @@ export default function ContacteMap ({lang}) {
                                 </svg>
 
                                 <span className="group-hover:text-accent-accent transition duration-300">
-                                {lang == "ro" ? 
-                                    "str Ismail 98"
-                                    :
-                                    "ул Ismail 98"
+                                {
+                                  lang == "ro" ? 
+                                  "str Ismail 98"
+                                  :
+                                  lang == "ru" ?
+                                  "ул Ismail 98"
+                                  :
+                                  "Ismail 98 street"
                                 }
                                 </span>
                             </div>
@@ -144,10 +165,14 @@ export default function ContacteMap ({lang}) {
                             </svg>
 
                             <div>
-                                {lang == "ro" ? 
-                                    "Luni-Vineri: 9:00-18:00"
-                                    :
-                                    "Понедельник-пятница: 9:00-18:00"
+                                {
+                                  lang == "ro" ? 
+                                  "Luni-Vineri: 9:00-18:00"
+                                  :
+                                  lang == "ru" ?
+                                  "Понедельник-Пятница: 9:00-18:00"
+                                  :
+                                  "Monday-Friday: 9:00-18:00"
                                 }
                             </div>
                         </div>
@@ -157,10 +182,14 @@ export default function ContacteMap ({lang}) {
                             </svg>
 
                             <div>
-                                {lang == "ro" ? 
+                                {
+                                    lang == "ro" ? 
                                     "Sâmbătă: 9:00-14:00"
                                     :
+                                    lang == "ru" ?
                                     "Суббота: 9:00-14:00"
+                                    :
+                                    "Saturday: 9:00-14:00"
                                 }
                             </div>
                         </div>
@@ -170,10 +199,14 @@ export default function ContacteMap ({lang}) {
                             </svg>
 
                             <div>
-                                {lang == "ro" ? 
-                                    "Duminică: zi liberă"
-                                    :
-                                    "Воскресенье: выходной"
+                                {
+                                  lang == "ro" ? 
+                                  "Duminică: zi liberă"
+                                  :
+                                  lang == "ru" ?
+                                  "Воскресенье: выходной"
+                                  :
+                                  "Sunday: weekend"
                                 }
                             </div>
                         </div>

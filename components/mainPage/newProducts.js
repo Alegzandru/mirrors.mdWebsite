@@ -47,7 +47,10 @@ export default function NewProducts(props) {
                     props.lang == "ro" ? 
                     "Produse noi"
                     :
+                    props.lang == "ru" ?
                     "Новые товары"
+                    :
+                    "New products"
                 }
             </h3>
 
@@ -72,7 +75,15 @@ export default function NewProducts(props) {
                     {props.products.map((product, index) => {
                         return (
                             index < 15 &&
-                            <Link href={props.lang == "ro" ? `/produse/${product.slug}` : `/ru/produse/${product.slug}`}>
+                            <Link href={
+                              props.lang == "ro" ? 
+                              `/produse/${product.slug}` 
+                              : 
+                              props.lang == "ru" ?
+                              `/ru/produse/${product.slug}`
+                              :
+                              `/en/produse/${product.slug}`
+                            }>
                                 <a>
                                     <div key={index} className="h-auto w-full px-container-sm md:px-0">
                                         <div className="h-auto md:h-425px bg-ui-white rounded-xl md:ml-4 md:mr-0 p-5 border-2 border-transparent hover:border-accent-accent transition duration-300 group">
@@ -89,7 +100,10 @@ export default function NewProducts(props) {
                                                     props.lang == "ro" ?
                                                     product.name
                                                     :
+                                                    props.lang == "ru" ?
                                                     product.nameru
+                                                    :
+                                                    product.nameen
                                                 }
                                             </div>
                                             <div className={`text-sm-p md:text-lg-p text-type-manatee font-normal mt-2 ${product.seria != null ? "block" : "hidden"}`}>
@@ -97,7 +111,10 @@ export default function NewProducts(props) {
                                                     props.lang == "ro" ?
                                                     `Seria ${product.seria}`
                                                     :
+                                                    props.lang == "ru" ?
                                                     `Серия ${product.seria}`
+                                                    :
+                                                    `${product.seria} series`
                                                 }
                                             </div>
                                             <div className="text-sm-button md:text-lg-17 text-accent-accent font-medium mt-4 md:mt-6"> 
@@ -105,14 +122,20 @@ export default function NewProducts(props) {
                                                     props.lang == "ro" ? 
                                                     "de la "
                                                     :
+                                                    props.lang == "ru" ?
                                                     "от "
+                                                    :
+                                                    "from "
                                                 }
                                                 {Math.trunc( getPrice(product, product.defaultsize) * (1 + product.smallcoeficient) ) } 
                                                 {
                                                     props.lang == "ro" ? 
                                                     " lei"
                                                     :
+                                                    props.lang == "ru" ?
                                                     " лей"
+                                                    :
+                                                    " lei"
                                                 }
                                             </div>
                                         </div>
@@ -124,28 +147,50 @@ export default function NewProducts(props) {
                 </Carousel>
             </div>
 
-            <Link href={props.lang == "ro" ? "/oglinzi" : "/ru/oglinzi"}>
+            <Link href={
+              props.lang == "ro" ? 
+              "/oglinzi" 
+              : 
+              props.lang == "ru" ?
+              "/ru/oglinzi"
+              :
+              "/en/oglinzi"
+            }>
                 <a>
                     <div className="hidden mx-auto md:mt-40px lg:mt-72px w-234px h-48px rounded-lg text-lg-button md:text-sm-button font-bold bg-accent-accent text-ui-white md:flex flex-row justify-center items-center  border-2 border-transparent hover:bg-accent-light transition duration-300">
                         {
                             props.lang == "ro" ? 
                             "Deschide Catalogul"
                             :
+                            props.lang == "ru" ?
                             "Открыть каталог"
+                            :
+                            "Open catalog"
                         }
                     </div>
                 </a>
             </Link>
 
             <div className="mx-container-sm">
-                <Link href={props.lang == "ro" ? "/oglinzi" : "/ru/oglinzi"}>
+                <Link href={
+                  props.lang == "ro" ? 
+                  "/oglinzi" 
+                  : 
+                  props.lang == "ru" ?
+                  "/ru/oglinzi"
+                  :
+                  "/en/oglinzi"
+                }>
                     <a>
                         <div className="text-sm-button mx-auto mt-12 w-full h-48px rounded-lg bg-accent-accent text-ui-white md:hidden flex flex-row justify-center items-center">
                             {
                                 props.lang == "ro" ? 
                                 "Află ce este în TREND"
                                 :
+                                props.lang == "ru" ?
                                 "Узнайте, что в Тренде"
+                                :
+                                "Find out what is trending"
                             }
                         </div>
                     </a>

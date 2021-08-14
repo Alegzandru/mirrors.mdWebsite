@@ -184,7 +184,10 @@ export default function DropdownProduct(props) {
                                     props.lang == "ro" ?
                                     "Alegeți dimensiunile"
                                     :
+                                    props.lang == "ru" ?
                                     "Выберите размеры"
+                                    :
+                                    "Choose the size"
                                 }
                             </div>
                         </div>
@@ -197,7 +200,10 @@ export default function DropdownProduct(props) {
                                             props.lang == "ro" ?
                                             "Înălțime"
                                             :
+                                            props.lang == "ru" ?
                                             "Высота"
+                                            :
+                                            "Height"
                                         }
                                     </span>
                                 </div>
@@ -217,13 +223,19 @@ export default function DropdownProduct(props) {
                                         props.lang == "ro" ?
                                         errorInputs.height === 'min' && `Înălțimea min - ${props.minHeight}`
                                         :
+                                        props.lang == "ru" ?
                                         errorInputs.height === 'min' && `Мин. высота - ${props.minHeight}`
+                                        :
+                                        errorInputs.height === 'min' && `Min height - ${props.minHeight}`
                                     }
                                     {
                                         props.lang == "ro" ?
                                         errorInputs.height === 'max' && `Înălțimea max - ${props.maxHeight}`
                                         :
+                                        props.lang == "ru" ?
                                         errorInputs.height === 'max' && `Макс. высота - ${props.maxHeight}`
+                                        :
+                                        errorInputs.height === 'max' && `Max height - ${props.maxHeight}`
                                     }
                                     {""}
                                 </div>
@@ -240,7 +252,10 @@ export default function DropdownProduct(props) {
                                             props.lang == "ro" ?
                                             "Lățime"
                                             :
+                                            props.lang == "ru" ?
                                             "Ширина"
+                                            :
+                                            "Width"
                                         }
                                     </span>
                                 </div>
@@ -261,13 +276,19 @@ export default function DropdownProduct(props) {
                                         props.lang == "ro" ?
                                         errorInputs.width === 'min' && `Lățimea min. - ${props.minWidth}`
                                         :
+                                        props.lang == "ru" ?
                                         errorInputs.width === 'min' && `Мин. ширина - ${props.minWidth}`
+                                        :
+                                        errorInputs.width === 'min' && `Min width - ${props.minWidth}`
                                     }
                                     {
                                         props.lang == "ro" ? 
                                         errorInputs.width === 'max' && `Lățimea max. - ${props.maxWidth}`
                                         :
+                                        props.lang == "ru" ?
                                         errorInputs.width === 'max' && `Макс. ширина - ${props.maxWidth}`
+                                        :
+                                        errorInputs.width === 'max' && `Max width - ${props.minWidth}`
                                     }
                                     {""}
                                 </div>
@@ -278,7 +299,7 @@ export default function DropdownProduct(props) {
             </div>
             
             <div 
-                className={`w-full ${props.name == "Dimensiuni recomandate" ? "border-ui-blueishGrey border-b bg-ui-white mt-40px" : "bg-ui-grey"} h-auto py-3 flex flex-row justify-between items-start px-2 font-Ubuntu group transition duration-300`}
+                className={`w-full ${props.name == "Dimensiuni recomandate" ? "border-ui-blueishGrey border-b bg-ui-white mt-40px cursor-pointer" : "bg-ui-grey"} h-auto py-3 flex flex-row justify-between items-start px-2 font-Ubuntu group transition duration-300`}
                 onClick={() => {
                     if(props.name == "Dimensiuni recomandate"){
                         setOpen(!open)
@@ -286,10 +307,14 @@ export default function DropdownProduct(props) {
                 }}
             >
                 <div className={`${props.name == "Dimensiuni recomandate" ? open ? "font-medium" : "font-normal" : "font-medium"} flex-grow text-lg-17 md:text-lg-14 text-type-grey group-hover:text-type-manatee transition duration-300 flex flex-row justify-start items-center`}>
-                    {props.lang == "ro" ? 
-                        props.name
-                        :
-                        props.nameru
+                    {
+                      props.lang == "ro" ? 
+                      props.name
+                      :
+                      props.lang == "ru" ?
+                      props.nameru
+                      :
+                      props.nameen
                     }
                 </div>
 
@@ -302,17 +327,23 @@ export default function DropdownProduct(props) {
                                 props.options.length != 1 ? 
                                     chosen ? 
                                         props.lang == "ro" ?
-                                            chosen
-                                            :
-                                            props.optionsRaw.filter((optionRaw, index) => optionRaw.typename == chosen )[0].typenameru 
-                                        : 
+                                        chosen
+                                        :
+                                        props.lang == "ru" ?
+                                        props.optionsRaw.filter((optionRaw, index) => optionRaw.typename == chosen )[0].typenameru 
+                                        :
+                                        props.optionsRaw.filter((optionRaw, index) => optionRaw.typename == chosen )[0].typenameen
+                                        :
                                         "" 
                                     : 
                                     checked ? 
                                         props.lang == "ro" ? 
-                                            "Da" 
-                                            : 
-                                            "Да" 
+                                        "Da" 
+                                        : 
+                                        props.lang == "ru" ?
+                                        "Да" 
+                                        :
+                                        "Yes"
                                         : 
                                         ""
                         }
@@ -368,7 +399,10 @@ export default function DropdownProduct(props) {
                                     props.lang == "ro" ?
                                     props.options.length != 1? option.typename : option.name
                                     :
+                                    props.lang == "ru" ?
                                     props.options.length != 1? option.typenameru : option.nameru
+                                    :
+                                    props.options.length != 1? option.typenameen : option.nameen
                                 }
                             </div>
                         </label>
@@ -379,11 +413,22 @@ export default function DropdownProduct(props) {
                                 props.lang == "ro" ?
                                 " lei"
                                 :
+                                props.lang == "ru" ?
                                 " лей"
+                                :
+                                " lei"
                               }
                           </div>
 
-                          {option[`popup${props.lang === 'ro' ? '' : 'ru'}`] &&
+                          {option[`popup${
+                            props.lang === 'ro' ? 
+                            '' 
+                            : 
+                            props.lang == 'ru' ?
+                            'ru'
+                            :
+                            'en'
+                          }`] &&
                           <svg 
                             xmlns="http://www.w3.org/2000/svg" className={`${props.name == "Dimensiuni recomandate" ? "hidden" : "block"} h-4 w-4 text-accent-accent ml-2 cursor-pointer`} 
                             fill="none" viewBox="0 0 24 24" stroke="currentColor" onClick={() => {

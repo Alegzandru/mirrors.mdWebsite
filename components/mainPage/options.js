@@ -10,7 +10,10 @@ export default function Options({lang}) {
                             lang == "ro" ? 
                             "Opțiuni disponibile"
                             :
+                            lang == "ru" ?
                             "Доступные опции"
+                            :
+                            "Additional options"
                         }
                     </h2>
                     <h2 className="text-lg-hLarge text-transparent font-bold tracking-tighter z-20 relative -mt-88px withStroke mb-40px">
@@ -18,7 +21,10 @@ export default function Options({lang}) {
                             lang == "ro" ? 
                             "Opțiuni disponibile"
                             :
+                            lang == "ru" ?
                             "Доступные опции"
+                            :
+                            "Additional options"
                         }
                     </h2>
                     <ul className="list-inside list-disc text-lg-p text-type-manatee h-180px relative z-0">
@@ -27,7 +33,10 @@ export default function Options({lang}) {
                                 lang == "ro" ? 
                                 "Senzor de mișcare, senzor-dimmer sau comutatoare tactile"
                                 :
+                                lang == "ru" ?
                                 "Датчик движения, датчик-диммер или сенсорные переключатели"
+                                :
+                                "Motion sensor, dimmer or touch switch"
                             }
                         </li>
                         <li>
@@ -35,7 +44,10 @@ export default function Options({lang}) {
                                 lang == "ro" ? 
                                 "Element de încălzire pentru a preveni aburirea oglinzii"
                                 :
+                                lang == "ru" ?
                                 "Нагревательный элемент для предотвращения запотевания зеркала"
+                                :
+                                "Heating element to prevent fogging of the mirror"
                             }
                         </li>
                         <li>
@@ -43,7 +55,10 @@ export default function Options({lang}) {
                                 lang == "ro" ? 
                                 "Tenta de iluminare a oglinzii: rece, neutră sau caldă"
                                 :
+                                lang == "ru" ?
                                 "Оттенок подсветки зеркал: холодный, нейтральный или теплый"
+                                :
+                                "Mirror lighting tint: cold, neutral or warm"
                             }
                         </li>
                         <li>
@@ -51,7 +66,10 @@ export default function Options({lang}) {
                                 lang == "ro" ? 
                                 "Lumina de fundal RGB 64K și telecomandă"
                                 :
+                                lang == "ru" ?
                                 "Подсветка RGB 64K и пульт дистанционного управления"
+                                :
+                                "64K RGB backlight and remote control"
                             }
                         </li>
                         <li>
@@ -59,7 +77,10 @@ export default function Options({lang}) {
                                 lang == "ro" ? 
                                 "Sistem audio wireless încorporat: bluetooth, radio, ceas"
                                 :
+                                lang == "ru" ?
                                 "Встроенная беспроводная аудиосистема: блютуз, радио, часы"
+                                :
+                                "Built-in wireless audio system: bluetooth, radio, clock"
                             }
                         </li>
                         <li>
@@ -67,7 +88,10 @@ export default function Options({lang}) {
                                 lang == "ro" ? 
                                 "Oglindă măritoare cu zonă separată de iluminat"
                                 :
+                                lang == "ru" ?
                                 "Увеличительное зеркало с отдельной зоной освещения"
+                                :
+                                "Magnifying mirror with separate lighting area"
                             }
                         </li>
                         <li>           
@@ -75,7 +99,10 @@ export default function Options({lang}) {
                                 lang == "ro" ? 
                                 "Senzor cu termometru sau ceas electronic"
                                 :
+                                lang == "ru" ?
                                 "Датчик с термометром или электронными часами"
+                                :
+                                "Sensor with thermometer or electronic clock"
                             }             
                         </li>
                     </ul>
@@ -85,7 +112,10 @@ export default function Options({lang}) {
                                 lang == "ro" ? 
                                 "Senzor de mișcare, senzor-dimmer sau comutatoare tactile"
                                 :
+                                lang == "ru" ?
                                 "Датчик движения, датчик-диммер или сенсорные переключатели"
+                                :
+                                "Motion sensor, dimmer or touch switch"
                             }
                         </li>
                         <li>
@@ -93,7 +123,10 @@ export default function Options({lang}) {
                                 lang == "ro" ? 
                                 "Element de încălzire pentru a preveni aburirea oglinzii"
                                 :
+                                lang == "ru" ?
                                 "Нагревательный элемент для предотвращения запотевания зеркала"
+                                :
+                                "Heating element to prevent fogging of the mirror"
                             }
                         </li>
                         <li>
@@ -101,7 +134,10 @@ export default function Options({lang}) {
                                 lang == "ro" ? 
                                 "Tenta de iluminare a oglinzii: rece, neutră sau caldă"
                                 :
+                                lang == "ru" ?
                                 "Оттенок подсветки зеркал: холодный, нейтральный или теплый"
+                                :
+                                "Mirror lighting tint: cold, neutral or warm"
                             }
                         </li>
                         <li>
@@ -109,7 +145,10 @@ export default function Options({lang}) {
                                 lang == "ro" ? 
                                 "Lumina de fundal RGB 64K și telecomandă"
                                 :
+                                lang == "ru" ?
                                 "Подсветка RGB 64K и пульт дистанционного управления"
+                                :
+                                "64K RGB backlight and remote control"
                             }
                         </li>
                         <li>
@@ -117,7 +156,10 @@ export default function Options({lang}) {
                                 lang == "ro" ? 
                                 "Sistem audio wireless încorporat: bluetooth, radio, ceas"
                                 :
+                                lang == "ru" ?
                                 "Встроенная беспроводная аудиосистема: блютуз, радио, часы"
+                                :
+                                "Built-in wireless audio system: bluetooth, radio, clock"
                             }
                         </li>
                         <li>
@@ -125,7 +167,10 @@ export default function Options({lang}) {
                                 lang == "ro" ? 
                                 "Oglindă măritoare cu zonă separată de iluminat"
                                 :
+                                lang == "ru" ?
                                 "Увеличительное зеркало с отдельной зоной освещения"
+                                :
+                                "Magnifying mirror with separate lighting area"
                             }
                         </li>
                         <li>           
@@ -133,8 +178,11 @@ export default function Options({lang}) {
                                 lang == "ro" ? 
                                 "Senzor cu termometru sau ceas electronic"
                                 :
+                                lang == "ru" ?
                                 "Датчик с термометром или электронными часами"
-                            }             
+                                :
+                                "Sensor with thermometer or electronic clock"
+                            }                 
                         </li>
                     </ul>
                 </div>
@@ -147,7 +195,10 @@ export default function Options({lang}) {
                                 lang == "ro" ? 
                                 "Opțiuni disponibile"
                                 :
+                                lang == "ru" ?
                                 "Доступные опции"
+                                :
+                                "Additional options"
                             }
                         </h2>
                         <ul className="list-inside list-disc text-sm-p md:text-md-p">
@@ -156,7 +207,10 @@ export default function Options({lang}) {
                                     lang == "ro" ? 
                                     "Senzor de mișcare, senzor-dimmer sau comutatoare tactile"
                                     :
+                                    lang == "ru" ?
                                     "Датчик движения, датчик-диммер или сенсорные переключатели"
+                                    :
+                                    "Motion sensor, dimmer or touch switch"
                                 }
                             </li>
                             <li>
@@ -164,7 +218,10 @@ export default function Options({lang}) {
                                     lang == "ro" ? 
                                     "Element de încălzire pentru a preveni aburirea oglinzii"
                                     :
+                                    lang == "ru" ?
                                     "Нагревательный элемент для предотвращения запотевания зеркала"
+                                    :
+                                    "Heating element to prevent fogging of the mirror"
                                 }
                             </li>
                             <li>
@@ -172,7 +229,10 @@ export default function Options({lang}) {
                                     lang == "ro" ? 
                                     "Tenta de iluminare a oglinzii: rece, neutră sau caldă"
                                     :
+                                    lang == "ru" ?
                                     "Оттенок подсветки зеркал: холодный, нейтральный или теплый"
+                                    :
+                                    "Mirror lighting tint: cold, neutral or warm"
                                 }
                             </li>
                             <li>
@@ -180,7 +240,10 @@ export default function Options({lang}) {
                                     lang == "ro" ? 
                                     "Lumina de fundal RGB 64K și telecomandă"
                                     :
+                                    lang == "ru" ?
                                     "Подсветка RGB 64K и пульт дистанционного управления"
+                                    :
+                                    "64K RGB backlight and remote control"
                                 }
                             </li>
                             <li>
@@ -188,7 +251,10 @@ export default function Options({lang}) {
                                     lang == "ro" ? 
                                     "Sistem audio wireless încorporat: bluetooth, radio, ceas"
                                     :
+                                    lang == "ru" ?
                                     "Встроенная беспроводная аудиосистема: блютуз, радио, часы"
+                                    :
+                                    "Built-in wireless audio system: bluetooth, radio, clock"
                                 }
                             </li>
                             <li>
@@ -196,7 +262,10 @@ export default function Options({lang}) {
                                     lang == "ro" ? 
                                     "Oglindă măritoare cu zonă separată de iluminat"
                                     :
+                                    lang == "ru" ?
                                     "Увеличительное зеркало с отдельной зоной освещения"
+                                    :
+                                    "Magnifying mirror with separate lighting area"
                                 }
                             </li>
                             <li>           
@@ -204,8 +273,11 @@ export default function Options({lang}) {
                                     lang == "ro" ? 
                                     "Senzor cu termometru sau ceas electronic"
                                     :
+                                    lang == "ru" ?
                                     "Датчик с термометром или электронными часами"
-                                }             
+                                    :
+                                    "Sensor with thermometer or electronic clock"
+                                }            
                             </li>
                         </ul>
                     </div>

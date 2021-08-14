@@ -29,7 +29,10 @@ export default function RecentProducts ({deviceType, lang}) {
                             lang == "ro" ? 
                             "Ați privit mai devreme"
                             :
+                            lang == "ru" ?
                             "Вы смотрели раньше"
+                            :
+                            "You watched earlier"
                         }
                     </div>
     
@@ -38,7 +41,15 @@ export default function RecentProducts ({deviceType, lang}) {
                     <div className="w-full flex flex-row justify-start items-center">
                         {seenRecently.slice(4-itemNr, itemNr+1).map((product, index)=>{
                             return(
-                                <Link href={lang == "ro" ? `/produse/${product.slug}` : `/ru/produse/${product.slug}`}>
+                                <Link href={
+                                  lang == "ro" ? 
+                                  `/produse/${product.slug}` 
+                                  : 
+                                  lang == "ru" ?
+                                  `/ru/produse/${product.slug}`
+                                  :
+                                  `/en/produse/${product.slug}`
+                                }>
                                     <a  className="w-full max-w-md">
                                         <div className="flex-grow mr-2 h-140px bg-ui-white rounded-lg flex flex-row items-center justify-start hover:shadow-md transition duration-300 px-4 py-2">
                                             <div className="h-124px w-124px relative mr-4 rounded-lg overflow-hidden">
@@ -55,7 +66,10 @@ export default function RecentProducts ({deviceType, lang}) {
                                                         lang == "ro" ?
                                                         product.name
                                                         :
+                                                        lang == "ru" ? 
                                                         product.nameru
+                                                        :
+                                                        product.nameen
                                                     }
                                                 </div>
                                                 <div className="text-lg-14 font-normal text-type-grey">
@@ -63,11 +77,14 @@ export default function RecentProducts ({deviceType, lang}) {
                                                         lang == "ro" ? 
                                                         "de la "
                                                         :
+                                                        lang == "ru" ?
                                                         "от "
+                                                        :
+                                                        "from "
                                                     }
                                                     {Math.trunc( getPrice(product, product.defaultsize) * (1 + product.smallcoeficient))}
                                                     {
-                                                        lang == "ro" ? 
+                                                        lang == "ro" || lang == "en"? 
                                                         " lei"
                                                         :
                                                         " лей"

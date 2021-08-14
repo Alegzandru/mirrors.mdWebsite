@@ -35,8 +35,12 @@ export default function Dropdown (props) {
                     <div className={`h-10px w-10px mr-10px ${props.active == true ? "block" : "hidden"} bg-accent-accent rounded-full`}/>
                     {
                         props.lang == "ro" ?
-                        props.name:
+                        props.name
+                        :
+                        props.lang == "ru" ?
                         props.nameru
+                        :
+                        props.nameen
                     }
                 </div>
 
@@ -70,7 +74,10 @@ export default function Dropdown (props) {
                             props.lang == "ro" ?
                             option.value
                             :
+                            props.lang == "ru" ?
                             option.valueru
+                            :
+                            option.valueen
                         }
                     </label>
                 )}

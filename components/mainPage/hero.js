@@ -41,7 +41,10 @@ export default function Hero({lang}){
                                 lang == "ro" ? 
                                 "Oglinzi de la producător"
                                 :
+                                lang == "ru" ?
                                 "Зеркала от производителя"
+                                :
+                                "Mirrors from the manufacturer"
                             }
                         </h1>
 
@@ -50,18 +53,32 @@ export default function Hero({lang}){
                                 lang == "ro" ? 
                                 "Oferim o selecție excelentă, de peste 400 de modele, fiecare fiind produs în orice dimensiune de până la 2,5m."
                                 :
+                                lang == "ru" ?
                                 "Мы предлагаем отличный выбор из более чем 400 моделей, каждая из которых выпускается любого размера до 2,5 м."
+                                :
+                                "We offer an excellent selection of over 400 models, each being produced in any size up to 2.5m."
                             }
                         </p>
 
-                        <Link href={lang == "ro" ? "/oglinzi" : "/ru/oglinzi"}>
+                        <Link href={
+                          lang == "ro" ? 
+                          "/oglinzi" 
+                          : 
+                          lang == "ru" ?
+                          "/ru/oglinzi"
+                          :
+                          "/en/oglinzi"
+                        }>
                             <a>
                                 <div className="text-sm-button md:text-md-button lg:text-lg-button font-bold mt-48px lg:mt-56px mx-auto rounded-lg h-48px w-full md:w-210px bg-accent-transparent text-accent-accent flex flex-row justify-center items-center border-2 border-transparent hover:border-accent-accent transition duration-300">
                                     {
                                         lang == "ro" ? 
                                         "Alegeți oglinda"
                                         :
+                                        lang == "ru" ?
                                         "Выберите зеркало"
+                                        :
+                                        "Choose a mirror"
                                     }
                                 </div>
                             </a>

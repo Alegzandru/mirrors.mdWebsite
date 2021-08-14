@@ -25,9 +25,9 @@ export function DynamicProduct ({productData}) {
   })
 
   return (
-      <Layout lang="ru" slug={productData[0].slug}>
+      <Layout lang="en" slug={productData[0].slug}>
           <ProductPage 
-            lang="ru"
+            lang="en"
             deviceType={deviceType}
             name={productData[0].name}
             price={productData[0].price}

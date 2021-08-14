@@ -19,7 +19,10 @@ export default function Benefits({lang}){
                     lang == "ro" ? 
                     "Beneficii"
                     :
+                    lang == "ru" ?
                     "Преимущества"
+                    :
+                    "Benefits"
                 }
             </h3>
             <div className="flex flex-col lg:flex-row justify-between items-center w-full">
@@ -33,7 +36,10 @@ export default function Benefits({lang}){
                             lang == "ro" ? 
                             "Ne iubim clienții"
                             :
+                            lang == "ru" ?
                             "Мы любим наших клиентов"
+                            :
+                            "We love our clients"
                         }
                         <CSSTransition
                             in={benefit1}
@@ -44,9 +50,12 @@ export default function Benefits({lang}){
                             <div className="text-lg-card-description lg:text-lg-p text-type-grey mt-4">
                                 {
                                     lang == "ro" ? 
-                                    "O vânzare este considerată de succes numai dacă Cumpărătorul se bucură de produsul nostru în casa sa"
+                                    "O vânzare este considerată de succes numai dacă Cumpărătorul se bucură de produsul nostru în casa sa."
                                     :
+                                    lang == "ru" ?
                                     "Продажа считается успешной только в том случае, если покупатель радуется нашим товаром у себя дома."
+                                    :
+                                    "A sale is considered successful only if the Buyer enjoys our product in his home."
                                 }
                             </div>
                         </CSSTransition>                            
@@ -71,7 +80,10 @@ export default function Benefits({lang}){
                                     lang == "ro" ? 
                                     "Configurarea oglinzii"
                                     :
+                                    lang == "ru" ?
                                     "Конфигурация зеркала"
+                                    :
+                                    "Mirror configuration"
                                 }
                                 <CSSTransition
                                     in={benefit2}
@@ -84,7 +96,10 @@ export default function Benefits({lang}){
                                             lang == "ro" ? 
                                             "Oglinda poate fi completată în mod independent cu o serie largă de opțiuni utile"
                                             :
-                                            "Зеркало можно укомплектовать самостоятельно с широким набором полезных опций."
+                                            lang == "ru" ?
+                                            "Зеркало можно укомплектовать самостоятельно с широким набором полезных опций"
+                                            :
+                                            "The mirror can be completed independently with a wide range of useful options"
                                         }
                                     </div>
                                 </CSSTransition>
@@ -107,7 +122,10 @@ export default function Benefits({lang}){
                                     lang == "ro" ? 
                                     "400+ Modele"
                                     :
+                                    lang == "ru" ?
                                     "400+ Моделей"
+                                    :
+                                    "400+ Models"
                                 }
                                 <CSSTransition
                                     in={benefit3}
@@ -122,7 +140,10 @@ export default function Benefits({lang}){
                                             lang == "ro" ? 
                                             "Aici veți găsi cea mai largă selecție de modele de oglinzi și dulapuri"
                                             :
+                                            lang == "ru" ?
                                             "Здесь вы найдете широчайший выбор моделей зеркал и шкафов."
+                                            :
+                                            "Here you will find the widest selection of models of mirrors and wardrobes"
                                         }
                                     </div>
                                 </CSSTransition>
@@ -147,7 +168,10 @@ export default function Benefits({lang}){
                                     lang == "ro" ? 
                                     "Iluminare LED"
                                     :
+                                    lang == "ru" ?
                                     "Лед освещение"
+                                    :
+                                    "Led Lighting"
                                 }
                                 <CSSTransition
                                     in={benefit4}
@@ -162,7 +186,10 @@ export default function Benefits({lang}){
                                             lang == "ro" ? 
                                             "Zona de iluminare a oglinzii poate fi sub forma oricărui desen cu o lumină uniformă"
                                             :
+                                            lang == "ru" ?
                                             "Зона освещения зеркала может быть в виде любого рисунка с равномерным светом."
+                                            :
+                                            "The lighting area of ​​the mirror can be in the form of any drawing with a uniform light"
                                         }
                                     </div>
                                 </CSSTransition>
@@ -185,7 +212,10 @@ export default function Benefits({lang}){
                                     lang == "ro" ? 
                                     "100% Garantat"
                                     :
+                                    lang == "ru" ?
                                     "100% Гарантия"
+                                    :
+                                    "100% Warranty"
                                 }
                                 <CSSTransition
                                     in={benefit5}
@@ -200,7 +230,10 @@ export default function Benefits({lang}){
                                             lang == "ro" ? 
                                             "Veți fi mulțumit de achiziția din magazinul nostru. În caz contrar, vă vom rambursa banii."
                                             :
+                                            lang == "ru" ?
                                             "Вы останетесь довольны покупкой в ​​нашем магазине. В противном случае мы вернем вам деньги."
+                                            :
+                                            "You will be satisfied with the purchase from our store. Otherwise, we will refund your money."
                                         }
                                     </div>
                                 </CSSTransition>

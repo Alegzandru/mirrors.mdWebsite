@@ -10,7 +10,7 @@ import Dropdown2 from './Dropdown2';
 import FilterPopup from './FilterPopup';
 
 
-export default function Category({category, name, products, lang, nameru}) {
+export default function Category({category, name, products, lang, nameru, nameen}) {
 
     const [productsApi, setProductsApi] = useState(products)
 
@@ -32,6 +32,10 @@ export default function Category({category, name, products, lang, nameru}) {
     const optionNamesUnfilteredRu = category[0].filters.map((option) => {
         return option.nameru
     })
+
+    const optionNamesUnfilteredEn = category[0].filters.map((option) => {
+      return option.nameen
+    })
     
     function uniq(a) {
         var prims = {"boolean":{}, "number":{}, "string":{}}, objs = [];
@@ -47,6 +51,7 @@ export default function Category({category, name, products, lang, nameru}) {
     
     const optionNames = uniq(optionNamesUnfiltered)
     const optionNamesRu = uniq(optionNamesUnfilteredRu)
+    const optionNamesEn = uniq(optionNamesUnfilteredEn)
     
     const pages = Math.trunc(productsApi.length / 32) + 1
     
@@ -86,6 +91,24 @@ export default function Category({category, name, products, lang, nameru}) {
                 name : "Цена: от низкой к высокой",
                 index : 3
             }
+        ],
+        en: [
+          {
+              name : "Popularity",
+              index : 0
+          },
+          {
+              name : "Most recent",
+              index : 1
+          },
+          {
+              name : "Price: from big to small",
+              index : 2
+          },
+          {
+              name : "Price: from small to big",
+              index : 3
+          }
         ]
     }
 
@@ -93,6 +116,9 @@ export default function Category({category, name, products, lang, nameru}) {
 
     if(lang == "ru"){
         sortingOptions = sortingOptionsRaw.ru
+    }
+    else if(lang == "en"){
+      sortingOptions = sortingOptionsRaw.en
     }
     else{
         sortingOptions = sortingOptionsRaw.ro
@@ -207,20 +233,32 @@ export default function Category({category, name, products, lang, nameru}) {
                     activeFilters={activeFilters}
                     lang={lang}
                     optiuniRu={optionNamesRu}
+                    optiuniEn={optionNamesEn}
             ></FilterPopup>
             <div className={`w-full h-auto px-container-sm md:px-container-md lg:px-container-lg xl:px-container-xl pt-128px md:pt-136px lg:pt-234px pb-120px font-Ubuntu bg-ui-darkGrey ${openFilters ? "hidden" : "block"}`}>
                 <div 
                     className="flex flex-row justify-start items-center text-lg-14 font-normal text-type-manatee w-auto mb-4 md:mb-8"
                     name="top"
                 >
-                    <Link href={lang == "ro" ? "/" : "/ru"}>
+                    <Link href={
+                      lang == "ro" ? 
+                      "/" 
+                      : 
+                      lang == "ru" ?
+                      "/ru"
+                      :
+                      "/en"
+                    }>
                         <a>
                             <span className="mr-1 hover:underline transition duration-300">
                                 {
                                     lang == "ro" ?
                                     "Pagina principală"
                                     :
+                                    lang == "ru" ?
                                     "Главная страница"
+                                    :
+                                    "Homepage"
                                 }
                             </span>
                         </a>
@@ -233,7 +271,10 @@ export default function Category({category, name, products, lang, nameru}) {
                             lang == "ro" ?
                             name
                             :
+                            lang == "ru" ?
                             nameru
+                            :
+                            nameen
                         }
                     </span>
                 </div>
@@ -246,7 +287,10 @@ export default function Category({category, name, products, lang, nameru}) {
                             lang == "ro" ?
                             name
                             :
+                            lang == "ru" ?
                             nameru
+                            :
+                            nameen
                         }
                     </h2>
 
@@ -259,21 +303,18 @@ export default function Category({category, name, products, lang, nameru}) {
                         <div>
                             {
                                 lang == "ro" ?
-                                "36 luni garantie"
+                                "36 luni garanție"
                                 :
+                                lang == "ru" ?
                                 "Гарантия 3 года"
+                                :
+                                "3 years Warranty"
                             }
                         </div>
                     </div>
                 </div>
 
                 <div className="w-full h-px bg-ui-blueishGrey mb-8"/>
-
-                {/* <div className="w-full grid-cols-12 grid-flow-row grid-rows-2 border border-t border-l border-r-0 border-b-0 border-option-border-color mb-116px hidden lg:grid">
-                    {optiuni.map((option, index)=>
-                        <Dropdown key={index} name={option}></Dropdown>
-                    )}
-                </div> */}
 
             <form onSubmit={handleSubmit(onSubmit)} className="hidden lg:block mb-116px">
                 <div 
@@ -302,6 +343,7 @@ export default function Category({category, name, products, lang, nameru}) {
                                         handleSubmit={handleSubmit}
                                         onSubmit={onSubmit}
                                         nameru={optionNamesRu[index]}
+                                        nameen={optionNamesEn[index]}
                                         lang={lang}
                                     ></Dropdown>
                                 </div>
@@ -318,7 +360,7 @@ export default function Category({category, name, products, lang, nameru}) {
                     <input 
                         className={`w-124px rounded-lg border-2 border-type-manatee text-type-manatee h-9 cursor-pointer text-lg-14 font-medium flex-row justify-center items-center hover:text-type-dark hover:border-type-dark transition duration-300 hover:bg-ui-blueishGrey ${showReset ? "flex" : "hidden"}`}
                         type="submit"
-                        value="Resetează"
+                        value={lang == "ro" ? "Resetează" : lang == "ru" ? "Перезагрузить" : "Reset"}
                         onClick={() => reset()}
                     />
                 </div>
@@ -331,7 +373,10 @@ export default function Category({category, name, products, lang, nameru}) {
                                 lang == "ro" ?
                                 "Sortează după:"
                                 :
+                                lang == "ru" ?
                                 "Сортировать по:"
+                                :
+                                "Sort by:"
                             }
                         </div>
 
@@ -348,7 +393,10 @@ export default function Category({category, name, products, lang, nameru}) {
                             lang == "ro" ?
                             `${productsApi.length} produse`
                             :
+                            lang == "ru" ?
                             `${productsApi.length} товаров`
+                            :
+                            `${productsApi.length} items`
                         }
                     </div>
 
@@ -367,7 +415,10 @@ export default function Category({category, name, products, lang, nameru}) {
                                 lang == "ro" ?
                                 "Filtrare"
                                 :
+                                lang == "ru" ?
                                 "Фильтры"
+                                :
+                                "Filters"
                             }
                         </div>
                     </div>
@@ -382,7 +433,15 @@ export default function Category({category, name, products, lang, nameru}) {
                         {productsApi.slice(showFrom*showNr, showFrom*showNr + showNr).map((product, index) => {
                             return (
                                 <div key={index} className="h-auto w-full col-span-12 smCatalog:col-span-6 md:col-span-4 lg:col-span-3">
-                                    <Link href={lang == "ro" ? `/produse/${product.slug}` : `/ru/produse/${product.slug}`}>
+                                    <Link href={
+                                      lang == "ro" ? 
+                                      `/produse/${product.slug}` 
+                                      : 
+                                      lang == "ru" ?
+                                      `/ru/produse/${product.slug}`
+                                      :
+                                      `/en/produse/${product.slug}`
+                                    }>
                                         <a>
                                             <div className="h-auto md:h-425px bg-ui-white rounded-xl p-5 border-2 border-transparent hover:border-accent-accent transition duration-300 group">
                                                 <div className="w-auto h-245px relative rounded-lg overflow-hidden transform group-hover:scale-105 transition duration-300">
@@ -398,7 +457,10 @@ export default function Category({category, name, products, lang, nameru}) {
                                                         lang == "ro" ?
                                                         product.name
                                                         :
+                                                        lang == "ru" ?
                                                         product.nameru
+                                                        :
+                                                        product.nameen
                                                     }
                                                 </div>
                                                 <div className={`text-sm-p md:text-lg-p text-type-manatee font-normal mt-2 ${product.seria != null ? "block" : "hidden"}`}>
@@ -406,7 +468,10 @@ export default function Category({category, name, products, lang, nameru}) {
                                                         lang == "ro" ?
                                                         `Seria ${product.seria}`
                                                         :
+                                                        lang == "ru" ?
                                                         `Серия ${product.seria}`
+                                                        :
+                                                        `${product.seria} series`
                                                     }
                                                 </div>
                                                 <div className="text-sm-button md:text-lg-17 text-accent-accent font-medium mt-4 md:mt-6">
@@ -414,14 +479,20 @@ export default function Category({category, name, products, lang, nameru}) {
                                                         lang == "ro" ?
                                                         "de la "
                                                         :
+                                                        lang == "ru" ?
                                                         "от "
+                                                        :
+                                                        "from "
                                                     }
                                                     {Math.trunc( getPrice(product, product.defaultsize) * (1 + product.smallcoeficient) ) } 
                                                     {
                                                         lang == "ro" ?
                                                         " lei"
                                                         :
+                                                        lang == "ru" ?
                                                         " лей"
+                                                        :
+                                                        " lei"
                                                     }
                                                 </div>
                                             </div>
@@ -443,7 +514,10 @@ export default function Category({category, name, products, lang, nameru}) {
                         lang == "ro" ?
                         "Mai multe produse"
                         :
+                        lang == "ru" ?
                         "Больше товаров"
+                        :
+                        "More items"
                     }
                 </div>
 
@@ -489,7 +563,10 @@ export default function Category({category, name, products, lang, nameru}) {
                             lang == "ro" ?
                             `Afișare ${showFrom * 32} - ${showFrom * 32 + showNr} (din ${productsApi.length})`
                             :
+                            lang == "ru" ?
                             `Отображать ${showFrom * 32} - ${showFrom * 32 + showNr} (из ${productsApi.length})`
+                            :
+                            `Displaying ${showFrom * 32} - ${showFrom * 32 + showNr} (from ${productsApi.length})`
                         }
                     </div>
                 </div>

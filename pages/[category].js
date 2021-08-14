@@ -12,6 +12,7 @@ export default function Catalog ({category, products}) {
                 products={products}
                 lang="ro"
                 nameru={category[0].nameru}
+                nameen={category[0].nameen}
             >
             </Category>
         </Layout>  

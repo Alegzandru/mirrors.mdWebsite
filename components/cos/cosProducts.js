@@ -24,6 +24,7 @@ export default function CosProducts({lang}){
     const [popupProduct , setPopupProduct] = useState(cart[0])
     const [optionNames, setOptionNames] = useState([])
     const [optionNamesRu, setOptionNamesRu] = useState([])
+    const [optionNamesEn, setOptionNamesEn] = useState([])
     const [optionVariants, setOptionVariants] = useState([])
     const [price, setPrice] = useState(0)
     
@@ -171,7 +172,10 @@ export default function CosProducts({lang}){
                                         lang == "ro" ?
                                         popupProduct.product.name
                                         :
+                                        lang == "ru" ?
                                         popupProduct.product.nameru
+                                        :
+                                        popupProduct.product.nameen
                                     }
                                 </h3>
                                 <div className="flex flex-col md:flex-row justify-between items-end w-full">
@@ -182,21 +186,30 @@ export default function CosProducts({lang}){
                                                     lang == "ro" ?
                                                     "Înălțime"
                                                     :
+                                                    lang == "ru" ?
                                                     "Высота"
+                                                    :
+                                                    "Height"
                                                 }
                                             </span> 
                                                 {
                                                     lang == "ro" ?
                                                     "(de la "
                                                     :
+                                                    lang == "ru" ?
                                                     "(от "
+                                                    :
+                                                    "(from "
                                                 }
                                             {popupProduct.product.smallestsize.height}mm 
                                                 {
                                                     lang == "ro" ?
                                                     " pînă la "
                                                     :
+                                                    lang == "ru" ?
                                                     " до "
+                                                    :
+                                                    " up to "
                                                 } 
                                             {popupProduct.product.biggestsize.height}
                                             mm)
@@ -215,7 +228,10 @@ export default function CosProducts({lang}){
                                                     lang == "ro" ?
                                                     `Înălțimea minimă este ${popupProduct.product.smallestsize.height}`
                                                     :
+                                                    lang == "ru" ?
                                                     `Минимальная высота - ${popupProduct.product.smallestsize.height}`
+                                                    :
+                                                    `Minimum height - ${popupProduct.product.smallestsize.height}`
                                                 }
                                             </div>
                                             }
@@ -226,7 +242,10 @@ export default function CosProducts({lang}){
                                                     lang == "ro" ?
                                                     `Înălțimea maximă este ${popupProduct.product.biggestsize.height}`
                                                     :
+                                                    lang == "ru" ?
                                                     `Максимальная высота - ${popupProduct.product.biggestsize.height}`
+                                                    :
+                                                    `Maximum height - ${popupProduct.product.biggestsize.height}`
                                                 }
                                             </div> 
                                             }
@@ -248,21 +267,30 @@ export default function CosProducts({lang}){
                                                     lang == "ro" ?
                                                     "Lățimea"
                                                     :
+                                                    lang == "ru" ?
                                                     "Ширина"
+                                                    :
+                                                    "Width"
                                                 }
                                             </span> 
                                                 {
                                                     lang == "ro" ?
                                                     "(de la "
                                                     :
+                                                    lang == "ru" ?
                                                     "(от "
+                                                    :
+                                                    "(from "
                                                 }
                                             {popupProduct.product.smallestsize.height}mm 
                                                 {
                                                     lang == "ro" ?
                                                     " pînă la "
                                                     :
+                                                    lang == "ru" ?
                                                     " до "
+                                                    :
+                                                    " up to "
                                                 } 
                                             {popupProduct.product.biggestsize.height}
                                             mm)
@@ -281,7 +309,10 @@ export default function CosProducts({lang}){
                                                     lang == "ro" ?
                                                     `Lățimea minimă este ${popupProduct.product.smallestsize.width}`
                                                     :
+                                                    lang == "ru" ?
                                                     `Минимальная ширина - ${popupProduct.product.smallestsize.width}`
+                                                    :
+                                                    `Minimum width - ${popupProduct.product.smallestsize.width}`
                                                 }
                                             </div> 
                                             }
@@ -292,7 +323,10 @@ export default function CosProducts({lang}){
                                                     lang == "ro" ?
                                                     `Lățimea maximă este ${popupProduct.product.biggestsize.width}`
                                                     :
+                                                    lang == "ru" ?
                                                     `Максимальная ширина - ${popupProduct.product.biggestsize.width}`
+                                                    :
+                                                    `Maximum width - ${popupProduct.product.biggestsize.width}`
                                                 }
                                             </div>
                                             }
@@ -313,7 +347,10 @@ export default function CosProducts({lang}){
                                     lang == "ro" ? 
                                     "Salvează"
                                     :
+                                    lang == "ru" ?
                                     "Сохранить"
+                                    :
+                                    "Save"
                                 }
                             </button>
 
@@ -340,7 +377,10 @@ export default function CosProducts({lang}){
                                     lang == "ro" ?
                                     popupProduct.product.name
                                     :
+                                    lang == "ru" ?
                                     popupProduct.product.nameru
+                                    :
+                                    popupProduct.product.nameen
                                 }
                             </h3>
                         </div>
@@ -358,6 +398,7 @@ export default function CosProducts({lang}){
                                         <DropdownProduct2
                                             name={option}
                                             nameru={optionNamesRu[index]}
+                                            nameen={optionNamesEn[index]}
                                             options={optionVariants.filter((optionObj) => optionObj.group == option || optionObj.name == option)}
                                             register={register}
                                             key={index}
@@ -376,7 +417,15 @@ export default function CosProducts({lang}){
                                 className="w-full h-11 rounded-lg bg-accent-accent text-ui-white font-bold text-lg-button mt-8"
                                 onClick={handleSubmit(onSubmit)}
                             >
-                                Salvează
+                                {
+                                    lang == "ro" ? 
+                                    "Salvează"
+                                    :
+                                    lang == "ru" ?
+                                    "Сохранить"
+                                    :
+                                    "Save"
+                                }
                             </button>
 
                         </div>
@@ -388,14 +437,25 @@ export default function CosProducts({lang}){
                 className={`transition duration-300 w-full h-auto px-container-sm md:px-container-md lg:px-container-lg xl:px-container-xl pt-128px md:pt-136px lg:pt-234px pb-180px font-Ubuntu bg-ui-darkGrey filter ${popupOpen ? "brightness-50" : ""}`}
             >
                 <div className="flex flex-row justify-start items-center text-lg-14 font-normal text-type-manatee w-auto mb-4 md:mb-8">
-                    <Link href={lang == "ro" ? "/" : "/ru"}>
+                    <Link href={
+                      lang == "ro" ? 
+                      "/" 
+                      : 
+                      lang == "ru" ?
+                      "/ru"
+                      :
+                      "/en"
+                    }>
                         <a>
                             <span className="mr-1 hover:underline transition duration-300">
                                 {
                                     lang == "ro" ?
                                     "Pagina principală"
                                     :
+                                    lang == "ru" ?
                                     "Главная страница"
+                                    :
+                                    "Homepage"
                                 }
                             </span>
                         </a>
@@ -408,7 +468,10 @@ export default function CosProducts({lang}){
                             lang == "ro" ?
                             "Coș"
                             :
+                            lang == "ru" ? 
                             "Корзина"
+                            :
+                            "Cart"
                         }
                     </span>
                 </div>
@@ -418,7 +481,10 @@ export default function CosProducts({lang}){
                         lang == "ro" ?
                         "Coș"
                         :
+                        lang == "ru" ? 
                         "Корзина"
+                        :
+                        "Cart"
                     }
                 </h2>
 
@@ -439,7 +505,10 @@ export default function CosProducts({lang}){
                             lang == "ro" ?
                             "Coșul dumneavoastră este gol. Ajutați-l să se umple, întorceți-vă înapoi la cumpărături!"
                             :
+                            lang == "ru" ?
                             "Ваша корзина пуста. Помогите ей наполниться, вернитесь к покупкам!"
+                            :
+                            "Your cart is empty. Help it fill up, go back to shopping!"
                         }
                     </div>
                 </div>
@@ -484,7 +553,10 @@ export default function CosProducts({lang}){
                                                             lang == "ro" ?
                                                             product.product.name
                                                             :
+                                                            lang == "ru" ?
                                                             product.product.nameru
+                                                            :
+                                                            product.product.nameen
                                                         }
                                                     </div>
                                                     <div className="text-lg-14 text-type-grey mb-4">
@@ -505,7 +577,10 @@ export default function CosProducts({lang}){
                                                                 lang == "ro" ?
                                                                 "Alegeți altă dimensiune"
                                                                 :
+                                                                lang == "ru" ?
                                                                 "Выберите другой размер"
+                                                                :
+                                                                "Choose another size"
                                                             }
                                                         </div>
                                                     </div>
@@ -520,7 +595,10 @@ export default function CosProducts({lang}){
                                                         lang == "ro" ?
                                                         "Nu sunt optiuni"
                                                         :
+                                                        lang == "ru" ?
                                                         "Нет дополнительных опций"
+                                                        :
+                                                        "No additional options"
                                                     }
                                                 </div>
                                                 :
@@ -533,13 +611,16 @@ export default function CosProducts({lang}){
                                                                     lang == "ro" ?
                                                                     addOn.name
                                                                     :
+                                                                    lang == "ru" ?
                                                                     addOn.nameru
+                                                                    :
+                                                                    addOn.nameen
                                                                 }
                                                             </div>
                                                             <div>
                                                                 {getPriceAddon(addOn, product.size)} 
                                                                 {
-                                                                    lang == "ro" ?
+                                                                    lang == "ro" || lang == "en" ?
                                                                     " lei"
                                                                     :
                                                                     " лей"
@@ -578,6 +659,15 @@ export default function CosProducts({lang}){
                                                                 return option.nameru
                                                             }
                                                         })
+
+                                                        const optionNamesUnfilteredEn = optionsRaw.map((option) => {
+                                                            if(option.group){
+                                                                return option.groupen
+                                                            }
+                                                            else{
+                                                                return option.nameen
+                                                            }
+                                                        })
         
                                                         function uniq(a) {
                                                             var prims = {"boolean":{}, "number":{}, "string":{}}, objs = [];
@@ -593,6 +683,7 @@ export default function CosProducts({lang}){
                                                     
                                                         setOptionNames(uniq(optionNamesUnfiltered))
                                                         setOptionNamesRu(uniq(optionNamesUnfilteredRu))
+                                                        setOptionNamesEn(uniq(optionNamesUnfilteredEn))
                                                         setPopupOpen("addOns")
                                                     })
                                                 }}
@@ -605,7 +696,10 @@ export default function CosProducts({lang}){
                                                         lang == "ro" ?
                                                         "Configurați opțiunile"
                                                         :
+                                                        lang == "ru" ?
                                                         "Настроить параметры"
+                                                        :
+                                                        "Configure the options"
                                                     }
                                                 </div>
                                             </div>
@@ -665,13 +759,16 @@ export default function CosProducts({lang}){
                                                             lang == "ro" ?
                                                             "Oglinda"
                                                             :
+                                                            lang == "ru" ?
                                                             "Зеркало"
+                                                            :
+                                                            "Mirror"
                                                         }
                                                     </div>
                                                     <div>
                                                         {Math.trunc(getPrice(product.product, product.size) * ( 1 + coeficientFinder(product.size, product.product)) ) * product.number}
                                                         {
-                                                            lang == "ro" ?
+                                                            lang == "ro" || lang == "en" ?
                                                             " lei"
                                                             :
                                                             " лей"
@@ -684,13 +781,16 @@ export default function CosProducts({lang}){
                                                             lang == "ro" ?
                                                             "Optiuni"
                                                             :
+                                                            lang == "ru" ?
                                                             "Опции"
+                                                            :
+                                                            "Options"
                                                         }
                                                     </div>
                                                     <div>
                                                         {optionsPrice * product.number} 
                                                         {
-                                                            lang == "ro" ?
+                                                            lang == "ro" || lang == "en" ?
                                                             " lei"
                                                             :
                                                             " лей"
@@ -701,7 +801,7 @@ export default function CosProducts({lang}){
                                             <div className="flex flex-row justify-between items-start text-type-manatee font-bold w-full">
                                                 <div>
                                                     {
-                                                        lang == "ro" ?
+                                                        lang == "ro" || lang == "en" ?
                                                         "Total"
                                                         :
                                                         "Итого"
@@ -710,7 +810,7 @@ export default function CosProducts({lang}){
                                                 <div>
                                                     {( Math.trunc(getPrice(product.product, product.size) * ( 1 + coeficientFinder(product.size, product.product)) ) + optionsPrice) * product.number} 
                                                     {
-                                                        lang == "ro" ?
+                                                        lang == "ro" || lang == "en" ?
                                                         " lei"
                                                         :
                                                         " лей"
@@ -730,7 +830,7 @@ export default function CosProducts({lang}){
                         <div className="w-full">
                             <div className="text-sm-h4 md:text-lg-28 text-type-dark font-bold mb-4">
                                 {
-                                    lang == "ro" ?
+                                    lang == "ro" || lang == "en" ?
                                     "Total"
                                     :
                                     "Итого"
@@ -740,7 +840,7 @@ export default function CosProducts({lang}){
                                 <div className="flex flex-row justify-between items-start py-6 px-2 lg:px-8 text-type-dark font-medium text-lg-p border border-ui-darkGrey w-full">
                                     <div>
                                         {
-                                            lang == "ro" ?
+                                            lang == "ro" || lang == "en" ?
                                             "Total"
                                             :
                                             "Итого"
@@ -749,7 +849,7 @@ export default function CosProducts({lang}){
                                     <div>
                                         {totalPrice} 
                                         {
-                                            lang == "ro" ?
+                                            lang == "ro" || lang == "en" ?
                                             " lei"
                                             :
                                             " лей"
@@ -760,14 +860,25 @@ export default function CosProducts({lang}){
                                 {
                                     cart.length != 0 &&
                                     <div className="p-2 border-ui-darkGrey w-full">
-                                        <Link href={lang == "ro" ? "/cos/checkout" : "/ru/cos/checkout"}>
+                                        <Link href={
+                                          lang == "ro" ? 
+                                          "/cos/checkout" 
+                                          : 
+                                          lang == "ru" ?
+                                          "/ru/cos/checkout"
+                                          :
+                                          "/en/cos/checkout"
+                                        }>
                                             <a className="flex flex-row justify-center itemes-start w-full">
                                                 <div className="w-full bg-accent-accent text-ui-white h-52px text-lg-button font-bold flex flex-row justify-center items-center rounded-lg hover:bg-accent-light transition duration-300">
                                                     {
                                                         lang == "ro" ?
                                                         "Finalizează comanda"
                                                         :
+                                                        lang == "ru" ?
                                                         "Завершить заказ"
+                                                        :
+                                                        "Finish the order"
                                                     }
                                                 </div>
                                             </a>

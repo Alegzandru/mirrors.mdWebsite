@@ -4,21 +4,25 @@ const categories = [
     {
         name : "Oglinzi",
         nameru: "Зеркала",
+        nameen: "Mirrors",
         slug: "oglinzi"
     },
     {
         name : "Dulapuri",
         nameru: "Шкафы",
+        nameen: "Wardrobe",
         slug: "dulapuri"
     },
     {
         name : "Mese pentru Make Up",
         nameru: "Гримёрные",
+        nameen: "Make Up Tables",
         slug: "mesemakeup"
     },
     {
         name : "Text Acrilic",
         nameru: "Акриловый Текст",
+        nameen: "Acrylic text",
         slug: "textacrilic"
     }
 ]
@@ -53,14 +57,24 @@ export default function Footer (props) {
                             props.lang == "ro" ?
                             "Catalog"
                             :
+                            props.lang == "ru" ?
                             "Каталог"
+                            :
+                            "Catalog"
                         }
                     </div>
                     <ul className="text-lg-14 mt-8">
                         {
                             categories.map((category, index) => 
                                 <Link 
-                                    href={props.lang == "ro" ? `/${category.slug}` : `/ru/${category.slug}`}
+                                    href={
+                                      props.lang == "ro" ? 
+                                      `/${category.slug}` : 
+                                      props.lang == "ru" ?
+                                      `/ru/${category.slug}`
+                                      :
+                                      `/en/${category.slug}`
+                                    }
                                     key={index}
                                 >
                                     <a>
@@ -69,7 +83,10 @@ export default function Footer (props) {
                                                 props.lang == "ro" ?
                                                 category.name
                                                 :
+                                                props.lang == "ru" ?
                                                 category.nameru
+                                                :
+                                                category.nameen
                                             }
                                         </li>
                                     </a>
@@ -84,67 +101,124 @@ export default function Footer (props) {
                             props.lang == "ro" ?
                             "Meniu"
                             :
+                            props.lang == "ru" ?
                             "Меню"
+                            :
+                            "Menu"
                         }
                     </div>
 
                     <ul className="text-lg-14 mt-8">
-                        <Link href={props.lang == "ro" ? "/" : "/ru"}>
+                        <Link href={
+                          props.lang == "ro" ? 
+                          "/" 
+                          : 
+                          props.lang == "ru" ?
+                          "/ru"
+                          :
+                          "/en"
+                        }>
                             <a>
                                 <li className="mb-4 hover:text-ui-darkGrey hover:underline transition duration-300">
                                     {
                                         props.lang == "ro" ?
                                         "Principală"
                                         :
+                                        props.lang == "ru" ?
                                         "Главная"
+                                        :
+                                        "Homepage"
                                     }
                                 </li>
                             </a>
                         </Link>
-                        <Link href={props.lang == "ro" ? "/contacte" : "/ru/contacte"}>
+                        <Link href={
+                          props.lang == "ro" ? 
+                          "/contacte" 
+                          : 
+                          props.lang == "ru" ?
+                          "/ru/contacte"
+                          :
+                          "/en/contacte"
+                        }>
                             <a>
                                 <li className="mb-4 hover:text-ui-darkGrey hover:underline transition duration-300">
                                     {   
                                         props.lang == "ro" ?
                                         "Contacte"
                                         :
+                                        props.lang == "ru" ?
                                         "Контакты"
+                                        :
+                                        "Contacts"
                                     }
                                 </li>
                             </a>
                         </Link>
-                        <Link href={props.lang == "ro" ? "/galerie" : "/ru/galerie"}>
+                        <Link href={
+                          props.lang == "ro" ? 
+                          "/galerie" : 
+                          props.lang == "ru" ?
+                          "/ru/galerie"
+                          :
+                          "/en/galerie"
+                        }>
                             <a>
                                 <li className="mb-4 hover:text-ui-darkGrey hover:underline transition duration-300">
                                     {
                                         props.lang == "ro" ?
                                         "Galerie"
                                         :
+                                        props.lang == "ru" ?
                                         "Галерея"
+                                        :
+                                        "Gallery"
                                     }
                                 </li>
                             </a>
                         </Link>
-                        <Link href={props.lang == "ro" ? "/intrebari-frecvente" : "/ru/intrebari-frecvente"}>
+                        <Link href={
+                          props.lang == "ro" ? 
+                          "/intrebari-frecvente" 
+                          : 
+                          props.lang == "ru" ?
+                          "/ru/intrebari-frecvente"
+                          :
+                          "/en/intrebari-frecvente"
+                        }>
                             <a>
                                 <li className="mb-4 hover:text-ui-darkGrey hover:underline transition duration-300">
                                     {   
                                         props.lang == "ro" ?
                                         "Întrebări frecvente"
                                         :
+                                        props.lang == "ru" ?
                                         "Частые вопросы"
+                                        :
+                                        "FAQ"
                                     }
                                 </li>
                             </a>
                         </Link>
-                        <Link href={props.lang == "ro" ? "/termeni" : "/ru/termeni"}>
+                        <Link href={
+                          props.lang == "ro" ? 
+                          "/termeni" 
+                          : 
+                          props.lang == "ru" ?
+                          "/ru/termeni"
+                          :
+                          "/en/termeni"
+                        }>
                             <a>
                                 <li className="mb-4 hover:text-ui-darkGrey hover:underline transition duration-300">
                                     {   
                                         props.lang == "ro" ?
                                         "Termeni și condiții"
                                         :
+                                        props.lang == "ru" ? 
                                         "Условия"
+                                        :
+                                        "Terms and conditions"
                                     }
                                 </li>
                             </a>
@@ -157,7 +231,10 @@ export default function Footer (props) {
                             props.lang == "ro" ?
                             "Contacte"
                             :
+                            props.lang == "ru" ?
                             "Контакты"
+                            :
+                            "Contacts"
                         }
                     </div>
                     
@@ -180,7 +257,10 @@ export default function Footer (props) {
                                     props.lang == "ro" ?
                                     "str. Ismail 98"
                                     :
+                                    props.lang == "ru" ?
                                     "ул. Ismail 98"
+                                    :
+                                    "Ismail 98 street"
                                 }
                             </li>
                         </a>
@@ -189,7 +269,6 @@ export default function Footer (props) {
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
                                 </svg>
-
                                 spmirrors@gmail.com
                             </li>
                         </a>
@@ -236,7 +315,10 @@ export default function Footer (props) {
                             props.lang == "ro" ?
                             "Catalog"
                             :
+                            props.lang == "ru" ?
                             "Каталог"
+                            :
+                            "Catalog"
                         }
                     </div>
                     <ul className="text-lg-14 mt-8">
@@ -252,7 +334,10 @@ export default function Footer (props) {
                                                 props.lang == "ro" ?
                                                 category.name
                                                 :
+                                                props.lang == "ru" ?
                                                 category.nameru
+                                                :
+                                                category.nameen
                                             }
                                         </li>
                                     </a>
@@ -267,67 +352,124 @@ export default function Footer (props) {
                             props.lang == "ro" ?
                             "Meniu"
                             :
+                            props.lang == "ru" ?
                             "Меню"
+                            :
+                            "Menu"
                         }
                     </div>
 
                     <ul className="text-lg-14 mt-8">
-                        <Link href={props.lang == "ro" ? "/" : "/ru"}>
+                        <Link href={
+                          props.lang == "ro" ? 
+                          "/" 
+                          : 
+                          props.lang == "ru" ?
+                          "/ru"
+                          :
+                          "/en"
+                        }>
                             <a>
                                 <li className="mb-4">
                                     {
                                         props.lang == "ro" ?
                                         "Principală"
                                         :
+                                        props.lang == "ru" ?
                                         "Главная"
+                                        :
+                                        "Homepage"
                                     }
                                 </li>
                             </a>
                         </Link>
-                        <Link href={props.lang == "ro" ? "/contacte" : "/ru/contacte"}>
+                        <Link href={
+                          props.lang == "ro" ? 
+                          "/contacte" 
+                          : 
+                          props.lang == "ru" ?
+                          "/ru/contacte"
+                          :
+                          "/en/contacte"
+                        }>
                             <a>
                                 <li className="mb-4">
                                     {   
                                         props.lang == "ro" ?
                                         "Contacte"
                                         :
+                                        props.lang == "ru" ?
                                         "Контакты"
+                                        :
+                                        "Contacts"
                                     }
                                 </li>
                             </a>
                         </Link>
-                        <Link href={props.lang == "ro" ? "/galerie" : "/ru/galerie"}>
+                        <Link href={
+                          props.lang == "ro" ? 
+                          "/galerie" 
+                          : 
+                          props.lang == "ru" ?
+                          "/ru/galerie"
+                          :
+                          "/en/galerie"
+                        }>
                             <a>
                                 <li className="mb-4">
                                     {
                                         props.lang == "ro" ?
                                         "Galerie"
                                         :
+                                        props.lang == "ru" ?
                                         "Галерея"
+                                        :
+                                        "Gallery"
                                     }
                                 </li>
                             </a>
                         </Link>
-                        <Link href={props.lang == "ro" ? "/intrebari-frecvente" : "/ru/intrebari-frecvente"}>
+                        <Link href={
+                          props.lang == "ro" ? 
+                          "/intrebari-frecvente" 
+                          : 
+                          props.lang == "ru" ?
+                          "/ru/intrebari-frecvente"
+                          :
+                          "/en/intrebari-frecvente"
+                        }>
                             <a>
                                 <li className="mb-4">
                                     {   
                                         props.lang == "ro" ?
                                         "Întrebări frecvente"
                                         :
+                                        props.lang == "ru" ?
                                         "Частые вопросы"
+                                        :
+                                        "FAQ"
                                     }
                                 </li>
                             </a>
                         </Link>
-                        <Link href={props.lang == "ro" ? "/termeni" : "/ru/termeni"}>
+                        <Link href={
+                          props.lang == "ro" ? 
+                          "/termeni" : 
+                          props.lang == "ru" ?
+                          "/ru/termeni"
+                          :
+                          "/en/termeni"
+                        }>
                             <a>
                                 <li className="mb-4">
                                     {   
                                         props.lang == "ro" ?
                                         "Termeni și condiții"
                                         :
+                                        props.lang == "ru" ?
                                         "Условия"
+                                        :
+                                        "Terms and conditions"
                                     }
                                 </li>
                             </a>
@@ -340,7 +482,10 @@ export default function Footer (props) {
                             props.lang == "ro" ?
                             "Contacte"
                             :
+                            props.lang == "ru" ?
                             "Контакты"
+                            :
+                            "Contacts"
                         }
                     </div>
                     
@@ -363,7 +508,10 @@ export default function Footer (props) {
                                     props.lang == "ro" ?
                                     "str. Ismail 98"
                                     :
+                                    props.lang == "ru" ?
                                     "ул. Ismail 98"
+                                    :
+                                    "Ismail 98 street"
                                 }
                             </li>
                         </a>
@@ -391,7 +539,10 @@ export default function Footer (props) {
                     props.lang == "ro" ?
                     "© 2021 Elisei & Compani SRL. Toate drepturile sunt rezervate."
                     :
+                    props.lang == "ru" ?
                     "© 2021 Elisei & Compani SRL. Все права защищены."
+                    :
+                    "© 2021 Elisei & Compani SRL. All rights reserved."
                 }
             </div>
 

@@ -39,13 +39,16 @@ export function DynamicProduct ({productData}) {
             images={images}
             description={productData[0].description}
             descriptionru={productData[0].descriptionru}
+            descriptionen={productData[0].descriptionen}
             category={productData[0].category.name}
             options={productData.optionNames}
             optionsRu={productData.optionNamesRu}
+            optionsEn={productData.optionNamesEn}
             optionVariants={productData.optionsRaw}
             productData={productData}
             optionsRaw={productData.optionsRaw}
             nameru={productData[0].nameru}
+            nameen={productData[0].nameen}
           ></ProductPage>
       </Layout>
   )
@@ -76,6 +79,15 @@ export async function getStaticProps({ params }) {
       }
     })
 
+    const optionNamesUnfilteredEn = optionsRaw.map((option) => {
+      if(option.group){
+        return option.groupen
+      }
+      else{
+        return option.nameen
+      }
+    })
+
     function uniq(a) {
       var prims = {"boolean":{}, "number":{}, "string":{}}, objs = [];
   
@@ -90,13 +102,15 @@ export async function getStaticProps({ params }) {
   
     const optionNames = uniq(optionNamesUnfiltered)
     const optionNamesRu = uniq(optionNamesUnfilteredRu)
+    const optionNamesEn = uniq(optionNamesUnfilteredEn)
 
     const productData = {
       slug,
       ...productStrapi,
-      optionNames,
       optionsRaw,
-      optionNamesRu
+      optionNames,
+      optionNamesRu,
+      optionNamesEn
     }
 
     return {

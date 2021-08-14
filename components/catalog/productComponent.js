@@ -16,7 +16,7 @@ import { getPriceAddon } from '../../utils/general';
 
 var Element = Scroll.Element;
 
-export default function ProductComponent ({deviceType, name, images, options, optionVariants, productData, optionsRaw, lang, nameru, optionsRu}) {
+export default function ProductComponent ({deviceType, name, images, options, optionVariants, productData, optionsRaw, lang, nameru, nameen, optionsRu, optionsEn}) {
 
     const router = useRouter()
 
@@ -381,14 +381,25 @@ export default function ProductComponent ({deviceType, name, images, options, op
     return (
         <div className="w-full h-auto px-container-sm md:px-container-md lg:px-container-lg xl:px-container-xl pt-128px md:pt-136px lg:pt-234px pb-88px md:pb-120px font-Ubuntu bg-ui-darkGrey">
             <div className="flex flex-row justify-start items-center text-lg-14 font-normal text-type-manatee w-auto mb-6">
-                <Link href={lang == "ro" ? "/" : "/ru"}>
+                <Link href={
+                  lang == "ro" ? 
+                  "/" 
+                  : 
+                  lang == "ru" ?
+                  "/ru"
+                  :
+                  "/en"
+                }>
                     <a>
                         <span className="mr-1 hover:underline transition duration-300">
                             {
                                 lang == "ro" ?
                                 "Pagina principală"
                                 :
+                                lang == "ru" ?
                                 "Главная страница"
+                                :
+                                "Homepage"
                             }
                         </span>
                     </a>
@@ -398,14 +409,25 @@ export default function ProductComponent ({deviceType, name, images, options, op
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
 
-                <Link href={lang == "ro" ? `/${productData[0].category.slug}` : `/ru/${productData[0].category.slug}`}>
+                <Link href={
+                  lang == "ro" ? 
+                  `/${productData[0].category.slug}` 
+                  : 
+                  lang == "ru" ?
+                  `/ru/${productData[0].category.slug}`
+                  :
+                  `/en/${productData[0].category.slug}`
+                }>
                     <a>
                         <span className="mr-1">
                             {
                                 lang=="ro" ?
                                 productData[0].category.name
                                 :
+                                lang == "ru" ?
                                 productData[0].category.nameru
+                                :
+                                productData[0].category.nameen
                             }
                         </span>
                     </a>
@@ -417,10 +439,13 @@ export default function ProductComponent ({deviceType, name, images, options, op
 
                 <span>
                     {
-                        lang=="ro" ?
+                        lang == "ro" ?
                         name
                         :
+                        lang == "ru" ?
                         nameru
+                        :
+                        nameen
                     }
                 </span>
             </div>
@@ -466,6 +491,7 @@ export default function ProductComponent ({deviceType, name, images, options, op
                     <DropdownProduct2
                         name={"Dimensiuni recomandate"}
                         nameru={"Рекомендуемые размеры"}
+                        nameen={"Recommended sizes"}
                         options={productData[0].linkedsizes.map((size, index) => {
                             return (
                                 {
@@ -473,6 +499,7 @@ export default function ProductComponent ({deviceType, name, images, options, op
                                     width : size.width,
                                     typename : size.name,
                                     typenameru : size.name,
+                                    typenameen: size.name,
                                     price : Math.trunc(getPrice(productData[0], size) * ( 1 + coeficientFinder(size)))
                                 }
                             )
@@ -497,10 +524,13 @@ export default function ProductComponent ({deviceType, name, images, options, op
                 <div className="w-full lg:w-options-lg xl:w-options-xl pt-6 lg:pt-72px pb-16 px-2 md:px-6 lg:px-8 bg-ui-white lg:bg-ui-grey relative h-full">
                     <h2 className="text-sm-h2 md:text-md-h2 lg:text-lg-h2 text-type-dark font-bold mb-5">
                         {
-                            lang=="ro" ?
+                            lang == "ro" ?
                             name
                             :
+                            lang == "ru" ?
                             nameru
+                            :
+                            nameen
                         }
                     </h2>
 
@@ -510,7 +540,10 @@ export default function ProductComponent ({deviceType, name, images, options, op
                             lang == "ro" ?
                             " Lei"
                             :
+                            lang == "ru" ?
                             " Лей"
+                            :
+                            " Lei"
                         }
                     </div>
 
@@ -526,7 +559,10 @@ export default function ProductComponent ({deviceType, name, images, options, op
                                         lang == "ro" ?
                                         "Opțiuni adăugătoare"
                                         :
+                                        lang == "ru" ?
                                         "Дополнительные опции"
+                                        :
+                                        "Possible options"
                                     }
                                 </div>
 
@@ -556,6 +592,7 @@ export default function ProductComponent ({deviceType, name, images, options, op
                                 <DropdownProduct2
                                     name={option}
                                     nameru={optionsRu[index]}
+                                    nameen={optionsEn[index]}
                                     options={optionVariants.filter((optionObj) => optionObj.group == option || optionObj.name == option)}
                                     register={register}
                                     key={index}
@@ -572,14 +609,30 @@ export default function ProductComponent ({deviceType, name, images, options, op
                         <div className={`w-full flex flex-col md:flex-row lg:flex-col mdButtons:flex-row justify-between items-center ${openOptions ? "mt-6" : "mt-56px"}`}>
 
                             <input 
-                                value={lang == "ro" ? "La pagina de Check-Out" : "Оформить заказ"} 
+                                value={
+                                  lang == "ro" ? 
+                                  "La pagina de Check-Out" 
+                                  : 
+                                  lang == "ru" ?
+                                  "Оформить заказ"
+                                  :
+                                  "To checkout"
+                                } 
                                 type="submit" 
                                 className="w-full bg-transparent border-2 rounded-lg border-accent-accent h-12 flex flex-row justify-center items-center text-accent-accent font-medium mb-6 md:mb-0 hover:bg-accent-transparent transition duration-300 md:mr-4 lg:mr-0 mdButtons:mr-4 cursor-pointer lg:mb-4 mdButtons:mb-0"
                                 onClick={() => setCheckout(true)}
                             />
 
                             <input 
-                                value={lang == "ro" ? "Adaugă în coș" : "Добавить в корзину"}
+                                value={
+                                  lang == "ro" ? 
+                                  "Adaugă în coș" 
+                                  : 
+                                  lang == "ru" ?
+                                  "Добавить в корзину"
+                                  :
+                                  "Add to cart"
+                                }
                                 type="submit" 
                                 className="w-full bg-accent-accent rounded-lg h-12 flex flex-row justify-center items-center text-ui-white font-medium hover:bg-accent-light transition duration-300 cursor-pointer"
                                 onClick={() => setCheckout(false)}

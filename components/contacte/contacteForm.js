@@ -33,7 +33,10 @@ export default function ContacteForm ({lang}) {
                         lang == "ro" ?
                         "Lăsați-ne un mesaj"
                         :
+                        lang == "ru" ?
                         "Оставьте нам сообщение"
+                        :
+                        "Leave us a message"
                     }
                 </h4>
 
@@ -44,7 +47,10 @@ export default function ContacteForm ({lang}) {
                                 lang == "ro" ?
                                 "Nume Prenume"
                                 :
+                                lang == "ru" ?
                                 "Имя Фамилия"
+                                :
+                                "Full name"
                             }
                         </div>
 
@@ -62,7 +68,10 @@ export default function ContacteForm ({lang}) {
                                 lang == "ro" ?
                                 "Nr. de Telefon"
                                 :
+                                lang == "ru" ?
                                 "Телефонный номер"
+                                :
+                                "Phone number"
                             }
                         </div>
                         <input 
@@ -77,7 +86,10 @@ export default function ContacteForm ({lang}) {
                                     lang == "ro" ?
                                     "* Lungimea minimă a numărului este 8 cifre"
                                     :
+                                    lang == "ru" ?
                                     "* Минимальная длина номера - 8 цифр"
+                                    :
+                                    "* Minimum number length - 8 digits"
                                 }
                             </div>
                         }
@@ -90,7 +102,10 @@ export default function ContacteForm ({lang}) {
                             lang == "ro" ?
                             "Mesajul Dvs"
                             :
+                            lang == "ru" ?
                             "Ваше сообщение"
+                            :
+                            "Your message"
                         }
                     </div>
                     <input 
@@ -103,7 +118,7 @@ export default function ContacteForm ({lang}) {
 
                 <input 
                     className="h-12 w-full md:w-238px rounded-lg mx-auto bg-accent-transparent font-bold text-lg-button text-accent-accent flex flex-row justify-center items-center mt-40px md:mt-8 cursor-pointer"
-                    value="Expediază"
+                    value={lang == "ro" ? "Expediază" : lang == "ru" ? "Послать" : "Send"}
                     type="submit"
                 />
             </div>

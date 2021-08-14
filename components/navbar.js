@@ -16,26 +16,30 @@ import ChangingProgressProvider from './progress/ChangingProgressProvider';
 
 var qs = require('qs');
 const categories = [
-    {
-        name : "Oglinzi",
-        nameru: "Зеркала",
-        slug: "oglinzi"
-    },
-    {
-        name : "Dulapuri",
-        nameru: "Шкафы",
-        slug: "dulapuri"
-    },
-    {
-        name : "Mese pentru Make Up",
-        nameru: "Гримёрные",
-        slug: "mesemakeup"
-    },
-    {
-        name : "Text Acrilic",
-        nameru: "Акриловый Текст",
-        slug: "textacrilic"
-    }
+  {
+      name : "Oglinzi",
+      nameru: "Зеркала",
+      nameen: "Mirrors",
+      slug: "oglinzi"
+  },
+  {
+      name : "Dulapuri",
+      nameru: "Шкафы",
+      nameen: "Wardrobe",
+      slug: "dulapuri"
+  },
+  {
+      name : "Mese pentru Make Up",
+      nameru: "Гримёрные",
+      nameen: "Make-up tables",
+      slug: "mesemakeup"
+  },
+  {
+      name : "Text Acrilic",
+      nameru: "Акриловый Текст",
+      nameen: "Acrylic text",
+      slug: "textacrilic"
+  }
 ]
 
 
@@ -110,7 +114,7 @@ export function Navbar (props) {
             }
 
             const scrollPosition = () => {
-                setTransparent(window.scrollY == 0 && ( router.pathname=="/" || router.pathname=="/ru" ))
+                setTransparent(window.scrollY == 0 && ( router.pathname=="/" || router.pathname=="/ru" || router.pathname=="/en" ))
                 setTop(window.scrollY == 0)
             }
 
@@ -169,6 +173,30 @@ export function Navbar (props) {
                     setFaq(0)
                     setContacte(1)
                 break;
+                case "/en" :
+                    setPrincipala(1)
+                    setGalerie(0)
+                    setFaq(0)
+                    setContacte(0)
+                break;
+                case "/en/galerie" :
+                    setPrincipala(0)
+                    setGalerie(1)
+                    setFaq(0)
+                    setContacte(0)
+                break;
+                case "/en/intrebari-frecvente" :
+                    setPrincipala(0)
+                    setGalerie(0)
+                    setFaq(1)
+                    setContacte(0)
+                break;
+                case "/en/contacte" :
+                    setPrincipala(0)
+                    setGalerie(0)
+                    setFaq(0)
+                    setContacte(1)
+                break;
                 default : 
                     setPrincipala(0)
                     setGalerie(0)
@@ -200,7 +228,15 @@ export function Navbar (props) {
                     <input
                         type="text"
                         className="outline-none text-sm-h4 md:text-lg-h2 font-medium text-type-dark border-0 w-full focus:outline-none cursor-pointer"
-                        placeholder={props.lang == "ro" ? "Căutare în catalog" : "Поиск по каталогу"}
+                        placeholder={
+                          props.lang == "ro" ? 
+                          "Căutare în catalog" 
+                          : 
+                          props.lang == "ru" ?
+                          "Поиск по каталогу"
+                          :
+                          "Search in catalog"
+                        }
                         onChange={event => setSearch(event.target.value)}
                     />
                     <svg onClick={() => setMobileSearchOpen(0)} xmlns="http://www.w3.org/2000/svg" className="h-40px w-40px text-type-grey ml-8 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -236,13 +272,23 @@ export function Navbar (props) {
                                     props.lang == "ro" ?
                                     "Nu a fost găsit niciun produs"
                                     :
+                                    props.lang == "ru" ?
                                     "Товаров не найдено"
+                                    :
+                                    "No items found"
                                 }
                             </div>
                         :
                         searchProducts.map((product, index) => 
                             <div key={index}>
-                                <Link href={props.lang == "ro" ? `/produse/${product.slug}` : `/ru/produse/${product.slug}`}>
+                                <Link href={
+                                  props.lang == "ro" ? 
+                                  `/produse/${product.slug}` : 
+                                  props.lang == "ru" ?
+                                  `/ru/produse/${product.slug}`
+                                  :
+                                  `/en/produse/${product.slug}`
+                                }>
                                     <a>   
                                         <div className={`h-72px border-b-0 border-t-2 border-l-0 border-r-0 flex flex-row justify-start items-center px-4 py-14px ${search != "" ? "border-ui-darkGrey" : ""}`}>
                                             <div className="w-14 h-14 rounded-lg overflow-hidden relative">
@@ -258,7 +304,10 @@ export function Navbar (props) {
                                                         props.lang == "ro" ?
                                                         product.name
                                                         :
+                                                        props.lang == "ru" ?
                                                         product.nameru
+                                                        :
+                                                        product.nameen
                                                     }
                                                 </div>
                                                 <div className="text-lg-14">
@@ -266,14 +315,20 @@ export function Navbar (props) {
                                                         props.lang == "ro" ?
                                                         "de la "
                                                         :
+                                                        props.lang == "ru" ?
                                                         "от "
+                                                        :
+                                                        "from "
                                                     }
                                                     {Math.trunc( getPrice(product, product.defaultsize) * (1 + product.smallcoeficient) ) } 
                                                     {
                                                         props.lang == "ro" ?
                                                         " lei"
                                                         :
+                                                        props.lang == "ru" ?
                                                         " лей"
+                                                        :
+                                                        " lei"
                                                     }
                                                 </div>
                                             </div>
@@ -335,7 +390,10 @@ export function Navbar (props) {
                             props.lang == "ro" ?
                             "Ln−Vn: 9:00 − 18:00"
                             :
+                            props.lang == "ru" ?
                             "Пн-Пт: 9:00 - 18:00"
+                            :
+                            "Mn-Fr: 9:00 - 18:00"
                         }
                     </div>
 
@@ -344,7 +402,10 @@ export function Navbar (props) {
                             props.lang == "ro" ?
                             "Sâm: 9:00 − 14:00"
                             :
+                            props.lang == "ru" ?
                             "Суб: 9:00 - 14:00"
+                            :
+                            "Sat: 9:00 - 14:00"
                         }
                     </div>
 
@@ -353,7 +414,10 @@ export function Navbar (props) {
                             props.lang == "ro" ?
                             "Dum: zi liberă"
                             :
+                            props.lang == "ru" ?
                             "Вс: выходной"
+                            :
+                            "Sun: day off"
                         }
                     </div>
 
@@ -375,7 +439,15 @@ export function Navbar (props) {
                         <div className="lg:mx-container-lg xl:mx-container-xl h-full">
                             <div className="h-full w-full flex flex-row justify-between items-start font-14 pt-6">
                                 <div className={`w-365px ${transparent ? "block" : "hidden"}`}>
-                                    <Link href={props.lang == "ro" ? "/" : "/ru"}>
+                                    <Link href={
+                                      props.lang == "ro" ? 
+                                      "/" 
+                                      : 
+                                      props.lang == "ru" ?
+                                      "/ru"
+                                      :
+                                      "/en"
+                                    }>
                                         <a>
                                             <Image
                                                 src="/branding/logo2.svg"
@@ -387,7 +459,15 @@ export function Navbar (props) {
                                 </div>
 
                                 <div className={`w-365px ${transparent ? "hidden" : "block"}`}>
-                                    <Link href={props.lang == "ro" ? "/" : "/ru"}>
+                                    <Link href={
+                                      props.lang == "ro" ? 
+                                      "/" 
+                                      : 
+                                      props.lang == "ru" ?
+                                      "/ru"
+                                      :
+                                      "/en"
+                                    }>
                                         <a>
                                             <Image
                                                 src="/branding/logo2Black.svg"
@@ -401,7 +481,15 @@ export function Navbar (props) {
                                 <div className={`flex flex-col items-end ${transparent ? "text-ui-blueishGrey" : "text-type-grey"} ${scrollUp ? "flex" : "hidden"} focus-within:text-type-dark absolute mx-auto left-search-left`}>
                                     <input 
                                         className={`h-10 w-504px ${transparent ? "bg-ui-dark" : "bg-ui-grey"} ${search != "" ? "rounded-t-lg border-ui-darkGrey" : "rounded-lg focus:border-ui-blueishGrey"} px-4 flex-row items-center focus:bg-ui-white border-2 border-transparent transition duration-300 outline-none cursor-pointer`}
-                                        placeholder={props.lang == "ro" ? "Căutare în catalog" : "Поиск по каталогу"}
+                                        placeholder={
+                                          props.lang == "ro" ? 
+                                          "Căutare în catalog" 
+                                          : 
+                                          props.lang == "ru" ?
+                                          "Поиск по каталогу"
+                                          :
+                                          "Search in catalog"
+                                        }
                                         onChange={event => setSearch(event.target.value)}
                                     />
 
@@ -436,13 +524,24 @@ export function Navbar (props) {
                                                         props.lang == "ro" ?
                                                         "Nu a fost găsit niciun produs"
                                                         :
+                                                        props.lang == "ru" ?
                                                         "Товаров не найдено"
+                                                        :
+                                                        "No items found"
                                                     }
                                                 </div>
                                             :
                                             searchProducts.map((product, index) =>
                                                 <div key={index}>
-                                                    <Link href={props.lang == "ro" ? `/produse/${product.slug}` : `/ru/produse/${product.slug}`}>
+                                                    <Link href={
+                                                      props.lang == "ro" ? 
+                                                      `/produse/${product.slug}` 
+                                                      : 
+                                                      props.lang == "ru" ?
+                                                      `/ru/produse/${product.slug}`
+                                                      :
+                                                      `/en/produse/${product.slug}`
+                                                    }>
                                                         <a>  
                                                             <div className={`h-72px border-b-0 border-t-2 border-l-0 border-r-0 flex flex-row justify-start items-center px-4 py-14px ${search != "" ? "border-ui-darkGrey" : ""}`}>
                                                                 <div className="w-14 h-14 rounded-lg overflow-hidden relative">
@@ -458,7 +557,10 @@ export function Navbar (props) {
                                                                             props.lang == "ro" ?
                                                                             product.name
                                                                             :
+                                                                            props.lang == "ru" ?
                                                                             product.nameru
+                                                                            :
+                                                                            product.nameen
                                                                         }
                                                                     </div>
                                                                     <div className="text-lg-14">
@@ -466,14 +568,20 @@ export function Navbar (props) {
                                                                             props.lang == "ro" ?
                                                                             "de la "
                                                                             :
+                                                                            props.lang == "ru" ?
                                                                             "от "
+                                                                            :
+                                                                            "from "
                                                                         }
                                                                         {Math.trunc( getPrice(product, product.defaultsize) * (1 + product.smallcoeficient) ) } 
                                                                         {
                                                                             props.lang == "ro" ?
                                                                             " lei"
                                                                             :
+                                                                            props.lang == "ru" ?
                                                                             " лей"
+                                                                            :
+                                                                            " lei"
                                                                         }
                                                                     </div>
                                                                 </div>
@@ -487,63 +595,18 @@ export function Navbar (props) {
                                 </div>
 
                                 <div className="w-365px flex flex-row justify-end items-center">
-                                    {/* <div className="text-lg-14 -mt-2">
-                                        <div className={`${transparent ? "text-ui-blueishGrey" : "text-type-grey"} flex flex-row justify-start items-center`}>
-                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                            </svg>
-                                            <span>
-                                                Ln−Vn: 9:00 − 18:00
-                                            </span>
-                                        </div>
-                                        <div className={`${transparent ? "text-ui-blueishGrey" : "text-type-grey"} flex flex-row justify-start items-center mt-1`}>
-                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                            </svg>
-                                            <span>
-                                                Sâm: 9:00 − 14:00
-                                            </span>
-                                        </div>
-                                        <div className={`${transparent ? "text-ui-blueishGrey" : "text-type-grey"} flex flex-row justify-start items-center mt-1`}>
-                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                            </svg>
-                                            <span>
-                                                Dum: zi liberă
-                                            </span>
-                                        </div>
-                                    </div>
 
-                                    <div className={`${transparent ? "text-ui-grey" : "text-type-manatee"} flex flex-row justify-start items-center font-14px group`}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1 group-hover:text-accent-accent transition duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                                        </svg>
-                                        <a 
-                                            className="group-hover:text-accent-accent transition duration-300 group-hover:underline"
-                                            href="tel:37369482034"
-                                        >
-                                            +373 69 482 034
-                                        </a>
-                                    </div>
-
-                                <a
-                                    href="https://www.instagram.com/mirrorsmd/?hl=en"
-                                >
-                                    <Image
-                                        src="/branding/instagram.svg"
-                                        height={16}
-                                        width={16}
-                                    />
-                                </a> */}
-
-                                    <div className="rounded overflow-hidden w-98px group cursor-pointer hover:shadow-md">
+                                    <div className={`${scrollUp ? "block" : "hidden"} ${top ? "top-16" : "top-10"} rounded overflow-hidden w-98px group cursor-pointer hover:shadow-md absolute z-50`}>
                                         <div className={`h-8 ${transparent ? "bg-ui-dark text-ui-white" : "bg-ui-grey text-type-dark"} flex flex-row justify-between items-center px-2 text-lg-14 z-20 relative group-hover:bg-ui-grey group-hover:text-type-dark transition-all duration-300`}>
                                             <div>
                                                 {
                                                     props.lang == "ro" ?
                                                     "Română"
                                                     :
+                                                    props.lang == "ru" ?
                                                     "Русский"
+                                                    :
+                                                    "English"
                                                 }
                                             </div>
                                             <svg xmlns="http://www.w3.org/2000/svg" className="h-14px w-14px group-hover:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -553,14 +616,60 @@ export function Navbar (props) {
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
                                             </svg>
                                         </div>
-                                        <Link href={props.lang == "ro" ? `/ru${path}` : path == "/ru" ? "/" : `${path.slice(3)}`}>
+                                        <Link href={
+                                          props.lang == "ro" ? 
+                                          `/ru${path}` 
+                                          :
+                                          path == "/ru" ?
+                                          "/en"
+                                          :
+                                          props.lang == "ru" ?
+                                          `/en${path.slice(3)}`
+                                          :
+                                          path == "/en" ?
+                                          "/"
+                                          :
+                                          path.slice(3)
+                                        }>
                                             <a>
                                                 <div className="h-8 bg-ui-white text-type-grey px-2 text-lg-14 py-1 flex flex-row justify-start items-center transition-all duration-300 -mt-8 group-hover:mt-0 z-10 relative">
                                                     {
                                                         props.lang == "ro" ?
                                                         "Русский"
                                                         :
+                                                        props.lang == "ru" ?
+                                                        "English"
+                                                        :
                                                         "Română"
+                                                    }
+                                                </div>
+                                            </a>
+                                        </Link>
+                                        <Link href={
+                                          props.lang == "ro" ? 
+                                          `/en${path}` 
+                                          :
+                                          path == "/ru" ?
+                                          "/"
+                                          :
+                                          props.lang == "ru" ? 
+                                          path == "/en" ?
+                                          "/ru"
+                                          :
+                                          path.slice(3)
+                                          :
+                                          `/ru${path.slice(3)}`
+                                        }>
+                                            <a>
+                                                <div className="h-8 bg-ui-white text-type-grey px-2 text-lg-14 py-1 flex flex-row justify-start items-center transition-all duration-300 -mt-8 group-hover:mt-0 z-10 relative">
+                                                    {
+                                                        props.lang == "ro" ?
+                                                        "English"
+                                                        :
+                                                        props.lang == "ru" ?
+                                                        "Română"
+                                                        :
+                                                        "Русский"
                                                     }
                                                 </div>
                                             </a>
@@ -593,7 +702,10 @@ export function Navbar (props) {
                                             props.lang == "ro" ?
                                             "Catalog"
                                             :
+                                            props.lang == "ru" ?
                                             "Каталог"
+                                            :
+                                            "Catalog"
                                         }
                                     </div>
                                 </div>
@@ -601,14 +713,25 @@ export function Navbar (props) {
                                     {
                                         categories.map((category, index) => 
                                         <div key={index}>
-                                            <Link href={props.lang == "ro" ? `/${category.slug}` : `/ru/${category.slug}`}>
+                                            <Link href={
+                                              props.lang == "ro" ? 
+                                              `/${category.slug}` 
+                                              : 
+                                              props.lang == "ru" ?
+                                              `/ru/${category.slug}`
+                                              :
+                                              `/en/${category.slug}`
+                                            }>
                                                 <a>
                                                     <div className="p-4 text-type-manatee hover:text-type-dark hover:underline transition duration-300">
                                                         {
                                                             props.lang == "ro" ?
                                                             category.name
                                                             :
+                                                            props.lang == "ru" ?
                                                             category.nameru
+                                                            :
+                                                            category.nameen
                                                         }
                                                     </div>
                                                 </a>
@@ -621,53 +744,105 @@ export function Navbar (props) {
                         </div>
 
                         <div className={`w-524px flex flex-row justify-center items-center ${transparent ? "text-ui-grey" : "text-type-manatee"}`}>
-                            <Link href={props.lang == "ro" ? "/" : "/ru"}>
+                            <Link href={
+                              props.lang == "ro" ? 
+                              "/" 
+                              : 
+                              props.lang == "ru" ?
+                              "/ru"
+                              :
+                              "/en"
+                            }>
                                 <a className={`${principala ? "border border-b-2 border-t-0 border-r-0 border-l-0 border-accent-accent text-accent-accent" : ""} mx-8 w-auto h-56px flex flex-row justify-center items-center font-normal font-14px hover:text-accent-accent transition duration-300`}>
                                     {
                                         props.lang == "ro" ?
                                         "Principală"
                                         :
+                                        props.lang == "ru" ?
                                         "Главная"
+                                        :
+                                        "Homepage"
                                     }
                                 </a>
                             </Link>
 
-                            <Link href={props.lang == "ro" ? "/galerie" : "/ru/galerie"}>
+                            <Link href={
+                              props.lang == "ro" ? 
+                              "/galerie" 
+                              : 
+                              props.lang == "ru" ?
+                              "/ru/galerie"
+                              :
+                              "/en/galerie"
+                            }>
                                 <a className={`${galerie ? "border border-b-2 border-t-0 border-r-0 border-l-0 border-accent-accent text-accent-accent" : ""} mx-8 w-auto h-56px flex flex-row justify-center items-center font-normal font-14px hover:text-accent-accent transition duration-300`}>
                                     {
                                         props.lang == "ro" ?
                                         "Galerie"
                                         :
+                                        props.lang == "ru" ?
                                         "Галерея"
+                                        :
+                                        "Gallery"
                                     }
                                 </a>
                             </Link>
 
-                            <Link href={props.lang == "ro" ? "/intrebari-frecvente" : "/ru/intrebari-frecvente"}>
+                            <Link href={
+                              props.lang == "ro" ? 
+                              "/intrebari-frecvente" 
+                              : 
+                              props.lang == "ru" ?
+                              "/ru/intrebari-frecvente"
+                              :
+                              "/en/intrebari-frecvente"
+                            }>
                                 <a className={`${faq ? "border border-b-2 border-t-0 border-r-0 border-l-0 border-accent-accent text-accent-accent" : ""} mx-8 w-auto h-56px flex flex-row justify-center items-center font-normal font-14px hover:text-accent-accent transition duration-300`}>
                                     {
                                         props.lang == "ro" ?
                                         "Întrebări frecvente"
                                         :
+                                        props.lang == "ru" ?
                                         "Частые вопросы"
+                                        :
+                                        "FAQ"
                                     }
                                 </a>
                             </Link>
 
-                            <Link href={props.lang == "ro" ? "/contacte" : "/ru/contacte"}>
+                            <Link href={
+                              props.lang == "ro" ? 
+                              "/contacte" 
+                              : 
+                              props.lang == "ru" ?
+                              "/ru/contacte"
+                              :
+                              "/en/contacte"
+                            }>
                                 <a className={`${contacte ? "border border-b-2 border-t-0 border-r-0 border-l-0 border-accent-accent text-accent-accent" : ""} mx-8 w-auto h-56px flex flex-row justify-center items-center font-normal font-14px hover:text-accent-accent transition duration-300`}>
                                     {   
                                         props.lang == "ro" ?
                                         "Contacte"
                                         :
+                                        props.lang == "ru" ?
                                         "Контакты"
+                                        :
+                                        "Contacts"
                                     }
                                 </a>
                             </Link>
                         </div>
 
                         <div className="w-165px">
-                            <Link href={props.lang == "ro" ? "/cos" : "/ru/cos"}>
+                            <Link href={
+                              props.lang == "ro" ? 
+                              "/cos" 
+                              : 
+                              props.lang == "ru" ?
+                              "/ru/cos"
+                              :
+                              "/en/cos"
+                            }>
                                 <a className="w-full flex flex-row justify-end items-start">
                                     {   cart.length !=0 ?
                                         <div className="bg-accent-error w-4 h-4 rounded-full text-ui-darkGrey text-lg-12 flex flex-row justify-center items-center -mr-8 z-20">
@@ -689,7 +864,15 @@ export function Navbar (props) {
             <div className={`block lg:hidden h-16 -mb-16 overflow-hidden ${transparent ? "bg-transparent" : "bg-ui-white"} header-shadow transition-all duration-300`}>
                 <div className="h-full mx-container-md flex flex-row justify-between items-center">
                     <div className={`w-112px h-40px ${open ? "hidden" : transparent? "block" : "hidden"}`}>
-                        <Link href={props.lang == "ro" ? "/" : "/ru"}>
+                        <Link href={
+                          props.lang == "ro" ? 
+                          "/" 
+                          : 
+                          props.lang == "ru" ?
+                          "/ru"
+                          :
+                          "/en"
+                        }>
                             <a>
                                 <Image
                                     src="/branding/smallLogo2.svg"
@@ -701,7 +884,15 @@ export function Navbar (props) {
                     </div>
 
                     <div className={`w-112px h-40px ${open ? "block" : transparent? "hidden" : "block"}`}>
-                        <Link href={props.lang == "ro" ? "/" : "/ru"}>
+                        <Link href={
+                          props.lang == "ro" ? 
+                          "/" 
+                          : 
+                          props.lang == "ru" ?
+                          "/ru"
+                          :
+                          "/en"
+                        }>
                             <a>
                                 <Image
                                     src="/branding/smallLogoBlack.svg"
@@ -721,7 +912,10 @@ export function Navbar (props) {
                                 props.lang == "ro" ?
                                 "Căutare în catalog"
                                 :
+                                props.lang == "ru" ?
                                 "Поиск по каталогу"
+                                :
+                                "Search in catalog"
                             }
                         </span>
 
@@ -737,7 +931,15 @@ export function Navbar (props) {
                             </svg>
                         </div>
 
-                        <Link href={props.lang == "ro" ? "/cos" : "/ru/cos"}>
+                        <Link href={
+                          props.lang == "ro" ? 
+                          "/cos" 
+                          : 
+                          props.lang == "ru" ?
+                          "/ru/cos"
+                          :
+                          "/en/cos"
+                        }>
                             <a className="flex flex-row items-center justify-center h-12 w-12">
                                 {   cart.length !=0 ?
                                     <div className="bg-accent-error w-4 h-4 rounded-full text-ui-darkGrey text-lg-12 flex flex-row justify-center items-center -mr-8 z-20 -mt-2">
@@ -760,14 +962,25 @@ export function Navbar (props) {
             <div className={`h-screen bg-ui-white ${open ? "block" : "hidden"} pt-16 `}>
                 <Slide left cascade duration={300}>
                     <ul className="text-sm-p font-medium text-type-manatee">
-                        <Link href={props.lang == "ro" ? "/" : "/ru"}>
+                        <Link href={
+                          props.lang == "ro" ? 
+                          "/" 
+                          : 
+                          props.lang == "ru" ?
+                          "/ru"
+                          :
+                          "/en"
+                        }>
                             <a>
                                 <li className="w-full p-4">
                                     {
                                         props.lang == "ro" ?
                                         "Principală"
                                         :
+                                        props.lang == "ru" ?
                                         "Главная"
+                                        :
+                                        "Homepage"
                                     }
                                 </li>
                             </a>
@@ -782,7 +995,10 @@ export function Navbar (props) {
                                     props.lang == "ro" ?
                                     "Catalog"
                                     :
+                                    props.lang == "ru" ?
                                     "Каталог"
+                                    :
+                                    "Catalog"
                                 }
                             </div>
                             <svg xmlns="http://www.w3.org/2000/svg" className={`h-4 w-4 ${mobileCatalogOpen ? "hidden" : "block"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -798,14 +1014,25 @@ export function Navbar (props) {
                             {
                                 categories.map((category, index) => 
                                 <div key={index}>
-                                    <Link href={props.lang == "ro" ? `/${category.slug}` : `/ru/${category.slug}`}>
+                                    <Link href={
+                                      props.lang == "ro" ? 
+                                      `/${category.slug}` 
+                                      :
+                                      props.lang == "ru" ?
+                                      `/ru/${category.slug}`
+                                      :
+                                      `/en/${category.slug}`
+                                    }>
                                         <a>
                                             <div className="py-4 px-40px">
                                                 {
                                                     props.lang == "ro" ?
                                                     category.name
                                                     :
+                                                    props.lang == "ru" ?
                                                     category.nameru
+                                                    :
+                                                    category.nameen
                                                 }
                                             </div>
                                         </a>
@@ -815,38 +1042,71 @@ export function Navbar (props) {
                             }
                         </li>
 
-                        <Link href={props.lang == "ro" ? "/galerie" : "/ru/galerie"}>
+                        <Link href={
+                          props.lang == "ro" ? 
+                          "/galerie" 
+                          : 
+                          props.lang == "ru" ?
+                          "/ru/galerie"
+                          :
+                          "/en/galerie"
+                        }>
                             <a>
                                 <li className="w-full p-4">
                                     {
                                         props.lang == "ro" ?
                                         "Galerie"
                                         :
+                                        props.lang == "ru" ?
                                         "Галерея"
+                                        :
+                                        "Gallery"
                                     }
                                 </li>
                             </a>
                         </Link>
-                        <Link href={props.lang == "ro" ? "/intrebari-frecvente" : "/ru/intrebari-frecvente"}>
+                        <Link href={
+                          props.lang == "ro" ? 
+                          "/intrebari-frecvente" 
+                          : 
+                          props.lang == "ru" ?
+                          "/ru/intrebari-frecvente"
+                          :
+                          "/en/intrebari-frecvente"
+                        }>
                             <a>
                                 <li className="w-full p-4">
                                     {
                                         props.lang == "ro" ?
                                         "Întrebări frecvente"
                                         :
+                                        props.lang == "ru" ?
                                         "Частые вопросы"
+                                        :
+                                        "FAQ"
                                     }
                                 </li>
                             </a>
                         </Link>
-                        <Link href={props.lang == "ro" ? "/contacte" : "/ru/contacte"}>
+                        <Link href={
+                          props.lang == "ro" ? 
+                          "/contacte" 
+                          : 
+                          props.lang == "ru" ?
+                          "/ru/contacte"
+                          :
+                          "/en/contacte"
+                        }>
                             <a>
                                 <li className="w-full p-4">
                                     {   
                                         props.lang == "ro" ?
                                         "Contacte"
                                         :
+                                        props.lang == "ru" ?
                                         "Контакты"
+                                        :
+                                        "Contacts"
                                     }
                                 </li>
                             </a>
@@ -857,12 +1117,15 @@ export function Navbar (props) {
                             onClick={() => setMobileLangOpen(!mobileLangOpen)}
                         >
                             <div>
-                                {
-                                    props.lang == "ro" ?
-                                    "Română"
-                                    :
-                                    "Русский"
-                                }
+                              {
+                                  props.lang == "ro" ?
+                                  "Română"
+                                  :
+                                  props.lang == "ru" ?
+                                  "Русский"
+                                  :
+                                  "English"
+                              }
                             </div>
                             <svg xmlns="http://www.w3.org/2000/svg" className={`h-4 w-4 ${mobileLangOpen ? "hidden" : "block"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -873,14 +1136,61 @@ export function Navbar (props) {
                             </svg>
                         </li>
 
-                        <Link href={props.lang == "ro" ? `/ru${path}` : path == "/ru" ? "/" : `${path.slice(3)}`}>
+                        <Link href={
+                          props.lang == "ro" ? 
+                          `/ru${path}` 
+                          :
+                          path == "/ru" ?
+                          "/en"
+                          :
+                          props.lang == "ru" ?
+                          `/en${path.slice(3)}`
+                          :
+                          path == "/en" ?
+                          "/"
+                          :
+                          path.slice(3)
+                        }>
+                            <a>
+                                <li className={`w-full py-4 px-40px ${mobileLangOpen ? "block" : "hidden"}`}>
+                                  {
+                                      props.lang == "ro" ?
+                                      "Русский"
+                                      :
+                                      props.lang == "ru" ?
+                                      "English"
+                                      :
+                                      "Română"
+                                  }
+                                </li>
+                            </a>
+                        </Link>
+
+                        <Link href={
+                          props.lang == "ro" ? 
+                          `/en${path}` 
+                          :
+                          path == "/ru" ?
+                          "/"
+                          :
+                          props.lang == "ru" ? 
+                          path == "/en" ?
+                          "/ru"
+                          :
+                          path.slice(3)
+                          :
+                          `/ru${path.slice(3)}`
+                        }>                            
                             <a>
                                 <li className={`w-full py-4 px-40px ${mobileLangOpen ? "block" : "hidden"}`}>
                                     {
                                         props.lang == "ro" ?
-                                        "Русский"
+                                        "English"
                                         :
+                                        props.lang == "ru" ?
                                         "Română"
+                                        :
+                                        "Русский"
                                     }
                                 </li>
                             </a>

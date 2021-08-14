@@ -22,7 +22,10 @@ export default function FilterPopup (props) {
                     props.lang == "ro" ?
                     "Filtre"
                     :
+                    props.lang == "ru" ?
                     "Фильтры"
+                    :
+                    "Filters"
                 }
             </h3>
 
@@ -47,6 +50,7 @@ export default function FilterPopup (props) {
                             onSubmit={props.onSubmit}
                             lang={props.lang}
                             nameru={props.optiuniRu[index]}
+                            nameen={props.optiuniEn[index]}
                         ></Dropdown>
                     )}
 
@@ -54,7 +58,15 @@ export default function FilterPopup (props) {
                         <input 
                             className="h-full w-full mr-2 rounded-lg border-1.5px border-ui-blueishGrey flex flex-row justify-center items-center text-type-grey"
                             type="submit"
-                            value={props.lang == "ro" ? "Resetează" : "Сбросить"}
+                            value={
+                              props.lang == "ro" ? 
+                              "Resetează" 
+                              : 
+                              props.lang == "ru" ?
+                              "Сбросить"
+                              :
+                              "Reset"
+                            }
                             onClick={() => {
                                 props.reset()
                                 props.setOpenFilters(!props.openFilters)
@@ -64,7 +76,15 @@ export default function FilterPopup (props) {
                         <input 
                             className="h-full w-full mr-2 rounded-lg border-1.5px border-ui-blueishGrey flex flex-row justify-center items-center text-ui-white bg-accent-accent"
                             type="submit"
-                            value={props.lang == "ro" ? "Aplică" : "Применить"}
+                            value={
+                              props.lang == "ro" ? 
+                              "Aplică" 
+                              : 
+                              props.lang == "ru" ?
+                              "Применить"
+                              :
+                              "Apply"
+                            }
                             onClick={() => {
                                 props.setOpenFilters(!props.openFilters)
                             }}

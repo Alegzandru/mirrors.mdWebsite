@@ -6,7 +6,7 @@ import "react-awesome-lightbox/build/style.css";
 import { DeviceTypeContext } from "../context";
 import Link from "next/link"
 
-export default function ProductDescription ({options, optionVariants, images, name ,description, productData, lang, nameru, descriptionru}) {
+export default function ProductDescription ({options, optionVariants, images, name ,description, productData, lang, nameru, nameen, descriptionru, descriptionen}) {
     
     const {deviceType, setDeviceType} = useContext(DeviceTypeContext)
     
@@ -60,7 +60,10 @@ export default function ProductDescription ({options, optionVariants, images, na
                         lang == "ro" ? 
                         "Descriere"
                         :
+                        lang == "ru" ?
                         "Описание"
+                        :
+                        "Description"
                     }
                 </div>
                 <div 
@@ -71,31 +74,38 @@ export default function ProductDescription ({options, optionVariants, images, na
                         lang == "ro" ? 
                         `Fotografii(${imagesLightbox.length})`
                         :
+                        lang == "ru" ?
                         `Фотографии(${imagesLightbox.length})`
+                        :
+                        `Photos(${imagesLightbox.length})`
                     }
                 </div>
-                {/* <div 
-                    className={`${page == 2 ? "text-accent-accent border-b-2 border-t-0 border-l-0 border-r-0 border-accent-accent" : "text-type-dark"} text-sm-p md:text-lg-17 mx-2 md:mx-8 h-12 flex flex-row justify-center items-center cursor-pointer`}
-                    onClick={() => setPage(2)}
-                >
-                    Recenzii(0)
-                </div> */}
             </div>
 
             <div className={`${page == 0 ? "block" : "hidden"} w-full lg:px-300px pb-60px`}>
                 <h4 className="text-type-dark text-sm-h4 md:text-md-h4 lg:text-lg-h4 mb-10">
                     {
-                        lang=="ro" ?
+                        lang == "ro" ?
                         name
                         :
+                        lang == "ru" ?
                         nameru
+                        :
+                        nameen
                     }
                 </h4>
 
                 <pre 
-                    className="font-Ubuntu"
-                    dangerouslySetInnerHTML={{ __html: lang == "ro" ? description != null ? description.replace(/###/g, `<b style="font-size:24px">`).replace(/##/g, "</b>").replace(/-# /g, "&#9679 ") : "<div></div>" : descriptionru != null ? descriptionru.replace(/###/g, `<b style="font-size:24px">`).replace(/##/g, "</b>").replace(/-# /g, "&#9679 ") : "<div></div>"}} className={`md:text-md-p lg:text-lg-p text-type-manatee mb-11 w-full ${autoHeight ? "h-auto" : "max-h-240px"} overflow-y-hidden font-medium`}>
-                        {/* {description} */}
+                    dangerouslySetInnerHTML={{ __html: lang == "ro" ? 
+                      description != null ? description.replace(/###/g, `<b style="font-size:24px">`).replace(/##/g, "</b>").replace(/-# /g, "&#9679 ") : "<div></div>" 
+                    : 
+                      lang == "ru" ?
+                      descriptionru != null ? descriptionru.replace(/###/g, `<b style="font-size:24px">`).replace(/##/g, "</b>").replace(/-# /g, "&#9679 ") : "<div></div>"
+                    :
+                      descriptionen != null ? descriptionen.replace(/###/g, `<b style="font-size:24px">`).replace(/##/g, "</b>").replace(/-# /g, "&#9679 ") : "<div></div>"
+                    }}
+                    className={`font-Ubuntu md:text-md-p lg:text-lg-p text-type-manatee mb-11 w-full ${autoHeight ? "h-auto" : "max-h-240px"} overflow-y-hidden font-medium`}
+                >
                 </pre>
 
                 <div
@@ -106,7 +116,10 @@ export default function ProductDescription ({options, optionVariants, images, na
                         lang == "ro" ? 
                         `mai ${autoHeight ? "puține" : "multe"} detalii...`
                         :
+                        lang == "ru" ?
                         `${autoHeight ? "меньше деталей..." : "подробнее"}`
+                        :
+                        `${autoHeight ? "less" : "more"} details...`
                     }
                 </div>
             </div>
@@ -147,7 +160,10 @@ export default function ProductDescription ({options, optionVariants, images, na
                             lang == "ro" ? 
                             "Produse similare"
                             :
+                            lang == "ru" ?
                             "Похожие товары"
+                            :
+                            "Similar products"
                         }
                     </div>
                     <div className="w-full h-px bg-ui-blueishGrey mb-6"/>
@@ -156,7 +172,15 @@ export default function ProductDescription ({options, optionVariants, images, na
                             return (
                             deviceType == "desktop" ?
                                 index < 4 &&
-                                <Link href={lang == "ro" ? `/produse/${product.slug}` : `/ru/produse/${product.slug}`}>
+                                <Link href={
+                                  lang == "ro" ? 
+                                  `/produse/${product.slug}` 
+                                  : 
+                                  lang == "ru" ?
+                                  `/ru/produse/${product.slug}`
+                                  :
+                                  `/en/produse/${product.slug}`
+                                }>
                                     <a className="w-full mx-1">
                                         <div className=" bg-ui-white rounded-lg border border-ui-darkGrey w-full px-5 py-10px hover:shadow-md transition duration-300">
                                             <div className="w-full h-92px md:h-204px relative mb-6 rounded-lg overflow-hidden">
@@ -171,19 +195,27 @@ export default function ProductDescription ({options, optionVariants, images, na
                                                     lang == "ro" ?
                                                     product.name
                                                     :
+                                                    lang == "ru" ?
                                                     product.nameru
+                                                    :
+                                                    product.nameen
                                                 }
                                             </div>
-                                            {/* <div className="text-card-description text-type-grey w-full text-center">
-                                                {Math.trunc(product.defaultsize.width * product.defaultsize.height / 1000000 * product.m2price * (1 + coeficientFinder(product.defaultsize)))}
-                                            </div> */}
                                         </div>
                                     </a>
                                 </Link>
                             :
                             deviceType == "tablet" ?
                                 index < 3 &&
-                                <Link href={lang == "ro" ? `/produse/${product.slug}` : `/ru/produse/${product.slug}`}>
+                                <Link href={
+                                  lang == "ro" ? 
+                                  `/produse/${product.slug}` 
+                                  : 
+                                  lang == "ru" ?
+                                  `/ru/produse/${product.slug}`
+                                  :
+                                  `/en/produse/${product.slug}`
+                                }>
                                     <a className="w-full mx-1">
                                         <div className=" bg-ui-white rounded-lg border border-ui-darkGrey w-full px-5 py-10px hover:shadow-md transition duration-300">
                                             <div className="w-full h-92px md:h-204px relative mb-6 rounded-lg overflow-hidden">
@@ -198,19 +230,27 @@ export default function ProductDescription ({options, optionVariants, images, na
                                                     lang == "ro" ?
                                                     product.name
                                                     :
+                                                    lang == "ru" ?
                                                     product.nameru
+                                                    :
+                                                    product.nameen
                                                 }
                                             </div>
-                                            {/* <div className="text-card-description text-type-grey w-full text-center">
-                                                {Math.trunc(product.defaultsize.width * product.defaultsize.height / 1000000 * product.m2price * (1 + coeficientFinder(product.defaultsize)))}
-                                            </div> */}
                                         </div>
                                     </a>
                                 </Link>
                             :
                             deviceType == "mobile" ?
                                 index < 2 &&
-                                <Link href={lang == "ro" ? `/produse/${product.slug}` : `/ru/produse/${product.slug}`}>
+                                <Link href={
+                                  lang == "ro" ? 
+                                  `/produse/${product.slug}` 
+                                  : 
+                                  lang == "ru" ?
+                                  `/ru/produse/${product.slug}`
+                                  :
+                                  `/en/produse/${product.slug}`
+                                }>
                                     <a className="w-full mx-1">
                                         <div className=" bg-ui-white rounded-lg border border-ui-darkGrey w-full px-5 py-10px mx-1 hover:shadow-md transition duration-300 min-h-216px">
                                         <div className="w-full h-92px md:h-204px relative mb-6 rounded-lg overflow-hidden">
@@ -225,18 +265,26 @@ export default function ProductDescription ({options, optionVariants, images, na
                                                 lang == "ro" ?
                                                 product.name
                                                 :
+                                                lang == "ru" ?
                                                 product.nameru
+                                                :
+                                                product.nameen
                                             }
                                         </div>
-                                        {/* <div className="text-card-description text-type-grey w-full text-center">
-                                            {Math.trunc(product.defaultsize.width * product.defaultsize.height / 1000000 * product.m2price * (1 + coeficientFinder(product.defaultsize)))}
-                                        </div> */}
                                         </div>
                                     </a>
                                 </Link>
                             :
                                 index < 2 &&
-                                <Link href={lang == "ro" ? `/produse/${product.slug}` : `/ru/produse/${product.slug}`}>
+                                <Link href={
+                                  lang == "ro" ? 
+                                  `/produse/${product.slug}` 
+                                  : 
+                                  lang == "ru" ?
+                                  `/ru/produse/${product.slug}`
+                                  :
+                                  `/en/produse/${product.slug}`
+                                }>                                    
                                     <a className="w-full mx-1">
                                         <div className=" bg-ui-white rounded-lg border border-ui-darkGrey w-full px-5 py-10px mx-1 hover:shadow-md transition duration-300">
                                         <div className="w-full h-92px md:h-204px relative mb-6 rounded-lg overflow-hidden">
@@ -251,12 +299,12 @@ export default function ProductDescription ({options, optionVariants, images, na
                                                 lang == "ro" ?
                                                 product.name
                                                 :
+                                                lang == "ru" ?
                                                 product.nameru
+                                                :
+                                                product.nameen
                                             }
                                         </div>
-                                        {/* <div className="text-card-description text-type-grey w-full text-center">
-                                            {Math.trunc(product.defaultsize.width * product.defaultsize.height / 1000000 * product.m2price * (1 + coeficientFinder(product.defaultsize)))}
-                                        </div> */}
                                         </div>
                                     </a>
                                 </Link>
