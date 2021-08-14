@@ -34,9 +34,12 @@ export default function ContacteMap ({lang}) {
                 <span>
                     {
                       lang == "ro" ? 
-                        "Contacte"
-                        :
-                        "Контакты"
+                      "Contacte"
+                      :
+                      lang == "ru" ?
+                      "Контакты"
+                      :
+                      "Contacts"
                     }
                 </span>
             </div>
