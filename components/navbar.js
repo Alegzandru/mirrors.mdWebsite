@@ -296,6 +296,7 @@ export function Navbar (props) {
                                                     src={product.image.length === 0 ? "/product/placeholder.png" : product.image[0].formats.small.url}
                                                     layout="fill"
                                                     objectFit="cover"
+                                                    alt={product.name}
                                                 />
                                             </div>
                                             <div className="text-type-grey flex flex-col justify-between h-full ml-4">
@@ -355,6 +356,7 @@ export function Navbar (props) {
                                 src="/branding/instagram.svg"
                                 height={16}
                                 width={16}
+                                alt="Instagram logo"
                             />
                         </a>
                     </div>
@@ -367,6 +369,7 @@ export function Navbar (props) {
                                 src="/branding/facebook.svg"
                                 height={16}
                                 width={16}
+                                alt="Facebook logo"
                             />
                         </a>
                     </div>
@@ -379,6 +382,7 @@ export function Navbar (props) {
                                 src="/branding/tiktok.svg"
                                 height={16}
                                 width={16}
+                                alt="TikTok logo"
                             />
                         </a>
                     </div>
@@ -453,6 +457,7 @@ export function Navbar (props) {
                                                 src="/branding/logo2.svg"
                                                 height={34}
                                                 width={136}
+                                                alt="Logo Mirrors MD"
                                             />
                                         </a>
                                     </Link>
@@ -473,6 +478,7 @@ export function Navbar (props) {
                                                 src="/branding/logo2Black.svg"
                                                 height={34}
                                                 width={136}
+                                                alt="Logo Mirrors MD"
                                             />
                                         </a>
                                     </Link>
@@ -549,6 +555,7 @@ export function Navbar (props) {
                                                                         src={product.image.length === 0 ? "/product/placeholder.png" : product.image[0].formats.small.url}
                                                                         layout="fill"
                                                                         objectFit="cover"
+                                                                        alt={product.name}
                                                                     />
                                                                 </div>
                                                                 <div className="text-type-grey flex flex-col justify-between h-full ml-4">
@@ -878,6 +885,7 @@ export function Navbar (props) {
                                     src="/branding/smallLogo2.svg"
                                     height={40}
                                     width={40}
+                                    alt="Logo Mirrors MD"
                                 />
                             </a>
                         </Link>
@@ -898,6 +906,7 @@ export function Navbar (props) {
                                     src="/branding/smallLogoBlack.svg"
                                     height={40}
                                     width={40}
+                                    alt="Logo Mirrors MD"
                                 />
                             </a>
                         </Link>

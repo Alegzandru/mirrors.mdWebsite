@@ -101,6 +101,7 @@ export default function InstaBlock ({lang}) {
             height={24}
             width={24}
             src="/branding/instagram2.svg"
+            alt="Instagram logo"
           />
         </div>
         <div className="font-extrabold text-lg-32 h-12 flex flex-row justify-center items-center gradient-instagram">
@@ -144,6 +145,7 @@ export default function InstaBlock ({lang}) {
                       src={image}
                       layout="fill"
                       objectFit="cover"
+                      alt="Mirrors MD instagram photo"
                     />
                   </div>
                   <div className="group-hover:opacity-100 opacity-0 bg-instafade flex flex-col justify-center items-center h-full w-full absolute -mt-360px z-20 transition duration-300 text-ui-grey font-medium">
@@ -151,6 +153,7 @@ export default function InstaBlock ({lang}) {
                       src="/branding/instagramWhite.svg"
                       height={36}
                       width={36}
+                      alt="Instagram logo"
                     />
                     <div className="mt-3">
                       {

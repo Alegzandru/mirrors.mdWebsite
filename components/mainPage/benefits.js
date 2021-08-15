@@ -73,6 +73,7 @@ export default function Benefits({lang}){
                                     src="/mainPage/benefits/icon1.png"
                                     layout="fill"
                                     objectFit="cover"
+                                    alt="Beneficiul 1"
                                 />
                             </div>
                             <div className="w-230px">
@@ -115,6 +116,7 @@ export default function Benefits({lang}){
                                     src="/mainPage/benefits/icon2.png"
                                     layout="fill"
                                     objectFit="cover"
+                                    alt="Beneficiul 2"
                                 />
                             </div>
                             <div className="w-230px transition duration-300">
@@ -161,6 +163,7 @@ export default function Benefits({lang}){
                                     src="/mainPage/benefits/icon3.png"
                                     layout="fill"
                                     objectFit="cover"
+                                    alt="Beneficiul 3"
                                 />
                             </div>
                             <div className="w-230px">
@@ -205,6 +208,7 @@ export default function Benefits({lang}){
                                     src="/mainPage/benefits/icon4.png"
                                     layout="fill"
                                     objectFit="cover"
+                                    alt="Beneficiul 4"
                                 />
                             </div>
                             <div className="w-230px">

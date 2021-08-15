@@ -43,6 +43,7 @@ export default function Footer (props) {
                         src="/branding/footerLogo.svg"
                         width={232}
                         height={66}
+                        alt="Logo Mirrors MD"
                     />
                 </div>
                 <div className="mdFooter:hidden">
@@ -51,6 +52,7 @@ export default function Footer (props) {
                         className="h-14 w-14 mdFooter:w-8 mdFooter:h-8"
                         height={56}
                         width={56}
+                        alt="Logo Mirrors MD"
                     />
                 </div>
                 <div className="text-type-grey hidden mdFooter:block">
@@ -285,6 +287,7 @@ export default function Footer (props) {
                             src="/branding/facebookWhite.svg"
                             width={24}
                             height={24}
+                            alt="Facebook logo"
                         />
                     </a>
                     <a
@@ -295,6 +298,7 @@ export default function Footer (props) {
                             src="/branding/instagramWhite.svg"
                             width={24}
                             height={24}
+                            alt="Instagram logo"
                         />
                     </a>
                     <a
@@ -305,6 +309,7 @@ export default function Footer (props) {
                             src="/branding/tiktokFooter.svg"
                             height={24}
                             width={24}
+                            alt="TikTok logo"
                         />
                     </a>
                 </div>
@@ -572,6 +577,7 @@ export default function Footer (props) {
                             alt=""
                             width={14}
                             height={14}
+                            alt="Logo Lira Digital"
                         ></img>
                         <div className="font-medium">
                             Lira

@@ -57,6 +57,7 @@ export default function RecentProducts ({deviceType, lang}) {
                                                     src={product.image.length === 0 ? "/product/placeholder.png" : product.image[0].formats.small.url}
                                                     layout="fill"
                                                     objectFit="cover"
+                                                    alt={product.name}
                                                 />
                                             </div>
     

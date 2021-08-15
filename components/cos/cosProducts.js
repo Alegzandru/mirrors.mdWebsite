@@ -163,6 +163,7 @@ export default function CosProducts({lang}){
                                 src={popupProduct.product.image.length === 0 ? "/product/placeholder.png" : popupProduct.product.image[0].formats.small.url}
                                 layout="fill"
                                 objectFit="cover"
+                                alt={popupProduct.product.name}
                             />
                         </div>
                         <form className="lg:w-444px h-full flex flex-col justify-start md:justify-between items-start pt-6 w-full md:w-auto">
@@ -370,6 +371,7 @@ export default function CosProducts({lang}){
                                     src={popupProduct.product.image.length === 0 ? "/product/placeholder.png" : popupProduct.product.image[0].formats.small.url}
                                     layout="fill"
                                     objectFit="cover"
+                                    alt={popupProduct.product.name}
                                 />
                             </div>
                             <h3 className="w-full text-type-dark text-sm-h3 md:text-md-h3 lg:text-lg-h3 font-bold mt-6">
@@ -498,6 +500,7 @@ export default function CosProducts({lang}){
                             src="/checkout/empty.svg"
                             layout="fill"
                             objectFit="cover"
+                            alt="Empty cart"
                         />
                     </div>
                     <div className="text-sm-p md:text-md-h3 lg:text-lg-28 font-bold text-type-dark w-full text-center">
@@ -545,6 +548,7 @@ export default function CosProducts({lang}){
                                                       src={product.product.image.length === 0 ? "/product/placeholder.png" : product.product.image[0].formats.small.url}
                                                       layout="fill"
                                                       objectFit="cover"
+                                                      alt={product.product.name}
                                                     />
                                                 </div>
                                                 <div>

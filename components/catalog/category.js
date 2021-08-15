@@ -450,6 +450,7 @@ export default function Category({category, name, products, lang, nameru, nameen
                                                         src={product.image.length === 0 ? "/product/placeholder.png" : product.image[0].formats.medium.url}
                                                         layout="fill"
                                                         objectFit="cover"
+                                                        alt={product.name}
                                                     />
                                                 </div>
                                                 <div className="text-sm-card-name md:text-lg-card-name-bold text-type-dark mt-6 md:mt-8 font-medium">

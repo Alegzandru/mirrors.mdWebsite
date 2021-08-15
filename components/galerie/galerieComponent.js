@@ -70,6 +70,7 @@ export default function GalerieComponent (props) {
                                 layout="fill"
                                 objectFit="cover"
                                 className="rounded-md"
+                                alt="Mirrors MD instagram photo"
                             />
                         </div>
                     )

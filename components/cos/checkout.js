@@ -362,6 +362,7 @@ export default function Checkout({lang}) {
                                 src="/branding/paynet1.png"
                                 height={108}
                                 width={240}
+                                alt="Paynet logo"
                             ></Image>
                             <button onClick={() => redirectCall()} className={`${button ? "flex" : "hidden"} flex-row justify-center items-center bg-accent-accent rounded-lg text-ui-white font-bold hover:bg-accent-light h-12 w-full transition duration-300 mt-4`}>
                                 {
@@ -934,6 +935,7 @@ export default function Checkout({lang}) {
                                     src="/checkout/visa.svg"
                                     layout="fill"
                                     objectFit="cover"
+                                    alt="VISA"
                                 />
                             </div>
                             <div className="h-8 w-10 relative mr-4">
@@ -941,6 +943,7 @@ export default function Checkout({lang}) {
                                     src="/checkout/mastercard.svg"
                                     layout="fill"
                                     objectFit="cover"
+                                    alt="MASTERCARD"
                                 />
                             </div>
                             <div className="flex-grow text-lg-14">
@@ -969,6 +972,7 @@ export default function Checkout({lang}) {
                                     src="/checkout/cash.svg"
                                     layout="fill"
                                     objectFit="cover"
+                                    alt="Cash"
                                 />
                             </div>
                             <div className="flex-grow text-lg-14">
@@ -1025,6 +1029,7 @@ export default function Checkout({lang}) {
                                             src={product.product.image.length === 0 ? "/product/placeholder.png" : product.product.image[0].formats.small.url}
                                             layout="fill"
                                             objectFit="cover"
+                                            alt={product.product.name}
                                         />
                                     </div>
                                     <div className="">

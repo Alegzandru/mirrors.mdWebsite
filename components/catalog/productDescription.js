@@ -138,6 +138,7 @@ export default function ProductDescription ({options, optionVariants, images, na
                                     layout="fill"
                                     objectFit="cover"
                                     className="rounded-md"
+                                    alt={name}
                                 />
                             </div>
                         )
@@ -188,6 +189,7 @@ export default function ProductDescription ({options, optionVariants, images, na
                                                     src={product.image.length === 0 ? "/product/placeholder.png" : product.image[0].formats.small.url}
                                                     layout="fill"
                                                     objectFit="cover"
+                                                    alt={name}
                                                 />
                                             </div>
                                             <div className="w-full text-center text-lg-card-name text-type-dark mb-1 font-medium">
@@ -223,6 +225,7 @@ export default function ProductDescription ({options, optionVariants, images, na
                                                     src={product.image.length === 0 ? "/product/placeholder.png" : product.image[0].formats.small.url}
                                                     layout="fill"
                                                     objectFit="cover"
+                                                    alt={name}
                                                 />
                                             </div>
                                             <div className="w-full text-center text-lg-card-name text-type-dark mb-1 font-medium">
@@ -255,9 +258,10 @@ export default function ProductDescription ({options, optionVariants, images, na
                                         <div className=" bg-ui-white rounded-lg border border-ui-darkGrey w-full px-5 py-10px mx-1 hover:shadow-md transition duration-300 min-h-216px">
                                         <div className="w-full h-92px md:h-204px relative mb-6 rounded-lg overflow-hidden">
                                             <Image
-                                                  src={product.image.length === 0 ? "/product/placeholder.png" : product.image[0].formats.small.url}
-                                                  layout="fill"
+                                                src={product.image.length === 0 ? "/product/placeholder.png" : product.image[0].formats.small.url}
+                                                layout="fill"
                                                 objectFit="cover"
+                                                alt={name}
                                             />
                                         </div>
                                         <div className="w-full text-center text-lg-card-name text-type-dark mb-1 font-medium">
@@ -292,6 +296,7 @@ export default function ProductDescription ({options, optionVariants, images, na
                                                 src={product.image.length === 0 ? "/product/placeholder.png" : product.image[0].formats.small.url}
                                                 layout="fill"
                                                 objectFit="cover"
+                                                alt={name}
                                             />
                                         </div>
                                         <div className="w-full text-center text-lg-card-name text-type-dark mb-1 font-medium">

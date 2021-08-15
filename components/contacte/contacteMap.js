@@ -69,6 +69,7 @@ export default function ContacteMap ({lang}) {
                                     src="/branding/facebook.svg"
                                     height={24}
                                     width={24}
+                                    alt="Facebook logo"
                                 />
 
                                 <div className="text-lg-14 font-black mt-3" style={{color : "#1977F3"}}>
@@ -87,6 +88,7 @@ export default function ContacteMap ({lang}) {
                                     src="/branding/instagram.svg"
                                     height={24}
                                     width={24}
+                                    alt="Instagram logo"
                                 />
 
                                 <div className="text-lg-14 gradient-instagram font-black mt-3">
@@ -105,6 +107,7 @@ export default function ContacteMap ({lang}) {
                                     src="/branding/tiktok.svg"
                                     height={24}
                                     width={24}
+                                    alt="TikTok logo"
                                 />
 
                                 <div className="text-lg-14 gradient-tiktok font-black mt-3">

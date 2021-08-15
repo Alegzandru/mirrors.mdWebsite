@@ -13,7 +13,7 @@ export default function Hero({lang}){
                     autoPlay loop muted playsInline className="filter brightness-25 -mt-4 z-10 relative object-cover bg-ui-dark" 
                 >
                     <source src="/mainPage/heroGif.mp4" type="video/mp4" onError={() => setErrorVideo(1)} className={`${errorVideo ? "hidden" : "block"}`}/>
-                    <img src="/mainPage/hero/bg.jpg" title="Video-ul nu este accesibil" className={`${errorVideo ? "block" : "hidden"}`}/>
+                    <img alt="Video error" src="/mainPage/hero/bg.jpg" title="Video-ul nu este accesibil" className={`${errorVideo ? "block" : "hidden"}`}/>
                 </video>
             </div>
             <div className="overflow-hidden h-70vh md:h-screen bg-transparent bg-cover bg-center -mt-70vh md:-mt-hero z-20 relative">

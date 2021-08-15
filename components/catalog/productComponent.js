@@ -457,6 +457,7 @@ export default function ProductComponent ({deviceType, name, images, options, op
                             src={images[openImage].src}
                             layout="fill"
                             objectFit="cover"
+                            alt={name}
                         />
                     </div>
                     <div className="w-full relative h-128px md:h-165px mt-6 mb-4 z-10">
@@ -479,6 +480,7 @@ export default function ProductComponent ({deviceType, name, images, options, op
                                             src={image.src}
                                             layout="fill"
                                             objectFit="cover"
+                                            alt={name}
                                         />
                                     </div>
                                 </div> 
