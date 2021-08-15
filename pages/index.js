@@ -11,6 +11,7 @@ import NewProducts from '../components/mainPage/newProducts';
 import Options from '../components/mainPage/options';
 import PopularProducts from '../components/mainPage/popularProducts';
 import { API_URL } from '../utils/urls';
+import Head from 'next/head';
 
 export default function MainPage({products}){
 
@@ -24,6 +25,9 @@ export default function MainPage({products}){
               img="https://res.cloudinary.com/dbh1vgas3/image/upload/v1629027820/logoMirrors2_rzmtcv.jpg"
               index={true}
             />
+            <Head>
+              <meta name="google-site-verification" content="A88b9KwY33u20syvBmYcdb2vOm1mt6lz7KC1n1MQJis" />
+            </Head>
             <Hero
               lang="ro"
             ></Hero>
