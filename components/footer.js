@@ -49,6 +49,8 @@ export default function Footer (props) {
                     <img
                         src="/branding/smallLogo2.svg"
                         className="h-14 w-14 mdFooter:w-8 mdFooter:h-8"
+                        height={56}
+                        width={56}
                     />
                 </div>
                 <div className="text-type-grey hidden mdFooter:block">
@@ -568,6 +570,8 @@ export default function Footer (props) {
                             src="/branding/lira.svg"
                             className="w-14px h-14px mr-1 ml-2"
                             alt=""
+                            width={14}
+                            height={14}
                         ></img>
                         <div className="font-medium">
                             Lira

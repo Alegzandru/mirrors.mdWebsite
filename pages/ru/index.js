@@ -1,14 +1,16 @@
-import Hero from "../../components/mainPage/hero"
-import Layout from "../../components/layout"
-import PopularProducts from "../../components/mainPage/popularProducts"
-import "react-multi-carousel/lib/styles.css";
-import UAParser from "ua-parser-js";
-import Benefits from "../../components/mainPage/benefits"
-import NewProducts from "../../components/mainPage/newProducts"
-import Options from "../../components/mainPage/options"
-import { useContext } from "react";
-import { DeviceTypeContext } from "../../components/context";
-import { API_URL } from "../../utils/urls";
+import 'react-multi-carousel/lib/styles.css';
+
+import { useContext } from 'react';
+
+import { DeviceTypeContext } from '../../components/context';
+import { HeadWithMeta } from '../../components/HeadWithMeta';
+import Layout from '../../components/layout';
+import Benefits from '../../components/mainPage/benefits';
+import Hero from '../../components/mainPage/hero';
+import NewProducts from '../../components/mainPage/newProducts';
+import Options from '../../components/mainPage/options';
+import PopularProducts from '../../components/mainPage/popularProducts';
+import { API_URL } from '../../utils/urls';
 
 export default function MainPage({products}){
 
@@ -16,6 +18,12 @@ export default function MainPage({products}){
 
     return (
         <Layout lang="ru">
+            <HeadWithMeta
+              title="Mirrors MD - зеркала на заказ в Кишиневе"
+              description="На сайте Mirrors MD вы найдете ЛЕД зеркала, шкафы и другую мебель, которая идеально впишется в любой холл, ванную комнату или спальню. Доставка в Кишинев и другие районы Молдовы."
+              img="https://res.cloudinary.com/dbh1vgas3/image/upload/v1629027820/logoMirrors2_rzmtcv.jpg"
+              index={true}
+            />
             <Hero
               lang="ru"
             ></Hero>

@@ -6,6 +6,7 @@ import {API_URL} from "../../utils/urls"
 import { DeviceTypeContext, SeenRecentlyContext } from "../../components/context";
 import { useContext, useEffect } from "react";
 import {useRouter} from 'next/router'
+import { HeadWithMeta } from "../../components/HeadWithMeta";
 
 export function DynamicProduct ({productData}) {
   const router = useRouter()
@@ -31,6 +32,12 @@ export function DynamicProduct ({productData}) {
 
   return (
       <Layout lang="ro" slug={productData[0].slug}>
+          <HeadWithMeta
+            title={`${productData[0].name} | Mirrors MD`}
+            description={`${productData[0].name} - unul dintre produsele din colectia "${productData[0].category.name}" de pe site-ul Mirrors MD. Livram in Chisinau si restul Moldovei.`}
+            img="https://res.cloudinary.com/dbh1vgas3/image/upload/v1629027820/logoMirrors2_rzmtcv.jpg"
+            index={true}
+          />
           <ProductPage 
             lang="ro"
             deviceType={deviceType}

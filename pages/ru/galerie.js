@@ -1,12 +1,11 @@
-import Layout from "../../components/layout"
-import GalerieComponent from "../../components/galerie/galerieComponent"
-import UAParser from "ua-parser-js";
-import RecentProducts from "../../components/multiPage/recentProducts"
-import { useContext, useEffect } from "react";
-import { DeviceTypeContext } from "../../components/context";
-import { API_URL } from "../../utils/urls";
-import InstaBlock from "../../components/galerie/instaBlock";
-import Head from "next/head";
+import { useContext, useEffect } from 'react';
+
+import { DeviceTypeContext } from '../../components/context';
+import InstaBlock from '../../components/galerie/instaBlock';
+import { HeadWithMeta } from '../../components/HeadWithMeta';
+import Layout from '../../components/layout';
+import RecentProducts from '../../components/multiPage/recentProducts';
+import { API_URL } from '../../utils/urls';
 
 export default function Galerie({products}){
 
@@ -14,13 +13,15 @@ export default function Galerie({products}){
 
     return (
         <Layout lang="ru">
+            <HeadWithMeta
+              title="Галерея | Mirrors MD"
+              description="В галерее сайта Mirrors MD вы можете найти фотографии зеркал, шкафов и другой мебели из нашего каталога продукции. Доставка в Кишинев и другие районы Молдовы."
+              img="https://res.cloudinary.com/dbh1vgas3/image/upload/v1629027820/logoMirrors2_rzmtcv.jpg"
+              index={true}
+            />
             <InstaBlock
               lang="ru"
             ></InstaBlock>
-            {/* <GalerieComponent 
-              deviceType={deviceType}
-              products={products}
-            ></GalerieComponent> */}
             <RecentProducts 
               lang="ru"
               deviceType={deviceType}

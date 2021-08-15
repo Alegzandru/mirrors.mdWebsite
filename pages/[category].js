@@ -1,11 +1,18 @@
 import Layout from "../components/layout"
 import Category from "../components/catalog/category"
 import {API_URL} from "../utils/urls"
+import { HeadWithMeta } from "../components/HeadWithMeta"
 
 export default function Catalog ({category, products}) {
 
   return (
         <Layout lang="ro" category={category[0].slug}>
+            <HeadWithMeta
+              title={`${category[0].name} | Mirrors MD`}
+              description={`Pe site-ul Mirrors MD puteti gasi o colectie larga de ${category[0].name} care se vor integra ideal in orice hol, baie sau dormitor. Livram in Chisinau si restul Moldovei.`}
+              img="https://res.cloudinary.com/dbh1vgas3/image/upload/v1629027820/logoMirrors2_rzmtcv.jpg"
+              index={true}
+            />
             <Category 
                 category={category}
                 name={category[0].name}

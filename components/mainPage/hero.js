@@ -4,30 +4,13 @@ import { useEffect, useRef, useState } from 'react';
 
 export default function Hero({lang}){
 
-    // const videoRef = useRef(null);
-
-    // useEffect(() => {
-    //     enableInlineVideo(videoRef);
-
-    //     var promise = videoRef.current.play();
-
-    //     if (promise !== undefined) {
-    //     promise.then(_ => {
-    //     }).catch(error => {
-    //         videoRef.current.muted = true;
-    //         videoRef.current.play();
-    //     });
-    // }
-    // }, [])
-
     const [errorVideo, setErrorVideo] = useState(0)
 
     return(
         <div className="w-full overflow-hidden h-70vh md:h-screen bg-ui-darkGrey">
             <div className="h-70vh md:h-screen w-full overflow-hidden relative">
                 <video 
-                    autoPlay loop muted playsInline className="filter brightness-25 -mt-4 z-10 relative object-cover" 
-                    // ref={videoRef}
+                    autoPlay loop muted playsInline className="filter brightness-25 -mt-4 z-10 relative object-cover bg-ui-dark" 
                 >
                     <source src="/mainPage/heroGif.mp4" type="video/mp4" onError={() => setErrorVideo(1)} className={`${errorVideo ? "hidden" : "block"}`}/>
                     <img src="/mainPage/hero/bg.jpg" title="Video-ul nu este accesibil" className={`${errorVideo ? "block" : "hidden"}`}/>

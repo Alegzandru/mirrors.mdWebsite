@@ -1,12 +1,11 @@
-import Layout from "../components/layout"
-import GalerieComponent from "../components/galerie/galerieComponent"
-import UAParser from "ua-parser-js";
-import RecentProducts from "../components/multiPage/recentProducts"
-import { useContext, useEffect } from "react";
-import { DeviceTypeContext } from "../components/context";
-import { API_URL } from "../utils/urls";
-import InstaBlock from "../components/galerie/instaBlock";
-import Head from "next/head";
+import { useContext, useEffect } from 'react';
+
+import { DeviceTypeContext } from '../components/context';
+import InstaBlock from '../components/galerie/instaBlock';
+import { HeadWithMeta } from '../components/HeadWithMeta';
+import Layout from '../components/layout';
+import RecentProducts from '../components/multiPage/recentProducts';
+import { API_URL } from '../utils/urls';
 
 export default function Galerie({products}){
 
@@ -14,13 +13,15 @@ export default function Galerie({products}){
 
     return (
         <Layout lang="ro">
+            <HeadWithMeta
+              title="Galerie | Mirrors MD"
+              description="In galeria site-ului Mirrors MD puteti gasi poze cu oglinzi, dulapuri si alt mobilier din catalogul nostru de produse. Livram in Chisinau si restul Moldovei."
+              img="https://res.cloudinary.com/dbh1vgas3/image/upload/v1629027820/logoMirrors2_rzmtcv.jpg"
+              index={true}
+            />
             <InstaBlock
               lang="ro"
             ></InstaBlock>
-            {/* <GalerieComponent 
-              deviceType={deviceType}
-              products={products}
-            ></GalerieComponent> */}
             <RecentProducts 
               lang="ro"
               deviceType={deviceType}

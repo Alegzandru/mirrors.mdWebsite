@@ -1,11 +1,18 @@
 import Layout from "../../components/layout"
 import Category from "../../components/catalog/category"
 import {API_URL} from "../../utils/urls"
+import { HeadWithMeta } from "../../components/HeadWithMeta"
 
 export default function Catalog ({category, products}) {
 
     return (
         <Layout lang="en" category={category[0].slug}>
+            <HeadWithMeta
+              title={`${category[0].nameen} | Mirrors MD`}
+              description={`On the Mirrors MD website you can find a wide collection of ${category[0].nameen} which will ideally fit in any hall, bathroom or bedroom. We ship to Chisinau and the rest of Moldova.`}
+              img="https://res.cloudinary.com/dbh1vgas3/image/upload/v1629027820/logoMirrors2_rzmtcv.jpg"
+              index={true}
+            />
             <Category 
                 category={category}
                 name={category[0].name}

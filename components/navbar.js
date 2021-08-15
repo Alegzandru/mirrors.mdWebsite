@@ -954,7 +954,9 @@ export function Navbar (props) {
                             </a>
                         </Link>
 
-                        <Hamburger toggled={open} toggle={setOpen} size={24} duration={0.4} color={`${open ? "#000000" : "#677077"}`} rounded/>
+                        <button>
+                          <Hamburger toggled={open} toggle={setOpen} size={24} duration={0.4} color={`${open ? "#000000" : "#677077"}`} rounded/>
+                        </button>
                     </div>
                 </div>
             </div>

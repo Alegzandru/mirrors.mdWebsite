@@ -5,6 +5,7 @@ import {getAllProductPaths, getProductData} from "../../../lib/products"
 import {API_URL} from "../../../utils/urls"
 import { DeviceTypeContext, SeenRecentlyContext } from "../../../components/context";
 import { useContext, useEffect } from "react";
+import { HeadWithMeta } from "../../../components/HeadWithMeta";
 
 export function DynamicProduct ({productData}) {
 
@@ -26,6 +27,12 @@ export function DynamicProduct ({productData}) {
 
   return (
       <Layout lang="ru" slug={productData[0].slug}>
+          <HeadWithMeta
+            title={`${productData[0].nameru} | Mirrors MD`}
+            description={`${productData[0].nameru} - один из товаров из колекции "${productData[0].category.nameru}" на сайте Mirrors MD. Доставка в Кишинев и другие районы Молдовы.`}
+            img="https://res.cloudinary.com/dbh1vgas3/image/upload/v1629027820/logoMirrors2_rzmtcv.jpg"
+            index={true}
+          />
           <ProductPage 
             lang="ru"
             deviceType={deviceType}
