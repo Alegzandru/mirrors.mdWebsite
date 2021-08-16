@@ -1,0 +1,6 @@
+Sitemap: https://www.mirrors.md/sitemap.xml
+
+User-agent: *
+Allow: /*
+
+Disallow: /api/*
