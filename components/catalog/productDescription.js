@@ -97,12 +97,28 @@ export default function ProductDescription ({options, optionVariants, images, na
 
                 <pre 
                     dangerouslySetInnerHTML={{ __html: lang == "ro" ? 
-                      description != null ? description.replace(/###/g, `<b style="font-size:24px">`).replace(/##/g, "</b>").replace(/-# /g, "&#9679 ") : "<div></div>" 
+                      description != null ? 
+                      description
+                      .replace(/{{{/g, `<img style="max-height: 400px; margin-right: auto; margin-left: auto;" src="`)
+                      .replace(/}}/g, '"/>')
+                      .replace(/&&&/g, '<b>').replace(/&&/g, '</b>')
+                      .replace(/###/g, '<i>').replace(/##/g, '</i>')
+                      : "<div/>"
                     : 
                       lang == "ru" ?
-                      descriptionru != null ? descriptionru.replace(/###/g, `<b style="font-size:24px">`).replace(/##/g, "</b>").replace(/-# /g, "&#9679 ") : "<div></div>"
+                      descriptionru != null ? descriptionru
+                      .replace(/{{{/g, `<img style="max-height: 400px; margin-right: auto; margin-left: auto;" src="`)
+                      .replace(/}}/g, '"/>')
+                      .replace(/&&&/g, '<b>').replace(/&&/g, '</b>')
+                      .replace(/###/g, '<i>').replace(/##/g, '</i>')
+                      : "<div/>"
                     :
-                      descriptionen != null ? descriptionen.replace(/###/g, `<b style="font-size:24px">`).replace(/##/g, "</b>").replace(/-# /g, "&#9679 ") : "<div></div>"
+                      descriptionen != null ? descriptionen
+                      .replace(/{{{/g, `<img style="max-height: 400px; margin-right: auto; margin-left: auto;" src="`)
+                      .replace(/}}/g, '"/>')
+                      .replace(/&&&/g, '<b>').replace(/&&/g, '</b>')
+                      .replace(/###/g, '<i>').replace(/##/g, '</i>')
+                    : "<div/>"
                     }}
                     className={`font-Ubuntu md:text-md-p lg:text-lg-p text-type-manatee mb-11 w-full ${autoHeight ? "h-auto" : "max-h-240px"} overflow-y-hidden font-medium`}
                 >

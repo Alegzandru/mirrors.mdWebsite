@@ -19,7 +19,7 @@ export default function MainPage({products}){
     return (
         <Layout lang="ru">
             <HeadWithMeta
-              title="Mirrors MD - зеркала на заказ в Кишиневе"
+              title="Mirrors MD - Зеркала на Заказ в Кишиневе"
               description="На сайте Mirrors MD вы найдете ЛЕД зеркала, шкафы и другую мебель, которая идеально впишется в любой холл, ванную комнату или спальню. Доставка в Кишинев и другие районы Молдовы."
               img="https://res.cloudinary.com/dbh1vgas3/image/upload/v1629027820/logoMirrors2_rzmtcv.jpg"
               index={true}

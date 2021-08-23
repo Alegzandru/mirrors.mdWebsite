@@ -379,7 +379,7 @@ export function Navbar (props) {
                             target="blank"
                         >
                             <Image
-                                src="/branding/tiktok.svg"
+                                src="/branding/tiktokLogo.svg"
                                 height={16}
                                 width={16}
                                 alt="TikTok logo"

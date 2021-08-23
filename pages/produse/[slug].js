@@ -137,7 +137,7 @@ export async function getStaticPaths() {
   const paths = products.map((product, index) => {
       return({
           params : {
-              slug : product.slug
+            slug : product.slug
           }
       })
   })

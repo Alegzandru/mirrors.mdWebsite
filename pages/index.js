@@ -20,7 +20,7 @@ export default function MainPage({products}){
     return (
         <Layout lang="ro">
             <HeadWithMeta
-              title="Mirrors MD - oglinzi la comanda in Chisinau"
+              title="Mirrors MD - Oglinzi La Comanda in Chisinau"
               description="Pe site-ul Mirrors MD puteti gasi oglinzi LED, dulapuri si alt mobilier care se va integra ideal in orice hol, baie sau dormitor. Livram in Chisinau si restul Moldovei."
               img="https://res.cloudinary.com/dbh1vgas3/image/upload/v1629027820/logoMirrors2_rzmtcv.jpg"
               index={true}

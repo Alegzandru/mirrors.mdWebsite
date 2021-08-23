@@ -93,8 +93,10 @@ export default function ProductPage ({deviceType, name, price, images, descripti
                 className="font-Ubuntu"
                 dangerouslySetInnerHTML={{ __html: popupData ? 
                   popupData
-                  .replace(/{{{/g, `<img style="max-height: 400px; margin-right: auto; margin-left: auto;" src=`)
-                  .replace(/}}/g, "/>")
+                  .replace(/{{{/g, `<img style="max-height: 400px; margin-right: auto; margin-left: auto;" src="`)
+                  .replace(/}}/g, '"/>')
+                  .replace(/&&&/g, '<b>').replace(/&&/g, '</b>')
+                  .replace(/###/g, '<i>').replace(/##/g, '</i>')
                 : "<div></div>"}}>
             </pre>
           </div>

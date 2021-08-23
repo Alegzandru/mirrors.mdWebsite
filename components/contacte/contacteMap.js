@@ -104,7 +104,7 @@ export default function ContacteMap ({lang}) {
                         >
                             <div className="h-72px bg-ui-grey rounded-xl flex flex-col items-center justify-between py-2 px-1 hover:bg-accent-transparent transition duration-300">
                                 <Image
-                                    src="/branding/tiktok.svg"
+                                    src="/branding/tiktokLogo.svg"
                                     height={24}
                                     width={24}
                                     alt="TikTok logo"
