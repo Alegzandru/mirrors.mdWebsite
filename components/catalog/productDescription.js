@@ -103,6 +103,7 @@ export default function ProductDescription ({options, optionVariants, images, na
                       .replace(/}}/g, '"/>')
                       .replace(/&&&/g, '<b>').replace(/&&/g, '</b>')
                       .replace(/###/g, '<i>').replace(/##/g, '</i>')
+                      .replace(/-#/g, "&#9679 ")
                       : "<div/>"
                     : 
                       lang == "ru" ?
@@ -111,6 +112,7 @@ export default function ProductDescription ({options, optionVariants, images, na
                       .replace(/}}/g, '"/>')
                       .replace(/&&&/g, '<b>').replace(/&&/g, '</b>')
                       .replace(/###/g, '<i>').replace(/##/g, '</i>')
+                      .replace(/-#/g, "&#9679 ")
                       : "<div/>"
                     :
                       descriptionen != null ? descriptionen
@@ -118,7 +120,8 @@ export default function ProductDescription ({options, optionVariants, images, na
                       .replace(/}}/g, '"/>')
                       .replace(/&&&/g, '<b>').replace(/&&/g, '</b>')
                       .replace(/###/g, '<i>').replace(/##/g, '</i>')
-                    : "<div/>"
+                      .replace(/-#/g, "&#9679 ")
+                      : "<div/>"
                     }}
                     className={`font-Ubuntu md:text-md-p lg:text-lg-p text-type-manatee mb-11 w-full ${autoHeight ? "h-auto" : "max-h-240px"} overflow-y-hidden font-medium`}
                 >

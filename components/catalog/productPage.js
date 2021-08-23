@@ -97,6 +97,7 @@ export default function ProductPage ({deviceType, name, price, images, descripti
                   .replace(/}}/g, '"/>')
                   .replace(/&&&/g, '<b>').replace(/&&/g, '</b>')
                   .replace(/###/g, '<i>').replace(/##/g, '</i>')
+                  .replace(/-#/g, "&#9679 ")
                 : "<div></div>"}}>
             </pre>
           </div>
