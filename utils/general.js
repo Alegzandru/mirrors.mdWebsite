@@ -60,6 +60,8 @@ export async function getIP(){
   const location = await locationRes.json()
   const country = location.country.name
 	const now = new Date()
+  console.log(location)
+  console.log(country)
   console.log(country, " ", now.getTime())
   return country
 }
