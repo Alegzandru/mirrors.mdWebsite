@@ -1,10 +1,12 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 
-import { getPrice } from '../../utils/general';
+import { getCurrency, getCurrencyString, getPrice, isRoDomain } from '../../utils/general';
 import { getPriceAddon } from '../../utils/general'
 import { AddonPopupContext, PopupContext } from '../context';
 
 export default function DropdownProduct(props) {
+
+    const roDomain = isRoDomain()
 
     const {addonOpen, setAddonOpen} = useContext(AddonPopupContext)
     const {popupOpen, setPopupOpen} = useContext(PopupContext)
@@ -19,6 +21,8 @@ export default function DropdownProduct(props) {
         width: props.sizeGlobal.width
     })
     const [errorInputs, setErrorInputs] = useState({})
+
+    const [currency, setCurrency] = useState(4)
 
     const handleClick = (e) => {
         if(props.options.length != 1) {
@@ -36,17 +40,17 @@ export default function DropdownProduct(props) {
 
     const onSubmit = (data) => {
         if(lastChosen === 0){
-            props.setPrice(Math.trunc( props.price + ( getPrice(props.productData, data) * (1 + props.coeficientFinder(data))) - props.initialPrice))
+            props.setPrice(Math.round( props.price + ( getPrice(props.productData, data) * (1 + props.coeficientFinder(data))) - props.initialPrice))
             setLastChosen("custom")
         }
         else if(lastChosen == "custom"){
-            props.setPrice(props.price + Math.trunc( getPrice(props.productData, data) * (1 + props.coeficientFinder(data))) - Math.trunc(getPrice(props.productData, props.sizeGlobal) * ( 1 + props.coeficientFinder(props.sizeGlobal))))
+            props.setPrice(props.price + Math.round( getPrice(props.productData, data) * (1 + props.coeficientFinder(data))) - Math.round(getPrice(props.productData, props.sizeGlobal) * ( 1 + props.coeficientFinder(props.sizeGlobal))))
             setLastChosen("custom")
         }
         else{
             let lastOptionPriceRaw = props.options.filter((option) => option.typename == lastChosen)
             let lastOptionPrice = lastOptionPriceRaw[0].price
-            props.setPrice(props.price + Math.trunc( getPrice(props.productData, data) * (1 + props.coeficientFinder(data))) - lastOptionPrice)
+            props.setPrice(props.price + Math.round( getPrice(props.productData, data) * (1 + props.coeficientFinder(data))) - lastOptionPrice)
             setLastChosen("custom")
         }
         props.setSizeGlobal(
@@ -142,7 +146,7 @@ export default function DropdownProduct(props) {
                 setLastChosen(chosen)
             }
             else if(lastChosen == "custom"){
-                props.setPrice(props.price + optionPrice - Math.trunc( getPrice(props.productData, props.sizeGlobal) * (1 + props.coeficientFinder(props.sizeGlobal))))
+                props.setPrice(props.price + optionPrice - Math.round( getPrice(props.productData, props.sizeGlobal) * (1 + props.coeficientFinder(props.sizeGlobal))))
                 props.setSizeGlobal({
                     height : optionPriceRaw[0].height,
                     width : optionPriceRaw[0].width
@@ -169,6 +173,11 @@ export default function DropdownProduct(props) {
     const handleOnChange = (type) => ({target: {value}}) => {
         setInputValues({...inputValues, [type]:value})
     }
+
+    useEffect(async () => {
+      const currencyStrapi = await getCurrency()
+      setCurrency(currencyStrapi)
+    }, [])
 
     return (
         <div className={`font-Ubuntu`}>
@@ -408,15 +417,14 @@ export default function DropdownProduct(props) {
                         </label>
                         <div className="flex flex-row justify-between items-center min-w-75px">
                           <div className="text-lg-17 lg:text-lg-14 font-medium">
-                              {getPriceAddon(option, props.sizeGlobal)} 
                               {
-                                props.lang == "ro" ?
-                                " lei"
+                                roDomain ?
+                                Math.round(getPriceAddon(option, props.sizeGlobal) / currency)
                                 :
-                                props.lang == "ru" ?
-                                " лей"
-                                :
-                                " lei"
+                                Math.round(getPriceAddon(option, props.sizeGlobal))
+                              } 
+                              {
+                                getCurrencyString(props.lang, roDomain)
                               }
                           </div>
 

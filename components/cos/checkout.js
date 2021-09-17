@@ -6,7 +6,7 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
 
-import { getPrice } from '../../utils/general';
+import { getCurrency, getCurrencyString, getPrice, isRoDomain } from '../../utils/general';
 import { CartContext, PopupContext } from '../context';
 import done from './done.json';
 import loading from './loading.json';
@@ -19,6 +19,8 @@ let ExpiryDate = ""
 let Signature = ""
 
 export default function Checkout({lang}) {
+
+    const roDomain = isRoDomain()
 
     const [step , setStep] = useState(1)
     const {cart, setCart} = useContext(CartContext)
@@ -33,6 +35,8 @@ export default function Checkout({lang}) {
     const [agreed, setAgreed] = useState(false)
     const [ExternalID, setExternalID] = useState(0)
     const [paynetInfo, setPaynetInfo] = useState({})
+    
+    const [currency, setCurrency] = useState(4)
     let priceTotal = 0
 
     const { reset, register, handleSubmit, watch, formState: { errors } } = useForm();
@@ -41,6 +45,11 @@ export default function Checkout({lang}) {
 
     const donothing = () => {
     }
+
+    useEffect(async () => {
+      const currencyStrapi = await getCurrency()
+      setCurrency(currencyStrapi)
+    }, [])
 
     const sendMailOwner = async (data) => {
         try {
@@ -93,9 +102,7 @@ export default function Checkout({lang}) {
     }
 
     const redirectCall = async() => {
-        // console.log(paynetInfo)
         try {
-            // fillInputs(paynetInfo.PaymentId, paynetInfo.ExpiryDate, paynetInfo.Signature);
             fillInputs(PaymentId, ExpiryDate, Signature);
             formRef.current.submit();
 
@@ -165,7 +172,7 @@ export default function Checkout({lang}) {
                             phone : data.telefon,
                             address : data.adresa,
                             email : data.email,
-                            pret : userInfo.livrare == "livrare_la_usa" ? priceTotal + 150 : priceTotal,
+                            pret : userInfo.livrare == "livrare_la_usa" ? roDomain ? priceTotal : priceTotal + 150 : priceTotal,
                             mod_de_plata : data.plata,
                             mod_de_livrare : data.livrare,
                             orders : orders,
@@ -180,15 +187,10 @@ export default function Checkout({lang}) {
                     let ClientCode = uuidv4()                    
 
                     let ExpiryDate = "2022-01-01T00:00:00"
-                    // let ExternalId = Math.floor(Math.random() * Date.now())
-                    // let secretKey = process.env.NEXT_PUBLIC_PAYNET_SECRET
-
-                    // let signatureRaw = "498"+strapiData.address+"Chisinau"+ClientCode+"Moldova"+strapiData.email+userInfo.prenume+userInfo.nume+strapiData.phone+ExpiryDate+ExternalID+"388417"+"Paynet"+"1"+"Cumpararea oglinzilor pe site-ul mirrors.md"+"Cumpărarea oglinzilor online"
 
                     let productsPaynet = orders.map((order, index) => {
-                        // signatureRaw += order.number+order.products[0].id+order.products[0].slug+`Produsul ${order.products[0].name}`+order.products[0].category+"Produs"+1+order.products[0].name+order.products[0].price+1
                         return({
-                            Amount : Math.trunc(order.number * order.products[0].price * 100),
+                            Amount : Math.round(order.number * order.products[0].price * 100),
                             Barcode : order.products[0].id,
                             Code : order.products[0].slug,
                             Description : `Produsul ${order.products[0].name}`,
@@ -196,17 +198,16 @@ export default function Checkout({lang}) {
                             GroupName : "Produs",
                             LineNo : 1,
                             Name : order.products[0].name,
-                            Quantity : Math.trunc(order.number),
-                            UnitPrice : Math.trunc(order.products[0].price * 100),
+                            Quantity : Math.round(order.number),
+                            UnitPrice : Math.round(order.products[0].price * 100),
                             UnitProduct : 1
                         })
                     })
                             
                     orders.map((order, index) => {
                         order.add_ons.map((addOn, indexAddon) => {
-                            // signatureRaw += order.number+order.add_ons[indexAddon].id+order.add_ons[indexAddon].name+`Addon-ul ${order.add_ons[indexAddon].name}`+2+"Add On"+1+order.add_ons[indexAddon].name+order.add_ons[indexAddon].price+1
                             productsPaynet.push({
-                                Amount : Math.trunc(order.number * order.products[0].price * 100),
+                                Amount : Math.round(order.number * order.products[0].price * 100),
                                 Barcode : order.add_ons[indexAddon].id,
                                 Code : order.add_ons[indexAddon].name,
                                 Description : `Addon-ul ${order.add_ons[indexAddon].name}`,
@@ -214,14 +215,13 @@ export default function Checkout({lang}) {
                                 GroupName : "Add On",
                                 LineNo : 1,
                                 Name : order.add_ons[indexAddon].name,
-                                Quantity : Math.trunc(order.number),
-                                UnitPrice : Math.trunc(order.products[0].price * 100),
+                                Quantity : Math.round(order.number),
+                                UnitPrice : Math.round(order.products[0].price * 100),
                                 UnitProduct : 1
                             })
                         })
                     })
 
-                    // setProductsPaynet(productsPaynet)
                     sendMailOwner({
                         ...strapiData,
                         orders : orders
@@ -282,7 +282,7 @@ export default function Checkout({lang}) {
                                     Services : [{
                                         Name : "Cumpărarea oglinzilor online",
                                         Description : "Cumpararea oglinzilor pe site-ul mirrors.md",
-                                        Amount : Math.trunc(strapiData.pret * 100),
+                                        Amount : Math.round(strapiData.pret * 100),
                                         products : productsPaynet
                                     }],
                                     ExpiryDate : ExpiryDate,
@@ -296,12 +296,6 @@ export default function Checkout({lang}) {
                             try {
                                 const response4 = await fetch("https://nameless-shore-75507.herokuapp.com/https://paynet.md:4448/api/payments", requestOptionsPaynet)
                                 const dataPayment = await response4.json()
-                                // const {PaymentId, ExpiryDate, Signature} = dataPayment
-                                // setPaynetInfo({
-                                //     PaymentId: PaymentId,
-                                //     ExpiryDate: ExpiryDate,
-                                //     Signature: Signature 
-                                // })
                                 PaymentId = dataPayment.PaymentId
                                 ExpiryDate = dataPayment.ExpiryDate
                                 Signature = dataPayment.Signature
@@ -774,7 +768,7 @@ export default function Checkout({lang}) {
                     </div>
 
                     <div className={`${step == 2 ? "block" : "hidden"} w-full bg-ui-white md:pt-14 px-6 py-10 md:pb-16 md:px-12 mb-12`}>
-                        <label className="w-full py-20px border-1.5px border-ui-darkGrey flex flex-row justify-between items-center mb-6 focus-within:text-type-dark text-type-grey transition duration-300 cursor-pointer">
+                        {!roDomain && <label className="w-full py-20px border-1.5px border-ui-darkGrey flex flex-row justify-between items-center mb-6 focus-within:text-type-dark text-type-grey transition duration-300 cursor-pointer">
                             <input
                                 type="radio"
                                 name="livrare"
@@ -804,7 +798,7 @@ export default function Checkout({lang}) {
                                     "free"
                                 }
                             </div>
-                        </label>
+                        </label>}
 
                         <label className="w-full py-20px border-1.5px border-ui-darkGrey flex flex-row justify-between items-center mb-6 focus-within:text-type-dark text-type-grey transition duration-300 cursor-pointer">
                             <input
@@ -840,22 +834,19 @@ export default function Checkout({lang}) {
                             </div>
                             <div className="w-full text-lg-14 font-medium">
                                 {
-                                    lang == "ro" || lang == "en" ?
-                                    "150 lei"
-                                    :
-                                    "150 лей"
+                                    roDomain ? 
+                                      lang == "ro" || lang == "en" ?
+                                      "gratuit"
+                                      :
+                                      "бесплатно"
+                                      :
+                                      lang == "ro" || lang == "en" ?
+                                      "150 lei"
+                                      :
+                                      "150 лей"
                                 }
                             </div>
                         </label>
-
-                        {/* <div className="w-full p-3 text-type-manatee flex flex-row justify-between items-center text-lg-14 border-1.5px border-ui-blueishGrey rounded-md mb-4">
-                            <div>
-                                Oras
-                            </div>
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-14px w-14px" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </div> */}
 
                         <div className="mb-2 text-lg-14 font-medium text-type-manatee">
                             {
@@ -871,7 +862,6 @@ export default function Checkout({lang}) {
                         </div>
                         <input
                             className={`w-full p-3 text-type-manatee flex flex-row justify-between items-center text-lg-14 border-1.5px border-ui-blueishGrey rounded-md ${errors.oras? "errorInput" : "inputFocused"}`}
-                            placeholder="Ex : Chișinău"
                             {...register("oras", { required: step == 2 ? true : false })}
                         />
                         {errors.oras?.type === 'required' && 
@@ -1019,7 +1009,7 @@ export default function Checkout({lang}) {
                             product.addOns.forEach((addOn) => {
                                 addOnsPrice += getPriceAddon( addOn, product.size )
                             })
-                            let priceSingular = Math.trunc(getPrice(product.product, product.size) * ( 1 + coeficientFinder(product.size, product.product))) + addOnsPrice
+                            let priceSingular = Math.round(getPrice(product.product, product.size) * ( 1 + coeficientFinder(product.size, product.product))) + addOnsPrice
                             let price = priceSingular * product.number
                             priceTotal += price
                             return (
@@ -1045,7 +1035,14 @@ export default function Checkout({lang}) {
                                             }
                                         </div>
                                         <div className="text-lg-14 text-accent-accent">
-                                            {product.number + " x " + priceSingular + " lei"}
+                                            {product.number + " x " + 
+                                              roDomain ?
+                                              currency === 4 ?
+                                                '...' :
+                                                Math.round(priceSingular / currency) + getCurrencyString(lang, roDomain)
+                                              :
+                                                priceSingular + getCurrencyString(lang, roDomain)
+                                            }
                                         </div>
                                     </div>
                                 </div>
@@ -1064,10 +1061,12 @@ export default function Checkout({lang}) {
                                 </div>
                                 <div className="text-type-manatee w-full">
                                     {
-                                        lang == "ro" || lang == "en" ?
-                                        priceTotal + " lei"
-                                        :
-                                        priceTotal + " лей"
+                                      roDomain ?
+                                      currency === 4 ?
+                                        '...' :
+                                        Math.round(priceTotal / currency) + getCurrencyString(lang, roDomain)
+                                      :
+                                        priceTotal + getCurrencyString(lang, roDomain)
                                     }
                                 </div>
                             </div>
@@ -1088,21 +1087,30 @@ export default function Checkout({lang}) {
                                     <div className="mb-2 font-medium">
                                         {
                                             userInfo.livrare == "livrare_la_usa" ?
-                                                lang == "ro" ?
-                                                "livrare - 150 lei"
-                                                :
-                                                lang == "ru" ?
-                                                "доставка - 150 лей"
-                                                :
-                                                "delivery - 150 lei"
+                                                roDomain ? 
+                                                    lang == "ro" ?
+                                                      "livrare - gratuită"
+                                                      :
+                                                      lang == "ru" ?
+                                                      "доставка - бесплатно"
+                                                      :
+                                                      "delivery - free"
+                                                    :
+                                                    lang == "ro" ?
+                                                      "livrare - 150 lei"
+                                                      :
+                                                      lang == "ru" ?
+                                                      "доставка - 150 лей"
+                                                      :
+                                                      "delivery - 150 lei"
                                             :
                                                 lang == "ro" ?
-                                                "livrare - 0 lei"
-                                                :
-                                                lang == "ru" ?
-                                                "доставка - 0 лей"
-                                                :
-                                                "delivery - 0 lei"
+                                                  "livrare - 0 lei"
+                                                  :
+                                                  lang == "ru" ?
+                                                  "доставка - 0 лей"
+                                                  :
+                                                  "delivery - 0 lei"
                                         }
                                     </div>
                                     <div>
@@ -1157,9 +1165,18 @@ export default function Checkout({lang}) {
                                 <div className="text-type-manatee w-full">
                                     {
                                         userInfo.livrare == "livrare_la_usa" ?
-                                        priceTotal +  150 + " lei"
-                                        :
-                                        priceTotal + " lei"
+                                        roDomain ?
+                                          currency === 4 ?
+                                            '...'
+                                            :
+                                            Math.round(priceTotal / currency)
+                                          :
+                                          priceTotal + 150
+                                          :
+                                          priceTotal
+                                    }
+                                    {
+                                        getCurrencyString(lang, roDomain)
                                     }
                                 </div>
                             </div>
@@ -1197,7 +1214,7 @@ export default function Checkout({lang}) {
                         <div className="text-lg-p text-type-grey mb-84px"> 
                             {
                                 lang == "ro" ?
-                                "Datele dvs. personale vor fi utilizate pentru a vă procesa comanda, pentru a vă sprijini experiența pe acest site web și în alte scopuri descrise în pagina noastră"
+                                "Datele dvs. personale vor fi utilizate pentru a vă procesa comanda, pentru a vă sprijini experiența pe acest site web și în alte scopuri descrise în pagina noastră "
                                 :
                                 lang == "ru" ?
                                 "Ваши личные данные будут использоваться для обработки вашего заказа, для поддержки вашего опыта на этом веб-сайте и для других целей, описанных на нашей странице "
@@ -1266,7 +1283,7 @@ export default function Checkout({lang}) {
                                                     lang == "ru" ?
                                                     " условия"
                                                     :
-                                                    "terms and conditions"
+                                                    " terms and conditions"
                                                 }
                                             </span>.
                                         </a>

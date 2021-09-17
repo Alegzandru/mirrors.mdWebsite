@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import Scroll from 'react-scroll';
 
 import { CartContext, DeviceTypeContext, PopupContext } from '../../components/context';
-import { getPrice } from '../../utils/general';
+import { getCurrency, getCurrencyString, getPrice, isRoDomain } from '../../utils/general';
 import { API_URL } from '../../utils/urls';
 import DropdownProduct2 from '../catalog/DropdownProduct2';
 import { getPriceAddon } from '../../utils/general';
@@ -13,6 +13,7 @@ import { getPriceAddon } from '../../utils/general';
 var Element = Scroll.Element;
 
 export default function CosProducts({lang}){
+    const roDomain = isRoDomain()
     
     const {deviceType, setDeviceType} = useContext(DeviceTypeContext)
 
@@ -27,6 +28,8 @@ export default function CosProducts({lang}){
     const [optionNamesEn, setOptionNamesEn] = useState([])
     const [optionVariants, setOptionVariants] = useState([])
     const [price, setPrice] = useState(0)
+
+    const [currency, setCurrency] = useState(4)
     
     let optionsPrice = 0
 
@@ -66,7 +69,7 @@ export default function CosProducts({lang}){
                             .then(response => response.json())
                             .then(dataInside2 => {
                                 changeProduct.size = dataInside2
-                                changeProduct.price = Math.trunc( getPrice(changeProduct.product, data) * ( 1 + coeficientFinder(data, changeProduct.product)))
+                                changeProduct.price = Math.round( getPrice(changeProduct.product, data) * ( 1 + coeficientFinder(data, changeProduct.product)))
                                 changeProduct.addOns.forEach((addOn, index) => {
                                     changeProduct.price += getPriceAddon(addOn, changeProduct.size)
                                 })
@@ -78,7 +81,7 @@ export default function CosProducts({lang}){
                     }
                     else{
                         changeProduct.size = dataInside[0]
-                        changeProduct.price = Math.trunc( getPrice(changeProduct.product, data) * ( 1 + coeficientFinder(data, changeProduct.product)))
+                        changeProduct.price = Math.round( getPrice(changeProduct.product, data) * ( 1 + coeficientFinder(data, changeProduct.product)))
                         changeProduct.addOns.forEach((addOn, index) => {
                             changeProduct.price += getPriceAddon(addOn, changeProduct.size)
                         })
@@ -97,7 +100,7 @@ export default function CosProducts({lang}){
             let index = mutableCart.indexOf(changeProduct)
     
             changeProduct.addOns = []
-            changeProduct.price = Math.trunc( getPrice(changeProduct.product, changeProduct.size) * ( 1 + coeficientFinder(changeProduct.size, changeProduct.product)))
+            changeProduct.price = Math.round( getPrice(changeProduct.product, changeProduct.size) * ( 1 + coeficientFinder(changeProduct.size, changeProduct.product)))
     
             addOns.map((addOn, index) => {
                 if(addOn[1] == true){
@@ -146,6 +149,11 @@ export default function CosProducts({lang}){
           };
       }, [ref]);
     }
+
+    useEffect(async() => {
+      const currencyStrapi = await getCurrency()
+      setCurrency(currencyStrapi)
+    }, [])
 
     const wrapperRef = useRef(null);
     useOutsideAlerter(wrapperRef);
@@ -622,12 +630,17 @@ export default function CosProducts({lang}){
                                                                 }
                                                             </div>
                                                             <div>
-                                                                {getPriceAddon(addOn, product.size)} 
                                                                 {
-                                                                    lang == "ro" || lang == "en" ?
-                                                                    " lei"
+                                                                  roDomain ? 
+                                                                    currency === 4 ? 
+                                                                     '...'
+                                                                     :
+                                                                      Math.round(getPriceAddon(addOn, product.size) / currency) 
                                                                     :
-                                                                    " лей"
+                                                                    getPriceAddon(addOn, product.size)
+                                                                } 
+                                                                {
+                                                                  getCurrencyString(lang, roDomain)
                                                                 }
                                                             </div>
                                                         </div>
@@ -770,12 +783,16 @@ export default function CosProducts({lang}){
                                                         }
                                                     </div>
                                                     <div>
-                                                        {Math.trunc(getPrice(product.product, product.size) * ( 1 + coeficientFinder(product.size, product.product)) ) * product.number}
                                                         {
-                                                            lang == "ro" || lang == "en" ?
-                                                            " lei"
+                                                          roDomain ? 
+                                                            currency === 4 ? 
+                                                              '...' :
+                                                              Math.round(getPrice(product.product, product.size) * ( 1 + coeficientFinder(product.size, product.product)) / currency ) * product.number 
                                                             :
-                                                            " лей"
+                                                            Math.round(getPrice(product.product, product.size) * ( 1 + coeficientFinder(product.size, product.product)) ) * product.number
+                                                          }
+                                                        {
+                                                          getCurrencyString(lang, roDomain)
                                                         }
                                                     </div>
                                                 </div>
@@ -792,12 +809,16 @@ export default function CosProducts({lang}){
                                                         }
                                                     </div>
                                                     <div>
-                                                        {optionsPrice * product.number} 
                                                         {
-                                                            lang == "ro" || lang == "en" ?
-                                                            " lei"
-                                                            :
-                                                            " лей"
+                                                          roDomain ? 
+                                                            currency === 4 ?
+                                                            '...' :
+                                                            Math.round(optionsPrice * product.number / currency)
+                                                          :
+                                                          optionsPrice * product.number
+                                                        } 
+                                                        {
+                                                          getCurrencyString(lang, roDomain)
                                                         }
                                                     </div>
                                                 </div>
@@ -812,12 +833,16 @@ export default function CosProducts({lang}){
                                                     }
                                                 </div>
                                                 <div>
-                                                    {( Math.trunc(getPrice(product.product, product.size) * ( 1 + coeficientFinder(product.size, product.product)) ) + optionsPrice) * product.number} 
                                                     {
-                                                        lang == "ro" || lang == "en" ?
-                                                        " lei"
-                                                        :
-                                                        " лей"
+                                                      roDomain ?
+                                                        currency === 4 ?
+                                                        '...' :
+                                                        ( Math.round( getPrice(product.product, product.size) * ( 1 + coeficientFinder(product.size, product.product)) / currency ) + Math.round(optionsPrice /currency) ) * product.number
+                                                      :
+                                                      ( Math.round(getPrice(product.product, product.size) * ( 1 + coeficientFinder(product.size, product.product)) ) + optionsPrice) * product.number
+                                                    } 
+                                                    {
+                                                      getCurrencyString(lang, roDomain)
                                                     }
                                                 </div>
                                             </div>
@@ -851,12 +876,16 @@ export default function CosProducts({lang}){
                                         }
                                     </div>
                                     <div>
-                                        {totalPrice} 
                                         {
-                                            lang == "ro" || lang == "en" ?
-                                            " lei"
-                                            :
-                                            " лей"
+                                          roDomain ? 
+                                            currency === 4 ? 
+                                            '...' :
+                                            Math.round(totalPrice / currency)
+                                          :
+                                          totalPrice
+                                        } 
+                                        {
+                                          getCurrencyString(lang, roDomain)
                                         }
                                     </div>
                                 </div>

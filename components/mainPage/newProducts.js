@@ -4,11 +4,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Carousel from 'react-multi-carousel';
 
-import { getPrice } from '../../utils/general';
+import { getCurrency, getCurrencyString, getPrice, isRoDomain } from '../../utils/general';
 import { CustomButtonGroupAsArrows2 } from './CustomButtonGroup';
-
+import { useEffect, useState } from 'react';
 
 export default function NewProducts(props) {
+
+    const roDomain = isRoDomain()
 
     const responsive = {
         desktop: {
@@ -31,14 +33,12 @@ export default function NewProducts(props) {
         }
     };
 
-    const images = [
-        "/mainPage/popularProducts/Copy of  Veronica.png",
-        "/mainPage/popularProducts/Copy of Acacia.png",
-        "/mainPage/popularProducts/Copy of Adina Alumin.png",
-        "/mainPage/popularProducts/Copy of Afina.png",
-        "/mainPage/popularProducts/Copy of Alexandra.png",
-        "/mainPage/popularProducts/Copy of Alexandrina (1).png",
-    ];
+    const [currency, setCurrency] = useState(4)
+
+    useEffect(async() => {
+      const currencyStrapi = await getCurrency()
+      setCurrency(currencyStrapi)
+    }, [])
 
     return(
         <div className="pt-20 pb-24 md:pb-60px md:pt-24 lg:pb-200px lg:pt-200px bg-ui-darkGrey font-Ubuntu">
@@ -128,15 +128,16 @@ export default function NewProducts(props) {
                                                     :
                                                     "from "
                                                 }
-                                                {Math.trunc( getPrice(product, product.defaultsize) * (1 + product.smallcoeficient) ) } 
                                                 {
-                                                    props.lang == "ro" ? 
-                                                    " lei"
+                                                  roDomain ?
+                                                    currency === 4 ?
+                                                      '...' :
+                                                      Math.round( getPrice(product, product.defaultsize) * (1 + product.smallcoeficient) / currency) 
                                                     :
-                                                    props.lang == "ru" ?
-                                                    " лей"
-                                                    :
-                                                    " lei"
+                                                    Math.round( getPrice(product, product.defaultsize) * (1 + product.smallcoeficient) )
+                                                  } 
+                                                {
+                                                  getCurrencyString(props.lang, roDomain)
                                                 }
                                             </div>
                                         </div>

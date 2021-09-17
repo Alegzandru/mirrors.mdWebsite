@@ -28,17 +28,17 @@ export default function DropdownProduct(props) {
 
     const onSubmit = (data) => {
         if(lastChosen === 0){
-            props.setPrice(Math.trunc(props.price + ( data.width * data.height / 1000000 * props.m2price * (1 + props.coeficientFinder(data))) - props.initialPrice))
+            props.setPrice(Math.round(props.price + ( data.width * data.height / 1000000 * props.m2price * (1 + props.coeficientFinder(data))) - props.initialPrice))
             setLastChosen("custom")
         }
         else if(lastChosen == "custom"){
-            props.setPrice(props.price + Math.trunc(data.width * data.height / 1000000 * props.m2price * (1 + props.coeficientFinder(data))) - Math.trunc(props.sizeGlobal.width * props.sizeGlobal.height / 1000000 * props.m2price * ( 1 + props.coeficientFinder(props.sizeGlobal))))
+            props.setPrice(props.price + Math.round(data.width * data.height / 1000000 * props.m2price * (1 + props.coeficientFinder(data))) - Math.round(props.sizeGlobal.width * props.sizeGlobal.height / 1000000 * props.m2price * ( 1 + props.coeficientFinder(props.sizeGlobal))))
             setLastChosen("custom")
         }
         else{
             let lastOptionPriceRaw = props.options.filter((option) => option.typename == lastChosen)
             let lastOptionPrice = lastOptionPriceRaw[0].price
-            props.setPrice(props.price + Math.trunc(data.width * data.height / 1000000 * props.m2price * (1 + props.coeficientFinder(data))) - lastOptionPrice)
+            props.setPrice(props.price + Math.round(data.width * data.height / 1000000 * props.m2price * (1 + props.coeficientFinder(data))) - lastOptionPrice)
             setLastChosen("custom")
         }
         props.setSizeGlobal(
@@ -80,7 +80,7 @@ export default function DropdownProduct(props) {
                 setLastChosen(chosen)
             }
             else if(lastChosen == "custom"){
-                props.setPrice(props.price + optionPrice - Math.trunc(props.sizeGlobal.width * props.sizeGlobal.height / 1000000 * props.m2price * (1 + props.coeficientFinder(props.sizeGlobal))))
+                props.setPrice(props.price + optionPrice - Math.round(props.sizeGlobal.width * props.sizeGlobal.height / 1000000 * props.m2price * (1 + props.coeficientFinder(props.sizeGlobal))))
                 props.setSizeGlobal({
                     height : optionPriceRaw[0].height,
                     width : optionPriceRaw[0].width

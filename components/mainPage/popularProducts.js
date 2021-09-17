@@ -1,11 +1,13 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import Image from "next/image"
 import {CustomButtonGroupAsArrows} from "./CustomButtonGroup"
 import Link from 'next/link'
+import { getCurrency, getCurrencyString, isRoDomain } from '../../utils/general';
 
 export default function PopularProducts(props){
+    const roDomain = isRoDomain()
 
     function getPrice(product, size) {
         let price = 0
@@ -40,6 +42,13 @@ export default function PopularProducts(props){
           slidesToSlide: 1 // optional, default to 1.
         }
       };
+
+    const [currency, setCurrency] = useState(4)
+
+    useEffect(async() => {
+      const currencyStrapi = await getCurrency()
+      setCurrency(currencyStrapi)
+    }, [])
     
     return(
         <div className="overflow-hidden h-auto bg-ui-darkGrey pt-24 md:pt-24 pb-12 lg:pt-230px lg:pb-156px flex flex-col md:flex-row justify-between items-center font-Ubuntu xl:pl-container-xl">
@@ -158,12 +167,16 @@ export default function PopularProducts(props){
                                                         :
                                                         "from "
                                                     }
-                                                    {Math.trunc( getPrice(product, product.defaultsize) * (1 + product.smallcoeficient) ) }
                                                     {
-                                                        props.lang == "ro" || props.lang == "en"? 
-                                                        " lei "
-                                                        :
-                                                        " лей"
+                                                      roDomain ?
+                                                        currency === 4 ?
+                                                        '...' :
+                                                        Math.round( getPrice(product, product.defaultsize) * (1 + product.smallcoeficient) / currency ) 
+                                                      :
+                                                      Math.round( getPrice(product, product.defaultsize) * (1 + product.smallcoeficient) ) 
+                                                    }
+                                                    {
+                                                      getCurrencyString(props.lang, roDomain)
                                                     }
                                                 </div>
                                             </div>

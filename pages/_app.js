@@ -1,13 +1,13 @@
 import '../styles/globals.css';
 
 import { useEffect, useState } from 'react';
-import { isMobile, isTablet } from 'react-device-detect';
 import TagManager from 'react-gtm-module';
 
 import { AddonPopupContext, CartContext, DeviceTypeContext, PopupContext, SeenRecentlyContext } from '../components/context';
 import NextNProgress from '../components/NextNProgress';
+import { getIP, getWithExpiry, setWithExpiry } from '../utils/general';
 
-function MyApp({ Component, pageProps, deviceTypeReq, isMobile, isTablet }) {
+function MyApp({ Component, pageProps }) {
 
   const [deviceType, setDeviceType] = useState("")
   const valueDeviceType = {deviceType, setDeviceType}
@@ -24,12 +24,22 @@ function MyApp({ Component, pageProps, deviceTypeReq, isMobile, isTablet }) {
   const [addonOpen, setAddonOpen] = useState('')
   const valueAddon = {addonOpen, setAddonOpen}
 
+  const [country, setCountry] = useState('unclear')
+
   useEffect(() => {
     localStorage.setItem('seenRecently', JSON.stringify(seenRecently))
   }, [seenRecently])
 
   useEffect(() => {
     TagManager.initialize({ gtmId: 'GTM-KQLD9P8' });
+    if(!getWithExpiry('country')){
+      const countryIP = getIP() === 'Romania' ? 'Romania' : 'Moldova'
+      setWithExpiry('country', countryIP, 120)
+      setCountry(getWithExpiry('country'))
+    }
+    else{
+      setCountry(getWithExpiry('country'))
+    }
   }, []);
 
   if (typeof window === 'object') {
@@ -56,6 +66,10 @@ function MyApp({ Component, pageProps, deviceTypeReq, isMobile, isTablet }) {
   }
  
   return (
+    country === 'unclear' ? 
+    <div className="w-full h-full bg-ui-white flex flex-row justify-center items-center">
+    </div>
+    :
     <SeenRecentlyContext.Provider value={valueSeenRecently}>
       <AddonPopupContext.Provider value={valueAddon}>
         <PopupContext.Provider value={valuePopup}>

@@ -4,13 +4,14 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link as LinkScroll } from 'react-scroll';
 
-import { getPrice } from '../../utils/general';
+import { getCurrency, getCurrencyString, getPrice, isRoDomain } from '../../utils/general';
 import Dropdown from './Dropdown';
 import Dropdown2 from './Dropdown2';
 import FilterPopup from './FilterPopup';
 
-
 export default function Category({category, name, products, lang, nameru, nameen}) {
+
+    const roDomain = isRoDomain()
 
     const [productsApi, setProductsApi] = useState(products)
 
@@ -24,6 +25,8 @@ export default function Category({category, name, products, lang, nameru, nameen
     const [showFrom, setShowFrom] = useState(0)
     
     const [loadingSorting, setLoadingSorting] = useState(0)
+    
+    const [currency, setCurrency] = useState(4)
     
     const optionNamesUnfiltered = category[0].filters.map((option) => {
         return option.name
@@ -53,7 +56,7 @@ export default function Category({category, name, products, lang, nameru, nameen
     const optionNamesRu = uniq(optionNamesUnfilteredRu)
     const optionNamesEn = uniq(optionNamesUnfilteredEn)
     
-    const pages = Math.trunc(productsApi.length / 32) + 1
+    const pages = Math.round(productsApi.length / 32) + 1
     
     const sortingOptionsRaw = {
         ro : [
@@ -202,11 +205,11 @@ export default function Category({category, name, products, lang, nameru, nameen
             }
             break;
             case 2 : {
-                setProductsApi([...productsApi].sort((a, b) => Math.trunc( getPrice(b, b.defaultsize) * (1 + b.smallcoeficient) ) - Math.trunc( getPrice(a, a.defaultsize) * (1 + a.smallcoeficient) )))
+                setProductsApi([...productsApi].sort((a, b) => Math.round( getPrice(b, b.defaultsize) * (1 + b.smallcoeficient) ) - Math.round( getPrice(a, a.defaultsize) * (1 + a.smallcoeficient) )))
             }
             break;
             case 3 : {
-                setProductsApi([...productsApi].sort((a, b) => Math.trunc( getPrice(a, a.defaultsize) * (1 + a.smallcoeficient) ) - Math.trunc( getPrice(b, b.defaultsize) * (1 + b.smallcoeficient) )))
+                setProductsApi([...productsApi].sort((a, b) => Math.round( getPrice(a, a.defaultsize) * (1 + a.smallcoeficient) ) - Math.round( getPrice(b, b.defaultsize) * (1 + b.smallcoeficient) )))
             }
             break;
             default : setProductsApi(products)
@@ -218,6 +221,11 @@ export default function Category({category, name, products, lang, nameru, nameen
         handleProductsSortingChange(sorting)
     }
     , [sorting])
+
+    useEffect(async () => {
+      const currencyStrapi = await getCurrency()
+      setCurrency(currencyStrapi)
+    }, [])
 
     return (
         <div className="font-Ubuntu">
@@ -485,15 +493,16 @@ export default function Category({category, name, products, lang, nameru, nameen
                                                         :
                                                         "from "
                                                     }
-                                                    {Math.trunc( getPrice(product, product.defaultsize) * (1 + product.smallcoeficient) ) } 
                                                     {
-                                                        lang == "ro" ?
-                                                        " lei"
-                                                        :
-                                                        lang == "ru" ?
-                                                        " лей"
-                                                        :
-                                                        " lei"
+                                                      roDomain ? 
+                                                      currency === 4 ? 
+                                                        '...' :
+                                                        Math.round( getPrice(product, product.defaultsize) * (1 + product.smallcoeficient) / currency) 
+                                                      :
+                                                      Math.round( getPrice(product, product.defaultsize) * (1 + product.smallcoeficient)) 
+                                                    } 
+                                                    {
+                                                      getCurrencyString(lang, roDomain)
                                                     }
                                                 </div>
                                             </div>

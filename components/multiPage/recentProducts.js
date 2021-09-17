@@ -3,12 +3,17 @@ import UAParser from "ua-parser-js";
 import {useEffect, useState, useContext} from "react"
 import { SeenRecentlyContext } from "../../components/context";
 import Link from 'next/link'
-import {getPrice} from '../../utils/general'
+import {getCurrency, getCurrencyString, getPrice, isRoDomain} from '../../utils/general'
 
 export default function RecentProducts ({deviceType, lang}) {
+
+    const roDomain = isRoDomain()
+
     const {seenRecently, setSeenRecently} = useContext(SeenRecentlyContext)
 
     const [itemNr, setItemNr] = useState(0)
+
+    const [currency , setCurrency] = useState(4)
     
     useEffect(() => {
         if(deviceType == "desktop"){
@@ -18,6 +23,11 @@ export default function RecentProducts ({deviceType, lang}) {
             setItemNr(3)
         }
     }, [deviceType])
+
+    useEffect(async() => {
+      const currencyStrapi = await getCurrency()
+      setCurrency(currencyStrapi)
+    }, [])
 
     return (
         <div>
@@ -83,12 +93,16 @@ export default function RecentProducts ({deviceType, lang}) {
                                                         :
                                                         "from "
                                                     }
-                                                    {Math.trunc( getPrice(product, product.defaultsize) * (1 + product.smallcoeficient))}
                                                     {
-                                                        lang == "ro" || lang == "en"? 
-                                                        " lei"
-                                                        :
-                                                        " лей"
+                                                      roDomain ?
+                                                      currency === 4 ? 
+                                                        '...':
+                                                        Math.round( getPrice(product, product.defaultsize) * (1 + product.smallcoeficient) / currency) 
+                                                      :
+                                                      Math.round( getPrice(product, product.defaultsize) * (1 + product.smallcoeficient))
+                                                    }
+                                                    {
+                                                      getCurrencyString(lang, roDomain)
                                                     }
                                                 </div>
                                             </div>

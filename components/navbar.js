@@ -9,7 +9,7 @@ import { Slide } from 'react-awesome-reveal';
 import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
 import { animated, useSpring } from 'react-spring';
 
-import { getPrice } from '../utils/general';
+import { getCurrency, getCurrencyString, getIP, getPrice, getWithExpiry, isRoDomain } from '../utils/general';
 import { API_URL } from '../utils/urls';
 import { CartContext, DeviceTypeContext } from './context';
 import ChangingProgressProvider from './progress/ChangingProgressProvider';
@@ -45,6 +45,8 @@ const categories = [
 
 export function Navbar (props) {
 
+    const roDomain = isRoDomain()
+
     const [scrollUp, setScrollUp] = useState(1)
     const [top, setTop] = useState(1)
 
@@ -71,6 +73,8 @@ export function Navbar (props) {
     const router = useRouter()
     const [path, setPath] = useState(router.pathname)
 
+    const [currency, setCurrency] = useState(4)
+
     var lastScrollTop = 0;
 
     const styles = useSpring({ 
@@ -88,17 +92,21 @@ export function Navbar (props) {
     async function getSearchProducts() {
         setLoading(1)
         const productsResponse = await fetch(`${API_URL}/products?_where[name_contains]=${search}&[_limit]=5`)
-        const products = await productsResponse.json().then(setLoading(0))
+        const products = await productsResponse.json()
+        setLoading(0)
         setSearchProducts(products)
     }
 
-    useEffect(()=>{
+    useEffect(async()=>{
         if(props.category != undefined){
             setPath(router.pathname.replace("[category]", props.category))
         }
         if(props.slug != undefined){
             setPath(router.pathname.replace("[slug]", props.slug))
         }
+
+        const currencyStrapi = await getCurrency()
+        setCurrency(currencyStrapi)
 
         if (typeof window !== "undefined") {
 
@@ -321,15 +329,16 @@ export function Navbar (props) {
                                                         :
                                                         "from "
                                                     }
-                                                    {Math.trunc( getPrice(product, product.defaultsize) * (1 + product.smallcoeficient) ) } 
                                                     {
-                                                        props.lang == "ro" ?
-                                                        " lei"
+                                                      roDomain ? 
+                                                        currency === 4 ? 
+                                                        "..."
                                                         :
-                                                        props.lang == "ru" ?
-                                                        " лей"
-                                                        :
-                                                        " lei"
+                                                        Math.round( getPrice(product, product.defaultsize) * (1 + product.smallcoeficient) / currency ) :
+                                                      Math.round( getPrice(product, product.defaultsize) * (1 + product.smallcoeficient) ) 
+                                                    } 
+                                                    {
+                                                      getCurrencyString(props.lang, roDomain)
                                                     }
                                                 </div>
                                             </div>
@@ -580,15 +589,17 @@ export function Navbar (props) {
                                                                             :
                                                                             "from "
                                                                         }
-                                                                        {Math.trunc( getPrice(product, product.defaultsize) * (1 + product.smallcoeficient) ) } 
                                                                         {
-                                                                            props.lang == "ro" ?
-                                                                            " lei"
+                                                                          roDomain ? 
+                                                                            currency === 4 ? 
+                                                                            '...'
                                                                             :
-                                                                            props.lang == "ru" ?
-                                                                            " лей"
-                                                                            :
-                                                                            " lei"
+                                                                            Math.round( getPrice(product, product.defaultsize) * (1 + product.smallcoeficient) / currency ) 
+                                                                          :
+                                                                          Math.round( getPrice(product, product.defaultsize) * (1 + product.smallcoeficient) )
+                                                                        } 
+                                                                        {
+                                                                          getCurrencyString(props.lang, roDomain)
                                                                         }
                                                                     </div>
                                                                 </div>

@@ -39,6 +39,7 @@
     "react-touch-carousel": "^0.9.4",
     "react-transition-group": "^4.4.2",
     "ua-parser-js": "^0.7.28",
+    "universal-cookie": "^4.0.4",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

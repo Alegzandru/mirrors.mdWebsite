@@ -10,13 +10,14 @@ import Scroll from 'react-scroll';
 import ReactTooltip from 'react-tooltip';
 
 import { CartContext } from '../../components/context';
-import { getPrice } from '../../utils/general';
+import { getCurrency, getCurrencyString, getIP, getPrice, isRoDomain } from '../../utils/general';
 import DropdownProduct2 from './DropdownProduct2';
 import { getPriceAddon } from '../../utils/general';
 
 var Element = Scroll.Element;
 
 export default function ProductComponent ({deviceType, name, images, options, optionVariants, productData, optionsRaw, lang, nameru, nameen, optionsRu, optionsEn}) {
+    const roDomain = isRoDomain()
 
     const router = useRouter()
 
@@ -34,10 +35,12 @@ export default function ProductComponent ({deviceType, name, images, options, op
     const [checkout, setCheckout] = useState(false)
     const {cart, setCart} = useContext(CartContext)
 
-    const [price, setPrice] = useState(Math.trunc(getPrice(productData[0], productData[0].defaultsize) * ( 1 + coeficientFinder(productData[0].defaultsize))))
+    const [price, setPrice] = useState(Math.round(getPrice(productData[0], productData[0].defaultsize) * ( 1 + coeficientFinder(productData[0].defaultsize))))
     const [sizeGlobal, setSizeGlobal] = useState(productData[0].defaultsize)
 
     const [openOptions, setOpenOptions] = useState(0)
+
+    const [currency, setCurrency] = useState(4)
 
     let contorAddons = 1
 
@@ -77,7 +80,7 @@ export default function ProductComponent ({deviceType, name, images, options, op
                                 addOns : [],
                                 size : size,
                                 number : 1,
-                                price : Math.trunc(getPrice(productData[0], size) * ( 1 + coeficientFinder(size)))
+                                price : Math.round(getPrice(productData[0], size) * ( 1 + coeficientFinder(size)))
                             }
 
                             function flatten(obj) {
@@ -214,7 +217,7 @@ export default function ProductComponent ({deviceType, name, images, options, op
                         addOns : [],
                         size : size,
                         number : 1,
-                        price : Math.trunc(getPrice(productData[0], size) * (1 + coeficientFinder(size)))
+                        price : Math.round(getPrice(productData[0], size) * (1 + coeficientFinder(size)))
                     }
 
                     function flatten(obj) {
@@ -345,11 +348,14 @@ export default function ProductComponent ({deviceType, name, images, options, op
     }
 
     useEffect(() => {
-
         localStorage.setItem('cart', JSON.stringify(cart))
         const localCart = localStorage.getItem('cart')
-        
     }, [cart])
+
+    useEffect(async () => {
+      const currencyStrapi = await getCurrency()
+      setCurrency(currencyStrapi)
+    }, [])
     
     const [openImage, setOpenImage] = useState(0)
 
@@ -502,7 +508,7 @@ export default function ProductComponent ({deviceType, name, images, options, op
                                     typename : size.name,
                                     typenameru : size.name,
                                     typenameen: size.name,
-                                    price : Math.trunc(getPrice(productData[0], size) * ( 1 + coeficientFinder(size)))
+                                    price : Math.round(getPrice(productData[0], size) * ( 1 + coeficientFinder(size)))
                                 }
                             )
                         })}
@@ -511,7 +517,7 @@ export default function ProductComponent ({deviceType, name, images, options, op
                         price={price}
                         sizeGlobal={sizeGlobal}
                         setSizeGlobal={setSizeGlobal}
-                        initialPrice={Math.trunc(getPrice(productData[0], productData[0].defaultsize) * (1 + coeficientFinder(productData[0].defaultsize)))}
+                        initialPrice={Math.round(getPrice(productData[0], productData[0].defaultsize) * (1 + coeficientFinder(productData[0].defaultsize)))}
                         minHeight={productData[0].smallestsize.height}
                         maxHeight={productData[0].biggestsize.height}
                         minWidth={productData[0].smallestsize.width}
@@ -537,15 +543,16 @@ export default function ProductComponent ({deviceType, name, images, options, op
                     </h2>
 
                     <div className="text-lg-32 text-accent-accent mb-12">
-                        {price} 
                         {
-                            lang == "ro" ?
-                            " Lei"
+                          roDomain ? 
+                            currency === 4 ? 
+                            '...'
                             :
-                            lang == "ru" ?
-                            " Лей"
-                            :
-                            " Lei"
+                            Math.round(price / currency) :
+                          price
+                        } 
+                        {
+                          getCurrencyString(lang, roDomain)
                         }
                     </div>
 
