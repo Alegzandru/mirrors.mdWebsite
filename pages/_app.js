@@ -30,10 +30,10 @@ function MyApp({ Component, pageProps }) {
     localStorage.setItem('seenRecently', JSON.stringify(seenRecently))
   }, [seenRecently])
 
-  useEffect(() => {
+  useEffect(async () => {
     TagManager.initialize({ gtmId: 'GTM-KQLD9P8' });
     if(!getWithExpiry('country')){
-      const countryIP = getIP() === 'Romania' ? 'Romania' : 'Moldova'
+      const countryIP = await getIP()
       setWithExpiry('country', countryIP, 120)
       setCountry(getWithExpiry('country'))
     }
