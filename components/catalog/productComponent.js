@@ -22,16 +22,17 @@ export default function ProductComponent ({deviceType, name, images, options, op
     const router = useRouter()
 
     const coeficientFinder = (size) => {
-        if(size.width*size.height < productData[0].mediumsize.height * productData[0].mediumsize.width){
+        if(size.width < productData[0].medium_size && size.height < productData[0].medium_size){
             return productData[0].smallcoeficient
         }
-        else if(size.width*size.height < productData[0].bigsize.height * productData[0].bigsize.width) {
+        else if(size.width < productData[0].big_size && size.height < productData[0].big_size) {
             return productData[0].mediumcoeficient
         }
         else{
             return productData[0].bigcoeficient
         }
     }
+    
     const [checkout, setCheckout] = useState(false)
     const {cart, setCart} = useContext(CartContext)
 

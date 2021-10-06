@@ -58,11 +58,7 @@ export function getCurrencyString(lang, roDomain){
 export async function getIP(){
   const locationRes = await fetch("https://api.geoapify.com/v1/ipinfo?&apiKey=a519e1244dd94e088f5ba46d11ccedce")
   const location = await locationRes.json()
-  const country = location.country.name
-	const now = new Date()
-  console.log(location)
-  console.log(country)
-  console.log(country, " ", now.getTime())
+  const country = location.country.name  
   return country
 }
 

@@ -40,8 +40,8 @@ export async function getStaticProps ({params}){
       product.mediumcoeficient && 
       product.bigcoeficient &&
       product.smallestsize &&
-      product.mediumsize &&
-      product.bigsize &&
+      product.medium_size &&
+      product.big_size &&
       product.biggestsize &&
       product.defaultsize &&
       product.linkedsizes && product.linkedsizes.length !== 0 &&

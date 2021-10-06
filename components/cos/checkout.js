@@ -78,15 +78,15 @@ export default function Checkout({lang}) {
     }
 
     const coeficientFinder = (size, product) => {
-        if(size.width*size.height < product.mediumsize.height * product.mediumsize.width){
-            return product.smallcoeficient
-        }
-        else if(size.width*size.height < product.bigsize.height * product.bigsize.width) {
-            return product.mediumcoeficient
-        }
-        else{
-            return product.bigcoeficient
-        }
+      if(size.width < product.medium_size && size.height < product.medium_size){
+          return product.smallcoeficient
+      }
+      else if(size.width < product.big_size && size.height < product.big_size) {
+          return product.mediumcoeficient
+      }
+      else{
+          return product.bigcoeficient
+      }
     }
 
     const formRef = useRef(null);
@@ -177,7 +177,8 @@ export default function Checkout({lang}) {
                             mod_de_livrare : data.livrare,
                             orders : orders,
                             comentariu : data.comentariu,
-                            paynetid: ExternalId
+                            paynetid: ExternalId,
+                            country: roDomain ? 'Romania' : 'Moldova'
                         })
                     };
         
@@ -224,11 +225,13 @@ export default function Checkout({lang}) {
 
                     sendMailOwner({
                         ...strapiData,
-                        orders : orders
+                        orders : orders,
+                        country: roDomain ? 'Romania' : 'Moldova'
                     })
                     sendMailClient({
                         ...strapiData,
-                        orders: orders
+                        orders: orders,
+                        country: roDomain ? 'Romania' : 'Moldova'
                     })
 
                     if(strapiData.mod_de_plata == "card"){

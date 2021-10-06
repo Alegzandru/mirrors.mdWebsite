@@ -77,9 +77,6 @@ function MyApp({ Component, pageProps }) {
             <DeviceTypeContext.Provider value={valueDeviceType}>
               <NextNProgress/>
               <Component {...pageProps} />
-              <div className="py-10 flex flex-row justify-center items-center">country: {country}</div>
-              <div className="py-10 flex flex-row justify-center items-center">getWithExpiry: {getWithExpiry('country')}</div>
-              <div className="py-10 flex flex-row justify-center items-center">isRoDomain: {String(getWithExpiry('country') === 'Romania')}</div>
             </DeviceTypeContext.Provider>
           </CartContext.Provider>
         </PopupContext.Provider>
