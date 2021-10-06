@@ -92,7 +92,26 @@ export function Navbar (props) {
     async function getSearchProducts() {
         setLoading(1)
         const productsResponse = await fetch(`${API_URL}/products?_where[name_contains]=${search}&[_limit]=5`)
-        const products = await productsResponse.json()
+        const productsRaw = await productsResponse.json()
+        const products = productsRaw.filter((product) => (
+          product.name && product.name !== "" &&
+          product.nameru && product.nameru !== "" &&
+          product.slug && product.slug !== "" &&
+          product.smallcoeficient && 
+          product.mediumcoeficient && 
+          product.bigcoeficient &&
+          product.smallcoeficient_ro && 
+          product.mediumcoeficient_ro && 
+          product.bigcoeficient_ro &&
+          product.smallestsize &&
+          product.medium_size &&
+          product.big_size &&
+          product.biggestsize &&
+          product.defaultsize &&
+          product.linkedsizes && product.linkedsizes.length !== 0 &&
+          product.materials && product.materials.length !== 0 &&
+          product.add_ons && product.add_ons.length !== 0
+        ))
         setLoading(0)
         setSearchProducts(products)
     }
@@ -334,8 +353,8 @@ export function Navbar (props) {
                                                         currency === 4 ? 
                                                         "..."
                                                         :
-                                                        Math.round( getPrice(product, product.defaultsize) * (1 + product.smallcoeficient) / currency ) :
-                                                      Math.round( getPrice(product, product.defaultsize) * (1 + product.smallcoeficient) ) 
+                                                        Math.round( getPrice(product, product.smallestsize) * (1 + product.smallcoeficient_ro) / currency ) :
+                                                      Math.round( getPrice(product, product.smallestsize) * (1 + product.smallcoeficient) ) 
                                                     } 
                                                     {
                                                       getCurrencyString(props.lang, roDomain)
@@ -594,9 +613,9 @@ export function Navbar (props) {
                                                                             currency === 4 ? 
                                                                             '...'
                                                                             :
-                                                                            Math.round( getPrice(product, product.defaultsize) * (1 + product.smallcoeficient) / currency ) 
+                                                                            Math.round( getPrice(product, product.smallestsize) * (1 + product.smallcoeficient_ro) / currency ) 
                                                                           :
-                                                                          Math.round( getPrice(product, product.defaultsize) * (1 + product.smallcoeficient) )
+                                                                          Math.round( getPrice(product, product.smallestsize) * (1 + product.smallcoeficient) )
                                                                         } 
                                                                         {
                                                                           getCurrencyString(props.lang, roDomain)

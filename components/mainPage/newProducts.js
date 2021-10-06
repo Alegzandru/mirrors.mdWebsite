@@ -132,9 +132,9 @@ export default function NewProducts(props) {
                                                   roDomain ?
                                                     currency === 4 ?
                                                       '...' :
-                                                      Math.round( getPrice(product, product.defaultsize) * (1 + product.smallcoeficient) / currency) 
+                                                      Math.round( getPrice(product, product.smallestsize) * (1 + product.smallcoeficient_ro) / currency) 
                                                     :
-                                                    Math.round( getPrice(product, product.defaultsize) * (1 + product.smallcoeficient) )
+                                                    Math.round( getPrice(product, product.smallestsize) * (1 + product.smallcoeficient) )
                                                   } 
                                                 {
                                                   getCurrencyString(props.lang, roDomain)

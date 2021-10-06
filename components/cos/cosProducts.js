@@ -34,14 +34,26 @@ export default function CosProducts({lang}){
     let optionsPrice = 0
 
     const coeficientFinder = (size, product) => {
-      if(size.width < product.medium_size && size.height < product.medium_size){
-          return product.smallcoeficient
-      }
-      else if(size.width < product.big_size && size.height < product.big_size) {
-          return product.mediumcoeficient
-      }
-      else{
-          return product.bigcoeficient
+      if(roDomain){
+        if(size.width < product.medium_size && size.height < product.medium_size){
+          return product.smallcoeficient_ro
+        }
+        else if(size.width < product.big_size && size.height < product.big_size) {
+            return product.mediumcoeficient_ro
+        }
+        else{
+            return product.bigcoeficient_ro
+        }
+      } else{
+        if(size.width < product.medium_size && size.height < product.medium_size){
+            return product.smallcoeficient
+        }
+        else if(size.width < product.big_size && size.height < product.big_size) {
+            return product.mediumcoeficient
+        }
+        else{
+            return product.bigcoeficient
+        }
       }
     }
 

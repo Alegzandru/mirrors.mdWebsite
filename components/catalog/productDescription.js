@@ -5,8 +5,10 @@ import Lightbox from "react-awesome-lightbox";
 import "react-awesome-lightbox/build/style.css";
 import { DeviceTypeContext } from "../context";
 import Link from "next/link"
+import { isRoDomain } from "../../utils/general";
 
 export default function ProductDescription ({options, optionVariants, images, name ,description, productData, lang, nameru, nameen, descriptionru, descriptionen}) {
+    const roDomain = isRoDomain()
     
     const {deviceType, setDeviceType} = useContext(DeviceTypeContext)
     
@@ -18,14 +20,26 @@ export default function ProductDescription ({options, optionVariants, images, na
     const [autoHeight, setAutoHeight] = useState(0)
 
     const coeficientFinder = (size) => {
-      if(size.width < productData[0].medium_size && size.height < productData[0].medium_size){
-          return productData[0].smallcoeficient
-      }
-      else if(size.width < productData[0].big_size && size.height < productData[0].big_size) {
-          return productData[0].mediumcoeficient
-      }
-      else{
-          return productData[0].bigcoeficient
+      if(roDomain){
+        if(size.width < productData[0].medium_size && size.height < productData[0].medium_size){
+          return productData[0].smallcoeficient_ro
+        }
+        else if(size.width < productData[0].big_size && size.height < productData[0].big_size) {
+            return productData[0].mediumcoeficient_ro
+        }
+        else{
+            return productData[0].bigcoeficient_ro
+        }
+      } else{
+        if(size.width < productData[0].medium_size && size.height < productData[0].medium_size){
+            return productData[0].smallcoeficient
+        }
+        else if(size.width < productData[0].big_size && size.height < productData[0].big_size) {
+            return productData[0].mediumcoeficient
+        }
+        else{
+            return productData[0].bigcoeficient
+        }
       }
     }
 

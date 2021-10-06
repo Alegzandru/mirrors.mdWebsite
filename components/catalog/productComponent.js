@@ -18,10 +18,21 @@ var Element = Scroll.Element;
 
 export default function ProductComponent ({deviceType, name, images, options, optionVariants, productData, optionsRaw, lang, nameru, nameen, optionsRu, optionsEn}) {
     const roDomain = isRoDomain()
-
     const router = useRouter()
 
     const coeficientFinder = (size) => {
+      if(roDomain){
+        if(size.width < productData[0].medium_size && size.height < productData[0].medium_size){
+          return productData[0].smallcoeficient_ro
+        }
+        else if(size.width < productData[0].big_size && size.height < productData[0].big_size) {
+            return productData[0].mediumcoeficient_ro
+        }
+        else{
+            return productData[0].bigcoeficient_ro
+        }
+      }
+      else{
         if(size.width < productData[0].medium_size && size.height < productData[0].medium_size){
             return productData[0].smallcoeficient
         }
@@ -31,6 +42,7 @@ export default function ProductComponent ({deviceType, name, images, options, op
         else{
             return productData[0].bigcoeficient
         }
+      }
     }
     
     const [checkout, setCheckout] = useState(false)

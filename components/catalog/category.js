@@ -13,6 +13,8 @@ export default function Category({category, name, products, lang, nameru, nameen
 
     const roDomain = isRoDomain()
 
+    const smallCoeficient = roDomain ? 'smallcoeficient_ro' : 'smallcoeficient'
+
     const [productsApi, setProductsApi] = useState(products)
 
     const { register, handleSubmit, watch, formState: { errors }, reset } = useForm();
@@ -205,11 +207,11 @@ export default function Category({category, name, products, lang, nameru, nameen
             }
             break;
             case 2 : {
-                setProductsApi([...productsApi].sort((a, b) => Math.round( getPrice(b, b.defaultsize) * (1 + b.smallcoeficient) ) - Math.round( getPrice(a, a.defaultsize) * (1 + a.smallcoeficient) )))
+                setProductsApi([...productsApi].sort((a, b) => Math.round( getPrice(b, b.defaultsize) * (1 + roDomain ? b["smallcoeficient_ro"] : b["smallcoeficient"]) ) - Math.round( getPrice(a, a.defaultsize) * (1 + roDomain ? a["smallcoeficient_ro"] : a["smallcoeficient"]) )))
             }
             break;
             case 3 : {
-                setProductsApi([...productsApi].sort((a, b) => Math.round( getPrice(a, a.defaultsize) * (1 + a.smallcoeficient) ) - Math.round( getPrice(b, b.defaultsize) * (1 + b.smallcoeficient) )))
+                setProductsApi([...productsApi].sort((a, b) => Math.round( getPrice(a, a.defaultsize) * (1 + roDomain ? a["smallcoeficient_ro"] : a["smallcoeficient"]) ) - Math.round( getPrice(b, b.defaultsize) * (1 + roDomain ? b["smallcoeficient_ro"] : b["smallcoeficient"]) )))
             }
             break;
             default : setProductsApi(products)
@@ -497,9 +499,9 @@ export default function Category({category, name, products, lang, nameru, nameen
                                                       roDomain ? 
                                                       currency === 4 ? 
                                                         '...' :
-                                                        Math.round( getPrice(product, product.defaultsize) * (1 + product.smallcoeficient) / currency) 
+                                                        Math.round( getPrice(product, product.smallestsize) * (1 + product.smallcoeficient_ro) / currency) 
                                                       :
-                                                      Math.round( getPrice(product, product.defaultsize) * (1 + product.smallcoeficient)) 
+                                                      Math.round( getPrice(product, product.smallestsize) * (1 + product.smallcoeficient)) 
                                                     } 
                                                     {
                                                       getCurrencyString(lang, roDomain)

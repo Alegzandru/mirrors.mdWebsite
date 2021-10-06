@@ -793,9 +793,177 @@ export default function TermeniSiConditii({lang}) {
                             "”Elisei & Co” processes the personal data provided by Users / Customers in accordance with the provisions of the legislation of the Republic of Moldova, in force."
                         }
                     </div>
-                    {/* <div>
-                    Pentru detalii privind toate aceste aspecte va rugam sa consultati sectiunea ”Politica de confidentialitate” de pe acest Site.
-                    </div> */}
+                    <div className="font-bold text-sm-h4 md:text-md-h4 lg:text-lg-h4 ">
+                        {   
+                          "Politica de confidențialitate (NETOPIA Payments)"
+                        }
+                    </div>
+                    <div>
+                        {   
+                          "Consideram asigurarea dreptului la protectia datelor cu caracter personal ca un angajament fundamental, prin urmare vom dedica toate resursele si eforturile necesare pentru a prelucra datele dumneavoastra in deplina concordanta cu Regulamentul (UE) 2016/679 („Regulamentul general privind protectia datelor” sau „GDPR”), precum si cu orice alta legislatie aplicabila pe teritoriul Romaniei. Intrucat unul dintre principiile esentiale ale acestui cadrul legal il reprezinta transparenta, am pregatit aceast document prin care dorim sa va informam despre modul in care colectam, utilizam, transferam si protejam datele dumneavoastra cu caracter personal atunci cand interactionati cu noi in legatura cu serviciile noastre prin site-ul nostru web. Ne rezervam dreptul de a actualiza si modifica periodic aceasta Politica de Confidentialitate, pentru a reflecta orice modificari ale modului in care prelucram datele dumneavoastra cu caracter personal sau orice modificari ale cerintelor legale."
+                        }
+                    </div>
+                    <div>
+                        {   
+                          "La efectuarea oricarei modificari pe site, vom afisa pe website-ul nostru versiunea modificata a Politicii de Confidentialitate, motiv pentru care va rugam sa verificati periodic continutul acestei Politici de Confidentialitate."
+                        }
+                    </div>
+                    <div className="font-bold">
+                        {   
+                          "Cine suntem si cum ne puteti contacta"
+                        }
+                    </div>
+                    <div>
+                        <span className="font-bold">TRADE HOUSE LEDOR SRL </span>
+                        {   
+                          "cu sediul social în sat Păun (Comuna Bârnova) str. Sf. Ap. Petru și Pavel nr 28, bloc S1, et. 1, ap. 5, Jud. Iaşi, înregistrată în Registrul Comerţului sub nr. J22/1466/04.04.2019, cod fiscal: RO 40918114, având cont IBAN: RO38BTRLRONCRT0498106001 deschis la BANCA TRANSILVANIA, IASI, tel. mob. +40 730 779 771, +40 723 877 823, e-mail: tradehouseledor@gmail.com.. In sensul legislatiei cu privire la protectia datelor, suntem operator atunci cand prelucram datele dumneavoastra cu caracter personal."
+                        }
+                    </div>
+                    <div className="font-bold">
+                        {   
+                          "Colectam urmatoarele tipuri de date personale de la dvs.:"
+                        }
+                    </div>
+                    <ul>
+                      <li>
+                        - Nume si prenume
+                      </li>
+                      <li>
+                        - E-mail  
+                      </li>
+                      <li>
+                        - Numar de telefon
+                      </li>
+                      <li>
+                        - Adresa  
+                      </li>
+                      <li>
+                        - Detalii de facturare si plata
+                      </li>
+                    </ul>
+                    <div className="font-bold">
+                        {   
+                          "Ce categorii de date cu caracter personal prelucram"
+                        }
+                    </div>
+                    <div>
+                        {   
+                          "Datele dumeavoastra cu caracter personal le colectam direct de la dumneavoastra, astfel incat aveti controlul asupra tipului de informatie pe care ne-o oferiti prin formularul de contact: nume, prenume, e-mail si numar de telefon, detalii de facturare si plata."
+                        }
+                    </div>
+                    <div>
+                        {   
+                          "Nu colectam si nu prelucram in alt mod date sensibile, incluse de Regulamentul general privind protectia datelor in categorii speciale de date cu caracter personal. De asemenea, nu dorim sa colectam sau sa prelucram date ale minorilor care nu au implinit varsta de 16 ani."
+                        }
+                    </div>
+                    <div className="font-bold">
+                        {   
+                          "Cum va utilizam datele dumneavoastra"
+                        }
+                    </div>
+                    <div>
+                        {   
+                          "Utilizam datele dumneavoastra numai in conformitate cu respectivele prevederi legale aplicabile si cu prezentele indicatii privind protectia datelor, pentru a va putea oferi serviciile cerute de dumneavoastra. Prelucrarile datelor dumneavoastra care depasesc acest cadru sunt efectuate de catre noi numai cu acordul dumneavoastra sau vom utiliza datele numai sub forma pseudonimizata sau anonimizata. In cazul in care societatea noastra doreste sa prelucreze datele dumeavoastra cu caracter personal in alte scopuri, decat cele aratate mai sus, veti fi informat solicitandu-vi-se in mod expres consimtamantul pentru noul scop de prelucrare. Nicio data cu caracter personal nu va fi prelucrata in alte scopuri, decat dupa obtinerea consimtamantului."
+                        }
+                    </div>
+                    <div className="font-bold">
+                        {   
+                          "Drepturile Dumneavoastra"
+                        }
+                    </div>
+                    <div>
+                        {   
+                          "Regulamentul general privind protectia datelor va recunoaste o serie drepturi in legatura cu datele dvs. cu caracter personal. Puteti solicita stergerea accesul la datele dumneavoastra, corectarea oricaror greseli din fisierele noastre si/sau va puteti opune la prelucrarea datelor dvs. cu caracter personal. De asemenea, va puteti exercita dreptul de a va plange autoritatii de supraveghere competente sau de a va adresa justitiei. Puteti beneficia si de dreptul de a solicita stergerea datelor dvs. cu caracter personal, dreptul la restrictionarea prelucrarii datelor dvs. si dreptul la portabilitatea datelor."
+                        }
+                    </div>
+                    <div>
+                        {   
+                          "Pentru a va putea exercita drepturile, ne puteti contacta folosind detaliile de contact expuse mai sus."
+                        }
+                    </div>
+                    <div>
+                        {   
+                          "Aveti dreptul sa depuneti o plangere la autoritatea de supraveghere cu privire la prelucrarea datelor dvs. cu caracter personal. In Romania, datele de contact ale autoritatii de supraveghere pentru protectia datelor sunt urmatoarele:"
+                        }
+                    </div>
+                    <div>
+                        {   
+                          "Autoritatea Nationala de Supraveghere a Prelucrarii Datelor cu Caracter Personal"
+                        }
+                    </div>
+                    <div>
+                        {   
+                          "B-dul G-ral. Gheorghe Magheru nr. 28-30, Sector 1, cod postal 010336, Bucuresti, Romania"
+                        }
+                    </div>
+                    <div>
+                        {   
+                          "Telefon: +40.318.059.211 sau +40.318.059.212"
+                        }
+                    </div>
+                    <div>
+                        {   
+                          "E-mail:anspdcp@dataprotection.ro"
+                        }
+                    </div>
+                    <div>
+                        {   
+                          "Fara a va afecta dreptul dumneavoastra de a contacta in orice moment autoritatea de supraveghere, va rugam sa ne contactati in prealabil, si va promitem ca vom depune toate eforturile necesare pentru a rezolva orice problema pe cale amiabila."
+                        }
+                    </div>
+                    <div className="font-bold">
+                        {   
+                          "Politica de utilizare cookie-uri"
+                        }
+                    </div>
+                    <div>
+                        {   
+                          "Cookie-ul este un fisier text de mici dimensiuni, format din litere si numere, care va fi stocat pe computerul, terminalul mobil sau alte echipamente ale unui utilizator de pe care se acceseaza site-ul nostru."
+                        }
+                    </div>
+                    <div>
+                        {   
+                          "Aceste fisiere fac posibila in principal recunoasterea terminalului utilizatorului si prezentarea continutului intr-un mod relevant, adaptat preferintelor utilizatorului."
+                        }
+                    </div>
+                    <div>
+                        {   
+                          "Cookie-urile asigura utilizatorilor o experienta placuta de navigare si sustin eforturile noastre pentru a oferi servicii mai adaptate utilizatorilor."
+                        }
+                    </div>
+                    <div>
+                        {   
+                          "Cookie-urile in sine nu solicita informatii cu caracter personal pentru a putea fi utilizate si, in multe cazuri, nici nu identifica personal utilizatorii de internet."
+                        }
+                    </div>
+                    <div>
+                        {   
+                          "De asemenea, sunt utilizate in pregatirea unor statistici anonime agregate care ne ajuta sa intelegem cum un utilizator beneficiaza de paginile noastre de internet, permitandu-ne imbunatatirea structurii si continutului lor, fara a permite identificarea personala a utilizatorului."
+                        }
+                    </div>
+                    <div>
+                        {   
+                          "O vizita pe acest site poate plasa urmatoarele tipuri de cookie-uri:"
+                        }
+                    </div>
+                    <ul>
+                        <li>
+                          - Google Analytics, Google AdWords, Google Tag Manager, Yandex Metrika, Facebook Pixel
+                        </li>
+                        <li>
+                          - cookie-uri publicitare – Google AdSense
+                        </li>
+                    </ul>
+                    <div>
+                        {   
+                          "Cookie-urile si/sau tehnologiile similare strict necesare sunt esentiale pentru buna functionare a site-ului, fiind setate pe dispozitivul dumneavoastra la accesarea site-ului sau in urma actiunilor efectuate in site, dupa caz."
+                        }
+                    </div>
+                    <div>
+                        {   
+                          "Daca nu doriti instalarea acestora pe dispozitivul dumneavoastra puteti seta browser-ul pentru a bloca cookie-urile."
+                        }
+                    </div>
                 </div>
             </div>
         </div>
