@@ -100,9 +100,9 @@ export function Navbar (props) {
           product.smallcoeficient && 
           product.mediumcoeficient && 
           product.bigcoeficient &&
-          product.smallcoeficient_ro && 
-          product.mediumcoeficient_ro && 
-          product.bigcoeficient_ro &&
+          // product.smallcoeficient_ro && 
+          // product.mediumcoeficient_ro && 
+          // product.bigcoeficient_ro &&
           product.smallestsize &&
           product.medium_size &&
           product.big_size &&
