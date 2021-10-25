@@ -40,15 +40,15 @@ export default function Footer (props) {
             <div className="flex flex-row items-center mdFooter:items-start justify-between">
                 <div className="hidden mdFooter:block">
                     <Image
-                        src="/branding/footerLogo.svg"
-                        width={232}
+                        src="/branding/mirrorsNewLogoGold.png"
+                        width={66}
                         height={66}
                         alt="Logo Mirrors MD"
                     />
                 </div>
                 <div className="mdFooter:hidden">
                     <img
-                        src="/branding/smallLogo2.svg"
+                        src="/branding/mirrorsNewLogoGold.png"
                         className="h-14 w-14 mdFooter:w-8 mdFooter:h-8"
                         height={56}
                         width={56}

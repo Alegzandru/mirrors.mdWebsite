@@ -470,7 +470,7 @@ export function Navbar (props) {
                     >
                         <div className="lg:mx-container-lg xl:mx-container-xl h-full">
                             <div className="h-full w-full flex flex-row justify-between items-start font-14 pt-6">
-                                <div className={`w-365px ${transparent ? "block" : "hidden"}`}>
+                                <div className={`w-365px ${transparent ? "block" : "hidden"} -mt-3`}>
                                     <Link href={
                                       props.lang == "ro" ? 
                                       "/" 
@@ -482,16 +482,16 @@ export function Navbar (props) {
                                     }>
                                         <a>
                                             <Image
-                                                src="/branding/logo2.svg"
-                                                height={34}
-                                                width={136}
+                                                src="/branding/mirrorsNewLogoGold.png"
+                                                height={56}
+                                                width={56}
                                                 alt="Logo Mirrors MD"
                                             />
                                         </a>
                                     </Link>
                                 </div>
 
-                                <div className={`w-365px ${transparent ? "hidden" : "block"}`}>
+                                <div className={`w-365px ${transparent ? "hidden" : "block"} -mt-3`}>
                                     <Link href={
                                       props.lang == "ro" ? 
                                       "/" 
@@ -503,9 +503,9 @@ export function Navbar (props) {
                                     }>
                                         <a>
                                             <Image
-                                                src="/branding/logo2Black.svg"
-                                                height={34}
-                                                width={136}
+                                                src="/branding/mirrorsNewLogoGold.png"
+                                                height={56}
+                                                width={56}
                                                 alt="Logo Mirrors MD"
                                             />
                                         </a>
@@ -912,7 +912,7 @@ export function Navbar (props) {
                         }>
                             <a>
                                 <Image
-                                    src="/branding/smallLogo2.svg"
+                                    src="/branding/mirrorsNewLogoGold.png"
                                     height={40}
                                     width={40}
                                     alt="Logo Mirrors MD"
@@ -933,7 +933,7 @@ export function Navbar (props) {
                         }>
                             <a>
                                 <Image
-                                    src="/branding/smallLogoBlack.svg"
+                                    src="/branding/mirrorsNewLogoGold.png"
                                     height={40}
                                     width={40}
                                     alt="Logo Mirrors MD"

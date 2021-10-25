@@ -175,7 +175,7 @@ export default function Checkout({lang}) {
                   if(index == cart.length -1 ){
                     let ExternalId = Math.floor(Math.random() * Date.now())
 
-                    userInfo.livrare == "livrare_la_usa" ? setPrice(priceTotal + 150) : setPrice(priceTotal)
+                    userInfo.livrare == "livrare_la_usa" ? setPrice(priceTotal + 150) : userInfo.livrare == "nova_poshta" ? setPrice(priceTotal + 500) : setPrice(priceTotal)
                     const requestOptionsClient = {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -184,7 +184,7 @@ export default function Checkout({lang}) {
                             phone : data.telefon,
                             address : data.adresa,
                             email : data.email,
-                            pret : userInfo.livrare == "livrare_la_usa" ? roDomain ? priceTotal : priceTotal + 150 : priceTotal,
+                            pret : userInfo.livrare == "nova_poshta" ? priceTotal + 500 : userInfo.livrare == "livrare_la_usa" ? roDomain ? priceTotal : priceTotal + 150 : priceTotal,
                             mod_de_plata : data.plata,
                             mod_de_livrare : data.livrare,
                             orders : orders,
@@ -863,6 +863,48 @@ export default function Checkout({lang}) {
                             </div>
                         </label>
 
+                        {!roDomain && <label className="w-full py-20px border-1.5px border-ui-darkGrey flex flex-row justify-between items-center mb-6 focus-within:text-type-dark text-type-grey transition duration-300 cursor-pointer">
+                            <input
+                                type="radio"
+                                name="livrare"
+                                value="nova_poshta"
+                                className="w-3 h-3 border-2 mx-4 border-ui-blueishGrey"
+                                {...register("livrare", { required: step == 2 ? true : false })}
+                            />
+                            {errors.livrare?.type === 'required' && 
+                                <div className="text-accent-error text-lg-12 mt-2">
+                                    {
+                                        lang == "ro" ?
+                                        "* Introduceți modul de livrare"
+                                        :
+                                        lang == "ru" ?
+                                        "* Введите способ доставки"
+                                        :
+                                        "* Select a shipping method"
+                                    }
+                                </div>
+                            }
+                            <div className="w-full mr-4 text-lg-14">
+                                {
+                                    lang == "ro" ?
+                                    "Livrare prin Nova Poshta"
+                                    :
+                                    lang == "ru" ?
+                                    "Доставка через Нова Пошта"
+                                    :
+                                    "Nova Poshta delivery"
+                                }
+                            </div>
+                            <div className="w-full text-lg-14 font-medium">
+                                {
+                                    lang == "ro" || lang == "en" ?
+                                    "500 lei"
+                                    :
+                                    "500 лей"
+                                }
+                            </div>
+                        </label>}
+
                         <div className="mb-2 text-lg-14 font-medium text-type-manatee">
                             {
                                 lang == "ro" ?
@@ -1050,13 +1092,13 @@ export default function Checkout({lang}) {
                                             }
                                         </div>
                                         <div className="text-lg-14 text-accent-accent">
-                                            {product.number + " x " + 
+                                            { 
                                               roDomain ?
-                                              currency === 4 ?
-                                                '...' :
-                                                Math.round(priceSingular / currency) + getCurrencyString(lang, roDomain)
+                                                currency === 4 ?
+                                                  product.number + " x " + '...' :
+                                                  product.number + " x " + Math.round(priceSingular / currency) + getCurrencyString(lang, roDomain)
                                               :
-                                                priceSingular + getCurrencyString(lang, roDomain)
+                                              product.number + " x " + priceSingular + getCurrencyString(lang, roDomain)
                                             }
                                         </div>
                                     </div>
@@ -1119,6 +1161,15 @@ export default function Checkout({lang}) {
                                                       :
                                                       "delivery - 150 lei"
                                             :
+                                            userInfo.livrare == "nova_poshta" ?
+                                                lang == "ro" ?
+                                                  "livrare - 500 lei"
+                                                  :
+                                                  lang == "ru" ?
+                                                  "доставка - 500 лей"
+                                                  :
+                                                  "delivery - 500 lei"
+                                            :
                                                 lang == "ro" ?
                                                   "livrare - 0 lei"
                                                   :
@@ -1139,6 +1190,15 @@ export default function Checkout({lang}) {
                                                 :
                                                 "Delivery to the door"
                                             :
+                                            userInfo.livrare == "nova_poshta" ?
+                                                lang == "ro" ?
+                                                "Livrare prin Nova Poshta"
+                                                :
+                                                lang == "ru" ?
+                                                "Доставка через Нова Пошта"
+                                                :
+                                                "Nova Poshta delivery"
+                                            :
                                                 lang == "ro" ?
                                                 "Preluare din oficiu"
                                                 :
@@ -1150,7 +1210,7 @@ export default function Checkout({lang}) {
                                     </div>
                                     <div>
                                         {
-                                            userInfo.livrare == "livrare_la_usa" ?
+                                            userInfo.livrare == "livrare_la_usa" || userInfo.livrare == "nova_poshta" ?
                                                 userInfo.address
                                             :
                                                 lang == "ro" ?
@@ -1180,15 +1240,18 @@ export default function Checkout({lang}) {
                                 <div className="text-type-manatee w-full">
                                     {
                                         userInfo.livrare == "livrare_la_usa" ?
-                                        roDomain ?
-                                          currency === 4 ?
+                                          roDomain ?
+                                            currency === 4 ?
                                             '...'
                                             :
                                             Math.round(priceTotal / currency)
                                           :
                                           priceTotal + 150
-                                          :
-                                          priceTotal
+                                        :
+                                        userInfo.livrare == "nova_poshta" ?
+                                        priceTotal + 500
+                                        :
+                                        priceTotal
                                     }
                                     {
                                         getCurrencyString(lang, roDomain)
