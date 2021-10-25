@@ -175,7 +175,7 @@ export default function Checkout({lang}) {
                   if(index == cart.length -1 ){
                     let ExternalId = Math.floor(Math.random() * Date.now())
 
-                    userInfo.livrare == "livrare_la_usa" ? setPrice(priceTotal + 150) : userInfo.livrare == "nova_poshta" ? setPrice(priceTotal + 500) : setPrice(priceTotal)
+                    userInfo.livrare == "nova_poshta" ? setPrice(priceTotal + 500) : setPrice(priceTotal)
                     const requestOptionsClient = {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -184,7 +184,7 @@ export default function Checkout({lang}) {
                             phone : data.telefon,
                             address : data.adresa,
                             email : data.email,
-                            pret : userInfo.livrare == "nova_poshta" ? priceTotal + 500 : userInfo.livrare == "livrare_la_usa" ? roDomain ? priceTotal : priceTotal + 150 : priceTotal,
+                            pret : userInfo.livrare == "nova_poshta" ? priceTotal + 500 : priceTotal,
                             mod_de_plata : data.plata,
                             mod_de_livrare : data.livrare,
                             orders : orders,
@@ -849,16 +849,13 @@ export default function Checkout({lang}) {
                             </div>
                             <div className="w-full text-lg-14 font-medium">
                                 {
-                                    roDomain ? 
-                                      lang == "ro" || lang == "en" ?
-                                      "gratuit"
-                                      :
-                                      "бесплатно"
-                                      :
-                                      lang == "ro" || lang == "en" ?
-                                      "150 lei"
-                                      :
-                                      "150 лей"
+                                    lang == "ro" ?
+                                      "gratuit (în raza Chișinăului)"
+                                    :
+                                      lang == "en" ?
+                                      "free (within Chisinau)"
+                                    :
+                                      "бесплатно (по Кишиневу)"
                                 }
                             </div>
                         </label>
@@ -1144,22 +1141,13 @@ export default function Checkout({lang}) {
                                     <div className="mb-2 font-medium">
                                         {
                                             userInfo.livrare == "livrare_la_usa" ?
-                                                roDomain ? 
-                                                    lang == "ro" ?
-                                                      "livrare - gratuită"
-                                                      :
-                                                      lang == "ru" ?
-                                                      "доставка - бесплатно"
-                                                      :
-                                                      "delivery - free"
-                                                    :
-                                                    lang == "ro" ?
-                                                      "livrare - 150 lei"
-                                                      :
-                                                      lang == "ru" ?
-                                                      "доставка - 150 лей"
-                                                      :
-                                                      "delivery - 150 lei"
+                                                lang == "ro" ?
+                                                  "livrare - gratuită"
+                                                  :
+                                                  lang == "ru" ?
+                                                  "доставка - бесплатно"
+                                                  :
+                                                  "delivery - free"
                                             :
                                             userInfo.livrare == "nova_poshta" ?
                                                 lang == "ro" ?
@@ -1246,7 +1234,7 @@ export default function Checkout({lang}) {
                                             :
                                             Math.round(priceTotal / currency)
                                           :
-                                          priceTotal + 150
+                                          priceTotal
                                         :
                                         userInfo.livrare == "nova_poshta" ?
                                         priceTotal + 500
