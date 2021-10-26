@@ -966,7 +966,7 @@ export default function Checkout({lang}) {
                     </div>
 
                     <div className={`${step == 3 ? "block" : "hidden"} w-full bg-ui-white md:pt-14 px-6 py-10 md:pb-16 md:px-12 mb-12`}>
-                        <label className="w-full py-20px border-1.5px border-ui-darkGrey flex flex-row justify-start items-center mb-6 text-type-grey focus-within:text-type-dark transition duration-300 cursor-pointer">
+                        {!roDomain && <label className="w-full py-20px border-1.5px border-ui-darkGrey flex flex-row justify-start items-center mb-6 text-type-grey focus-within:text-type-dark transition duration-300 cursor-pointer">
                             <input
                                 type="radio"
                                 name="plata"
@@ -1001,7 +1001,7 @@ export default function Checkout({lang}) {
                                     "Direct transfer"
                                 }
                             </div>
-                        </label>
+                        </label>}
 
                         <label className="w-full py-20px border-1.5px border-ui-darkGrey flex flex-row justify-start items-center mb-6 text-type-grey focus-within:text-type-dark transition duration-300 cursor-pointer">
                             <input
