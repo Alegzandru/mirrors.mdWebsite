@@ -27,7 +27,7 @@ export default async (req, res) => {
         }
       }
     ],
-    template_id : "d-be902d4134bd45749ec9e670d542735c"
+    template_id : "d-6ee1285df8ea4662a3264399a492a7ea"
   };
 
   try {
