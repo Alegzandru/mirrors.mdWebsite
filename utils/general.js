@@ -93,3 +93,7 @@ export function getWithExpiry(key) {
 export function isRoDomain(){
   return getWithExpiry('country') === 'Romania'
 }
+
+export function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
