@@ -517,9 +517,9 @@ export default function Category({category, name, products, lang, nameru, nameen
                 }
 
                 <div 
-                    className={`mt-8 mx-auto w-230px h-12 flex flex-row justify-center items-center rounded-lg font-bold text-lg-button mb-4 ${showNr >= showNr*pages? "bg-ui-blueishGrey text-ui-white" : "bg-accent-transparent text-accent-accent"}`}
+                    className={`mt-8 mx-auto w-230px h-12 flex flex-row justify-center items-center rounded-lg font-bold text-lg-button mb-4 ${showNr >= 32*pages || showFrom*32+32 >= 32*pages? "bg-ui-blueishGrey text-ui-white" : "bg-accent-transparent text-accent-accent cursor-pointer"}`}
                     onClick={() => {
-                        showNr >= showNr*pages? "" : setShowNr(showNr + 32)
+                        showNr >= 32*pages? "" : showFrom*32+32 >= 32*pages ? "" : setShowNr(showNr + 32)
                     }}
                 >
                     {
@@ -545,7 +545,7 @@ export default function Category({category, name, products, lang, nameru, nameen
                                         smooth={true}
                                     >
                                         <div
-                                            className={`${showFrom == page ? "text-accent-accent bg-transparent border-1.5px border-accent-accent" : "text-type-grey bg-accent-transparent"} h-8 w-auto px-3 flex flex-row items-center justify-center text-lg-1 rounded mr-4 transition duration-300`}
+                                            className={`${showFrom == page ? "text-accent-accent bg-transparent border-1.5px border-accent-accent" : "text-type-grey bg-accent-transparent"} h-8 w-auto px-3 flex flex-row items-center justify-center text-lg-1 rounded mr-4 transition duration-300 cursor-pointer`}
                                             onClick={() => {
                                                 setShowFrom(page)
                                                 setShowNr(32)

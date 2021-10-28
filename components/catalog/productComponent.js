@@ -513,7 +513,17 @@ export default function ProductComponent ({deviceType, name, images, options, op
                         name={"Dimensiuni recomandate"}
                         nameru={"Рекомендуемые размеры"}
                         nameen={"Recommended sizes"}
-                        options={productData[0].linkedsizes.map((size, index) => {
+                        options={productData[0].linkedsizes
+                          .sort((a, b) => {
+                            if (a.height * a.width > b.height * b.width) {
+                              return 1;
+                            }
+                            if (a.height * a.width < b.height * b.width) {
+                              return -1;
+                            }
+                            return 0;
+                          })
+                          .map((size, index) => {
                             return (
                                 {
                                     height : size.height,
