@@ -38,7 +38,7 @@ export default async (req, res) => {
     from: '<manager.mirrors.md@gmail.com',
     personalizations : [
       {
-        to : email,
+        to : '<manager.mirrors.md@gmail.com',
         dynamic_template_data : {
           subject: `Comandă nouă (Nume: ${name}, telefon: ${phone}, email: ${email})`,
           name : name,
