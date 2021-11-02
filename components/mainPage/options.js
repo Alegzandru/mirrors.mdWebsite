@@ -2,7 +2,7 @@ import Image from "next/image"
 
 export default function Options({lang}) {
     return(
-        <div className="w-full flex flex-row justify-start items-center h-auto lg:h-640px font-Ubuntu">
+        <div className="w-full flex flex-row justify-start items-center h-auto lg:h-640px font-Ubuntu bg-ui-white">
             <div className="w-1/2 flex-row items-start justify-end hidden lg:flex">
                 <div className="w-632px h-auto -mr-156px">
                     <h2 className="text-lg-hLarge text-ui-dark font-bold tracking-tighter z-0 relative">

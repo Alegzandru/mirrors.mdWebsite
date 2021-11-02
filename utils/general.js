@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 export function getPrice(product, size) {
   let price = 0
   product.materials.forEach((material, index) => {
@@ -96,4 +98,21 @@ export function isRoDomain(){
 
 export function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+export const base64Credentials = () => Buffer.from(`${process.env.NEXT_PUBLIC_VIVA_ID}:${process.env.NEXT_PUBLIC_VIVA_KEY}`).toString('base64')
+
+export const useOutsideAlerter = (ref, callback) => {
+  useEffect(() => {
+      function handleClickOutside(event) {
+          if (ref.current && !ref.current.contains(event.target)) {
+              callback()
+          }
+      }
+
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+          document.removeEventListener("mousedown", handleClickOutside);
+      };
+  }, [ref]);
 }

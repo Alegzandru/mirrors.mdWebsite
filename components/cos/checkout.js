@@ -35,6 +35,7 @@ export default function Checkout({lang}) {
     const [agreed, setAgreed] = useState(false)
     const [ExternalID, setExternalID] = useState(0)
     const [paynetInfo, setPaynetInfo] = useState({})
+    const [vivaLink, setVivaLink] = useState('')
     
     const [currency, setCurrency] = useState(4)
     let priceTotal = 0
@@ -113,27 +114,29 @@ export default function Checkout({lang}) {
         inputs.LinkUrlCancel.value = "https://www.mirrors.md/cos"
     }
 
+    const emptyCart = () => {
+      setPopupLoading(0)
+      setPopupDone(1)
+      
+      setTimeout(() => {
+          setPopupDone(0)
+          setPopupOpen(0)
+          
+          setTimeout(() => {
+              localStorage.setItem('cart', "[]")
+              setCart([])
+              router.push("/")
+          }, 200)
+          setButtonClicked(2)
+              
+      }, 1200)
+    }
+
     const redirectCall = async() => {
         try {
-            fillInputs(PaymentId, ExpiryDate, Signature);
-            formRef.current.submit();
-
-            setPopupLoading(0)
-            setPopupDone(1)
-            
-            setTimeout(() => {
-                setPopupDone(0)
-                setPopupOpen(0)
-                
-                setTimeout(() => {
-                    localStorage.setItem('cart', "[]")
-                    setCart([])
-                    router.push("/")
-                }, 200)
-                setButtonClicked(2)
-                    
-            }, 1200)
-                
+          fillInputs(PaymentId, ExpiryDate, Signature);
+          formRef.current.submit();
+          emptyCart()    
         }
         catch(error){
             console.log("Error with redirect : ", error)
@@ -248,78 +251,103 @@ export default function Checkout({lang}) {
 
                     if(strapiData.mod_de_plata == "card"){
 
-                        var details = {
-                            'grant_type': 'password',
-                            'username': '723112',
-                            'password' : process.env.NEXT_PUBLIC_PAYNET_PASSWORD,
-                            'merchantcode' : '944726'
-                        };
-                        
-                        var formBody = [];
-                        for (var property in details) {
-                            var encodedKey = encodeURIComponent(property);
-                            var encodedValue = encodeURIComponent(details[property]);
-                            formBody.push(encodedKey + "=" + encodedValue);
-                        }
-                        formBody = formBody.join("&");
+                      if(roDomain){
+                        try {
+                            const linkRaw = await fetch("/api/vivawallet", {
+                              "method": "POST",
+                              "headers": { "content-type": "application/json" },
+                              "body": JSON.stringify({
+                                amount: Math.round(strapiData.pret / currency) * 100,
+                                fullName: userInfo.nume + ' ' + userInfo.prenume,
+                                email: userInfo.email,
+                              })
+                            })
 
-                        const authRequestOptions = {
-                            method : 'POST',
-                            headers : {
-                                'Content-Type': 'application/x-www-form-urlencoded',
-                                'Accept-Language' : 'ro-RO'
-                            },
-                            body : formBody
-                        }
+                            const {link} = await linkRaw.json()
 
-                        const response3 = await fetch("https://nameless-shore-75507.herokuapp.com/https://paynet.md:4448/auth", authRequestOptions)
-                        const dataAuth = await response3.json()
-                            const requestOptionsPaynet = {
-                                method: 'POST',
-                                headers: { 
-                                    'Content-Type': 'application/json',
-                                    'Authorization' : `Bearer ${dataAuth.access_token}`
-                                },
-                                body: JSON.stringify({ 
-                                    Invoice : ExternalId,
-                                    Currency : 498,
-                                    MerchantCode : "944726",
-                                    Customer : {
-                                        Code : ClientCode,
-                                        NameFirst : userInfo.prenume,
-                                        NameLast : userInfo.nume,
-                                        PhoneNumber : strapiData.phone,
-                                        email : strapiData.email,
-                                        Country : "Moldova",
-                                        City : "Chisinau",
-                                        Address : strapiData.address
-                                    },
-                                    Services : [{
-                                        Name : "Cumpărarea oglinzilor online",
-                                        Description : "Cumpararea oglinzilor pe site-ul mirrors.md",
-                                        Amount : Math.round(strapiData.pret * 100),
-                                        products : productsPaynet
-                                    }],
-                                    ExpiryDate : ExpiryDate,
-                                    SignVersion : "v05",
-                                    MoneyType : {
-                                        Code : "Paynet"
-                                    }
-                                })
-                            };
-                            
-                            try {
+                            setVivaLink(link)
+
+                            setButton(1)
+                            }
+                        catch(e){
+                            console.log("Error : ", e)
+                        }
+                      }
+                      else {
+                          var details = {
+                              'grant_type': 'password',
+                              'username': '723112',
+                              'password' : process.env.NEXT_PUBLIC_PAYNET_PASSWORD,
+                              'merchantcode' : '944726'
+                          };
+                          
+                          var formBody = [];
+                          for (var property in details) {
+                              var encodedKey = encodeURIComponent(property);
+                              var encodedValue = encodeURIComponent(details[property]);
+                              formBody.push(encodedKey + "=" + encodedValue);
+                          }
+                          formBody = formBody.join("&");
+
+                          const authRequestOptions = {
+                              method : 'POST',
+                              headers : {
+                                  'Content-Type': 'application/x-www-form-urlencoded',
+                                  'Accept-Language' : 'ro-RO'
+                              },
+                              body : formBody
+                          }
+
+                          const response3 = await fetch("https://nameless-shore-75507.herokuapp.com/https://paynet.md:4448/auth", authRequestOptions)
+                          const dataAuth = await response3.json()
+                              const requestOptionsPaynet = {
+                                  method: 'POST',
+                                  headers: { 
+                                      'Content-Type': 'application/json',
+                                      'Authorization' : `Bearer ${dataAuth.access_token}`
+                                  },
+                                  body: JSON.stringify({ 
+                                      Invoice : ExternalId,
+                                      Currency : 498,
+                                      MerchantCode : "944726",
+                                      Customer : {
+                                          Code : ClientCode,
+                                          NameFirst : userInfo.prenume,
+                                          NameLast : userInfo.nume,
+                                          PhoneNumber : strapiData.phone,
+                                          email : strapiData.email,
+                                          Country : "Moldova",
+                                          City : "Chisinau",
+                                          Address : strapiData.address
+                                      },
+                                      Services : [{
+                                          Name : "Cumpărarea oglinzilor online",
+                                          Description : "Cumpararea oglinzilor pe site-ul mirrors.md",
+                                          Amount : Math.round(strapiData.pret * 100),
+                                          products : productsPaynet
+                                      }],
+                                      ExpiryDate : ExpiryDate,
+                                      SignVersion : "v05",
+                                      MoneyType : {
+                                          Code : "Paynet"
+                                      }
+                                  })
+                              };
+
+                              try {
                                 const response4 = await fetch("https://nameless-shore-75507.herokuapp.com/https://paynet.md:4448/api/payments", requestOptionsPaynet)
                                 const dataPayment = await response4.json()
                                 PaymentId = dataPayment.PaymentId
                                 ExpiryDate = dataPayment.ExpiryDate
                                 Signature = dataPayment.Signature
+
                                 setButton(1)
-                            }
-                            catch(e){
-                                console.log("Error : ", e)
-                            }
-                        }
+                              }
+                              catch(e){
+                                  console.log("Error : ", e)
+                              }
+                          }
+                      }
                         else{
                             setPopupLoading(0)
                             setPopupDone(1)
@@ -365,7 +393,30 @@ export default function Checkout({lang}) {
 
             <div className={`w-288px h-240px bg-ui-white fixed top-checkout-top left-checkout-left flex flex-col items-center justify-center rounded-xl ${popupLoading ? "block" : "hidden"} z-20 px-3`}>
                 {
-                    button ? 
+                    button ?
+                        roDomain ? 
+                        <div className="flex flex-col justify-center items-center relative w-full">
+                            <Image
+                                src="/branding/vivawallet.png"
+                                height={55}
+                                width={240}
+                                alt="Paynet logo"
+                            ></Image>
+                            <a href={vivaLink} target="_blank" className="w-full" onClick={() => emptyCart()}>
+                              <button className={`${vivaLink ? "flex" : "hidden"} flex-row justify-center items-center bg-accent-accent rounded-lg text-ui-white font-bold hover:bg-accent-light h-12 w-full transition duration-300 mt-4`}>
+                                  {
+                                    lang == "ro" ?
+                                    "Plătește comanda"
+                                    :
+                                    lang == "ru" ?
+                                    "Оплатить заказ"
+                                    :
+                                    "Pay the order"
+                                  }
+                              </button>
+                            </a>
+                        </div>
+                        :
                         <div className="flex flex-col justify-center items-center relative w-full">
                             <Image
                                 src="/branding/paynet1.png"
@@ -966,7 +1017,7 @@ export default function Checkout({lang}) {
                     </div>
 
                     <div className={`${step == 3 ? "block" : "hidden"} w-full bg-ui-white md:pt-14 px-6 py-10 md:pb-16 md:px-12 mb-12`}>
-                        {!roDomain && <label className="w-full py-20px border-1.5px border-ui-darkGrey flex flex-row justify-start items-center mb-6 text-type-grey focus-within:text-type-dark transition duration-300 cursor-pointer">
+                        <label className="w-full py-20px border-1.5px border-ui-darkGrey flex flex-row justify-start items-center mb-6 text-type-grey focus-within:text-type-dark transition duration-300 cursor-pointer">
                             <input
                                 type="radio"
                                 name="plata"
@@ -1001,7 +1052,7 @@ export default function Checkout({lang}) {
                                     "Direct transfer"
                                 }
                             </div>
-                        </label>}
+                        </label>
 
                         <label className="w-full py-20px border-1.5px border-ui-darkGrey flex flex-row justify-start items-center mb-6 text-type-grey focus-within:text-type-dark transition duration-300 cursor-pointer">
                             <input

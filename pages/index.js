@@ -1,8 +1,8 @@
 import 'react-multi-carousel/lib/styles.css';
 
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
-import { DeviceTypeContext } from '../components/context';
+import { DeviceTypeContext, PopupContext } from '../components/context';
 import { HeadWithMeta } from '../components/HeadWithMeta';
 import Layout from '../components/layout';
 import Benefits from '../components/mainPage/benefits';
@@ -12,42 +12,67 @@ import Options from '../components/mainPage/options';
 import PopularProducts from '../components/mainPage/popularProducts';
 import { API_URL } from '../utils/urls';
 import Head from 'next/head';
+import PopupViva from '../components/mainPage/PopupViva';
+import { useRouter } from 'next/router'
 
 export default function MainPage({products}){
 
     const {deviceType, setDeviceType} = useContext(DeviceTypeContext)
+    const [vivaPopupOpen, setVivaPopupOpen] = useState(false)
+
+    const router = useRouter()
+    console.log(router.query);
+    const {t} = router.query
+
+    useEffect(() => {
+      if(t){
+        setVivaPopupOpen(true)
+      }
+    }, [t])
+
+    const closeModal = () => {
+      setVivaPopupOpen(false)
+    }
 
     return (
-        <Layout lang="ro">
-            <HeadWithMeta
-              title="Mirrors MD - Oglinzi La Comanda in Chisinau"
-              description="Pe site-ul Mirrors MD puteti gasi oglinzi LED, dulapuri si alt mobilier care se va integra ideal in orice hol, baie sau dormitor. Livram in Chisinau si restul Moldovei."
-              img="https://res.cloudinary.com/dbh1vgas3/image/upload/v1629027820/logoMirrors2_rzmtcv.jpg"
-              index={true}
-            />
-            <Head>
-              <meta name="google-site-verification" content="A88b9KwY33u20syvBmYcdb2vOm1mt6lz7KC1n1MQJis" />
-            </Head>
-            <Hero
-              lang="ro"
-            ></Hero>
-            <PopularProducts 
-              lang="ro"
-              deviceType={deviceType}
-              products={products}
-            ></PopularProducts>
-            <Benefits
-              lang="ro"
-            ></Benefits>
-            <NewProducts 
-              lang="ro"
-              deviceType={deviceType}
-              products={products}
-            ></NewProducts>
-            <Options
-              lang="ro"
-            ></Options>
-        </Layout>
+      <div>
+          {vivaPopupOpen && <PopupViva 
+            transactionId={t}
+            close={closeModal}
+          />}
+          <div className={vivaPopupOpen ? "filter brightness-50 transition-all duration-500" : ""}>
+              <Layout lang="ro">
+                  <HeadWithMeta
+                    title="Mirrors MD - Oglinzi La Comanda in Chisinau"
+                    description="Pe site-ul Mirrors MD puteti gasi oglinzi LED, dulapuri si alt mobilier care se va integra ideal in orice hol, baie sau dormitor. Livram in Chisinau si restul Moldovei."
+                    img="https://res.cloudinary.com/dbh1vgas3/image/upload/v1629027820/logoMirrors2_rzmtcv.jpg"
+                    index={true}
+                  />
+                  <Head>
+                    <meta name="google-site-verification" content="A88b9KwY33u20syvBmYcdb2vOm1mt6lz7KC1n1MQJis" />
+                  </Head>
+                  <Hero
+                    lang="ro"
+                  ></Hero>
+                  <PopularProducts 
+                    lang="ro"
+                    deviceType={deviceType}
+                    products={products}
+                  ></PopularProducts>
+                  <Benefits
+                    lang="ro"
+                  ></Benefits>
+                  <NewProducts 
+                    lang="ro"
+                    deviceType={deviceType}
+                    products={products}
+                  ></NewProducts>
+                  <Options
+                    lang="ro"
+                  ></Options>
+              </Layout>
+          </div>
+      </div>
     )
 }
 
