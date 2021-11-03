@@ -21,7 +21,7 @@ export default function MainPage({products}){
     const [vivaPopupOpen, setVivaPopupOpen] = useState(false)
 
     const router = useRouter()
-    const {status,eventid} = router.query
+    const {status, eventid} = router.query
 
     useEffect(() => {
       if(status){

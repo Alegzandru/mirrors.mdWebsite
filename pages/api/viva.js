@@ -17,7 +17,7 @@ export default async function handler(req, res) {
     }
   }
 
-  const {t} = url.parse(req.url,true).query;
+  const {t, eventId} = url.parse(req.url,true).query;
 
   if(t){
     try{
@@ -34,6 +34,10 @@ export default async function handler(req, res) {
       res.redirect(307, `/`)
     }
   } else{
-    res.redirect(307, `/`)
+    if(eventId){
+      res.redirect(307, `/?status=error&eventid=${eventId}`)
+    } else{
+      res.redirect(307, `/`)
+    }
   }
 }
