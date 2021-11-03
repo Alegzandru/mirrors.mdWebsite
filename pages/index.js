@@ -21,14 +21,13 @@ export default function MainPage({products}){
     const [vivaPopupOpen, setVivaPopupOpen] = useState(false)
 
     const router = useRouter()
-    console.log(router.query);
-    const {t} = router.query
+    const {status,eventid} = router.query
 
     useEffect(() => {
-      if(t){
+      if(status){
         setVivaPopupOpen(true)
       }
-    }, [t])
+    }, [status])
 
     const closeModal = () => {
       setVivaPopupOpen(false)
@@ -37,7 +36,8 @@ export default function MainPage({products}){
     return (
       <div>
           {vivaPopupOpen && <PopupViva 
-            transactionId={t}
+            status={status}
+            eventId={eventid}
             close={closeModal}
           />}
           <div className={vivaPopupOpen ? "filter brightness-50 transition-all duration-500" : ""}>
