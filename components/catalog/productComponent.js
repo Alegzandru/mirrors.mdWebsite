@@ -51,7 +51,7 @@ export default function ProductComponent ({deviceType, name, images, options, op
     const [price, setPrice] = useState(Math.round(getPrice(productData[0], productData[0].defaultsize) * ( 1 + coeficientFinder(productData[0].defaultsize))))
     const [sizeGlobal, setSizeGlobal] = useState(productData[0].defaultsize)
 
-    const [openOptions, setOpenOptions] = useState(0)
+    const [openOptions, setOpenOptions] = useState(true)
 
     const [currency, setCurrency] = useState(4)
 
@@ -589,12 +589,12 @@ export default function ProductComponent ({deviceType, name, images, options, op
                                 <div className="text-sm-h3 font-medium text-type-manatee">
                                     {
                                         lang == "ro" ?
-                                        "Opțiuni adăugătoare"
+                                        "Opțiuni suplimentare"
                                         :
                                         lang == "ru" ?
                                         "Дополнительные опции"
                                         :
-                                        "Possible options"
+                                        "Possible add-ons"
                                     }
                                 </div>
 

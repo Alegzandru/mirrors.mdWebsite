@@ -11,7 +11,7 @@ export default function DropdownProduct(props) {
     const {addonOpen, setAddonOpen} = useContext(AddonPopupContext)
     const {popupOpen, setPopupOpen} = useContext(PopupContext)
 
-    const [open, setOpen] = useState(0)
+    const [open, setOpen] = useState(true)
     const [chosen , setChosen] = useState(0)
     const [lastChosen, setLastChosen] = useState(0)
     const [checked, setChecked] = useState(0)
