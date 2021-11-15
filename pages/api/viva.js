@@ -19,10 +19,13 @@ export default async function handler(req, res) {
 
   const {t, eventId} = url.parse(req.url,true).query;
 
+  const fetchUrl = process.env.NODE_ENV === 'production' ? `https://vivapayments.com/api/transactions/${t}` : `https://demo.vivapayments.com/api/transactions/${t}`
+
   if(t){
     try{
-      const transactionDataRaw = await fetch(`https://demo.vivapayments.com/api/transactions/${t}`, options)
+      const transactionDataRaw = await fetch(fetchUrl, options)
       const transactionData = await transactionDataRaw.json()
+      console.log(transactionData)
 
       const {Success, EventId} = transactionData
 
