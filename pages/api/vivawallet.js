@@ -22,9 +22,12 @@ export default async function handler(req, res) {
     })
   }
   
-  const response = await fetch(orderUrl, options)
+  const responseRaw = await fetch(orderUrl, options)
+  const response = await responseRaw.json()
+
+  console.log(response)
   
-  const { OrderCode, ErrorCode, ErrorText, Success } = await response.json()
+  const { OrderCode, ErrorCode, ErrorText, Success } = response
   
   const checkoutUrl = process.env.NODE_ENV === 'production' ? `https://vivapayments.com/web/checkout?ref=${OrderCode}` : `https://demo.vivapayments.com/web/checkout?ref=${OrderCode}`
 
