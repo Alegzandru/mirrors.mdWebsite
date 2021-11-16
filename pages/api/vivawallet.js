@@ -4,7 +4,7 @@ export default async function handler(req, res) {
 
   const {amount, fullName, email} = req.body
 
-  const orderUrl = process.env.NODE_ENV === 'production' ? 'https://vivapayments.com/api/orders' : 'https://demo.vivapayments.com/api/orders'
+  const orderUrl = process.env.NODE_ENV === 'production' ? 'https://www.vivapayments.com/api/orders' : 'https://demo.vivapayments.com/api/orders'
   
   const options = {
     method: 'POST',
@@ -29,7 +29,7 @@ export default async function handler(req, res) {
   
   const { OrderCode, ErrorCode, ErrorText, Success } = response
   
-  const checkoutUrl = process.env.NODE_ENV === 'production' ? `https://vivapayments.com/web/checkout?ref=${OrderCode}` : `https://demo.vivapayments.com/web/checkout?ref=${OrderCode}`
+  const checkoutUrl = process.env.NODE_ENV === 'production' ? `https://www.vivapayments.com/web/checkout?ref=${OrderCode}` : `https://demo.vivapayments.com/web/checkout?ref=${OrderCode}`
 
   if (!Success) {
     return res.status(ErrorCode).json({

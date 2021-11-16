@@ -21,7 +21,7 @@ export default async function handler(req, res) {
   console.log('t : ', t)
   console.log('eventId : ', eventId)
 
-  const fetchUrl = process.env.NODE_ENV === 'production' ? `https://vivapayments.com/api/transactions/${t}` : `https://demo.vivapayments.com/api/transactions/${t}`
+  const fetchUrl = process.env.NODE_ENV === 'production' ? `https://www.vivapayments.com/api/transactions/${t}` : `https://demo.vivapayments.com/api/transactions/${t}`
 
   if(t){
     try{
