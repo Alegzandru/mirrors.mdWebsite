@@ -31,11 +31,9 @@ export default function Checkout({lang}) {
     const [buttonClicked, setButtonClicked] = useState(0)
     const [button, setButton] = useState(0)
     const [price, setPrice] = useState(0)
-    const [productsPaynet, setProductsPaynet] = useState(0)
     const [agreed, setAgreed] = useState(false)
-    const [ExternalID, setExternalID] = useState(0)
-    const [paynetInfo, setPaynetInfo] = useState({})
     const [vivaLink, setVivaLink] = useState('')
+    const [vivaError, setVivaError] = useState('')
     
     const [currency, setCurrency] = useState(4)
     let priceTotal = 0
@@ -51,6 +49,10 @@ export default function Checkout({lang}) {
       const currencyStrapi = await getCurrency()
       setCurrency(currencyStrapi)
     }, [])
+
+    useEffect(() => {
+      console.log('Updated vivaError ', vivaError)
+    }), [vivaError]
 
     const sendMailOwner = async (data) => {
         try {
@@ -263,12 +265,16 @@ export default function Checkout({lang}) {
                               })
                             })
 
-                            const {link} = await linkRaw.json()
+                            const {success, link, errorMessage} = await linkRaw.json()
 
-                            setVivaLink(link)
-
-                            setButton(1)
+                            if(success){
+                              setVivaLink(link)
+                              setButton(1)
                             }
+                            else{
+                              setVivaError(errorMessage)
+                            }
+                        }
                         catch(e){
                             console.log("Error : ", e)
                         }
@@ -393,6 +399,11 @@ export default function Checkout({lang}) {
 
             <div className={`w-288px h-240px bg-ui-white fixed top-checkout-top left-checkout-left flex flex-col items-center justify-center rounded-xl ${popupLoading ? "block" : "hidden"} z-20 px-3`}>
                 {
+                  vivaError ?
+                    <div className="w-240px text-lg-17 md:text-md-p lg:text-lg-p text-accent-error text-center">
+                      {vivaError}                    
+                    </div>
+                    :
                     button ?
                         roDomain ? 
                         <div className="flex flex-col justify-center items-center relative w-full">

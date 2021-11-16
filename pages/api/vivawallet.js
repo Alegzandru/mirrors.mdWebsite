@@ -32,8 +32,16 @@ export default async function handler(req, res) {
   const checkoutUrl = process.env.NODE_ENV === 'production' ? `https://vivapayments.com/web/checkout?ref=${OrderCode}` : `https://demo.vivapayments.com/web/checkout?ref=${OrderCode}`
 
   if (!Success) {
-    return res.status(ErrorCode).json(ErrorText)
+    return res.status(ErrorCode).json({
+      success: false,
+      link: '',
+      errorMessage: ErrorText
+    })
   }
 
-  res.status(200).json({ link: checkoutUrl })
+  res.status(200).json({ 
+    success: true,
+    link: checkoutUrl,
+    errorMessage: ''
+  })
 }
