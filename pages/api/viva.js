@@ -19,7 +19,7 @@ export default async function handler(req, res) {
 
   const {t, eventIdStr} = url.parse(req.url,true).query;
   const eventId = parseInt(eventIdStr)
-  
+
   console.log('t : ', t)
   console.log('eventId : ', eventId)
 
@@ -31,23 +31,23 @@ export default async function handler(req, res) {
       const transactionData = await transactionDataRaw.json()
       console.log(transactionData)
 
-      const {Success} = transactionData
+      const {Success, EventId} = transactionData
 
-      if(eventId !== 0){
-        res.redirect(307, `/?status=${Success ? 'success' : 'error'}&eventid=${eventId}`)
+      if(EventId !== 0){
+        res.redirect(307, `/?status=${Success ? 'success' : 'error'}&eventid=${EventId}`)
       } else{
-        res.redirect(307, `/?status=success&eventid=${eventId}`)
+        res.redirect(307, `/?status=success&eventid=${EventId}`)
       }
       
     } catch(err){
       console.log(err)
-      res.redirect(307, `/`)
+      res.redirect(307, `/?status=error&eventid=0`)
     }
   } else{
     if(eventId){
       res.redirect(307, `/?status=error&eventid=${eventId}`)
     } else{
-      res.redirect(307, `/`)
+      res.redirect(307, `/?status=error&eventid=0`)
     }
   }
 }
