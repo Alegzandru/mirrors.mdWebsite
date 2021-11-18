@@ -34,7 +34,12 @@ export default async function handler(req, res) {
 
       console.log(transactionData)
 
-      res.redirect(307, `/?status=${Success ? 'success' : 'error'}&eventid=${EventId}`)
+      if(eventId){
+        res.redirect(307, `/?status=${Success ? 'success' : 'error'}&eventid=${EventId}`)
+      } else{
+        res.redirect(307, `/?status=success&eventid=${EventId}`)
+      }
+      
     } catch(err){
       console.log(err)
       res.redirect(307, `/`)
