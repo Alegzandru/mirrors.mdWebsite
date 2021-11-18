@@ -50,10 +50,6 @@ export default function Checkout({lang}) {
       setCurrency(currencyStrapi)
     }, [])
 
-    useEffect(() => {
-      console.log('Updated vivaError ', vivaError)
-    }), [vivaError]
-
     const sendMailOwner = async (data) => {
         try {
             await fetch("/api/owner", {
