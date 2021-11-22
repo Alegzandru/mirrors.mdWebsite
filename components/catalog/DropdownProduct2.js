@@ -9,7 +9,6 @@ export default function DropdownProduct(props) {
     const roDomain = isRoDomain()
 
     const {addonOpen, setAddonOpen} = useContext(AddonPopupContext)
-    const {popupOpen, setPopupOpen} = useContext(PopupContext)
 
     const [open, setOpen] = useState(true)
     const [chosen , setChosen] = useState(0)
@@ -21,8 +20,9 @@ export default function DropdownProduct(props) {
         width: props.sizeGlobal.width
     })
     const [errorInputs, setErrorInputs] = useState({})
-
     const [currency, setCurrency] = useState(4)
+
+    const emptyTextAcrilic = props.textAcrilic === '' && props.productData.category.name === 'Text Acrilic'
 
     const handleClick = (e) => {
         if(props.options.length != 1) {
@@ -174,6 +174,10 @@ export default function DropdownProduct(props) {
         setInputValues({...inputValues, [type]:value})
     }
 
+    const handleOnChangeText = () => ({target: {value}}) => {
+      props.setTextAcrilic(value)
+    }
+
     useEffect(async () => {
       const currencyStrapi = await getCurrency()
       setCurrency(currencyStrapi)
@@ -186,7 +190,7 @@ export default function DropdownProduct(props) {
                     props.name == "Dimensiuni recomandate" &&
                     <div className="w-full md:px-2">
                         <div 
-                            className="flex flex-row justify-start items-center mt-14px cursor-pointer text-accent-accent hover:text-accent-light mb-6"
+                            className="flex flex-row justify-start items-center mt-14px text-accent-accent mb-6"
                         >
                             <div className="text-lg-card-price lg:text-lg-17 font-medium transition duration-300">
                                 {
@@ -222,6 +226,7 @@ export default function DropdownProduct(props) {
                                         type="number"
                                         value={inputValues.height}
                                         onChange={handleOnChange("height")}
+                                        disabled={props.productData.category.name === 'Text Acrilic' ? true : false}
                                     />
                                     <span className="text-ui-black font-medium">
                                         mm
@@ -306,73 +311,116 @@ export default function DropdownProduct(props) {
                     </div>
                 }
             </div>
-            
-            <div 
-                className={`w-full ${props.name == "Dimensiuni recomandate" ? "border-ui-blueishGrey border-b bg-ui-white mt-40px cursor-pointer" : "bg-ui-grey"} h-auto py-3 flex flex-row justify-between items-start px-2 font-Ubuntu group transition duration-300`}
-                onClick={() => {
-                    if(props.name == "Dimensiuni recomandate"){
-                        setOpen(!open)
-                    }
-                }}
-            >
-                <div className={`${props.name == "Dimensiuni recomandate" ? open ? "font-medium" : "font-normal" : "font-medium"} flex-grow text-lg-17 md:text-lg-14 text-type-grey group-hover:text-type-manatee transition duration-300 flex flex-row justify-start items-center`}>
-                    {
-                      props.lang == "ro" ? 
-                      props.name
-                      :
-                      props.lang == "ru" ?
-                      props.nameru
-                      :
-                      props.nameen
-                    }
-                </div>
 
-                <div className="flex flex-row justify-between items-center">
-                    <div className="text-lg-17 lg:text-lg-14 font-medium text-type-dark mr-2 md:mr-2">
+            {
+              props.productData.category.name === 'Text Acrilic' && props.name == "Dimensiuni recomandate" &&
+              <div className="text-lg-card-price px-2 mt-4">
+                <div 
+                  className="text-accent-accent mb-4"
+                >
+                    <div className="text-lg-card-price lg:text-lg-17 font-medium transition duration-300">
                         {
-                            props.name == "Dimensiuni recomandate" ? 
-                                `${props.sizeGlobal.height}x${props.sizeGlobal.width}` 
-                                : 
-                                props.options.length != 1 ? 
-                                    chosen ? 
-                                        props.lang == "ro" ?
-                                        chosen
-                                        :
-                                        props.lang == "ru" ?
-                                        props.optionsRaw.filter((optionRaw, index) => optionRaw.typename == chosen )[0].typenameru 
-                                        :
-                                        props.optionsRaw.filter((optionRaw, index) => optionRaw.typename == chosen )[0].typenameen
-                                        :
-                                        "" 
-                                    : 
-                                    checked ? 
-                                        props.lang == "ro" ? 
-                                        "Da" 
-                                        : 
-                                        props.lang == "ru" ?
-                                        "Да" 
-                                        :
-                                        "Yes"
-                                        : 
-                                        ""
+                            props.lang == "ro" ?
+                            "Introduceți textul"
+                            :
+                            props.lang == "ru" ?
+                            "Вставьте текст"
+                            :
+                            "Insert the text"
                         }
                     </div>
-
-                    <div className={`${props.name === "Dimensiuni recomandate" ? "block" : "hidden"}`}>
-                        <svg xmlns="http://www.w3.org/2000/svg" className={`${open ? "hidden" : "block"} h-4 w-4 text-ui-blueishGrey group-hover:text-type-manatee transition duration-300`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                        </svg>
-
-                        <svg xmlns="http://www.w3.org/2000/svg" className={`${open ? "block" : "hidden"} h-4 w-4 text-type-manatee transition duration-300`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
-                        </svg>
-                    </div>
                 </div>
-            </div>
+
+                <textarea
+                    className={`bg-ui-grey border-2 outline-none rounded-b w-full mr-2 shadow-md ${emptyTextAcrilic ? 'border-accent-error' : 'border-ui-blueishGrey'} transition-all duration-300`}
+                    value={props.textAcrilic}
+                    onChange={handleOnChangeText()}
+                />
+                {emptyTextAcrilic &&
+                    <div className="text-accent-error text-lg-12 mt-2">
+                        {
+                            props.lang == "ro" ?
+                            "* Introduceți textul Dvs."
+                            :
+                            props.lang == "ru" ?
+                            "* Введите ваш текст."
+                            :
+                            "* Insert your text"
+                        }
+                    </div>
+                }
+              </div>
+            }
+            
+            {
+              props.options && props.options.length !== 0 &&
+              <div 
+                  className={`w-full ${props.name == "Dimensiuni recomandate" ? "border-ui-blueishGrey border-b bg-ui-white mt-40px cursor-pointer" : "bg-ui-grey"} h-auto py-3 flex flex-row justify-between items-start px-2 font-Ubuntu group transition duration-300`}
+                  onClick={() => {
+                      if(props.name == "Dimensiuni recomandate"){
+                          setOpen(!open)
+                      }
+                  }}
+              >
+                  <div className={`${props.name == "Dimensiuni recomandate" ? open ? "font-medium" : "font-normal" : "font-medium"} flex-grow text-lg-17 md:text-lg-14 text-type-grey group-hover:text-type-manatee transition duration-300 flex flex-row justify-start items-center`}>
+                      {
+                        props.lang == "ro" ? 
+                        props.name
+                        :
+                        props.lang == "ru" ?
+                        props.nameru
+                        :
+                        props.nameen
+                      }
+                  </div>
+
+                  <div className="flex flex-row justify-between items-center">
+                      <div className="text-lg-17 lg:text-lg-14 font-medium text-type-dark mr-2 md:mr-2">
+                          {
+                              props.name == "Dimensiuni recomandate" ? 
+                                  `${props.sizeGlobal.height}x${props.sizeGlobal.width}` 
+                                  : 
+                                  props.options.length != 1 ? 
+                                      chosen ? 
+                                          props.lang == "ro" ?
+                                          chosen
+                                          :
+                                          props.lang == "ru" ?
+                                          props.optionsRaw.filter((optionRaw, index) => optionRaw.typename == chosen )[0].typenameru 
+                                          :
+                                          props.optionsRaw.filter((optionRaw, index) => optionRaw.typename == chosen )[0].typenameen
+                                          :
+                                          "" 
+                                      : 
+                                      checked ? 
+                                          props.lang == "ro" ? 
+                                          "Da" 
+                                          : 
+                                          props.lang == "ru" ?
+                                          "Да" 
+                                          :
+                                          "Yes"
+                                          : 
+                                          ""
+                          }
+                      </div>
+
+                      <div className={`${props.name === "Dimensiuni recomandate" ? "block" : "hidden"}`}>
+                          <svg xmlns="http://www.w3.org/2000/svg" className={`${open ? "hidden" : "block"} h-4 w-4 text-ui-blueishGrey group-hover:text-type-manatee transition duration-300`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                          </svg>
+
+                          <svg xmlns="http://www.w3.org/2000/svg" className={`${open ? "block" : "hidden"} h-4 w-4 text-type-manatee transition duration-300`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                          </svg>
+                      </div>
+                  </div>
+              </div>
+            }
 
             <div className={`w-full pb-3 bg-ui-white ${props.name == "Dimensiuni recomandate" ? open ? "block" : "hidden" : "block"}`}>
 
-                {props.options.map((option, index)=>
+                {props.options && props.options.map((option, index)=>
                 <div className="w-full bg-ui-white">
                     <div 
                         className={`w-full h-auto py-3 flex flex-row justify-between items-start px-4 ${props.options.length != 1 ? chosen==option.typename ? "text-type-dark":"text-type-grey hover:text-type-manatee" : checked ? "text-type-dark" : "text-type-grey hover:text-type-manatee"} transition duration-300`}

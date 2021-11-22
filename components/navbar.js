@@ -108,7 +108,7 @@ export function Navbar (props) {
           product.big_size &&
           product.biggestsize &&
           product.defaultsize &&
-          product.linkedsizes && product.linkedsizes.length !== 0 &&
+          // product.linkedsizes && product.linkedsizes.length !== 0 &&
           product.materials && product.materials.length !== 0 &&
           product.add_ons && product.add_ons.length !== 0
         ))

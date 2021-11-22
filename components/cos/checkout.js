@@ -160,10 +160,10 @@ export default function Checkout({lang}) {
                         add_ons : cartProduct.addOns,
                         price : price,
                         number : cartProduct.number,
-                        size : cartProduct.size
+                        size : cartProduct.size,
+                        text_acrilic: cartProduct.textAcrilic
                     })
                 }
-
                 
                 const response1 = await fetch(`https://mirrors-md-admin.herokuapp.com/orders`, requestOptions)
                 const dataInside = await response1.json()

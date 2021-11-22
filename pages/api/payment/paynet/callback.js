@@ -17,8 +17,8 @@ export default async (req, res) => {
         status_plata: "platit"
       })
     }
-    // fetch(`https://mirrors-md-admin.herokuapp.com/clients/${body.Payment.ExternalId}`, 
-    const response = await fetch(`https://mirrors-md-admin.herokuapp.com/clients/${body.Payment.ExternalId}`, requestOptions)
+
+    await fetch(`https://mirrors-md-admin.herokuapp.com/clients/${body.Payment.ExternalId}`, requestOptions)
 
     try {
       res.status(200).json({

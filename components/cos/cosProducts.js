@@ -215,12 +215,12 @@ export default function CosProducts({lang}){
                                             </span> 
                                                 {
                                                     lang == "ro" ?
-                                                    "(de la "
+                                                    " (de la "
                                                     :
                                                     lang == "ru" ?
-                                                    "(от "
+                                                    " (от "
                                                     :
-                                                    "(from "
+                                                    " (from "
                                                 }
                                             {popupProduct.product.smallestsize.height}mm 
                                                 {
@@ -241,6 +241,7 @@ export default function CosProducts({lang}){
                                                 type="number"
                                                 placeholder={popupProduct.size.height}
                                                 {...register("height", { min: popupProduct.product.smallestsize.height, max: popupProduct.product.biggestsize.height, valueAsNumber : true, required : true })}
+                                                disabled={popupProduct.product.category.name === 'Text Acrilic'}
                                             />
                                             {
                                             errors.height?.type === 'min' && 
@@ -296,12 +297,12 @@ export default function CosProducts({lang}){
                                             </span> 
                                                 {
                                                     lang == "ro" ?
-                                                    "(de la "
+                                                    " (de la "
                                                     :
                                                     lang == "ru" ?
-                                                    "(от "
+                                                    " (от "
                                                     :
-                                                    "(from "
+                                                    " (from "
                                                 }
                                             {popupProduct.product.smallestsize.height}mm 
                                                 {
@@ -543,7 +544,8 @@ export default function CosProducts({lang}){
                                 optionsPrice = 0
                                 return(
                                     <div className="flex flex-col md:flex-row w-full border-l-0 border-b-2 border-t-0 border-r-0 border-ui-darkGrey">
-                                        <div className="py-6 px-2 lg:px-6 md:w-cart-md lg:w-cart-lg flex flex-row justify-start items-center border-l-0 border-b md:border-b-0 border-t-0 border-r-2 border-ui-darkGrey">
+                                        <div className="py-6 px-2 lg:px-6 md:w-cart-md lg:w-cart-lg border-l-0 border-b md:border-b-0 border-t-0 border-r-2 border-ui-darkGrey">
+                                          <div className="flex flex-row justify-start items-center">
                                             <div className="h-8 w-8 flex flex-row justify-center items-center rounded-lg hover:bg-ui-grey mr-2 transition duration-300 group">
                                                 <svg 
                                                     xmlns="http://www.w3.org/2000/svg" 
@@ -608,8 +610,17 @@ export default function CosProducts({lang}){
                                                             }
                                                         </div>
                                                     </div>
+                                                    {product.textAcrilic && <div className="w-full text-type-manatee mt-3 text-lg-14">
+                                                      <span>
+                                                        Text solicitat :
+                                                      </span>
+                                                      <span className="font-bold">
+                                                        {' "' + product.textAcrilic + '"'}
+                                                      </span>
+                                                    </div>}
                                                 </div>
                                             </div>
+                                          </div>
                                         </div>
                                         <div className="py-6 px-2 lg:px-8 md:w-cart-md lg:w-cart-lg border-l-0 border-b md:border-b-0 border-t-0 border-r-2 border-ui-darkGrey text-lg-14 text-type-grey">
                                             {

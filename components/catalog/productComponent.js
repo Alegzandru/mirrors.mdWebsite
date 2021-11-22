@@ -50,10 +50,11 @@ export default function ProductComponent ({deviceType, name, images, options, op
 
     const [price, setPrice] = useState(Math.round(getPrice(productData[0], productData[0].defaultsize) * ( 1 + coeficientFinder(productData[0].defaultsize))))
     const [sizeGlobal, setSizeGlobal] = useState(productData[0].defaultsize)
-
+    const [textAcrilic, setTextAcrilic] = useState('')
     const [openOptions, setOpenOptions] = useState(true)
-
     const [currency, setCurrency] = useState(4)
+
+    const emptyTextAcrilic = (textAcrilic === ' ' || !textAcrilic ) && productData[0].category.name === 'Text Acrilic'
 
     let contorAddons = 1
 
@@ -63,8 +64,6 @@ export default function ProductComponent ({deviceType, name, images, options, op
         
         contorAddons = 1
         const addOns = Object.entries(data).filter((addOn) => addOn[1] != null && addOn[1] != false && addOn[0] != "Dimensiuni recomandate")
-        // let sizeName = data["Dimensiuni recomandate"]
-        // let sizeRaw = productData[0].linkedsizes.filter((sizeFilter) => sizeFilter.name == sizeName)
         let size = productData[0].defaultsize
 
         fetch(`https://mirrors-md-admin.herokuapp.com/sizes?name_eq=${sizeGlobal.height}x${sizeGlobal.width}`)
@@ -93,15 +92,8 @@ export default function ProductComponent ({deviceType, name, images, options, op
                                 addOns : [],
                                 size : size,
                                 number : 1,
+                                textAcrilic: textAcrilic,
                                 price : Math.round(getPrice(productData[0], size) * ( 1 + coeficientFinder(size)))
-                            }
-
-                            function flatten(obj) {
-                                var result = Object.create(obj);
-                                for(var key in result) {
-                                    result[key] = result[key];
-                                }
-                                return result;
                             }
 
                             fetch(`https://mirrors-md-admin.herokuapp.com/products?name_eq=${name}`)
@@ -110,7 +102,7 @@ export default function ProductComponent ({deviceType, name, images, options, op
                                     productCart.product = data[0]
 
                                     if(addOns.length == 0){
-                                        if( cart.length != 0 && productCart.product.name == cart[cart.length - 1].product.name  && cart[cart.length - 1].size.name == `${size.height}x${size.width}`){
+                                        if( cart.length != 0 && productCart.product.name == cart[cart.length - 1].product.name  && cart[cart.length - 1].size.name == `${size.height}x${size.width}` && productCart.textAcrilic == cart[cart.length - 1].textAcrilic){
                                             let mutableCart = [...cart]
                                             mutableCart[mutableCart.length - 1].number += 1
                                             setCart(
@@ -151,7 +143,7 @@ export default function ProductComponent ({deviceType, name, images, options, op
                                             addOnsPrice += getPriceAddon( addOnRaw[0] , productCart.size)
 
                                             if (index == addOns.length-1){
-                                                if( contorAddons && cart[cart.length - 1].size.name == `${size.height}x${size.width}`){
+                                                if( contorAddons && cart[cart.length - 1].size.name == `${size.height}x${size.width}` && productCart.textAcrilic == cart[cart.length - 1].textAcrilic){
                                                     let mutableCart = [...cart]
                                                     mutableCart[mutableCart.length - 1].number += 1
                                                     setCart(
@@ -193,7 +185,7 @@ export default function ProductComponent ({deviceType, name, images, options, op
                                             addOnsPrice += getPriceAddon( addOnRaw[0] , productCart.size)
 
                                             if (index == addOns.length-1){
-                                                if( contorAddons && cart[cart.length - 1].size.name == `${size.height}x${size.width}`){
+                                                if( contorAddons && cart[cart.length - 1].size.name == `${size.height}x${size.width}` && productCart.textAcrilic == cart[cart.length - 1].textAcrilic){
                                                     let mutableCart = [...cart]
                                                     mutableCart[mutableCart.length - 1].number += 1
                                                     setCart(
@@ -230,15 +222,8 @@ export default function ProductComponent ({deviceType, name, images, options, op
                         addOns : [],
                         size : size,
                         number : 1,
+                        textAcrilic: textAcrilic,
                         price : Math.round(getPrice(productData[0], size) * (1 + coeficientFinder(size)))
-                    }
-
-                    function flatten(obj) {
-                        var result = Object.create(obj);
-                        for(var key in result) {
-                            result[key] = result[key];
-                        }
-                        return result;
                     }
 
                     fetch(`https://mirrors-md-admin.herokuapp.com/products?name_eq=${name}`)
@@ -247,7 +232,7 @@ export default function ProductComponent ({deviceType, name, images, options, op
                             productCart.product = data[0]
 
                             if(addOns.length == 0){
-                                if( cart.length != 0 && productCart.product.name == cart[cart.length - 1].product.name && cart[cart.length - 1].size.name == `${size.height}x${size.width}`){
+                                if( cart.length != 0 && productCart.product.name == cart[cart.length - 1].product.name && cart[cart.length - 1].size.name == `${size.height}x${size.width}` && productCart.textAcrilic == cart[cart.length - 1].textAcrilic){
                                     let mutableCart = [...cart]
                                     mutableCart[mutableCart.length - 1].number += 1
                                     setCart(
@@ -288,7 +273,7 @@ export default function ProductComponent ({deviceType, name, images, options, op
                                     addOnsPrice += getPriceAddon( addOnRaw[0] , productCart.size)
 
                                     if (index == addOns.length-1){
-                                        if( contorAddons && cart[cart.length - 1].size.name == `${size.height}x${size.width}`){
+                                        if( contorAddons && cart[cart.length - 1].size.name == `${size.height}x${size.width}` && productCart.textAcrilic == cart[cart.length - 1].textAcrilic){
                                             let mutableCart = [...cart]
                                             mutableCart[mutableCart.length - 1].number += 1
                                             setCart(
@@ -330,7 +315,7 @@ export default function ProductComponent ({deviceType, name, images, options, op
                                     addOnsPrice += getPriceAddon( addOnRaw[0] , productCart.size)
 
                                     if (index == addOns.length-1){
-                                        if( contorAddons && cart[cart.length - 1].size.name == `${size.height}x${size.width}`){
+                                        if( contorAddons && cart[cart.length - 1].size.name == `${size.height}x${size.width}` && productCart.textAcrilic == cart[cart.length - 1].textAcrilic){
                                             let mutableCart = [...cart]
                                             mutableCart[mutableCart.length - 1].number += 1
                                             setCart(
@@ -362,7 +347,6 @@ export default function ProductComponent ({deviceType, name, images, options, op
 
     useEffect(() => {
         localStorage.setItem('cart', JSON.stringify(cart))
-        const localCart = localStorage.getItem('cart')
     }, [cart])
 
     useEffect(async () => {
@@ -371,8 +355,6 @@ export default function ProductComponent ({deviceType, name, images, options, op
     }, [])
     
     const [openImage, setOpenImage] = useState(0)
-
-    const [showTooltip, setShowTooltip] = useState(false)
 
     const responsive = {
         desktop: {
@@ -549,6 +531,8 @@ export default function ProductComponent ({deviceType, name, images, options, op
                         productData={productData[0]}
                         lang={lang}
                         optionsRaw={optionsRaw}
+                        textAcrilic={textAcrilic}
+                        setTextAcrilic={setTextAcrilic}
                     />
                 </div>
 
@@ -638,42 +622,62 @@ export default function ProductComponent ({deviceType, name, images, options, op
                             )}
                         </Element>
 
-                        <div className={`w-full flex flex-col md:flex-row lg:flex-col mdButtons:flex-row justify-between items-center ${openOptions ? "mt-6" : "mt-56px"}`}>
+                        {
+                          emptyTextAcrilic ? 
+                          <div className={`w-full flex flex-col justify-center items-center ${openOptions ? "mt-6" : "mt-56px"}`}>
+                            
+                              <div
+                                className="w-full bg-transparent border-2 rounded-lg border-accent-error p-3 flex flex-row justify-center items-center text-accent-error font-medium mb-6 lg:mb-4"
+                              >
+                                {lang == "ro" ? 
+                                    "Scrieți textul Dvs. în câmpul de mai sus" 
+                                    : 
+                                    lang == "ru" ?
+                                    "Вставьте свой текст в поле выше"
+                                    :
+                                    "Insert your text in the field above"   
+                                }                            
+                              </div>
 
-                            <input 
-                                value={
-                                  lang == "ro" ? 
-                                  "La pagina de Check-Out" 
-                                  : 
-                                  lang == "ru" ?
-                                  "Оформить заказ"
-                                  :
-                                  "To checkout"
-                                } 
-                                type="submit" 
-                                className="w-full bg-transparent border-2 rounded-lg border-accent-accent h-12 flex flex-row justify-center items-center text-accent-accent font-medium mb-6 md:mb-0 hover:bg-accent-transparent transition duration-300 md:mr-4 lg:mr-0 mdButtons:mr-4 cursor-pointer lg:mb-4 mdButtons:mb-0"
-                                onClick={() => setCheckout(true)}
-                            />
+                          </div>
+                          :
+                          <div className={`w-full flex flex-col md:flex-row lg:flex-col mdButtons:flex-row justify-between items-center ${openOptions ? "mt-6" : "mt-56px"}`}>
+                            
+                              <input 
+                                  value={
+                                    lang == "ro" ? 
+                                    "La pagina de Check-Out" 
+                                    : 
+                                    lang == "ru" ?
+                                    "Оформить заказ"
+                                    :
+                                    "To checkout"
+                                  } 
+                                  type="submit" 
+                                  className="w-full bg-transparent border-2 rounded-lg border-accent-accent h-12 flex flex-row justify-center items-center text-accent-accent font-medium mb-6 md:mb-0 hover:bg-accent-transparent transition duration-300 md:mr-4 lg:mr-0 mdButtons:mr-4 cursor-pointer lg:mb-4 mdButtons:mb-0"
+                                  onClick={() => setCheckout(true)}
+                              />
 
-                            <input 
-                                value={
-                                  lang == "ro" ? 
-                                  "Adaugă în coș" 
-                                  : 
-                                  lang == "ru" ?
-                                  "Добавить в корзину"
-                                  :
-                                  "Add to cart"
-                                }
-                                type="submit" 
-                                className="w-full bg-accent-accent rounded-lg h-12 flex flex-row justify-center items-center text-ui-white font-medium hover:bg-accent-light transition duration-300 cursor-pointer"
-                                onClick={() => setCheckout(false)}
-                                data-tip={lang == "ro" ? "Produs adăugat la coș" : "Товар добавлен в корзину"}
-                                data-event={"click"}
-                            />
+                              <input 
+                                  value={
+                                    lang == "ro" ? 
+                                    "Adaugă în coș" 
+                                    : 
+                                    lang == "ru" ?
+                                    "Добавить в корзину"
+                                    :
+                                    "Add to cart"
+                                  }
+                                  type="submit" 
+                                  className="w-full bg-accent-accent rounded-lg h-12 flex flex-row justify-center items-center text-ui-white font-medium hover:bg-accent-light transition duration-300 cursor-pointer"
+                                  onClick={() => setCheckout(false)}
+                                  data-tip={lang == "ro" ? "Produs adăugat la coș" : "Товар добавлен в корзину"}
+                                  data-event={"click"}
+                              />
 
-                            <ReactTooltip textColor="#FFFFFF" backgroundColor="#111215" clickable/>
-                        </div>
+                              <ReactTooltip textColor="#FFFFFF" backgroundColor="#111215" clickable/>
+                          </div>
+                        }
                         
                     </form>
 

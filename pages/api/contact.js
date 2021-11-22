@@ -28,12 +28,3 @@ export default async (req, res) => {
     res.status(500).json({ error: error })
   }
 }
-
-// export default (req, res) => {
-//   const body = JSON.parse(req.body)
-//   console.log(body)
-//   res.status(200).json({
-//     name : "John doe",
-//     key : process.env.EMAIL_API_KEY
-//   })
-// }
