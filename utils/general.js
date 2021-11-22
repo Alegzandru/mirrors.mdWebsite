@@ -7,7 +7,7 @@ export function getPrice(product, size) {
           price += material.price * (size.height + size.width) * 2 / 1000
       }
       else if(material.type == "mm"){
-          price += material.price * size.width
+          price += material.price * size.width / 1000
       }
       else if(material.type == "m2"){
           price += material.price * size.height * size.width / 1000000
