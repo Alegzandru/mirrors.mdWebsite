@@ -1,5 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
+import { isRoDomain } from "../utils/general"
 const categories = [
     {
         name : "Oglinzi",
@@ -29,11 +30,7 @@ const categories = [
 
 export default function Footer (props) {
 
-    async function getCategories() {
-        const categoriesResponse = await fetch(`${API_URL}/categories`)
-        const categories = await categoriesResponse.json()
-        setCategories(categories)
-    }
+  const roDomain = isRoDomain()
 
     return (
         <div className="bg-ui-black pt-44px mdFooter:pt-88px px-container-sm md:px-container-md lg:px-container-lg xl:px-container-xl font-Ubuntu">
@@ -243,37 +240,46 @@ export default function Footer (props) {
                     </div>
                     
                     <ul className="text-lg-14 mt-8">
-                        <a href="tel:37369482034" target="blank">
+                        <a href={roDomain ? "tel:40723877823" : "tel:37369482034"} target="blank">
                             <li className="mb-4 flex flex-row justify-start items-center hover:text-ui-darkGrey hover:underline transition duration-300">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                                 </svg>
-                                +373 69 482 034
+                                {roDomain ? '+40723877823' : '+373 69 482 034'}
                             </li>
                         </a>
-                        <a href="https://goo.gl/maps/Cr1ju6WohV8NYeYf6" target="blank">
+                        <a href={roDomain ? "https://goo.gl/maps/7SgX9wr3mHc73KCH8" : "https://goo.gl/maps/Cr1ju6WohV8NYeYf6"} target="blank">
                             <li className="mb-4 flex flex-row justify-start items-center hover:text-ui-darkGrey hover:underline transition duration-300">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                                 </svg>
                                 {   
-                                    props.lang == "ro" ?
-                                    "str. Ismail 98"
+                                    roDomain ?
+                                      props.lang == "ro" ?
+                                      "Iași, str. Morilor 11"
+                                      :
+                                      props.lang == "ru" ?
+                                      "Яссы, улица Морилор, 11"
+                                      :
+                                      "Iași, Morilor 11 street"
                                     :
-                                    props.lang == "ru" ?
-                                    "ул. Ismail 98"
-                                    :
-                                    "Ismail 98 street"
+                                      props.lang == "ro" ?
+                                      "str. Ismail 98"
+                                      :
+                                      props.lang == "ru" ?
+                                      "ул. Ismail 98"
+                                      :
+                                      "Ismail 98 street"
                                 }
                             </li>
                         </a>
-                        <a href="mailto:spmirrors@gmail.com" target="blank">
+                        <a href={roDomain ? "mailto:tradehouseledor@gmail.com" : "mailto:spmirrors@gmail.com"} target="blank">
                             <li className="mb-4 flex flex-row justify-start items-center hover:text-ui-darkGrey hover:underline transition duration-300">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
                                 </svg>
-                                spmirrors@gmail.com
+                                {roDomain ? 'tradehouseledor@gmail.com' : 'spmirrors@gmail.com'}
                             </li>
                         </a>
                     </ul>
@@ -497,21 +503,30 @@ export default function Footer (props) {
                     </div>
                     
                     <ul className="text-lg-14 mt-8">
-                        <a href="tel:37369482034" target="blank">
+                        <a href={roDomain ? "tel:40723877823" : "tel:37369482034"} target="blank">
                             <li className="mb-4 flex flex-row justify-start items-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                                 </svg>
-                                +373 69 482 034
+                                {roDomain ? '+40723877823' : '+373 69 482 034'}
                             </li>
                         </a>
-                        <a href="https://goo.gl/maps/Cr1ju6WohV8NYeYf6" target="blank">
+                        <a href={roDomain ? "https://goo.gl/maps/7SgX9wr3mHc73KCH8" : "https://goo.gl/maps/Cr1ju6WohV8NYeYf6"} target="blank">
                             <li className="mb-4 flex flex-row justify-start items-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                                 </svg>
                                 {   
+                                  roDomain ?
+                                    props.lang == "ro" ?
+                                    "Iași, str. Morilor 11"
+                                    :
+                                    props.lang == "ru" ?
+                                    "Яссы, улица Морилор, 11"
+                                    :
+                                    "Iași, Morilor 11 street"
+                                  :
                                     props.lang == "ro" ?
                                     "str. Ismail 98"
                                     :
@@ -522,13 +537,12 @@ export default function Footer (props) {
                                 }
                             </li>
                         </a>
-                        <a href="mailto:spmirrors@gmail.com" target="blank">
+                        <a href={roDomain ? "mailto:tradehouseledor@gmail.com" : "mailto:spmirrors@gmail.com"} target="blank">
                             <li className="mb-4 flex flex-row justify-start items-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
                                 </svg>
-
-                                spmirrors@gmail.com
+                                {roDomain ? 'tradehouseledor@gmail.com' : 'spmirrors@gmail.com'}
                             </li>
                         </a>
                     </ul>

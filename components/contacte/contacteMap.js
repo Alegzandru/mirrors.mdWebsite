@@ -1,7 +1,11 @@
 import Image from "next/image"
 import Link from 'next/link'
+import { isRoDomain } from "../../utils/general"
 
 export default function ContacteMap ({lang}) {
+
+  const roDomain = isRoDomain()
+
     return(
         <div className="w-full h-auto px-container-sm md:px-container-md lg:px-container-lg xl:px-container-xl pt-128px md:pt-136px lg:pt-234px pb-16 md:pb-120px font-Ubuntu bg-ui-darkGrey">
             <div className="flex flex-row justify-start items-center text-lg-14 font-normal text-type-manatee w-auto mb-4 md:mb-8">
@@ -118,19 +122,19 @@ export default function ContacteMap ({lang}) {
                     </div>
 
                     <div className="w-full text-lg-p text-type-manatee font-normal mt-40px md:mt-0">
-                        <a href="tel:37369482034">
+                        <a href={roDomain ? "tel:40723877823" : "tel:37369482034"} target="blank">
                             <div className="flex flex-row items-center justify-start mb-8 group">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 group-hover:text-accent-accent transition duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 3h5m0 0v5m0-5l-6 6M5 3a2 2 0 00-2 2v1c0 8.284 6.716 15 15 15h1a2 2 0 002-2v-3.28a1 1 0 00-.684-.948l-4.493-1.498a1 1 0 00-1.21.502l-1.13 2.257a11.042 11.042 0 01-5.516-5.517l2.257-1.128a1 1 0 00.502-1.21L9.228 3.683A1 1 0 008.279 3H5z" />
                                 </svg>
 
                                 <span className="group-hover:text-accent-accent transition duration-300">
-                                    +373 69 482 034
+                                  {roDomain ? '+40723877823' : '+373 69 482 034'}
                                 </span>
                             </div>
                         </a>
 
-                        <a href="https://goo.gl/maps/Cr1ju6WohV8NYeYf6" target="blank">
+                          <a href={roDomain ? "https://goo.gl/maps/7SgX9wr3mHc73KCH8" : "https://goo.gl/maps/Cr1ju6WohV8NYeYf6"} target="blank">
                             <div className="flex flex-row items-center justify-start mb-8 group">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 group-hover:text-accent-accent transition duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -138,27 +142,36 @@ export default function ContacteMap ({lang}) {
                                 </svg>
 
                                 <span className="group-hover:text-accent-accent transition duration-300">
-                                {
-                                  lang == "ro" ? 
-                                  "str Ismail 98"
-                                  :
-                                  lang == "ru" ?
-                                  "ул Ismail 98"
-                                  :
-                                  "Ismail 98 street"
-                                }
+                                  {   
+                                    roDomain ?
+                                      props.lang == "ro" ?
+                                      "Iași, str. Morilor 11"
+                                      :
+                                      props.lang == "ru" ?
+                                      "Яссы, улица Морилор, 11"
+                                      :
+                                      "Iași, Morilor 11 street"
+                                    :
+                                      props.lang == "ro" ?
+                                      "str. Ismail 98"
+                                      :
+                                      props.lang == "ru" ?
+                                      "ул. Ismail 98"
+                                      :
+                                      "Ismail 98 street"
+                                  }
                                 </span>
                             </div>
                         </a>
 
-                        <a href="mailto:spmirrors@gmail.com" target="blank">
+                        <a href={roDomain ? "mailto:tradehouseledor@gmail.com" : "mailto:spmirrors@gmail.com"} target="blank">
                             <div className="flex flex-row items-center justify-start mb-8 group">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 group-hover:text-accent-accent transition duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
                                 </svg>
 
                                 <span className="group-hover:text-accent-accent transition duration-300">
-                                    spmirrors@gmail.com
+                                  {roDomain ? 'tradehouseledor@gmail.com' : 'spmirrors@gmail.com'}
                                 </span>
                             </div>
                         </a>
