@@ -257,12 +257,12 @@ export default function Footer (props) {
                                 {   
                                     roDomain ?
                                       props.lang == "ro" ?
-                                      "Iași, str. Morilor 11"
+                                      "Iași"
                                       :
                                       props.lang == "ru" ?
-                                      "Яссы, улица Морилор, 11"
+                                      "Яссы"
                                       :
-                                      "Iași, Morilor 11 street"
+                                      "Iași"
                                     :
                                       props.lang == "ro" ?
                                       "str. Ismail 98"
@@ -274,12 +274,12 @@ export default function Footer (props) {
                                 }
                             </li>
                         </a>
-                        <a href={roDomain ? "mailto:tradehouseledor@gmail.com" : "mailto:spmirrors@gmail.com"} target="blank">
+                        <a href={roDomain ? "mailto:officemirrorsro@gmail.com" : "mailto:spmirrors@gmail.com"} target="blank">
                             <li className="mb-4 flex flex-row justify-start items-center hover:text-ui-darkGrey hover:underline transition duration-300">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
                                 </svg>
-                                {roDomain ? 'tradehouseledor@gmail.com' : 'spmirrors@gmail.com'}
+                                {roDomain ? 'officemirrorsro@gmail.com' : 'spmirrors@gmail.com'}
                             </li>
                         </a>
                     </ul>
@@ -520,12 +520,12 @@ export default function Footer (props) {
                                 {   
                                   roDomain ?
                                     props.lang == "ro" ?
-                                    "Iași, str. Morilor 11"
+                                    "Iași"
                                     :
                                     props.lang == "ru" ?
-                                    "Яссы, улица Морилор, 11"
+                                    "Яссы"
                                     :
-                                    "Iași, Morilor 11 street"
+                                    "Iași"
                                   :
                                     props.lang == "ro" ?
                                     "str. Ismail 98"
@@ -537,12 +537,12 @@ export default function Footer (props) {
                                 }
                             </li>
                         </a>
-                        <a href={roDomain ? "mailto:tradehouseledor@gmail.com" : "mailto:spmirrors@gmail.com"} target="blank">
+                        <a href={roDomain ? "mailto:officemirrorsro@gmail.com" : "mailto:spmirrors@gmail.com"} target="blank">
                             <li className="mb-4 flex flex-row justify-start items-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
                                 </svg>
-                                {roDomain ? 'tradehouseledor@gmail.com' : 'spmirrors@gmail.com'}
+                                {roDomain ? 'officemirrorsro@gmail.com' : 'spmirrors@gmail.com'}
                             </li>
                         </a>
                     </ul>
