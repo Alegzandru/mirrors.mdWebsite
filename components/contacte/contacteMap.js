@@ -122,14 +122,14 @@ export default function ContacteMap ({lang}) {
                     </div>
 
                     <div className="w-full text-lg-p text-type-manatee font-normal mt-40px md:mt-0">
-                        <a href={roDomain ? "tel:+40723877823" : "tel:+37369482034"} target="blank">
+                        <a href={roDomain ? "tel:+40754599101" : "tel:+37369482034"} target="blank">
                             <div className="flex flex-row items-center justify-start mb-8 group">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 group-hover:text-accent-accent transition duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 3h5m0 0v5m0-5l-6 6M5 3a2 2 0 00-2 2v1c0 8.284 6.716 15 15 15h1a2 2 0 002-2v-3.28a1 1 0 00-.684-.948l-4.493-1.498a1 1 0 00-1.21.502l-1.13 2.257a11.042 11.042 0 01-5.516-5.517l2.257-1.128a1 1 0 00.502-1.21L9.228 3.683A1 1 0 008.279 3H5z" />
                                 </svg>
 
                                 <span className="group-hover:text-accent-accent transition duration-300">
-                                  {roDomain ? '+40723877823' : '+373 69 482 034'}
+                                  {roDomain ? '+40 754 599 101' : '+373 69 482 034'}
                                 </span>
                             </div>
                         </a>
@@ -234,7 +234,12 @@ export default function ContacteMap ({lang}) {
                 </div>
 
                 <div className="flex-grow h-320px md:h-full w-full md:w-auto">
-                    <iframe src="https://yandex.com/map-widget/v1/?um=constructor%3A79dbbe95bd2531da704341e99cfe83c018aa307df04f33dd9c1332b1fa43ef0f&amp;source=constructor" width="100%" className="h-320px md:h-588px lg:h-600px" frameBorder="0"></iframe>
+                  {
+                    roDomain ? 
+                      <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3Ac14cef1c881601c2aaac2c5b6c9f1fc04b8ef9248e61df63247fa8f892fa3b61&amp;source=constructor" width="100%" className="h-320px md:h-588px lg:h-600px" frameborder="0"></iframe>                    
+                    :
+                      <iframe src="https://yandex.com/map-widget/v1/?um=constructor%3A79dbbe95bd2531da704341e99cfe83c018aa307df04f33dd9c1332b1fa43ef0f&amp;source=constructor" width="100%" className="h-320px md:h-588px lg:h-600px" frameBorder="0"></iframe>
+                  }
                 </div>
             </div>
         </div>

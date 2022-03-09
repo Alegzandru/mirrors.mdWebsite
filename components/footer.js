@@ -240,12 +240,12 @@ export default function Footer (props) {
                     </div>
                     
                     <ul className="text-lg-14 mt-8">
-                        <a href={roDomain ? "tel:+40723877823" : "tel:+37369482034"} target="blank">
+                        <a href={roDomain ? "tel:+40754599101" : "tel:+37369482034"} target="blank">
                             <li className="mb-4 flex flex-row justify-start items-center hover:text-ui-darkGrey hover:underline transition duration-300">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                                 </svg>
-                                {roDomain ? '+40723877823' : '+373 69 482 034'}
+                                {roDomain ? '+40 754 599 101' : '+373 69 482 034'}
                             </li>
                         </a>
                         <a href={roDomain ? "https://goo.gl/maps/7SgX9wr3mHc73KCH8" : "https://goo.gl/maps/Cr1ju6WohV8NYeYf6"} target="blank">
@@ -503,12 +503,12 @@ export default function Footer (props) {
                     </div>
                     
                     <ul className="text-lg-14 mt-8">
-                        <a href={roDomain ? "tel:+40723877823" : "tel:+37369482034"} target="blank">
+                        <a href={roDomain ? "tel:+40754599101" : "tel:+37369482034"} target="blank">
                             <li className="mb-4 flex flex-row justify-start items-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                                 </svg>
-                                {roDomain ? '+40723877823' : '+373 69 482 034'}
+                                {roDomain ? '+40 754 599 101' : '+373 69 482 034'}
                             </li>
                         </a>
                         <a href={roDomain ? "https://goo.gl/maps/7SgX9wr3mHc73KCH8" : "https://goo.gl/maps/Cr1ju6WohV8NYeYf6"} target="blank">
@@ -588,7 +588,6 @@ export default function Footer (props) {
                         <img 
                             src="/branding/lira.svg"
                             className="w-14px h-14px mr-1 ml-2"
-                            alt=""
                             width={14}
                             height={14}
                             alt="Logo Lira Digital"
