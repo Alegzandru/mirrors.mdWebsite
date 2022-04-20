@@ -14,8 +14,8 @@ export default function Galerie({products}){
     return (
         <Layout lang="ro">
             <HeadWithMeta
-              title="Galerie | Mirrors MD"
-              description="In galeria site-ului Mirrors MD puteti gasi poze cu oglinzi, dulapuri si alt mobilier din catalogul nostru de produse. Livram in Chisinau si restul Moldovei."
+              title="Galerie | Millora"
+              description="In galeria site-ului Millora puteti gasi poze cu oglinzi, dulapuri si alt mobilier din catalogul nostru de produse. Livram in Chisinau si restul Moldovei."
               img="https://res.cloudinary.com/dbh1vgas3/image/upload/v1629027820/logoMirrors2_rzmtcv.jpg"
               index={true}
             />

@@ -28,8 +28,8 @@ export function DynamicProduct ({productData}) {
   return (
       <Layout lang="en" slug={productData[0].slug}>
           <HeadWithMeta
-            title={`${productData[0].nameen} | Mirrors MD`}
-            description={`${productData[0].nameen} - one of the products from the "${productData[0].category.nameen}" collection on the Mirrors MD website. We ship to Chisinau and the rest of Moldova.`}
+            title={`${productData[0].nameen} | Millora`}
+            description={`${productData[0].nameen} - one of the products from the "${productData[0].category.nameen}" collection on the Millora website. We ship to Chisinau and the rest of Moldova.`}
             img="https://res.cloudinary.com/dbh1vgas3/image/upload/v1629027820/logoMirrors2_rzmtcv.jpg"
             index={true}
           />

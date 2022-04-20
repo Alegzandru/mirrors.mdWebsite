@@ -13,7 +13,7 @@ export const HeadWithMeta = ({title, description, img, index}) => {
       <meta property="og:description" content={description}/>
       <meta property="og:image" content={img} />
       <meta property="og:url" content="PERMALINK"/>
-      <meta property="og:site_name" content="Mirrors MD"/>
+      <meta property="og:site_name" content="Millora"/>
 
       <meta name="twitter:title" content={title}/>
       <meta name="twitter:description" content={description}/>

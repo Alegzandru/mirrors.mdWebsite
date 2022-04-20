@@ -37,19 +37,19 @@ export default function Footer (props) {
             <div className="flex flex-row items-center mdFooter:items-start justify-between">
                 <div className="hidden mdFooter:block">
                     <Image
-                        src="/branding/mirrorsNewLogoGold.png"
+                        src="/branding/milloraLogo2.png"
                         width={66}
                         height={66}
-                        alt="Logo Mirrors MD"
+                        alt="Logo Millora"
                     />
                 </div>
                 <div className="mdFooter:hidden">
                     <img
-                        src="/branding/mirrorsNewLogoGold.png"
+                        src="/branding/milloraLogo2.png"
                         className="h-14 w-14 mdFooter:w-8 mdFooter:h-8"
                         height={56}
                         width={56}
-                        alt="Logo Mirrors MD"
+                        alt="Logo Millora"
                     />
                 </div>
                 <div className="text-type-grey hidden mdFooter:block">

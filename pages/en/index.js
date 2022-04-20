@@ -19,8 +19,8 @@ export default function MainPage({products}){
     return (
         <Layout lang="en">
             <HeadWithMeta
-              title="Mirrors MD - Custom Mirrors in Chisinau"
-              description="On the Mirrors MD website you can find LED mirrors, cabinets and other furniture that will fit ideally in any hall, bathroom or bedroom. We deliver to Chisinau and the rest of Moldova."
+              title="Millora - Custom Mirrors in Chisinau"
+              description="On the Millora website you can find LED mirrors, cabinets and other furniture that will fit ideally in any hall, bathroom or bedroom. We deliver to Chisinau and the rest of Moldova."
               img="https://res.cloudinary.com/dbh1vgas3/image/upload/v1629027820/logoMirrors2_rzmtcv.jpg"
               index={true}
             />

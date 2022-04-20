@@ -7,7 +7,7 @@ export default function Cos () {
     return(
         <Layout lang="ru">
             <HeadWithMeta
-              title="Корзина | Mirrors MD"
+              title="Корзина | Millora"
               description=""
               img="https://res.cloudinary.com/dbh1vgas3/image/upload/v1629027820/logoMirrors2_rzmtcv.jpg"
               index={false}

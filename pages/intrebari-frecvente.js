@@ -8,8 +8,8 @@ export default function IntrebariFrecvente () {
     return (
         <Layout lang="ro">
             <HeadWithMeta
-              title="Intrebari frecvente | Mirrors MD"
-              description="Aici adresam intrebarile care apar des in timpul unei comenzi pe site-ul Mirrors MD."
+              title="Intrebari frecvente | Millora"
+              description="Aici adresam intrebarile care apar des in timpul unei comenzi pe site-ul Millora."
               img="https://res.cloudinary.com/dbh1vgas3/image/upload/v1629027820/logoMirrors2_rzmtcv.jpg"
               index={true}
             />

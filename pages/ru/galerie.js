@@ -14,8 +14,8 @@ export default function Galerie({products}){
     return (
         <Layout lang="ru">
             <HeadWithMeta
-              title="Галерея | Mirrors MD"
-              description="В галерее сайта Mirrors MD вы можете найти фотографии зеркал, шкафов и другой мебели из нашего каталога продукции. Доставка в Кишинев и другие районы Молдовы."
+              title="Галерея | Millora"
+              description="В галерее сайта Millora вы можете найти фотографии зеркал, шкафов и другой мебели из нашего каталога продукции. Доставка в Кишинев и другие районы Молдовы."
               img="https://res.cloudinary.com/dbh1vgas3/image/upload/v1629027820/logoMirrors2_rzmtcv.jpg"
               index={true}
             />

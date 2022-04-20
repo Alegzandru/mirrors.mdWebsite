@@ -8,8 +8,8 @@ export default function Catalog ({category, products}) {
     return (
         <Layout lang="ru" category={category[0].slug}>
             <HeadWithMeta
-              title={`${category[0].nameru} | Mirrors MD`}
-              description={`На сайте Mirrors MD вы можете найти широкую коллекцию "${category[0].nameru}" которые идеально впишутся в любой холл, ванную комнату или спальню. Доставка в Кишинев и другие районы Молдовы.`}
+              title={`${category[0].nameru} | Millora`}
+              description={`На сайте Millora вы можете найти широкую коллекцию "${category[0].nameru}" которые идеально впишутся в любой холл, ванную комнату или спальню. Доставка в Кишинев и другие районы Молдовы.`}
               img="https://res.cloudinary.com/dbh1vgas3/image/upload/v1629027820/logoMirrors2_rzmtcv.jpg"
               index={true}
             />

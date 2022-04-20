@@ -8,8 +8,8 @@ export default function Contacte () {
     return(
         <Layout lang="ro">
             <HeadWithMeta
-              title="Contacte | Mirrors MD"
-              description="Puteti vedea produsele de pe site-ul Mirrors MD in showroom-ul nostru de pe strada Ismail 98. Pentru a ne contacta, telefonati la +373 69 482 034."
+              title="Contacte | Millora"
+              description="Puteti vedea produsele de pe site-ul Millora in showroom-ul nostru de pe strada Ismail 98. Pentru a ne contacta, telefonati la +373 69 482 034."
               img="https://res.cloudinary.com/dbh1vgas3/image/upload/v1629027820/logoMirrors2_rzmtcv.jpg"
               index={true}
             />

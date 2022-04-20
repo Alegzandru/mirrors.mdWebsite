@@ -482,10 +482,10 @@ export function Navbar (props) {
                                     }>
                                         <a>
                                             <Image
-                                                src="/branding/mirrorsNewLogoGold.png"
+                                                src="/branding/milloraLogo2.png"
                                                 height={56}
                                                 width={56}
-                                                alt="Logo Mirrors MD"
+                                                alt="Logo Millora"
                                             />
                                         </a>
                                     </Link>
@@ -503,10 +503,10 @@ export function Navbar (props) {
                                     }>
                                         <a>
                                             <Image
-                                                src="/branding/mirrorsNewLogoGold.png"
+                                                src="/branding/milloraLogo2.png"
                                                 height={56}
                                                 width={56}
-                                                alt="Logo Mirrors MD"
+                                                alt="Logo Millora"
                                             />
                                         </a>
                                     </Link>
@@ -912,10 +912,10 @@ export function Navbar (props) {
                         }>
                             <a>
                                 <Image
-                                    src="/branding/mirrorsNewLogoGold.png"
+                                    src="/branding/milloraLogo2.png"
                                     height={40}
                                     width={40}
-                                    alt="Logo Mirrors MD"
+                                    alt="Logo Millora"
                                 />
                             </a>
                         </Link>
@@ -933,10 +933,10 @@ export function Navbar (props) {
                         }>
                             <a>
                                 <Image
-                                    src="/branding/mirrorsNewLogoGold.png"
+                                    src="/branding/milloraLogo2.png"
                                     height={40}
                                     width={40}
-                                    alt="Logo Mirrors MD"
+                                    alt="Logo Millora"
                                 />
                             </a>
                         </Link>

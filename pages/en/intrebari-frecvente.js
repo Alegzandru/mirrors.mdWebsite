@@ -8,8 +8,8 @@ export default function IntrebariFrecvente () {
     return (
         <Layout lang="en">
             <HeadWithMeta
-              title="FAQ | Mirrors MD"
-              description="Here we address the questions that often arise during an order on the Mirrors MD website."
+              title="FAQ | Millora"
+              description="Here we address the questions that often arise during an order on the Millora website."
               img="https://res.cloudinary.com/dbh1vgas3/image/upload/v1629027820/logoMirrors2_rzmtcv.jpg"
               index={true}
             />

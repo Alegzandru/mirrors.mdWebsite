@@ -6,7 +6,7 @@ export default function CheckoutPage(){
     return (
         <Layout lang="ro">
             <HeadWithMeta
-              title="Checkout | Mirrors MD"
+              title="Checkout | Millora"
               description=""
               img="https://res.cloudinary.com/dbh1vgas3/image/upload/v1629027820/logoMirrors2_rzmtcv.jpg"
               index={false}
