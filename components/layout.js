@@ -51,7 +51,7 @@ export default function Layout (props) {
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
                 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
                 <meta name="description" content={props.description}/>
-                <link rel="shortcut icon" href="/logoGold2.ico" />
+                <link rel="shortcut icon" href="/logo.ico" />
                 <script src="./js/base.js" type="model"></script>
             </Head>
 

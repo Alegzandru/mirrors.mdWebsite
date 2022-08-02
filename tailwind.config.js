@@ -16,12 +16,12 @@ module.exports = {
         black : "#000000"
       },
       accent : {
-        accent : "#16B45A",
-        transparent : "rgba(0, 218, 94, 0.11)",
-        dark : "#086A32",
+        accent : "#515CAE",
+        transparent : "rgba(140, 148, 208, 0.14)",
+        dark : "#2A3373",
         error : "#FF3654",
-        light : "#63D795",
-        text2 : "#0B4725"
+        light : "#9AA2F2",
+        text2 : "#1F254C"
       },
       type : {
         dark : "#03210A",
@@ -91,7 +91,7 @@ module.exports = {
     },
 
     fill:{
-      'accent-transparent': 'rgba(0, 218, 94, 0.11)'
+      'accent-transparent': 'rgba(145, 156, 238, 0.11)'
     },
 
     extend: {

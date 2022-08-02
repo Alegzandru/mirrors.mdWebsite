@@ -1,16 +1,22 @@
 import { useContext, useState } from "react"
 import Image from "next/image"
 import Lightbox from "react-awesome-lightbox";
-// You need to import the CSS only once
 import "react-awesome-lightbox/build/style.css";
 import { DeviceTypeContext } from "../context";
 import Link from "next/link"
-import { isRoDomain } from "../../utils/general";
 
-export default function ProductDescription ({options, optionVariants, images, name ,description, productData, lang, nameru, nameen, descriptionru, descriptionen}) {
-    const roDomain = isRoDomain()
-    
-    const {deviceType, setDeviceType} = useContext(DeviceTypeContext)
+export default function ProductDescription ({
+  images, 
+  name ,
+  description, 
+  productData, 
+  lang, 
+  nameru, 
+  nameen, 
+  descriptionru, 
+  descriptionen
+}) {    
+    const {deviceType} = useContext(DeviceTypeContext)
     
     const [page, setPage] = useState(0)
     const [lightboxOpen, setLightboxOpen] = useState(0)
@@ -19,43 +25,16 @@ export default function ProductDescription ({options, optionVariants, images, na
     })
     const [autoHeight, setAutoHeight] = useState(0)
 
-    const coeficientFinder = (size) => {
-      if(roDomain){
-        if(size.width < productData[0].medium_size && size.height < productData[0].medium_size){
-          return productData[0].smallcoeficient_ro
-        }
-        else if(size.width < productData[0].big_size && size.height < productData[0].big_size) {
-            return productData[0].mediumcoeficient_ro
-        }
-        else{
-            return productData[0].bigcoeficient_ro
-        }
-      } else{
-        if(size.width < productData[0].medium_size && size.height < productData[0].medium_size){
-            return productData[0].smallcoeficient
-        }
-        else if(size.width < productData[0].big_size && size.height < productData[0].big_size) {
-            return productData[0].mediumcoeficient
-        }
-        else{
-            return productData[0].bigcoeficient
-        }
-      }
-    }
-
     function getColSpan (deviceType, index) {
         switch(deviceType){
             case "mobile" : 
                 return index % 3 == 0 ? "col-span-12" : "col-span-6"
-            break;
 
             case "tablet" :
                 return index % 5 <= 1 ? "col-span-6" : "col-span-4"
-            break;
 
             case "desktop" :
                 return index % 7 <= 2 ? "col-span-4" : "col-span-3"
-            break;
 
             default :
                 return index % 3 == 0 ? "col-span-12" : "col-span-6"

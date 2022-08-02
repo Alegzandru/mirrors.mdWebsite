@@ -1,7 +1,6 @@
 import Layout from "../../../components/layout"
 import UAParser from "ua-parser-js";
 import ProductPage from "../../../components/catalog/productPage"
-import {getAllProductPaths, getProductData} from "../../../lib/products"
 import {API_URL} from "../../../utils/urls"
 import { DeviceTypeContext, SeenRecentlyContext } from "../../../components/context";
 import { useContext, useEffect } from "react";
