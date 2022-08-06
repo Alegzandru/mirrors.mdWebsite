@@ -1,23 +1,24 @@
 import 'react-awesome-lightbox/build/style.css';
-import 'react-multi-carousel/lib/styles.css';
+import 'swiper/css';
 
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Lightbox from 'react-awesome-lightbox';
 import { useForm } from 'react-hook-form';
-import Carousel from 'react-multi-carousel';
 import Scroll from 'react-scroll';
 import ReactTooltip from 'react-tooltip';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
 import { CartContext } from '../../components/context';
+import { coeficientFinder, getSize } from '../../lib/products';
 import { getCurrency, getCurrencyString, getPrice, getPriceAddon, isRoDomain } from '../../utils/general';
 import DropdownProduct2 from './DropdownProduct2';
 
 var Element = Scroll.Element;
 
-export default function ProductComponent ({deviceType, name, images, options, optionVariants, productData, optionsRaw, lang, nameru, nameen, optionsRu, optionsEn}) {
+export default function ProductComponent ({ name, images, options, optionVariants, productData, optionsRaw, lang, nameru, nameen, optionsRu, optionsEn}) {
   const roDomain = isRoDomain()
   const router = useRouter()
 
@@ -25,36 +26,11 @@ export default function ProductComponent ({deviceType, name, images, options, op
   const imagesLightbox = images.map((image) => {
       return image.src
   })
-
-  const coeficientFinder = (size) => {
-    if(roDomain){
-    if(size.width < productData[0].medium_size && size.height < productData[0].medium_size){
-      return productData[0].smallcoeficient_ro
-    }
-    else if(size.width < productData[0].big_size && size.height < productData[0].big_size) {
-      return productData[0].mediumcoeficient_ro
-    }
-    else{
-      return productData[0].bigcoeficient_ro
-    }
-    }
-    else{
-    if(size.width < productData[0].medium_size && size.height < productData[0].medium_size){
-      return productData[0].smallcoeficient
-    }
-    else if(size.width < productData[0].big_size && size.height < productData[0].big_size) {
-      return productData[0].mediumcoeficient
-    }
-    else{
-      return productData[0].bigcoeficient
-    }
-    }
-  }
       
   const [checkout, setCheckout] = useState(false)
   const {cart, setCart} = useContext(CartContext)
 
-  const [price, setPrice] = useState(Math.round(getPrice(productData[0], productData[0].defaultsize) * ( 1 + coeficientFinder(productData[0].defaultsize))))
+  const [price, setPrice] = useState(Math.round(getPrice(productData[0], productData[0].defaultsize) * ( 1 + coeficientFinder(productData[0].defaultsize, productData[0], roDomain))))
   const [sizeGlobal, setSizeGlobal] = useState(productData[0].defaultsize)
   const [textAcrilic, setTextAcrilic] = useState('')
   const [openOptions, setOpenOptions] = useState(true)
@@ -66,324 +42,153 @@ export default function ProductComponent ({deviceType, name, images, options, op
 
   const { register, handleSubmit } = useForm();
 
-  const onSubmit = (data) => {
-    
+  const onSubmit = async (data) => {
     contorAddons = 1
     const addOns = Object.entries(data).filter((addOn) => addOn[1] != null && addOn[1] != false && addOn[0] != "Dimensiuni recomandate")
     let size = productData[0].defaultsize
+    size = await getSize(sizeGlobal.height, sizeGlobal.width)
 
-    fetch(`https://mirrors-md-admin.herokuapp.com/sizes?name_eq=${sizeGlobal.height}x${sizeGlobal.width}`)
+    let addOnsPrice = 0
+
+    let productCart = {
+      product : {},
+      addOns : [],
+      size : size,
+      number : 1,
+      textAcrilic: textAcrilic,
+      price : Math.round(getPrice(productData[0], size) * ( 1 + coeficientFinder(size, productData[0], roDomain)))
+    }
+
+    fetch(`https://mirrors-md-admin.herokuapp.com/products?name_eq=${name}`)
       .then(response => response.json())
       .then(data => {
-        if(data.length == 0){
-          const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-              name : `${sizeGlobal.height}x${sizeGlobal.width}`,
-              height : sizeGlobal.height,
-              width : sizeGlobal.width
-            })
-          };
-      
-          fetch(`https://mirrors-md-admin.herokuapp.com/sizes`, requestOptions)
-            .then(response => response.json())
-            .then(data => {
-              size = data
+        productCart.product = data[0]
 
-              let addOnsPrice = 0
-
-              let productCart = {
-                product : {},
-                addOns : [],
-                size : size,
-                number : 1,
-                textAcrilic: textAcrilic,
-                price : Math.round(getPrice(productData[0], size) * ( 1 + coeficientFinder(size)))
-              }
-
-              fetch(`https://mirrors-md-admin.herokuapp.com/products?name_eq=${name}`)
-                .then(response => response.json())
-                .then(data => {
-                  productCart.product = data[0]
-
-                  if(addOns.length == 0){
-                    if( cart.length != 0 && productCart.product.name == cart[cart.length - 1].product.name  && cart[cart.length - 1].size.name == `${size.height}x${size.width}` && productCart.textAcrilic == cart[cart.length - 1].textAcrilic){
-                      let mutableCart = [...cart]
-                      mutableCart[mutableCart.length - 1].number += 1
-                      setCart(
-                        mutableCart
-                      )
-                      if(checkout){
-                        router.push("/cos/checkout")
-                      }
-                    }
-                    else{
-                      setCart([
-                        ...cart,
-                        productCart
-                      ])
-                      if(checkout){
-                        router.push("/cos/checkout")
-                      }
-                    }
-                  }
-                  addOns.map((addOn, index) => {
-                    if(addOn[1] == true){
-                      let addOnRaw = optionsRaw.filter((addOnRaw) => {
-                        return addOnRaw.name == addOn[0]
-                      })
-                      if(cart.length == 0){
-                        contorAddons = 0
-                      }
-                      else if(cart[cart.length - 1].addOns.length != addOns.length){
-                        contorAddons = 0
-                      }
-                      else if(cart[cart.length - 1].addOns.length != 0){
-                        if(addOn[0] != cart[cart.length - 1].addOns[index].name){
-                          contorAddons = 0
-                        }
-                      }
-
-                      productCart.addOns.push(addOnRaw[0])
-                      addOnsPrice += getPriceAddon( addOnRaw[0] , productCart.size)
-
-                      if (index == addOns.length-1){
-                        if( contorAddons && cart[cart.length - 1].size.name == `${size.height}x${size.width}` && productCart.textAcrilic == cart[cart.length - 1].textAcrilic){
-                          let mutableCart = [...cart]
-                          mutableCart[mutableCart.length - 1].number += 1
-                          setCart(
-                            mutableCart
-                          )
-                          if(checkout){
-                            router.push("/cos/checkout")
-                          }
-                        }
-                        else{
-                          productCart.price += addOnsPrice
-                          setCart([
-                            ...cart,
-                            productCart
-                          ])
-                          if(checkout){
-                            router.push("/cos/checkout")
-                          }
-                        }
-                      }
-                    }
-                    else{
-                      let addOnRaw = optionsRaw.filter((addOnRaw) => {
-                        return addOnRaw.group == addOn[0] && addOnRaw.typename == addOn[1]
-                      })
-                      if(cart.length == 0){
-                        contorAddons = 0
-                      }
-                      else if(cart[cart.length - 1].addOns.length != addOns.length){
-                        contorAddons = 0
-                      }
-                      else if(cart[cart.length - 1].addOns.length != 0){
-                        if(addOn[0] != cart[cart.length - 1].addOns[index].group || addOn[1] != cart[cart.length - 1].addOns[index].typename){
-                          contorAddons = 0
-                        }
-                      }
-
-                      productCart.addOns.push(addOnRaw[0])
-                      addOnsPrice += getPriceAddon( addOnRaw[0] , productCart.size)
-
-                      if (index == addOns.length-1){
-                        if( contorAddons && cart[cart.length - 1].size.name == `${size.height}x${size.width}` && productCart.textAcrilic == cart[cart.length - 1].textAcrilic){
-                          let mutableCart = [...cart]
-                          mutableCart[mutableCart.length - 1].number += 1
-                          setCart(
-                            mutableCart
-                          )
-                          if(checkout){
-                            router.push("/cos/checkout")
-                          }
-                        }
-                        else{
-                          productCart.price += addOnsPrice
-                          setCart([
-                            ...cart,
-                            productCart
-                          ])
-                          if(checkout){
-                            router.push("/cos/checkout")
-                          }
-                        }
-                      }
-                    }
-                  })
-                }
-              )
-            })
-        }
-        else{
-          size = data[0]
-
-          let addOnsPrice = 0
-
-          let productCart = {
-            product : {},
-            addOns : [],
-            size : size,
-            number : 1,
-            textAcrilic: textAcrilic,
-            price : Math.round(getPrice(productData[0], size) * (1 + coeficientFinder(size)))
-          }
-
-          fetch(`https://mirrors-md-admin.herokuapp.com/products?name_eq=${name}`)
-            .then(response => response.json())
-            .then(data => {
-              productCart.product = data[0]
-
-              if(addOns.length == 0){
-                if( cart.length != 0 && productCart.product.name == cart[cart.length - 1].product.name && cart[cart.length - 1].size.name == `${size.height}x${size.width}` && productCart.textAcrilic == cart[cart.length - 1].textAcrilic){
-                  let mutableCart = [...cart]
-                  mutableCart[mutableCart.length - 1].number += 1
-                  setCart(
-                    mutableCart
-                  )
-                  if(checkout){
-                    router.push("/cos/checkout")
-                  }
-                }
-                else{
-                  setCart([
-                    ...cart,
-                    productCart
-                  ])
-                  if(checkout){
-                    router.push("/cos/checkout")
-                  }
-                }
-              }
-              addOns.map((addOn, index) => {
-                if(addOn[1] == true){
-                  let addOnRaw = optionsRaw.filter((addOnRaw) => {
-                    return addOnRaw.name == addOn[0]
-                  })
-                  if(cart.length == 0){
-                    contorAddons = 0
-                  }
-                  else if(cart[cart.length - 1].addOns.length != addOns.length){
-                    contorAddons = 0
-                  }
-                  else if(cart[cart.length - 1].addOns.length != 0){
-                    if(addOn[0] != cart[cart.length - 1].addOns[index].name){
-                      contorAddons = 0
-                    }
-                  }
-
-                  productCart.addOns.push(addOnRaw[0])
-                  addOnsPrice += getPriceAddon( addOnRaw[0] , productCart.size)
-
-                  if (index == addOns.length-1){
-                    if( contorAddons && cart[cart.length - 1].size.name == `${size.height}x${size.width}` && productCart.textAcrilic == cart[cart.length - 1].textAcrilic){
-                      let mutableCart = [...cart]
-                      mutableCart[mutableCart.length - 1].number += 1
-                      setCart(
-                        mutableCart
-                      )
-                      if(checkout){
-                        router.push("/cos/checkout")
-                      }
-                    }
-                    else{
-                      productCart.price += addOnsPrice
-                      setCart([
-                        ...cart,
-                        productCart
-                      ])
-                      if(checkout){
-                        router.push("/cos/checkout")
-                      }
-                    }
-                  }
-                }
-                else{
-                  let addOnRaw = optionsRaw.filter((addOnRaw) => {
-                    return addOnRaw.group == addOn[0] && addOnRaw.typename == addOn[1]
-                  })
-                  if(cart.length == 0){
-                    contorAddons = 0
-                  }
-                  else if(cart[cart.length - 1].addOns.length != addOns.length){
-                    contorAddons = 0
-                  }
-                  else if(cart[cart.length - 1].addOns.length != 0){
-                    if(addOn[0] != cart[cart.length - 1].addOns[index].group || addOn[1] != cart[cart.length - 1].addOns[index].typename){
-                      contorAddons = 0
-                    }
-                  }
-
-                  productCart.addOns.push(addOnRaw[0])
-                  addOnsPrice += getPriceAddon( addOnRaw[0] , productCart.size)
-
-                  if (index == addOns.length-1){
-                    if( contorAddons && cart[cart.length - 1].size.name == `${size.height}x${size.width}` && productCart.textAcrilic == cart[cart.length - 1].textAcrilic){
-                      let mutableCart = [...cart]
-                      mutableCart[mutableCart.length - 1].number += 1
-                      setCart(
-                        mutableCart
-                      )
-                      if(checkout){
-                        router.push("/cos/checkout")
-                      }
-                    }
-                    else{
-                      productCart.price += addOnsPrice
-                      setCart([
-                        ...cart,
-                        productCart
-                      ])
-                      if(checkout){
-                        router.push("/cos/checkout")
-                      }
-                    }
-                  }
-                }
-              })
+        if(addOns.length == 0){
+          if( cart.length != 0 && productCart.product.name == cart[cart.length - 1].product.name  && cart[cart.length - 1].size.name == `${size.height}x${size.width}` && productCart.textAcrilic == cart[cart.length - 1].textAcrilic){
+            let mutableCart = [...cart]
+            mutableCart[mutableCart.length - 1].number += 1
+            setCart(
+              mutableCart
+            )
+            if(checkout){
+              router.push("/cos/checkout")
             }
-          )
+          }
+          else {
+            setCart([
+              ...cart,
+              productCart
+            ])
+            if(checkout){
+              router.push("/cos/checkout")
+            }
+          }
         }
-      })
-    
+        addOns.forEach((addOn, index) => {
+          if(addOn[1] == true){
+            let addOnRaw = optionsRaw.filter((addOnRaw) => {
+              return addOnRaw.name == addOn[0]
+            })
+            if(cart.length == 0){
+              contorAddons = 0
+            }
+            else if(cart[cart.length - 1].addOns.length != addOns.length){
+              contorAddons = 0
+            }
+            else if(cart[cart.length - 1].addOns.length != 0){
+              if(addOn[0] != cart[cart.length - 1].addOns[index].name){
+                contorAddons = 0
+              }
+            }
+
+            productCart.addOns.push(addOnRaw[0])
+            addOnsPrice += getPriceAddon( addOnRaw[0] , productCart.size)
+
+            if (index == addOns.length-1) {
+              if( contorAddons && cart[cart.length - 1].size.name == `${size.height}x${size.width}` && productCart.textAcrilic == cart[cart.length - 1].textAcrilic){
+                let mutableCart = [...cart]
+                mutableCart[mutableCart.length - 1].number += 1
+                setCart(
+                  mutableCart
+                )
+                if(checkout){
+                  router.push("/cos/checkout")
+                }
+              }
+              else {
+                productCart.price += addOnsPrice
+                setCart([
+                  ...cart,
+                  productCart
+                ])
+                if(checkout){
+                  router.push("/cos/checkout")
+                }
+              }
+            }
+          }
+          else {
+            let addOnRaw = optionsRaw.filter((addOnRaw) => {
+              return addOnRaw.group == addOn[0] && addOnRaw.typename == addOn[1]
+            })
+            if(cart.length == 0){
+              contorAddons = 0
+            }
+            else if(cart[cart.length - 1].addOns.length != addOns.length){
+              contorAddons = 0
+            }
+            else if(cart[cart.length - 1].addOns.length != 0){
+              if(addOn[0] != cart[cart.length - 1].addOns[index].group || addOn[1] != cart[cart.length - 1].addOns[index].typename){
+                contorAddons = 0
+              }
+            }
+
+            productCart.addOns.push(addOnRaw[0])
+            addOnsPrice += getPriceAddon( addOnRaw[0] , productCart.size)
+
+            if (index == addOns.length-1) {
+              if( contorAddons && cart[cart.length - 1].size.name == `${size.height}x${size.width}` && productCart.textAcrilic == cart[cart.length - 1].textAcrilic){
+                let mutableCart = [...cart]
+                mutableCart[mutableCart.length - 1].number += 1
+                setCart(
+                  mutableCart
+                )
+                if(checkout){
+                  router.push("/cos/checkout")
+                }
+              }
+              else {
+                productCart.price += addOnsPrice
+                setCart([
+                  ...cart,
+                  productCart
+                ])
+                if(checkout){
+                  router.push("/cos/checkout")
+                }
+              }
+            }
+          }
+        })
+      }
+    )
   }
 
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cart))
   }, [cart])
 
-  useEffect(async () => {
-    const currencyStrapi = await getCurrency()
-    setCurrency(currencyStrapi)
-  }, [])
+  useEffect(() => {
+    const withCurrency = async () => {
+      const currencyStrapi = await getCurrency()
+      setCurrency(currencyStrapi)
+    }
+
+    withCurrency()
+  }, [] )
       
   const [openImage, setOpenImage] = useState(0)
-
-  const responsive = {
-    desktop: {
-      breakpoint: { max: 3000, min: 1367 },
-      items: 4,
-      slidesToSlide: 4,
-      partialVisibilityGutter: 40
-    },
-    tablet: {
-      breakpoint: { max: 1366, min: 769 },
-      items: 4,
-      slidesToSlide: 4,
-      partialVisibilityGutter: 40
-    },
-    mobile: {
-      breakpoint: { max: 768, min: 0 },
-      items: 2,
-      slidesToSlide: 2,
-      partialVisibilityGutter: 100
-    }
-  };
-
-  const inputEl = useRef(null);
 
   return (
     <div className="w-full h-auto px-container-sm md:px-container-md lg:px-container-lg xl:px-container-xl pt-128px md:pt-136px lg:pt-234px pb-88px md:pb-120px font-Ubuntu bg-ui-darkGrey">
@@ -459,7 +264,7 @@ export default function ProductComponent ({deviceType, name, images, options, op
 
       <div className="w-full bg-ui-grey flex flex-col lg:flex-row justify-between items-stretch">
         <div className="w-full lg:w-600px xl:w-720px">
-          <div className="relative h-288px md:h-720px lg:h-544px w-full cursor-pointer">
+          <div className="relative h-288px md:h-1050px lg:h-825px w-full cursor-pointer">
             <Image
               src={images[openImage].src}
               layout="fill"
@@ -469,31 +274,30 @@ export default function ProductComponent ({deviceType, name, images, options, op
             />
           </div>
           <div className="w-full relative h-128px md:h-165px mt-6 mb-4 z-10">
-            <Carousel
-              swipeable={true}
-              ssr
-              partialVisibile
-              deviceType={deviceType}
-              responsive={responsive}
-              infinite
-              itemClass="image-item"
+            <Swiper
+              spaceBetween={16}
+              slidesPerView="auto"
+              grabCursor
             >
-              {images.map((image, index) =>
-                <div key={index} className="w-full px-1">
-                  <div 
-                    className="w-full h-128px md:h-165px relative cursor-pointer"
-                    onClick={() => setOpenImage(index)}
-                  >
-                    <Image
-                      src={image.src}
-                      layout="fill"
-                      objectFit="cover"
-                      alt={name}
-                    />
-                  </div>
-                </div> 
+              {images.map((image, index) => (
+                <SwiperSlide key={index} className="product-image">
+                  <div className="w-128px md:w-165px h-128px md:h-165px px-1">
+                    <div 
+                      className="w-full h-full relative cursor-pointer"
+                      onClick={() => setOpenImage(index)}
+                    >
+                      <Image
+                        src={image.src}
+                        layout="fill"
+                        objectFit="cover"
+                        alt={name}
+                      />
+                    </div>
+                  </div> 
+                </SwiperSlide>
+              )
               )}
-            </Carousel>
+            </Swiper>
           </div>
         </div>
 
@@ -520,7 +324,7 @@ export default function ProductComponent ({deviceType, name, images, options, op
                   typename : size.name,
                   typenameru : size.name,
                   typenameen: size.name,
-                  price : Math.round(getPrice(productData[0], size) * ( 1 + coeficientFinder(size)))
+                  price : Math.round(getPrice(productData[0], size) * ( 1 + coeficientFinder(size, productData[0], roDomain)))
                 }
               )
             })}
@@ -529,7 +333,7 @@ export default function ProductComponent ({deviceType, name, images, options, op
             price={price}
             sizeGlobal={sizeGlobal}
             setSizeGlobal={setSizeGlobal}
-            initialPrice={Math.round(getPrice(productData[0], productData[0].defaultsize) * (1 + coeficientFinder(productData[0].defaultsize)))}
+            initialPrice={Math.round(getPrice(productData[0], productData[0].defaultsize) * (1 + coeficientFinder(productData[0].defaultsize, productData[0], roDomain)))}
             minHeight={productData[0].smallestsize.height}
             maxHeight={productData[0].biggestsize.height}
             minWidth={productData[0].smallestsize.width}

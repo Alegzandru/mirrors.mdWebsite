@@ -13,7 +13,8 @@ module.exports = {
         darkGrey : "#F1F1F1",
         blueishGrey : "#C2D1D9",
         dark : "#111215",
-        black : "#000000"
+        black : "#000000",
+        darkGreen: "#1B1C1F"
       },
       accent : {
         accent : "#515CAE",
@@ -21,7 +22,7 @@ module.exports = {
         dark : "#2A3373",
         error : "#FF3654",
         light : "#9AA2F2",
-        text2 : "#1F254C"
+        text2 : "#1F254C",
       },
       type : {
         dark : "#03210A",
@@ -32,6 +33,9 @@ module.exports = {
         border:{
           color : "#E9E9E9",
         }
+      },
+      secondary: {
+        dust: "#C4C4C4"
       }
     },
 
@@ -147,10 +151,13 @@ module.exports = {
         'popup-left-sm' : '0px',
         'checkout-top' : 'calc( (100vh - 240px) / 2 )',
         'checkout-left' : 'calc( (100vw - 288px) / 2 )',
+        'lg-image-ratio' : '119%',
+        'image-ratio' : '136%',
         '70vh' : '70vh',
         '1.5px' : '1.5px',
         '1050px' : '1050px',
         '981px' : '981px',
+        '825px' : '825px',
         '800px' : '800px',
         '776px' : '776px',
         '720px' : '720px',
@@ -263,7 +270,8 @@ module.exports = {
       scale: ['group-hover'],
       display: ['group-hover'],
       fill: ['hover', 'focus'],
-      margin : ['group-hover']
+      margin : ['group-hover'],
+      translate: ['hover', 'group-hover']
     }
   },
   plugins: [

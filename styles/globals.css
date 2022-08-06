@@ -4,10 +4,6 @@
 @tailwind components;
 @tailwind utilities;
 
-.image-item {
-  width: 386px;
-}
-
 .produseWidth{
   width : calc(100% - 382px - 32px - 122px);
 }
@@ -42,6 +38,10 @@
 
 .card2-shadow{
   box-shadow: 0px 10px 24px rgba(17, 18, 21, 0.08);
+}
+
+.eerie-shadow {
+  box-shadow: 0px 16px 16px 4px rgba(0, 0, 0, 0.12);
 }
 
 .gradient-instagram{
@@ -151,9 +151,21 @@ input[type=number] {
   z-index: 50;
 }
 
+.product-card {
+  width: 386px !important;
+}
+
+.product-image {
+  width: 165px !important;
+  height: 165px !important;
+}
+
 @media screen and (max-width: 1366px){
   .produseWidth{
     width : calc(100% - 382px - 32px - 24px);
+  }
+  .product-card {
+    width: 288px !important;
   }
 }
 
@@ -162,6 +174,11 @@ input[type=number] {
     width : 100%;
     margin-left : auto;
     margin-right: auto;
-    margin-top: 16px;
+    margin-top: 40px;
+  }
+
+  .product-image {
+    width: 128px !important;
+    height: 128px !important;
   }
 }

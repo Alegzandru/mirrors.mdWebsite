@@ -31,7 +31,7 @@ export default async function handler(req, res) {
 
       if(EventId !== 0){
         res.redirect(307, `/?status=${Success ? 'success' : 'error'}&eventid=${EventId}`)
-      } else{
+      } else {
         res.redirect(307, `/?status=success&eventid=${EventId}`)
       }
       
@@ -39,10 +39,10 @@ export default async function handler(req, res) {
       console.log(err)
       res.redirect(307, `/?status=error&eventid=0`)
     }
-  } else{
+  } else {
     if(eventId){
       res.redirect(307, `/?status=error&eventid=${eventId}`)
-    } else{
+    } else {
       res.redirect(307, `/?status=error&eventid=0`)
     }
   }

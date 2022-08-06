@@ -116,7 +116,7 @@ export function Navbar (props) {
     setSearchProducts(products)
   }
 
-  useEffect(async()=>{
+  useEffect(() => {
     if(props.category != undefined){
       setPath(router.pathname.replace("[category]", props.category))
     }
@@ -124,8 +124,12 @@ export function Navbar (props) {
       setPath(router.pathname.replace("[slug]", props.slug))
     }
 
-    const currencyStrapi = await getCurrency()
-    setCurrency(currencyStrapi)
+    const withCurrency = async () => {
+      const currencyStrapi = await getCurrency()
+      setCurrency(currencyStrapi)
+    }
+
+    withCurrency()
 
     if (typeof window !== "undefined") {
 
