@@ -11,6 +11,7 @@ import doneJSON from './done.json';
 import loadingJSON from './loading.json';
 import { getPriceAddon } from '../../utils/general';
 import { email } from '../../lib/email';
+import { coeficientFinder } from '../../lib/products';
 import lottie from 'lottie-web'
 
 var md5 = require('md5');
