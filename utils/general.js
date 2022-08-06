@@ -12,7 +12,7 @@ export function getPrice(product, size) {
       else if(material.type == "m2"){
           price += material.price * size.height * size.width / 1000000
       }
-      else{
+      else {
           price += material.price
       }
   });
@@ -27,7 +27,7 @@ export function getPriceAddon(addon, size) {
   else if(addon.type == "m2"){
       price = addon.price * size.height * size.width / 1000000
   }
-  else{
+  else {
       price = addon.price
   }
 

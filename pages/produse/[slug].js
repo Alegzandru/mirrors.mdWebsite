@@ -1,7 +1,6 @@
 import Layout from "../../components/layout"
 import UAParser from "ua-parser-js";
 import ProductPage from "../../components/catalog/productPage"
-import {getAllProductPaths, getProductData} from "../../lib/products"
 import {API_URL} from "../../utils/urls"
 import { DeviceTypeContext, SeenRecentlyContext } from "../../components/context";
 import { useContext, useEffect } from "react";
@@ -72,7 +71,7 @@ export async function getStaticProps({ params }) {
       if(option.group){
         return option.group
       }
-      else{
+      else {
         return option.name
       }
     })
@@ -81,7 +80,7 @@ export async function getStaticProps({ params }) {
       if(option.group){
         return option.groupru
       }
-      else{
+      else {
         return option.nameru
       }
     })
@@ -90,7 +89,7 @@ export async function getStaticProps({ params }) {
       if(option.group){
         return option.groupen
       }
-      else{
+      else {
         return option.nameen
       }
     })

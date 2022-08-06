@@ -40,7 +40,7 @@ export default function FilterPopup (props) {
                                 if(filter.name == option){
                                     return true
                                 }
-                                else{
+                                else {
                                     return false
                                 }
                             })}

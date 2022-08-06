@@ -1,14 +1,13 @@
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
-import { getCurrency, getCurrencyString, getPrice, isRoDomain } from '../../utils/general';
-import { getPriceAddon } from '../../utils/general'
-import { AddonPopupContext, PopupContext } from '../context';
+import { getCurrency, getCurrencyString, getPrice, getPriceAddon, isRoDomain } from '../../utils/general';
+import { AddonPopupContext } from '../context';
 
 export default function DropdownProduct(props) {
 
     const roDomain = isRoDomain()
 
-    const {addonOpen, setAddonOpen} = useContext(AddonPopupContext)
+    const {setAddonOpen} = useContext(AddonPopupContext)
 
     const [open, setOpen] = useState(true)
     const [chosen , setChosen] = useState(0)
@@ -29,28 +28,28 @@ export default function DropdownProduct(props) {
             if(chosen == e.target.value){
                 setChosen(0)
             }
-            else{
+            else {
                 setChosen(e.target.value)
             }
         }
-        else{
+        else {
             setChecked(!checked)
         }
     }
 
     const onSubmit = (data) => {
         if(lastChosen === 0){
-            props.setPrice(Math.round( props.price + ( getPrice(props.productData, data) * (1 + props.coeficientFinder(data))) - props.initialPrice))
+            props.setPrice(Math.round( props.price + ( getPrice(props.productData, data) * (1 + props.coeficientFinder(data, props.productData, roDomain))) - props.initialPrice))
             setLastChosen("custom")
         }
         else if(lastChosen == "custom"){
-            props.setPrice(props.price + Math.round( getPrice(props.productData, data) * (1 + props.coeficientFinder(data))) - Math.round(getPrice(props.productData, props.sizeGlobal) * ( 1 + props.coeficientFinder(props.sizeGlobal))))
+            props.setPrice(props.price + Math.round( getPrice(props.productData, data) * (1 + props.coeficientFinder(data, props.productData, roDomain))) - Math.round(getPrice(props.productData, props.sizeGlobal) * ( 1 + props.coeficientFinder(props.sizeGlobal, props.productData, roDomain))))
             setLastChosen("custom")
         }
-        else{
+        else {
             let lastOptionPriceRaw = props.options.filter((option) => option.typename == lastChosen)
             let lastOptionPrice = lastOptionPriceRaw[0].price
-            props.setPrice(props.price + Math.round( getPrice(props.productData, data) * (1 + props.coeficientFinder(data))) - lastOptionPrice)
+            props.setPrice(props.price + Math.round( getPrice(props.productData, data) * (1 + props.coeficientFinder(data, props.productData, roDomain))) - lastOptionPrice)
             setLastChosen("custom")
         }
         props.setSizeGlobal(
@@ -106,7 +105,7 @@ export default function DropdownProduct(props) {
         else if(checked){
             props.setPrice(props.price + getPriceAddon(props.options[0], props.sizeGlobal) )
         }
-        else{
+        else {
             props.setPrice(props.price - getPriceAddon(props.options[0], props.sizeGlobal) )
         }
     }, [checked])
@@ -121,13 +120,13 @@ export default function DropdownProduct(props) {
                 setLastChosen(0)
             }
         }
-        else{
+        else {
             let optionPriceRaw = props.options.filter((option) => option.typename == chosen)
             let optionPrice = 0
             if(props.name == "Dimensiuni recomandate"){
                 optionPrice = optionPriceRaw[0].price
             }
-            else{
+            else {
                 optionPrice = getPriceAddon(optionPriceRaw[0], props.sizeGlobal)
             }
 
@@ -140,20 +139,20 @@ export default function DropdownProduct(props) {
                         width : optionPriceRaw[0].width
                     })
                 }
-                else{
+                else {
                     props.setPrice(props.price + optionPrice)
                 }
                 setLastChosen(chosen)
             }
             else if(lastChosen == "custom"){
-                props.setPrice(props.price + optionPrice - Math.round( getPrice(props.productData, props.sizeGlobal) * (1 + props.coeficientFinder(props.sizeGlobal))))
+                props.setPrice(props.price + optionPrice - Math.round( getPrice(props.productData, props.sizeGlobal) * (1 + props.coeficientFinder(props.sizeGlobal, props.productData, roDomain))))
                 props.setSizeGlobal({
                     height : optionPriceRaw[0].height,
                     width : optionPriceRaw[0].width
                 })
                 setLastChosen(chosen)
             }
-            else{
+            else {
                 let lastOptionPriceRaw = props.options.filter((option) => option.typename == lastChosen)
                 let lastOptionPrice = lastOptionPriceRaw[0].price
                 
@@ -178,9 +177,13 @@ export default function DropdownProduct(props) {
       props.setTextAcrilic(value)
     }
 
-    useEffect(async () => {
-      const currencyStrapi = await getCurrency()
-      setCurrency(currencyStrapi)
+    useEffect(() => {
+      const withCurrency = async () => {
+        const currencyStrapi = await getCurrency()
+        setCurrency(currencyStrapi)
+      }
+  
+      withCurrency()
     }, [])
 
     return (

@@ -46,10 +46,14 @@ export default function Checkout({lang}) {
   const donothing = () => {
   }
 
-  useEffect(async () => {
-    const currencyStrapi = await getCurrency()
-    setCurrency(currencyStrapi)
-  }, [])
+  useEffect(() => {
+    const withCurrency = async () => {
+      const currencyStrapi = await getCurrency()
+      setCurrency(currencyStrapi)
+    }
+
+    withCurrency()
+  }, [] )
 
   const doneRef = useRef(null)
   const loadingRef = useRef(null)
@@ -78,30 +82,6 @@ export default function Checkout({lang}) {
   const sendMailOwner = (data) => email.owner(data)
 
   const sendMailClient = (data) => email.client(data)
-
-  const coeficientFinder = (size, product) => {
-    if(roDomain){
-    if(size.width < product.medium_size && size.height < product.medium_size){
-      return product.smallcoeficient_ro
-    }
-    else if(size.width < product.big_size && size.height < product.big_size) {
-      return product.mediumcoeficient_ro
-    }
-    else{
-      return product.bigcoeficient_ro
-    }
-    } else{
-    if(size.width < product.medium_size && size.height < product.medium_size){
-      return product.smallcoeficient
-    }
-    else if(size.width < product.big_size && size.height < product.big_size) {
-      return product.mediumcoeficient
-    }
-    else{
-      return product.bigcoeficient
-    }
-    }
-  }
 
   const formRef = useRef(null);
 
@@ -270,7 +250,7 @@ export default function Checkout({lang}) {
                 setVivaLink(link)
                 setButton(1)
               }
-              else{
+              else {
                 setVivaError(errorMessage)
               }
             }
@@ -353,7 +333,7 @@ export default function Checkout({lang}) {
                 }
               }
             }
-            else{
+            else {
               setPopupLoading(0)
               setPopupDone(1)
       
@@ -372,7 +352,7 @@ export default function Checkout({lang}) {
           }
       })
     }
-    else{
+    else {
       setStep(step+1)
     }
   }
@@ -1124,7 +1104,7 @@ export default function Checkout({lang}) {
               product.addOns.forEach((addOn) => {
                 addOnsPrice += getPriceAddon( addOn, product.size )
               })
-              let priceSingular = Math.round(getPrice(product.product, product.size) * ( 1 + coeficientFinder(product.size, product.product))) + addOnsPrice
+              let priceSingular = Math.round(getPrice(product.product, product.size) * ( 1 + coeficientFinder(product.size, product.product, roDomain))) + addOnsPrice
               let price = priceSingular * product.number
               priceTotal += price
               return (

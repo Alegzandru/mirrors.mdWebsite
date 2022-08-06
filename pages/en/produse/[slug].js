@@ -66,7 +66,7 @@ export async function getStaticProps({ params }) {
       if(option.group){
         return option.group
       }
-      else{
+      else {
         return option.name
       }
     })
@@ -75,7 +75,7 @@ export async function getStaticProps({ params }) {
       if(option.group){
         return option.groupru
       }
-      else{
+      else {
         return option.nameru
       }
     })
@@ -84,7 +84,7 @@ export async function getStaticProps({ params }) {
       if(option.group){
         return option.groupen
       }
-      else{
+      else {
         return option.nameen
       }
     })

@@ -17,7 +17,7 @@ export default function Layout (props) {
     const {seenRecently, setSeenRecently} = useContext(SeenRecentlyContext)
     const [categories, setCategories] = useState([])
 
-    useEffect( () => {
+    useEffect(() => {
         if (typeof window !== 'undefined') {
             JSON.parse(localStorage.getItem('cart')) == null ?
             setCart([])
