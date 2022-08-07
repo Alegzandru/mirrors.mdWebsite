@@ -26,7 +26,25 @@ const ButtonNext = ({nextSlide}) => (
   </div>
 )
 
+const ReviewButtonBack = ({prevSlide}) => (
+  <div className="w-8 h-8 bg-ui-darkGrey hover:bg-accent-light rounded-full flex justify-center items-center cursor-pointer group transition-all duration-300" onClick={prevSlide}>
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-ui-dark group-hover:text-ui-white transition-all duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+    </svg>
+  </div>
+)
+
+const ReviewButtonNext = ({nextSlide}) => (
+  <div className="w-8 h-8 bg-ui-darkGrey hover:bg-accent-light rounded-full flex justify-center items-center cursor-pointer group transition-all duration-300" onClick={nextSlide}>
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-ui-dark group-hover:text-ui-white transition-all duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+    </svg>
+  </div>
+)
+
 export {
   ButtonBack,
-  ButtonNext
+  ButtonNext,
+  ReviewButtonBack,
+  ReviewButtonNext
 };

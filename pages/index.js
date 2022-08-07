@@ -14,6 +14,7 @@ import { API_URL } from '../utils/urls';
 import Head from 'next/head';
 import PopupViva from '../components/mainPage/PopupViva';
 import { useRouter } from 'next/router'
+import Testimonials from '../components/mainPage/Testimonials/Testimonials';
 
 export default function MainPage({products}){
 
@@ -58,6 +59,7 @@ export default function MainPage({products}){
             products={products}
           ></PopularProducts>
           <Benefits lang="ro"/>
+          <Testimonials/>
           <NewProducts 
             lang="ro"
             deviceType={deviceType}

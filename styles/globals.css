@@ -160,12 +160,74 @@ input[type=number] {
   height: 165px !important;
 }
 
+.testimonial-photo {
+  width: 368px !important;
+  height: 698px !important;
+}
+
+.for-active-slide > .swiper-wrapper > .swiper-slide-active {
+  width: 420px !important;
+  height: 796px !important;
+  opacity: 1 !important;
+  border: 2px solid linear-gradient(45deg, #8C54FB, #FF3C3F);
+
+  transition: width 0.5s ease-in-out;
+  transition: height 0.5s ease-in-out;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.for-active-slide > .swiper-wrapper {
+  align-items: center;
+  height: 796px;
+}
+
+.for-active-slide > .swiper-wrapper > .swiper-slide-active > .instagram-border {
+  background-image: linear-gradient(45deg, #8C54FB, #FF8845, #FF3C3F);
+  padding: 2px;
+}
+
+.for-active-slide > .swiper-wrapper > .swiper-slide > .instagram-border > .testimonial-buttons {
+  display: none;
+}
+
+.for-active-slide > .swiper-wrapper > .swiper-slide-active > .instagram-border > .testimonial-buttons {
+  display: flex !important;
+}
+
+.for-active-slide > .swiper-wrapper > .swiper-slide {
+  opacity: 0.24;
+}
+
+.position-testimonial-buttons {
+  left: calc((100% - 460px) / 2);
+  z-index: 10000;
+}
+
 @media screen and (max-width: 1366px){
   .produseWidth{
     width : calc(100% - 382px - 32px - 24px);
   }
+
   .product-card {
     width: 288px !important;
+  }
+
+  .testimonial-photo {
+    width: 288px !important;
+    height: 546px !important;
+  }
+
+  .for-active-slide > .swiper-wrapper > .swiper-slide-active {
+    width: 348px !important;
+    height: 660px !important;
+  }
+  
+  .for-active-slide > .swiper-wrapper {
+    height: 660px;
+  }
+
+  .position-testimonial-buttons {
+    left: calc((100% - 388px) / 2);
   }
 }
 
@@ -180,5 +242,23 @@ input[type=number] {
   .product-image {
     width: 128px !important;
     height: 128px !important;
+  }
+
+  .testimonial-photo {
+    width: 200px !important;
+    height: 380px !important;
+  }
+
+  .for-active-slide > .swiper-wrapper > .swiper-slide-active {
+    width: 222px !important;
+    height: 420px !important;
+  }
+  
+  .for-active-slide > .swiper-wrapper {
+    height: 420px;
+  }
+
+  .position-testimonial-buttons {
+    left: calc((100% - 258px) / 2);
   }
 }
