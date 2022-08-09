@@ -11,7 +11,7 @@ import NewProducts from '../../components/mainPage/newProducts';
 import Options from '../../components/mainPage/options';
 import PopularProducts from '../../components/mainPage/popularProducts';
 import { API_URL } from '../../utils/urls';
-import Testimonials from '../../components/mainPage/Testimonials/testimonials';
+import Testimonials from '../../components/mainPage/Testimonials/Testimonials';
 
 export default function MainPage({products}){
 
