@@ -3,16 +3,11 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { v4 as uuidv4 } from 'uuid';
 
-import { getCurrency, getCurrencyString, getPrice, isRoDomain } from '../../utils/general';
-import { CartContext, PopupContext } from '../context';
-import doneJSON from './done.json';
-import loadingJSON from './loading.json';
-import { getPriceAddon } from '../../utils/general';
 import { email } from '../../lib/email';
 import { coeficientFinder } from '../../lib/products';
-import lottie from 'lottie-web'
+import { getCurrency, getCurrencyString, getPrice, getPriceAddon, isRoDomain } from '../../utils/general';
+import { CartContext, PopupContext } from '../context';
 
 var md5 = require('md5');
 // const ExternalId = (Math.floor(Math.random() * Date.now()))
@@ -55,30 +50,6 @@ export default function Checkout({lang}) {
 
     withCurrency()
   }, [] )
-
-  const doneRef = useRef(null)
-  const loadingRef = useRef(null)
-
-  useEffect(() => {
-    (
-      async () => {
-        lottie.loadAnimation({
-          container: doneRef.current,
-          animationData: doneJSON,
-          renderer: 'svg',
-          loop: true,
-          autoplay: true,
-        })
-        lottie.loadAnimation({
-          container: loadingRef.current,
-          animationData: loadingJSON,
-          renderer: 'svg',
-          loop: true,
-          autoplay: true,
-        })
-      }
-    )()
-  }, [])
 
   const sendMailOwner = (data) => email.owner(data)
 
@@ -182,44 +153,6 @@ export default function Checkout({lang}) {
           const response2 = await fetch(`https://mirrors-md-admin.herokuapp.com/clients`, requestOptionsClient)
           const strapiData = await response2.json()
 
-          let ClientCode = uuidv4()     
-
-          let ExpiryDate = "2022-01-01T00:00:00"
-
-          let productsPaynet = orders.map((order, index) => {
-            return({
-              Amount : Math.round(order.number * order.products[0].price * 100),
-              Barcode : order.products[0].id,
-              Code : order.products[0].slug,
-              Description : `Produsul ${order.products[0].name}`,
-              GroupId : order.products[0].category,
-              GroupName : "Produs",
-              LineNo : 1,
-              Name : order.products[0].name,
-              Quantity : Math.round(order.number),
-              UnitPrice : Math.round(order.products[0].price * 100),
-              UnitProduct : 1
-            })
-          })
-              
-          orders.map((order, index) => {
-            order.add_ons.map((addOn, indexAddon) => {
-              productsPaynet.push({
-                Amount : Math.round(order.number * order.products[0].price * 100),
-                Barcode : order.add_ons[indexAddon].id,
-                Code : order.add_ons[indexAddon].name,
-                Description : `Addon-ul ${order.add_ons[indexAddon].name}`,
-                GroupId : 2,
-                GroupName : "Add On",
-                LineNo : 1,
-                Name : order.add_ons[indexAddon].name,
-                Quantity : Math.round(order.number),
-                UnitPrice : Math.round(order.products[0].price * 100),
-                UnitProduct : 1
-              })
-            })
-          })
-
           sendMailOwner({
             ...strapiData,
             orders : orders,
@@ -231,15 +164,14 @@ export default function Checkout({lang}) {
             country: roDomain ? 'Romania' : 'Moldova'
           })
 
-          if(strapiData.mod_de_plata == "card"){
-
-            if(roDomain){
+          if(strapiData.mod_de_plata == "card") {
+            const priceViva = roDomain ? Math.round(strapiData.pret / currency) * 100 : strapiData.pret * 100
             try {
               const linkRaw = await fetch("/api/vivawallet", {
                 "method": "POST",
                 "headers": { "content-type": "application/json" },
                 "body": JSON.stringify({
-                amount: Math.round(strapiData.pret / currency) * 100,
+                amount: priceViva,
                 fullName: userInfo.nume + ' ' + userInfo.prenume,
                 email: userInfo.email,
                 })
@@ -258,99 +190,24 @@ export default function Checkout({lang}) {
             catch(e){
               console.log("Error : ", e)
             }
-            }
-            else {
-              var details = {
-                'grant_type': 'password',
-                'username': '723112',
-                'password' : process.env.NEXT_PUBLIC_PAYNET_PASSWORD,
-                'merchantcode' : '944726'
-              };
-              
-              var formBody = [];
-              for (var property in details) {
-                var encodedKey = encodeURIComponent(property);
-                var encodedValue = encodeURIComponent(details[property]);
-                formBody.push(encodedKey + "=" + encodedValue);
-              }
-              formBody = formBody.join("&");
-
-              const authRequestOptions = {
-                method : 'POST',
-                headers : {
-                  'Content-Type': 'application/x-www-form-urlencoded',
-                  'Accept-Language' : 'ro-RO'
-                },
-                body : formBody
-              }
-
-              const response3 = await fetch("https://nameless-shore-75507.herokuapp.com/https://paynet.md:4448/auth", authRequestOptions)
-              const dataAuth = await response3.json()
-                const requestOptionsPaynet = {
-                  method: 'POST',
-                  headers: { 
-                    'Content-Type': 'application/json',
-                    'Authorization' : `Bearer ${dataAuth.access_token}`
-                  },
-                  body: JSON.stringify({ 
-                    Invoice : ExternalId,
-                    Currency : 498,
-                    MerchantCode : "944726",
-                    Customer : {
-                      Code : ClientCode,
-                      NameFirst : userInfo.prenume,
-                      NameLast : userInfo.nume,
-                      PhoneNumber : strapiData.phone,
-                      email : strapiData.email,
-                      Country : "Moldova",
-                      City : "Chisinau",
-                      Address : strapiData.address
-                    },
-                    Services : [{
-                      Name : "Cumpărarea oglinzilor online",
-                      Description : "Cumpararea oglinzilor pe site-ul mirrors.md",
-                      Amount : Math.round(strapiData.pret * 100),
-                      products : productsPaynet
-                    }],
-                    ExpiryDate : ExpiryDate,
-                    SignVersion : "v05",
-                    MoneyType : {
-                      Code : "Paynet"
-                    }
-                  })
-                };
-
-                try {
-                const response4 = await fetch("https://nameless-shore-75507.herokuapp.com/https://paynet.md:4448/api/payments", requestOptionsPaynet)
-                const dataPayment = await response4.json()
-                PaymentId = dataPayment.PaymentId
-                ExpiryDate = dataPayment.ExpiryDate
-                Signature = dataPayment.Signature
-
-                setButton(1)
-                }
-                catch(e){
-                  console.log("Error : ", e)
-                }
-              }
-            }
-            else {
-              setPopupLoading(0)
-              setPopupDone(1)
-      
-              setTimeout(() => {
-                setPopupDone(0)
-                setPopupOpen(0)
-      
-                setTimeout(() => {
-                  localStorage.setItem('cart', "[]")
-                  setCart([])
-                  router.push("/")
-                }, 200)
-      
-              }, 1200)
-            }
           }
+          else {
+            setPopupLoading(0)
+            setPopupDone(1)
+    
+            setTimeout(() => {
+              setPopupDone(0)
+              setPopupOpen(0)
+    
+              setTimeout(() => {
+                localStorage.setItem('cart', "[]")
+                setCart([])
+                router.push("/")
+              }, 200)
+    
+            }, 1200)
+          }
+        }
       })
     }
     else {
@@ -361,19 +218,12 @@ export default function Checkout({lang}) {
   return (
     <div>
       <div className={`w-288px h-240px bg-ui-white fixed top-checkout-top left-checkout-left flex flex-col items-center justify-center rounded-xl ${popupDone ? "block" : "hidden"} z-20`}>
-        <div className="w-240px h-120px transform scale-150">
-          <div className="h-full w-full" ref={doneRef}/>
-        </div>
-        <div className="w-240px text-sm-p md:text-md-p lg:text-lg-p text-type-manatee">
-          {
-            lang == "ro" ? 
-            "Comanda a fost procesată. Vei fi telefonat in cel mai scurt timp posibil"
-            :
-            lang == "ru" ?
-            "Заказ обработан. Вам позвонят в ближайшее время"
-            :
-            "Your order was processed. You will be called as soon as possible."
-          }
+        <div className="w-224px h-224px">
+          <video
+            autoPlay loop muted playsInline className="z-10 relative bg-ui-dark w-full h-full outline-none transform scale-105" 
+          >
+            <source src="/checkout/done.mp4" type="video/mp4"/>
+          </video>              
         </div>
       </div>
 
@@ -385,13 +235,12 @@ export default function Checkout({lang}) {
           </div>
           :
           button ?
-            roDomain ? 
             <div className="flex flex-col justify-center items-center relative w-full">
               <Image
                 src="/branding/vivawallet.png"
                 height={55}
                 width={240}
-                alt="Paynet logo"
+                alt="Vuva logo"
               ></Image>
               <a href={vivaLink} target="_blank" className="w-full" onClick={() => emptyCart()}>
                 <button className={`${vivaLink ? "flex" : "hidden"} flex-row justify-center items-center bg-accent-accent rounded-lg text-ui-white font-bold hover:bg-accent-light h-12 w-full transition duration-300 mt-4`}>
@@ -407,42 +256,13 @@ export default function Checkout({lang}) {
                 </button>
               </a>
             </div>
-            :
-            <div className="flex flex-col justify-center items-center relative w-full">
-              <Image
-                src="/branding/paynet1.png"
-                height={108}
-                width={240}
-                alt="Paynet logo"
-              ></Image>
-              <button onClick={() => redirectCall()} className={`${button ? "flex" : "hidden"} flex-row justify-center items-center bg-accent-accent rounded-lg text-ui-white font-bold hover:bg-accent-light h-12 w-full transition duration-300 mt-4`}>
-                {
-                  lang == "ro" ?
-                  "Plătește comanda"
-                  :
-                  lang == "ru" ?
-                  "Оплатить заказ"
-                  :
-                  "Pay the order"
-                }
-              </button>
-            </div>
           :
-            <div>
-              <div className="w-240px h-120px transform scale-150">
-                <div className="h-full w-full" ref={loadingRef}/>
-              </div>
-              <div className="w-240px text-sm-p md:text-md-p lg:text-lg-p text-type-manatee">
-                {
-                  lang == "ro" ?
-                  "Comanda se procesează"
-                  :
-                  lang == "ru" ?
-                  "Заказ обрабатывается"
-                  :
-                  "Your order is being processed"
-                }
-              </div>
+            <div className="w-224px h-224px">
+              <video
+                autoPlay loop muted playsInline className="z-10 relative bg-ui-dark w-full h-full outline-none transform scale-105" 
+              >
+                <source src="/checkout/loading.mp4" type="video/mp4"/>
+              </video>              
             </div>
         }
       </div>
@@ -1440,14 +1260,6 @@ export default function Checkout({lang}) {
           </div>
 
         </div>
-      </form>
-      <form method="POST" target="_blank" ref={formRef} action="https://paynet.md/acquiring/getecom">
-        <input type="hidden" name="Lang" value={lang == "ro" ? "ro-RO" : lang == "ru" ? "ru-RU" : "en-US"}/>
-        <input type="hidden" name="operation" value=""/>
-        <input type="hidden" name="ExpiryDate" value=""/>
-        <input type="hidden" name="Signature" value=""/>
-        <input type="hidden" name="LinkUrlSuccess" value=""/>
-        <input type="hidden" name="LinkUrlCancel" value=""/>
       </form>
     </div>
   )

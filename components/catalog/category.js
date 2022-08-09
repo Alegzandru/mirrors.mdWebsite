@@ -57,8 +57,13 @@ export default function Category({category, name, products, lang, nameru, nameen
   const optionNames = uniq(optionNamesUnfiltered)
   const optionNamesRu = uniq(optionNamesUnfilteredRu)
   const optionNamesEn = uniq(optionNamesUnfilteredEn)
+
+  const getPages = () => {
+    if (productsApi.length <= showNr) return 1
+    else return Math.trunc(productsApi.length / showNr) + 1
+  }
       
-  const pages = Math.round(productsApi.length / 32) + 1
+  const pages = getPages()
       
   const sortingOptionsRaw = {
     ro : [
