@@ -1,6 +1,5 @@
-import Link from 'next/link'
-import enableInlineVideo from 'iphone-inline-video';
-import { useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
+import { useState } from 'react';
 
 export default function Hero({lang}){
 
@@ -10,7 +9,7 @@ export default function Hero({lang}){
     <div className="w-full overflow-hidden h-70vh md:h-screen bg-ui-darkGrey">
       <div className="h-70vh md:h-screen w-full overflow-hidden relative">
         <video 
-          autoPlay loop muted playsInline className="filter brightness-25 -mt-4 z-10 relative object-cover bg-ui-dark hero-video object-center" 
+          autoPlay loop muted playsInline className="filter brightness-50 -mt-4 z-10 relative object-cover bg-ui-dark hero-video object-center" 
         >
           <source src="/mainPage/milloryVideo.mp4" type="video/mp4" onError={() => setErrorVideo(1)} className={`${errorVideo ? "hidden" : "block"}`}/>
           <img alt="Video error" src="/mainPage/hero/bg.jpg" title="Video-ul nu este accesibil" className={`${errorVideo ? "block" : "hidden"}`}/>
