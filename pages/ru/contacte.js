@@ -8,8 +8,8 @@ export default function Contacte () {
     return(
         <Layout lang="ru">
             <HeadWithMeta
-              title="Контакты | Millora"
-              description="Вы можете увидеть продукцию на сайте Millora в нашем выставочном зале на Ismail 98. Чтобы связаться с нами, позвоните по телефону +373 69 482 034."
+              title="Контакты | Millory"
+              description="Вы можете увидеть продукцию на сайте Millory в нашем выставочном зале на Ismail 98. Чтобы связаться с нами, позвоните по телефону +373 69 482 034."
               img="https://res.cloudinary.com/dbh1vgas3/image/upload/v1629027820/logoMirrors2_rzmtcv.jpg"
               index={true}
             />

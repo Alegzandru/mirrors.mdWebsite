@@ -489,7 +489,7 @@ export function Navbar (props) {
                         src="/branding/milloryLogoLightDesktop.png"
                         height={32}
                         width={136}
-                        alt="Logo Millora"
+                        alt="Logo Millory"
                       />
                     </a>
                   </Link>
@@ -510,7 +510,7 @@ export function Navbar (props) {
                         src="/branding/milloryLogoDarkDesktop.png"
                         height={32}
                         width={136}
-                        alt="Logo Millora"
+                        alt="Logo Millory"
                       />
                     </a>
                   </Link>
@@ -919,7 +919,7 @@ export function Navbar (props) {
                   src="/branding/milloryLogoLightMobile.png"
                   height={40}
                   width={40}
-                  alt="Logo Millora"
+                  alt="Logo Millory"
                 />
               </a>
             </Link>
@@ -940,7 +940,7 @@ export function Navbar (props) {
                   src="/branding/milloryLogoDarkMobile.png"
                   height={40}
                   width={40}
-                  alt="Logo Millora"
+                  alt="Logo Millory"
                 />
               </a>
             </Link>

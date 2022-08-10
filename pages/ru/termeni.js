@@ -6,7 +6,7 @@ export default function Termeni (){
     return(
         <Layout lang="ru">
             <HeadWithMeta
-              title="Условия пользования | Millora"
+              title="Условия пользования | Millory"
               description=""
               img="https://res.cloudinary.com/dbh1vgas3/image/upload/v1629027820/logoMirrors2_rzmtcv.jpg"
               index={false}

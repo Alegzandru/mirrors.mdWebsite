@@ -32,8 +32,8 @@ export function DynamicProduct ({productData}) {
   return (
       <Layout lang="ro" slug={productData[0].slug}>
           <HeadWithMeta
-            title={`${productData[0].name} | Millora`}
-            description={`${productData[0].name} - unul dintre produsele din colectia "${productData[0].category.name}" de pe site-ul Millora. Livram in Chisinau si restul Moldovei.`}
+            title={`${productData[0].name} | Millory`}
+            description={`${productData[0].name} - unul dintre produsele din colectia "${productData[0].category.name}" de pe site-ul Millory. Livram in Chisinau si restul Moldovei.`}
             img="https://res.cloudinary.com/dbh1vgas3/image/upload/v1629027820/logoMirrors2_rzmtcv.jpg"
             index={true}
           />

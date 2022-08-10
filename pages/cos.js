@@ -7,7 +7,7 @@ export default function Cos () {
     return(
         <Layout lang="ro">
             <HeadWithMeta
-              title="Cos | Millora"
+              title="Cos | Millory"
               description=""
               img="https://res.cloudinary.com/dbh1vgas3/image/upload/v1629027820/logoMirrors2_rzmtcv.jpg"
               index={false}

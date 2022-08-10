@@ -40,7 +40,7 @@ export default function Footer (props) {
                         src="/branding/milloryFooterLogo.png"
                         width={232}
                         height={66}
-                        alt="Logo Millora"
+                        alt="Logo Millory"
                     />
                 </div>
                 <div className="mdFooter:hidden">
@@ -49,7 +49,7 @@ export default function Footer (props) {
                         className="h-14 w-14 mdFooter:w-8 mdFooter:h-8"
                         height={56}
                         width={56}
-                        alt="Logo Millora"
+                        alt="Logo Millory"
                     />
                 </div>
                 <div className="text-type-grey hidden mdFooter:block">

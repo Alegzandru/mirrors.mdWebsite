@@ -235,7 +235,7 @@ export default function ContacteMap ({lang}) {
         </div>
 
         <div className="flex-grow h-320px md:h-full w-full md:w-auto">
-          <GoogleMap/>
+          <GoogleMap lang={lang}/>
         </div>
       </div>
     </div>

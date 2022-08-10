@@ -78,7 +78,7 @@ export default function InstaBlock ({lang}) {
                       src={image}
                       layout="fill"
                       objectFit="cover"
-                      alt="Millora instagram photo"
+                      alt="Millory instagram photo"
                     />
                   </div>
                   <div className="group-hover:opacity-100 opacity-0 bg-instafade flex flex-col justify-center items-center h-full w-full absolute -mt-360px z-20 transition duration-300 text-ui-grey font-medium">

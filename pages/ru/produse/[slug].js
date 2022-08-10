@@ -27,8 +27,8 @@ export function DynamicProduct ({productData}) {
   return (
       <Layout lang="ru" slug={productData[0].slug}>
           <HeadWithMeta
-            title={`${productData[0].nameru} | Millora`}
-            description={`${productData[0].nameru} - один из товаров из колекции "${productData[0].category.nameru}" на сайте Millora. Доставка в Кишинев и другие районы Молдовы.`}
+            title={`${productData[0].nameru} | Millory`}
+            description={`${productData[0].nameru} - один из товаров из колекции "${productData[0].category.nameru}" на сайте Millory. Доставка в Кишинев и другие районы Молдовы.`}
             img="https://res.cloudinary.com/dbh1vgas3/image/upload/v1629027820/logoMirrors2_rzmtcv.jpg"
             index={true}
           />

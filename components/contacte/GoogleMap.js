@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react'
 import { locations, markerIcon } from '../../constants/locations'
 import { isRoDomain } from '../../utils/general'
 
-const GoogleMap = () => {
+const GoogleMap = ({lang}) => {
   const googleMapRef = useRef(null)
   const mapContainerRef = useRef(null)
   const mapRef = useRef(null)
@@ -62,7 +62,17 @@ const GoogleMap = () => {
             height={30}
             width={30}
           />
-          <span className="ml-2 text-ui-white font-medium">Open in Waze</span>
+          <span className="ml-2 text-ui-white font-medium">
+            {
+              lang == "ro" ?
+              "Deschide cu Waze"
+              :
+              lang == "ru" ?
+              "Открыть в Waze"
+              :
+              "Open in Waze"
+            }
+          </span>
         </a>
       </div>}
     </div>

@@ -70,7 +70,7 @@ export default function GalerieComponent (props) {
                                 layout="fill"
                                 objectFit="cover"
                                 className="rounded-md"
-                                alt="Millora instagram photo"
+                                alt="Millory instagram photo"
                             />
                         </div>
                     )
