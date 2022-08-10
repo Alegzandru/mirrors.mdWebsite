@@ -56,7 +56,7 @@ const GoogleMap = () => {
     <div ref={mapContainerRef} className="w-full max-w-screen relative">
       <div id="map" ref={googleMapRef} className="h-320px md:h-588px lg:h-600px w-full"/>
       {!roDomain && <div className="absolute top-245px md:top-32 left-2">
-        <a href="https://waze.com/ul/hu8ke2x9ej" target="_blank" className="flex items-center p-2 rounded-md bg-waze">
+        <a href="https://ul.waze.com/ul?place=ChIJU21Ydz58yUARFGrxGdirmJ0&ll=47.01925290%2C28.85239670&navigate=yes&utm_campaign=default&utm_source=waze_website&utm_medium=lm_share_location" target="_blank" className="flex items-center p-2 rounded-md bg-waze">
           <Image
             src="/branding/waze.png"
             height={30}
