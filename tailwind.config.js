@@ -7,6 +7,7 @@ module.exports = {
       transparent: 'transparent',
       instafade: 'rgba(0, 0, 0, 0.6)',
       instatext : '#8C54FB',
+      waze: '#31C6F7',
       ui : {
         white : "#FFFFFF",
         grey: "#F7F7F7",

@@ -1,11 +1,15 @@
 import { Loader } from '@googlemaps/js-api-loader'
+import Image from 'next/image'
 import { useEffect, useRef } from 'react'
 import { locations, markerIcon } from '../../constants/locations'
+import { isRoDomain } from '../../utils/general'
 
 const GoogleMap = () => {
   const googleMapRef = useRef(null)
   const mapContainerRef = useRef(null)
   const mapRef = useRef(null)
+
+  const roDomain = isRoDomain()
 
   useEffect(() => {
     (async () => {
@@ -49,8 +53,18 @@ const GoogleMap = () => {
   }, [])
 
   return (
-    <div ref={mapContainerRef} className="w-full max-w-screen">
+    <div ref={mapContainerRef} className="w-full max-w-screen relative">
       <div id="map" ref={googleMapRef} className="h-320px md:h-588px lg:h-600px w-full"/>
+      {!roDomain && <div className="absolute top-245px md:top-32 left-2">
+        <a href="https://waze.com/ul/hu8ke2x9ej" target="_blank" className="flex items-center p-2 rounded-md bg-waze">
+          <Image
+            src="/branding/waze.png"
+            height={30}
+            width={30}
+          />
+          <span className="ml-2 text-ui-white font-medium">Open in Waze</span>
+        </a>
+      </div>}
     </div>
   )
 }
