@@ -6,7 +6,7 @@ import Scroll from 'react-scroll';
 
 import { CartContext, DeviceTypeContext, PopupContext } from '../../components/context';
 import { coeficientFinder, getSize } from '../../lib/products';
-import { getCurrency, getCurrencyString, getPrice, getPriceAddon, isRoDomain } from '../../utils/general';
+import { getCurrency, getCurrencyString, getPrice, getPriceAddon, isRoDomain, uniq } from '../../utils/general';
 import { API_URL } from '../../utils/urls';
 import DropdownProduct2 from '../catalog/DropdownProduct2';
 
@@ -506,7 +506,7 @@ export default function CosProducts({lang}){
                           stroke="currentColor"
                           onClick={() => {
                             setCart(
-                              cart.filter((product2, index2) => {
+                              cart.filter((_, index2) => {
                                 return index != index2
                               })
                             )
@@ -539,7 +539,7 @@ export default function CosProducts({lang}){
                           <div className="text-lg-14 text-type-grey mb-4">
                             {product.size.height+"x"+product.size.width+" mm"}
                           </div>
-                          <div 
+                          {!product.stock && <div 
                             className="flex flex-row justify-start items-center text-accent-accent cursor-pointer"
                             onClick={async () => {
                               setPopupProduct(product)
@@ -560,7 +560,7 @@ export default function CosProducts({lang}){
                                 "Choose another size"
                               }
                             </div>
-                          </div>
+                          </div>}
                           {product.textAcrilic && <div className="w-full text-type-manatee mt-3 text-lg-14">
                             <span>
                             Text solicitat :
@@ -622,7 +622,7 @@ export default function CosProducts({lang}){
                         })
                       }
                       
-                      <div 
+                      {!product.stock && <div 
                         className="flex flex-row justify-start items-center text-accent-accent mt-4 cursor-pointer"
                         onClick={async () => {
                           const category = product.product.category.name
@@ -658,22 +658,11 @@ export default function CosProducts({lang}){
                               return option.nameen
                             }
                           })
-      
-                          function uniq(a) {
-                            var prims = {"boolean":{}, "number":{}, "string":{}}, objs = [];
-                          
-                            return a.filter(function(item) {
-                              var type = typeof item;
-                              if(type in prims)
-                                return prims[type].hasOwnProperty(item) ? false : (prims[type][item] = true);
-                              else
-                                return objs.indexOf(item) >= 0 ? false : objs.push(item);
-                            });
-                          }
                         
                           setOptionNames(uniq(optionNamesUnfiltered))
                           setOptionNamesRu(uniq(optionNamesUnfilteredRu))
                           setOptionNamesEn(uniq(optionNamesUnfilteredEn))
+                          
                           setPopupOpen("addOns")
                         }}
                       >
@@ -691,7 +680,7 @@ export default function CosProducts({lang}){
                             "Configure the options"
                           }
                         </div>
-                      </div>
+                      </div>}
                     </div>
                     <div className="py-6 px-2 lg:px-6 md:w-40 lg:w-272px border-l-0 border-b md:border-b-0 border-t-0 border-r-2 border-ui-darkGrey flex flex-row justify-center items-center">
                       <div className="w-40px h-40px flex flex-row justify-center items-center group hover:bg-ui-grey transition duration-300 rounded-lg">
@@ -756,13 +745,16 @@ export default function CosProducts({lang}){
                           </div>
                           <div>
                             {
-                              roDomain ? 
-                              currency === 4 ? 
-                                '...' :
-                                Math.round(getPrice(product.product, product.size) * ( 1 + coeficientFinder(product.size, product.product, roDomain)) / currency ) * product.number 
-                              :
-                              Math.round(getPrice(product.product, product.size) * ( 1 + coeficientFinder(product.size, product.product, roDomain)) ) * product.number
-                              }
+                              roDomain ?
+                              currency === 4 
+                                ? '...' 
+                                : product.stock 
+                                  ? Math.round(product.price / currency) * product.number 
+                                  : Math.round(getPrice(product.product, product.size) * ( 1 + coeficientFinder(product.size, product.product, roDomain)) / currency ) * product.number 
+                              : product.stock 
+                                ? product.price * product.number 
+                                : Math.round(getPrice(product.product, product.size) * ( 1 + coeficientFinder(product.size, product.product, roDomain)) ) * product.number
+                            }
                             {
                               getCurrencyString(lang, roDomain)
                             }
@@ -806,12 +798,11 @@ export default function CosProducts({lang}){
                         </div>
                         <div>
                           {
-                            roDomain ?
-                            currency === 4 ?
-                            '...' :
-                            ( Math.round( getPrice(product.product, product.size) * ( 1 + coeficientFinder(product.size, product.product, roDomain)) / currency ) + Math.round(optionsPrice /currency) ) * product.number
-                            :
-                            ( Math.round(getPrice(product.product, product.size) * ( 1 + coeficientFinder(product.size, product.product, roDomain)) ) + optionsPrice) * product.number
+                            roDomain 
+                              ? currency === 4 
+                                ? '...' 
+                                : Math.round(product.price / currency) * product.number
+                            : product.price * product.number
                           } 
                           {
                             getCurrencyString(lang, roDomain)

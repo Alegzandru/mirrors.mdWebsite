@@ -5,6 +5,7 @@ import {API_URL} from "../../../utils/urls"
 import { DeviceTypeContext, SeenRecentlyContext } from "../../../components/context";
 import { useContext, useEffect } from "react";
 import {HeadWithMeta} from '../../../components/HeadWithMeta'
+import { uniq } from "../../../utils/general";
 
 export function DynamicProduct ({productData}) {
 
@@ -89,18 +90,6 @@ export async function getStaticProps({ params }) {
       }
     })
 
-    function uniq(a) {
-      var prims = {"boolean":{}, "number":{}, "string":{}}, objs = [];
-  
-      return a.filter(function(item) {
-          var type = typeof item;
-          if(type in prims)
-              return prims[type].hasOwnProperty(item) ? false : (prims[type][item] = true);
-          else
-              return objs.indexOf(item) >= 0 ? false : objs.push(item);
-      });
-    }
-  
     const optionNames = uniq(optionNamesUnfiltered)
     const optionNamesRu = uniq(optionNamesUnfilteredRu)
     const optionNamesEn = uniq(optionNamesUnfilteredEn)

@@ -107,6 +107,10 @@ export default function Checkout({lang}) {
       cart.map(async (cartProduct, index) => {
         let price = cartProduct.price
 
+        const getFinishedProduct = cartProduct.product.finished_products.filter((finished) => (
+          cartProduct.size.height === finished.height && cartProduct.size.width === finished.width
+        ))[0]
+
         const requestOptions = {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -116,7 +120,8 @@ export default function Checkout({lang}) {
             price : price,
             number : cartProduct.number,
             size : cartProduct.size,
-            text_acrilic: cartProduct.textAcrilic
+            text_acrilic: cartProduct.textAcrilic,
+            finished_product: getFinishedProduct
           })
         }
         
@@ -925,7 +930,7 @@ export default function Checkout({lang}) {
               product.addOns.forEach((addOn) => {
                 addOnsPrice += getPriceAddon( addOn, product.size )
               })
-              let priceSingular = Math.round(getPrice(product.product, product.size) * ( 1 + coeficientFinder(product.size, product.product, roDomain))) + addOnsPrice
+              let priceSingular = product.stock ? product.price : Math.round(getPrice(product.product, product.size) * ( 1 + coeficientFinder(product.size, product.product, roDomain))) + addOnsPrice
               let price = priceSingular * product.number
               priceTotal += price
               return (

@@ -54,9 +54,9 @@ export async function getStaticProps() {
   const products_res = await fetch(`${API_URL}/products`)
   const products_raw = await products_res.json()
   const products = products_raw.filter((product) => 
-    product.name && product.name !== "" &&
-    product.nameru && product.nameru !== "" &&
-    product.slug && product.slug !== "" &&
+    product.name &&
+    product.nameru &&
+    product.slug &&
     product.smallcoeficient && 
     product.mediumcoeficient && 
     product.bigcoeficient &&

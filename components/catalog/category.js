@@ -1,25 +1,43 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link as LinkScroll } from 'react-scroll';
 
-import { getCurrency, getCurrencyString, getPrice, isRoDomain } from '../../utils/general';
+import { getCurrency, getCurrencyString, getPrice, isRoDomain, uniq } from '../../utils/general';
 import Dropdown from './Dropdown';
 import Dropdown2 from './Dropdown2';
 import FilterPopup from './FilterPopup';
+
+import {sortingOptionsRaw} from '../../constants/sorting'
 
 export default function Category({category, name, products, lang, nameru, nameen}) {
 
   const roDomain = isRoDomain()
 
+  const inStock = name === "În Stoc"
+
+  const [currency, setCurrency] = useState(4)
+
+  const getInStockPrice = (finished) => {
+    const prices = finished.map((product) => roDomain ? Math.round(product.price_ro / currency) : product.price)
+    return Math.min(...prices)
+  }
+
+  const getProductPrice = (product) => {
+    if (inStock) return getInStockPrice(product.finished_products)
+    else if (roDomain) {
+      if (currency === 4) return '...'
+      else return Math.round( getPrice(product, product.smallestsize) * (1 + product.smallcoeficient_ro) / currency) 
+    } else return Math.round( getPrice(product, product.smallestsize) * (1 + product.smallcoeficient)) 
+  }
+
   const smallCoeficient = roDomain ? 'smallcoeficient_ro' : 'smallcoeficient'
 
-  const [productsApi, setProductsApi] = useState(products)
-
-  const { register, handleSubmit, watch, formState: { errors }, reset } = useForm();
+  const { register, handleSubmit, formState: { errors }, reset } = useForm();
       
   const [sorting, setSorting] = useState(0)
+  const [filtersState, setFiltersState] = useState({})
   const [openFilters, setOpenFilters] = useState(0)
   const [showReset, setShowReset] = useState(0)
       
@@ -27,9 +45,7 @@ export default function Category({category, name, products, lang, nameru, nameen
   const [showFrom, setShowFrom] = useState(0)
       
   const [loadingSorting, setLoadingSorting] = useState(0)
-      
-  const [currency, setCurrency] = useState(4)
-      
+            
   const optionNamesUnfiltered = category[0].filters.map((option) => {
     return option.name
   })
@@ -42,97 +58,11 @@ export default function Category({category, name, products, lang, nameru, nameen
     return option.nameen
   })
       
-  function uniq(a) {
-    var prims = {"boolean":{}, "number":{}, "string":{}}, objs = [];
-    
-    return a.filter(function(item) {
-      var type = typeof item;
-      if(type in prims)
-      return prims[type].hasOwnProperty(item) ? false : (prims[type][item] = true);
-      else
-      return objs.indexOf(item) >= 0 ? false : objs.push(item);
-    });
-  }
-      
   const optionNames = uniq(optionNamesUnfiltered)
   const optionNamesRu = uniq(optionNamesUnfilteredRu)
   const optionNamesEn = uniq(optionNamesUnfilteredEn)
 
-  const getPages = () => {
-    if (productsApi.length <= showNr) return 1
-    else return Math.trunc(productsApi.length / showNr) + 1
-  }
-      
-  const pages = getPages()
-      
-  const sortingOptionsRaw = {
-    ro : [
-      {
-        name : "Popularitate",
-        index : 0
-      },
-      {
-        name : "Cele mai recente",
-        index : 1
-      },
-      {
-        name : "Preț: de la mare la mic",
-        index : 2
-      },
-      {
-        name : "Preț: de la mic la mare",
-        index : 3
-      }
-    ],
-    ru : [
-      {
-        name : "Популярность",
-        index : 0
-      },
-      {
-        name : "Новейшие продукты",
-        index : 1
-      },
-      {
-        name : "Цена: от высокой к низкой",
-        index : 2
-      },
-      {
-        name : "Цена: от низкой к высокой",
-        index : 3
-      }
-    ],
-    en: [
-      {
-        name : "Popularity",
-        index : 0
-      },
-      {
-        name : "Most recent",
-        index : 1
-      },
-      {
-        name : "Price: from big to small",
-        index : 2
-      },
-      {
-        name : "Price: from small to big",
-        index : 3
-      }
-    ]
-  }
-
-  let sortingOptions
-
-  if(lang == "ru"){
-    sortingOptions = sortingOptionsRaw.ru
-  }
-  else if(lang == "en"){
-    sortingOptions = sortingOptionsRaw.en
-  }
-  else {
-    sortingOptions = sortingOptionsRaw.ro
-  }
+  const sortingOptions = sortingOptionsRaw[lang]
 
   const [activeFilters, setActiveFilters] = useState(optionNames.map((option) => {
     return{
@@ -140,11 +70,77 @@ export default function Category({category, name, products, lang, nameru, nameen
     }
   }))
 
-  const onSubmit = (data) => {
-    
-    setShowReset(0)
+  const getFilteredProducts = (productsToFilter) => productsToFilter.filter((product) => {
+    let contor = true
+    Object.keys(filtersState).length !== 0 && optionNames.map((optionName) => {
+      const productFilter = product.filters.filter((filter) => filter.name == optionName)
+      if(contor){
+        if(filtersState[optionName] == false || filtersState[optionName].length == 0){
+          contor = true
+        }
+        else if(productFilter.length == 0){
+          contor = false
+        }
+        else if(product.filters.length === 0){
+          contor = false
+        }
+        else if(filtersState[optionName].includes(productFilter[0].value)){
+          contor = true
+        }
+        else {
+          contor = false
+        }
+      }
+    })
+    return contor
+  })
 
-    setActiveFilters(prevState => {
+  const handleProductsSortingChange = (productsSorting) => {
+    switch(sorting){
+      case 0 : {
+        return productsSorting
+      }
+      case 1 : {
+        return([...productsSorting].sort((a, b) => {
+          if (a.published_at > b.published_at) {
+            return 1;
+          }
+          if (a.published_at < b.published_at) {
+            return -1;
+          }
+          return 0;
+          }))
+      }
+      case 2 : {
+        return([...productsSorting].sort((a, b) => Math.round( getPrice(b, b.defaultsize) * (1 + b[smallCoeficient]) ) - Math.round( getPrice(a, a.defaultsize) * (1 + a[smallCoeficient]) )))
+      }
+      case 3 : {
+        return([...productsSorting].sort((a, b) => Math.round( getPrice(a, a.defaultsize) * (1 + a[smallCoeficient]) ) - Math.round( getPrice(b, b.defaultsize) * (1 + b[smallCoeficient]) )))
+      }
+      default : return(productsSorting)
+    }
+  }
+
+  const productsApi = useMemo(() => {
+    const filteredProducts = getFilteredProducts(products)
+    const afterSorting = handleProductsSortingChange(filteredProducts)
+    return afterSorting
+  }, [getFilteredProducts, handleProductsSortingChange])
+
+  const getPages = () => {
+    if (!productsApi || productsApi.length <= showNr) return 1
+    else return Math.trunc(productsApi.length / showNr) + 1
+  }
+      
+  const pages = getPages()
+
+  const onSubmit = async (data) => {
+    
+    await setShowReset(0)
+
+    await setFiltersState(data)
+
+    await setActiveFilters(prevState => {
       const newState = prevState.map((option, index2) => {
         if(data[optionNames[index2]] != false && data[optionNames[index2]].length != 0){
           setShowReset(1)
@@ -160,74 +156,11 @@ export default function Category({category, name, products, lang, nameru, nameen
       })
       return newState
     })
-    
-    const newProducts = products.filter((product) => {
-      let contor = true
-      optionNames.map((optionName) => {
-        const productFilter = product.filters.filter((filter) => filter.name == optionName)
-        // productFiltered = productFilterUnfiltered[0].value
-        if(contor){
-          if(data[optionName] == false || data[optionName].length == 0){
-            contor = true
-          }
-          else if(productFilter.length == 0){
-            contor = false
-          }
-          else if(product.filters.length === 0){
-            contor = false
-          }
-          else if(data[optionName].includes(productFilter[0].value)){
-            contor = true
-          }
-          else {
-            contor = false
-          }
-        }
-      })
-      return contor
-    })
-    setProductsApi(newProducts)
   }
       
-  function handleSortingChange (index) {
-    setSorting(index)
+  const handleSortingChange = async (index) => {
+    await setSorting(index)
   }
-
-  async function handleProductsSortingChange(sorting) {
-    switch(sorting){
-      case 0 : {
-        setProductsApi(products)
-      }
-      break;
-      case 1 : {
-        setProductsApi([...productsApi].sort((a, b) => {
-          if (a.published_at > b.published_at) {
-            return 1;
-          }
-          if (a.published_at < b.published_at) {
-            return -1;
-          }
-          return 0;
-          }))
-      }
-      break;
-      case 2 : {
-        setProductsApi([...productsApi].sort((a, b) => Math.round( getPrice(b, b.defaultsize) * (1 + roDomain ? b["smallcoeficient_ro"] : b["smallcoeficient"]) ) - Math.round( getPrice(a, a.defaultsize) * (1 + roDomain ? a["smallcoeficient_ro"] : a["smallcoeficient"]) )))
-      }
-      break;
-      case 3 : {
-        setProductsApi([...productsApi].sort((a, b) => Math.round( getPrice(a, a.defaultsize) * (1 + roDomain ? a["smallcoeficient_ro"] : a["smallcoeficient"]) ) - Math.round( getPrice(b, b.defaultsize) * (1 + roDomain ? b["smallcoeficient_ro"] : b["smallcoeficient"]) )))
-      }
-      break;
-      default : setProductsApi(products)
-      break;
-    }
-  }
-
-  useEffect(() => {
-    handleProductsSortingChange(sorting)
-  }
-  , [sorting])
 
   useEffect(() => {
     const withCurrency = async () => {
@@ -333,7 +266,7 @@ export default function Category({category, name, products, lang, nameru, nameen
           </div>
         </div>
 
-        <div className="w-full h-px bg-ui-blueishGrey mb-8"/>
+        {category[0].filters.length ? <div className="w-full h-px bg-ui-blueishGrey mb-8"/> : ''}
 
       <form onSubmit={handleSubmit(onSubmit)} className="hidden lg:block mb-116px">
         <div 
@@ -405,12 +338,12 @@ export default function Category({category, name, products, lang, nameru, nameen
           <div className="px-2 py-4 text-type-grey text-lg-14 hidden smCatalog:block">
             {
               lang == "ro" ?
-              `${productsApi.length} produse`
+              `${productsApi && productsApi.length} produse`
               :
               lang == "ru" ?
-              `${productsApi.length} товаров`
+              `${productsApi && productsApi.length} товаров`
               :
-              `${productsApi.length} items`
+              `${productsApi && productsApi.length} items`
             }
           </div>
 
@@ -444,18 +377,19 @@ export default function Category({category, name, products, lang, nameru, nameen
           "Loading..."
           :
           <div className="w-full grid grid-flow-row grid-cols-12 gap-4">
-            {productsApi.slice(showFrom*showNr, showFrom*showNr + showNr).map((product, index) => {
+            {productsApi && productsApi.slice(showFrom*showNr, showFrom*showNr + showNr).map((product, index) => {
               return (
                 <div key={index} className="h-auto w-full col-span-12 smCatalog:col-span-6 md:col-span-4 lg:col-span-3">
-                  <Link href={
-                    lang == "ro" ? 
+                  <Link href={{
+                    pathname: lang == "ro" ? 
                     `/produse/${product.slug}` 
                     : 
                     lang == "ru" ?
                     `/ru/produse/${product.slug}`
                     :
-                    `/en/produse/${product.slug}`
-                  }>
+                    `/en/produse/${product.slug}`,
+                    query: {tip: inStock ? 'stoc' : 'comanda'},
+                  }}>
                     <a>
                       <div className="bg-ui-white rounded-xl p-5 border-2 border-transparent hover:border-accent-accent transition duration-300 group">
                         <div className="w-full pb-image-ratio lg:pb-lg-image-ratio relative rounded-lg overflow-hidden transform group-hover:scale-105 transition duration-300">
@@ -499,17 +433,8 @@ export default function Category({category, name, products, lang, nameru, nameen
                             :
                             "from "
                           }
-                          {
-                            roDomain ? 
-                            currency === 4 ? 
-                            '...' :
-                            Math.round( getPrice(product, product.smallestsize) * (1 + product.smallcoeficient_ro) / currency) 
-                            :
-                            Math.round( getPrice(product, product.smallestsize) * (1 + product.smallcoeficient)) 
-                          } 
-                          {
-                            getCurrencyString(lang, roDomain)
-                          }
+                          {getProductPrice(product)} 
+                          {getCurrencyString(lang, roDomain)}
                         </div>
                       </div>
                     </a>
@@ -577,12 +502,12 @@ export default function Category({category, name, products, lang, nameru, nameen
           <div className="text-lg-14 text-type-grey font-normal">
             {
               lang == "ro" ?
-              `Afișare ${showFrom * 32} - ${showFrom * 32 + showNr} (din ${productsApi.length})`
+              `Afișare ${showFrom * 32} - ${showFrom * 32 + showNr} (din ${productsApi && productsApi.length})`
               :
               lang == "ru" ?
-              `Отображать ${showFrom * 32} - ${showFrom * 32 + showNr} (из ${productsApi.length})`
+              `Отображать ${showFrom * 32} - ${showFrom * 32 + showNr} (из ${productsApi && productsApi.length})`
               :
-              `Displaying ${showFrom * 32} - ${showFrom * 32 + showNr} (from ${productsApi.length})`
+              `Displaying ${showFrom * 32} - ${showFrom * 32 + showNr} (from ${productsApi && productsApi.length})`
             }
           </div>
         </div>

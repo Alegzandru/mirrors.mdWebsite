@@ -4,7 +4,7 @@ import 'swiper/css';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import Lightbox from 'react-awesome-lightbox';
 import { useForm } from 'react-hook-form';
 import Scroll from 'react-scroll';
@@ -21,6 +21,9 @@ var Element = Scroll.Element;
 export default function ProductComponent ({ name, images, options, optionVariants, productData, optionsRaw, lang, nameru, nameen, optionsRu, optionsEn}) {
   const roDomain = isRoDomain()
   const router = useRouter()
+  const queryKey = 'tip';
+  const queryValue = router.query[queryKey] || router.asPath.match(new RegExp(`[&?]${queryKey}=(.*)(&|$)`))
+  const inStock = queryValue ? typeof queryValue === 'string' ? queryValue === 'stoc' : queryValue.length ? queryValue.includes('stoc') : false : false
 
   const [lightboxOpen, setLightboxOpen] = useState(0)
   const imagesLightbox = images.map((image) => {
@@ -30,8 +33,28 @@ export default function ProductComponent ({ name, images, options, optionVariant
   const [checkout, setCheckout] = useState(false)
   const {cart, setCart} = useContext(CartContext)
 
-  const [price, setPrice] = useState(Math.round(getPrice(productData[0], productData[0].defaultsize) * ( 1 + coeficientFinder(productData[0].defaultsize, productData[0], roDomain))))
-  const [sizeGlobal, setSizeGlobal] = useState(productData[0].defaultsize)
+  const getSmallestPriceProduct = (finished) => {
+    const prices = finished.map((product) => roDomain ? product.price_ro : product.price)
+    const min = Math.min(...prices)
+    return finished.filter((product) => product.price === min)[0]
+  }
+
+  const smallestPriceProduct = useMemo(() => getSmallestPriceProduct(productData[0].finished_products), [getSmallestPriceProduct, productData])
+
+  const getInitialPrice = useCallback(() => {
+    if (inStock) {
+      return smallestPriceProduct.price
+    } else return Math.round(getPrice(productData[0], productData[0].defaultsize) * ( 1 + coeficientFinder(productData[0].defaultsize, productData[0], roDomain)))
+  }, [inStock, productData, getPrice, coeficientFinder, roDomain])
+
+  const [price, setPrice] = useState(getInitialPrice())
+
+  const getInitialSize = () => {
+    if (inStock) return ({ height: smallestPriceProduct.height, width: smallestPriceProduct.width})
+    else return productData[0].defaultsize
+  }
+
+  const [sizeGlobal, setSizeGlobal] = useState(getInitialSize())
   const [textAcrilic, setTextAcrilic] = useState('')
   const [openOptions, setOpenOptions] = useState(true)
   const [currency, setCurrency] = useState(4)
@@ -42,9 +65,44 @@ export default function ProductComponent ({ name, images, options, optionVariant
 
   const { register, handleSubmit } = useForm();
 
+  const sortBySize = (sizes) => sizes.sort((a, b) => {
+    if (a.height * a.width > b.height * b.width) return 1
+    if (a.height * a.width < b.height * b.width) return -1
+  })
+
+  const customSizes = useMemo(() => {
+    const sorted = sortBySize(productData[0].linkedsizes)
+    return sorted.map((size) => {
+    return (
+      {
+        height : size.height,
+        width : size.width,
+        typename : size.name,
+        typenameru : size.name,
+        typenameen: size.name,
+        price : Math.round(getPrice(productData[0], size) * ( 1 + coeficientFinder(size, productData[0], roDomain)))
+      }
+    )
+  })}, [])
+
+  const inStockSizes = useMemo(() => {
+    const sorted = sortBySize(productData[0].finished_products)
+    return sorted.map((product) => {
+      return (
+        {
+          height : product.height,
+          width : product.width,
+          typename : `${product.height}x${product.width}`,
+          typenameru : `${product.height}x${product.width}`,
+          typenameen: `${product.height}x${product.width}`,
+          price : product.price
+        }
+      )
+  })}, [])
+
   const onSubmit = async (data) => {
     contorAddons = 1
-    const addOns = Object.entries(data).filter((addOn) => addOn[1] != null && addOn[1] != false && addOn[0] != "Dimensiuni recomandate")
+    const addOns = inStock ? [] : Object.entries(data).filter((addOn) => addOn[1] != null && addOn[1] != false && addOn[0] != "Dimensiuni recomandate")
     let size = productData[0].defaultsize
     size = await getSize(sizeGlobal.height, sizeGlobal.width)
 
@@ -56,7 +114,8 @@ export default function ProductComponent ({ name, images, options, optionVariant
       size : size,
       number : 1,
       textAcrilic: textAcrilic,
-      price : Math.round(getPrice(productData[0], size) * ( 1 + coeficientFinder(size, productData[0], roDomain)))
+      price : inStock ? price : Math.round(getPrice(productData[0], size) * ( 1 + coeficientFinder(size, productData[0], roDomain))),
+      stock: inStock 
     }
 
     fetch(`https://mirrors-md-admin.herokuapp.com/products?name_eq=${name}`)
@@ -65,7 +124,7 @@ export default function ProductComponent ({ name, images, options, optionVariant
         productCart.product = data[0]
 
         if(addOns.length == 0){
-          if( cart.length != 0 && productCart.product.name == cart[cart.length - 1].product.name  && cart[cart.length - 1].size.name == `${size.height}x${size.width}` && productCart.textAcrilic == cart[cart.length - 1].textAcrilic){
+          if( cart.length != 0 && productCart.product.name == cart[cart.length - 1].product.name  && cart[cart.length - 1].size.name == `${size.height}x${size.width}` && productCart.textAcrilic == cart[cart.length - 1].textAcrilic && cart[cart.length - 1].price === productCart.price){
             let mutableCart = [...cart]
             mutableCart[mutableCart.length - 1].number += 1
             setCart(
@@ -86,10 +145,20 @@ export default function ProductComponent ({ name, images, options, optionVariant
           }
         }
         addOns.forEach((addOn, index) => {
-          if(addOn[1] == true){
-            let addOnRaw = optionsRaw.filter((addOnRaw) => {
-              return addOnRaw.name == addOn[0]
-            })
+            const getAddOnRaw = () => {
+              if(addOn[1] == true) {
+                return optionsRaw.filter((addOnRaw) => {
+                  return addOnRaw.name == addOn[0]
+                })
+              } else {
+                return optionsRaw.filter((addOnRaw) => {
+                  return addOnRaw.group == addOn[0] && addOnRaw.typename == addOn[1]
+                })
+              }
+            }
+
+            let addOnRaw = getAddOnRaw()
+
             if(cart.length == 0){
               contorAddons = 0
             }
@@ -97,8 +166,14 @@ export default function ProductComponent ({ name, images, options, optionVariant
               contorAddons = 0
             }
             else if(cart[cart.length - 1].addOns.length != 0){
-              if(addOn[0] != cart[cart.length - 1].addOns[index].name){
-                contorAddons = 0
+              if(addOn[1] == true) {
+                if(addOn[0] != cart[cart.length - 1].addOns[index].name){
+                  contorAddons = 0
+                }
+              } else {
+                if(addOn[0] != cart[cart.length - 1].addOns[index].group || addOn[1] != cart[cart.length - 1].addOns[index].typename){
+                  contorAddons = 0
+                }
               }
             }
 
@@ -128,49 +203,7 @@ export default function ProductComponent ({ name, images, options, optionVariant
               }
             }
           }
-          else {
-            let addOnRaw = optionsRaw.filter((addOnRaw) => {
-              return addOnRaw.group == addOn[0] && addOnRaw.typename == addOn[1]
-            })
-            if(cart.length == 0){
-              contorAddons = 0
-            }
-            else if(cart[cart.length - 1].addOns.length != addOns.length){
-              contorAddons = 0
-            }
-            else if(cart[cart.length - 1].addOns.length != 0){
-              if(addOn[0] != cart[cart.length - 1].addOns[index].group || addOn[1] != cart[cart.length - 1].addOns[index].typename){
-                contorAddons = 0
-              }
-            }
-
-            productCart.addOns.push(addOnRaw[0])
-            addOnsPrice += getPriceAddon( addOnRaw[0] , productCart.size)
-
-            if (index == addOns.length-1) {
-              if( contorAddons && cart[cart.length - 1].size.name == `${size.height}x${size.width}` && productCart.textAcrilic == cart[cart.length - 1].textAcrilic){
-                let mutableCart = [...cart]
-                mutableCart[mutableCart.length - 1].number += 1
-                setCart(
-                  mutableCart
-                )
-                if(checkout){
-                  router.push("/cos/checkout")
-                }
-              }
-              else {
-                productCart.price += addOnsPrice
-                setCart([
-                  ...cart,
-                  productCart
-                ])
-                if(checkout){
-                  router.push("/cos/checkout")
-                }
-              }
-            }
-          }
-        })
+        )
       }
     )
   }
@@ -302,49 +335,49 @@ export default function ProductComponent ({ name, images, options, optionVariant
         </div>
 
         <div className="w-full lg:w-340px bg-ui-white py-56px px-2 md:px-4">
-          <DropdownProduct2
-            name={"Dimensiuni recomandate"}
-            nameru={"Рекомендуемые размеры"}
-            nameen={"Recommended sizes"}
-            options={productData[0].linkedsizes
-              .sort((a, b) => {
-              if (a.height * a.width > b.height * b.width) {
-                return 1;
-              }
-              if (a.height * a.width < b.height * b.width) {
-                return -1;
-              }
-              return 0;
-              })
-              .map((size, index) => {
-              return (
-                {
-                  height : size.height,
-                  width : size.width,
-                  typename : size.name,
-                  typenameru : size.name,
-                  typenameen: size.name,
-                  price : Math.round(getPrice(productData[0], size) * ( 1 + coeficientFinder(size, productData[0], roDomain)))
-                }
-              )
-            })}
-            register={register}
-            setPrice={setPrice}
-            price={price}
-            sizeGlobal={sizeGlobal}
-            setSizeGlobal={setSizeGlobal}
-            initialPrice={Math.round(getPrice(productData[0], productData[0].defaultsize) * (1 + coeficientFinder(productData[0].defaultsize, productData[0], roDomain)))}
-            minHeight={productData[0].smallestsize.height}
-            maxHeight={productData[0].biggestsize.height}
-            minWidth={productData[0].smallestsize.width}
-            maxWidth={productData[0].biggestsize.width}
-            coeficientFinder={coeficientFinder}
-            productData={productData[0]}
-            lang={lang}
-            optionsRaw={optionsRaw}
-            textAcrilic={textAcrilic}
-            setTextAcrilic={setTextAcrilic}
-          />
+          {
+            inStock ?
+            <DropdownProduct2
+              name={"Dimensiuni:"}
+              nameru={"Размеры"}
+              nameen={"Sizes"}
+              options={inStock ? inStockSizes : customSizes}
+              register={register}
+              setPrice={setPrice}
+              price={price}
+              sizeGlobal={sizeGlobal}
+              setSizeGlobal={setSizeGlobal}
+              initialPrice={getInitialPrice()}
+              coeficientFinder={coeficientFinder}
+              productData={productData[0]}
+              lang={lang}
+              textAcrilic={textAcrilic}
+              setTextAcrilic={setTextAcrilic}
+            />
+          :
+            <DropdownProduct2
+              name={"Dimensiuni recomandate"}
+              nameru={"Рекомендуемые размеры"}
+              nameen={"Recommended sizes"}
+              options={inStock ? inStockSizes : customSizes}
+              register={register}
+              setPrice={setPrice}
+              price={price}
+              sizeGlobal={sizeGlobal}
+              setSizeGlobal={setSizeGlobal}
+              initialPrice={Math.round(getPrice(productData[0], productData[0].defaultsize) * (1 + coeficientFinder(productData[0].defaultsize, productData[0], roDomain)))}
+              minHeight={productData[0].smallestsize.height}
+              maxHeight={productData[0].biggestsize.height}
+              minWidth={productData[0].smallestsize.width}
+              maxWidth={productData[0].biggestsize.width}
+              coeficientFinder={coeficientFinder}
+              productData={productData[0]}
+              lang={lang}
+              optionsRaw={optionsRaw}
+              textAcrilic={textAcrilic}
+              setTextAcrilic={setTextAcrilic}
+            />
+          }
         </div>
 
         <div className="w-full lg:w-options-lg xl:w-options-xl pt-6 lg:pt-72px pb-16 px-2 md:px-6 lg:px-8 bg-ui-white lg:bg-ui-grey relative h-full">
@@ -362,76 +395,78 @@ export default function ProductComponent ({ name, images, options, optionVariant
 
           <div className="text-lg-32 text-accent-accent mb-12">
             {
-              roDomain ? 
-              currency === 4 ? 
-              '...'
-              :
-              Math.round(price / currency) :
-              price
+              roDomain 
+              ? currency === 4 
+                ? '...'
+                : Math.round(price / currency) 
+              : price
             } 
             {
               getCurrencyString(lang, roDomain)
             }
           </div>
-
+          
           <form onSubmit={handleSubmit(onSubmit)} className="">
 
-            <div 
-              className="w-full cursor-pointer"
-              onClick={() => setOpenOptions(!openOptions)}
-            >
-              <div className="w-full flex flex-row justify-between items-center mb-2">
-                <div className="text-sm-h3 font-medium text-type-manatee">
-                  {
-                    lang == "ro" ?
-                    "Opțiuni suplimentare"
-                    :
-                    lang == "ru" ?
-                    "Дополнительные опции"
-                    :
-                    "Possible add-ons"
-                  }
+            {
+              !inStock && <>
+                <div 
+                  className="w-full cursor-pointer"
+                  onClick={() => setOpenOptions(!openOptions)}
+                >
+                  <div className="w-full flex flex-row justify-between items-center mb-2">
+                    <div className="text-sm-h3 font-medium text-type-manatee">
+                      {
+                        lang == "ro" ?
+                        "Opțiuni suplimentare"
+                        :
+                        lang == "ru" ?
+                        "Дополнительные опции"
+                        :
+                        "Possible add-ons"
+                      }
+                    </div>
+
+                    <svg xmlns="http://www.w3.org/2000/svg" className={`h-6 w-6 ${openOptions ? "hidden" : "block"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+
+                    <svg xmlns="http://www.w3.org/2000/svg" className={`h-6 w-6 ${openOptions ? "block" : "hidden"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                    </svg>
+                  </div>
+
+                  <div className={`w-full h-0.5 bg-ui-blueishGrey ${openOptions ? "hidden" : "block"}`}/>
                 </div>
 
-                <svg xmlns="http://www.w3.org/2000/svg" className={`h-6 w-6 ${openOptions ? "hidden" : "block"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-
-                <svg xmlns="http://www.w3.org/2000/svg" className={`h-6 w-6 ${openOptions ? "block" : "hidden"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
-                </svg>
-              </div>
-
-              <div className={`w-full h-0.5 bg-ui-blueishGrey ${openOptions ? "hidden" : "block"}`}/>
-            </div>
-
-            <Element name="test7" className="element" id="containerElement" style={{
-              position: 'relative',
-              height: '508px',
-              overflow: 'scroll',
-              borderRadius: "0px 0px 8px 8px",
-              border : "2px solid #C2D1D9",
-              boxShadow : "0px 2px 6px rgba(0, 0, 0, 0.08)",
-              display : openOptions ? "block" : "none"
-            }}>  
-
-              {options.map((option, index) =>
-                <DropdownProduct2
-                  name={option}
-                  nameru={optionsRu[index]}
-                  nameen={optionsEn[index]}
-                  options={optionVariants.filter((optionObj) => optionObj.group == option || optionObj.name == option)}
-                  register={register}
-                  key={index}
-                  setPrice={setPrice}
-                  price={price}
-                  productData={productData[0]}
-                  lang={lang}
-                  optionsRaw={optionsRaw}
-                  sizeGlobal={sizeGlobal}
-                />
-              )}
-            </Element>
+                <Element name="test7" className="element" id="containerElement" style={{
+                  position: 'relative',
+                  height: '508px',
+                  overflow: 'scroll',
+                  borderRadius: "0px 0px 8px 8px",
+                  border : "2px solid #C2D1D9",
+                  boxShadow : "0px 2px 6px rgba(0, 0, 0, 0.08)",
+                  display : openOptions ? "block" : "none"
+                }}>  
+                  {options.map((option, index) =>
+                    <DropdownProduct2
+                      name={option}
+                      nameru={optionsRu[index]}
+                      nameen={optionsEn[index]}
+                      options={optionVariants.filter((optionObj) => optionObj.group == option || optionObj.name == option)}
+                      register={register}
+                      key={index}
+                      setPrice={setPrice}
+                      price={price}
+                      productData={productData[0]}
+                      lang={lang}
+                      optionsRaw={optionsRaw}
+                      sizeGlobal={sizeGlobal}
+                    />
+                  )}
+                </Element>
+              </>
+            }
 
             {
               emptyTextAcrilic ? 

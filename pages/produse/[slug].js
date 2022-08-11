@@ -6,6 +6,7 @@ import { DeviceTypeContext, SeenRecentlyContext } from "../../components/context
 import { useContext, useEffect } from "react";
 import {useRouter} from 'next/router'
 import { HeadWithMeta } from "../../components/HeadWithMeta";
+import { uniq } from "../../utils/general";
 
 export function DynamicProduct ({productData}) {
   const router = useRouter()
@@ -93,18 +94,6 @@ export async function getStaticProps({ params }) {
         return option.nameen
       }
     })
-
-    function uniq(a) {
-      var prims = {"boolean":{}, "number":{}, "string":{}}, objs = [];
-  
-      return a.filter(function(item) {
-          var type = typeof item;
-          if(type in prims)
-              return prims[type].hasOwnProperty(item) ? false : (prims[type][item] = true);
-          else
-              return objs.indexOf(item) >= 0 ? false : objs.push(item);
-      });
-    }
   
     const optionNames = uniq(optionNamesUnfiltered)
     const optionNamesRu = uniq(optionNamesUnfilteredRu)

@@ -24,8 +24,6 @@ export default async function handler(req, res) {
   
   const responseRaw = await fetch(orderUrl, options)
   const response = await responseRaw.json()
-
-  console.log(response)
   
   const { OrderCode, ErrorCode, ErrorText, Success } = response
   

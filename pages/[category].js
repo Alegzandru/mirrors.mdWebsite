@@ -27,58 +27,54 @@ export default function Catalog ({category, products}) {
 }
 
 export async function getStaticProps ({params}){
-    const category_res = await fetch(`${API_URL}/categories?slug_eq=${params.category}`)
-    const category = await category_res.json()
+  const category_res = await fetch(`${API_URL}/categories?slug_eq=${params.category}`)
+  const category = await category_res.json()
 
-    const products_res = await fetch(`${API_URL}/products?category.name_eq=${category[0].name}`)
-    const products_raw = await products_res.json()
-    const products = products_raw.filter((product) => 
-      product.name && product.name !== "" &&
-      product.nameru && product.nameru !== "" &&
-      product.slug && product.slug !== "" &&
-      product.smallcoeficient && 
-      product.mediumcoeficient && 
-      product.bigcoeficient &&
-      // product.smallcoeficient_ro && 
-      // product.mediumcoeficient_ro && 
-      // product.bigcoeficient_ro &&
-      product.smallestsize &&
-      product.medium_size &&
-      product.big_size &&
-      product.biggestsize &&
-      product.defaultsize &&
-      // product.linkedsizes && product.linkedsizes.length !== 0 &&
-      product.materials && product.materials.length !== 0 &&
-      product.add_ons && product.add_ons.length !== 0
-    )
+  const products_res = await fetch(`${API_URL}/products?category.name_eq=${category[0].name}`)
+  const products_raw = await products_res.json()
+  const products = products_raw.filter((product) => 
+    product.name &&
+    product.nameru &&
+    product.slug &&
+    product.smallcoeficient && 
+    product.mediumcoeficient && 
+    product.bigcoeficient &&
+    // product.smallcoeficient_ro && 
+    // product.mediumcoeficient_ro && 
+    // product.bigcoeficient_ro &&
+    product.smallestsize &&
+    product.medium_size &&
+    product.big_size &&
+    product.biggestsize &&
+    product.defaultsize &&
+    // product.linkedsizes && product.linkedsizes.length !== 0 &&
+    product.materials && product.materials.length !== 0 &&
+    product.add_ons && product.add_ons.length !== 0
+  )
 
-    return {
-        props : {
-            category : category,
-            products : products,
-            key: category[0].id
-        },
-        revalidate : 10
-    }
+  return {
+    props : {
+      category : category,
+      products : products,
+      key: category[0].id
+    },
+    revalidate : 10
+  }
 }
 
 
 export async function getStaticPaths() {
-
-    const categoryRes = await fetch(`${API_URL}/categories`)
-    const categories = await categoryRes.json()
-  
-    const paths = categories.map((category, index) => {
-        return({
-            params : {
-                category : category.slug
-            }
-        })
-    })
-    
-    return {
-      paths,
-      fallback: false
-    }
-  
+  const categoryRes = await fetch(`${API_URL}/categories`)
+  const categories = await categoryRes.json()
+  const paths = categories.map((category, index) => {
+      return({
+          params : {
+              category : category.slug
+          }
+      })
+  })
+  return {
+    paths,
+    fallback: false
+  }
 }
