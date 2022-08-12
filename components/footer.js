@@ -286,7 +286,7 @@ export default function Footer (props) {
                 </div>
                 <div className="flex flex-row items-start justify-between w-118px">
                     <a 
-                        href="https://www.facebook.com/mirrorsmd"
+                        href="https://m.facebook.com/millory.ro/"
                         target="blank"
                     >
                         <Image
@@ -297,7 +297,7 @@ export default function Footer (props) {
                         />
                     </a>
                     <a
-                        href="https://www.instagram.com/mirrorsmd/"
+                        href="https://instagram.com/millory.ro?igshid=YmMyMTA2M2Y="
                         target="blank"
                     >
                         <Image
@@ -308,7 +308,7 @@ export default function Footer (props) {
                         />
                     </a>
                     <a
-                        href="https://www.tiktok.com/@mirrorsmd?lang=ru-RU&is_copy_url=1&is_from_webapp=v1"
+                        href="https://www.tiktok.com/@millory.ro?lang=ro-RO"
                         target="blank"
                     >
                         <Image
@@ -568,7 +568,7 @@ export default function Footer (props) {
             </div>
 
             <a 
-                href="https://lira.md/"
+                href="https://www.lira.md/?utm_source=refferal&utm_medium=footer&utm_campaign=onemillory.ro"
                 target="blank"
                 style={{
                     textDecoration: "none",

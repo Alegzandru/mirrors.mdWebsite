@@ -30,7 +30,7 @@ export default function InstaBlock ({lang}) {
         <span>
           <a 
             className="font-normal underline"
-            href="https://www.instagram.com/mirrorsmd/"
+            href="https://instagram.com/millory.ro?igshid=YmMyMTA2M2Y="
             target="blank"
           >
             Instagram
@@ -52,7 +52,7 @@ export default function InstaBlock ({lang}) {
         </div>
       </div>
 
-      <a className="https://www.instagram.com/mirrorsmd/">
+      <a className="https://instagram.com/millory.ro?igshid=YmMyMTA2M2Y=">
         <div className="font-Pacifico gradient-instagram text-lg-insta mx-auto text-center lg:hidden">
           @mirrorsmd
         </div>
@@ -71,7 +71,7 @@ export default function InstaBlock ({lang}) {
         >
           {images.map((image, index) => (
             <SwiperSlide key={index} className="product-card">
-              <a href="https://www.instagram.com/mirrorsmd/" target="blank">
+              <a href="https://instagram.com/millory.ro?igshid=YmMyMTA2M2Y=" target="blank">
                 <div className="h-360px relative rounded overflow-hidden group">
                   <div className="h-360px bg-ui-dark z-10 relative">
                     <Image 

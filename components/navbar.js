@@ -381,7 +381,7 @@ export function Navbar (props) {
         <div className="flex flex-row justify-start items-center">
           <div className="ml-2 mr-6">
             <a
-              href="https://www.instagram.com/mirrorsmd/"
+              href="https://instagram.com/millory.ro?igshid=YmMyMTA2M2Y="
               target="blank"
             >
               <Image
@@ -394,7 +394,7 @@ export function Navbar (props) {
           </div>
           <div className="ml-2 mr-6">
             <a
-              href="https://www.facebook.com/mirrorsmd"
+              href="https://m.facebook.com/millory.ro/"
               target="blank"
             >
               <Image
@@ -407,7 +407,7 @@ export function Navbar (props) {
           </div>
           <div className="">
             <a
-              href="https://www.tiktok.com/@mirrorsmd?lang=ru-RU&is_copy_url=1&is_from_webapp=v1"
+              href="https://www.tiktok.com/@millory.ro?lang=ro-RO"
               target="blank"
             >
               <Image

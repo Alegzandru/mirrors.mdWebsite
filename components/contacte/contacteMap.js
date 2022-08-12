@@ -65,7 +65,7 @@ export default function ContacteMap ({lang}) {
         <div className="pt-8 md:pt-72px pb-8 md:pb-16 px-8 md:px-8 lg:px-24 bg-ui-white flex flex-col justify-between items-start h-auto md:h-588px lg:h-600px w-full md:w-1/2 lg:w-504px">
           <div className="flex flex-row justify-between items-center w-full">
             <a 
-              href="https://www.facebook.com/mirrorsmd"
+              href="https://m.facebook.com/millory.ro/"
               target="blank"
               className="flex-grow mr-2"
             >
@@ -84,7 +84,7 @@ export default function ContacteMap ({lang}) {
             </a>
 
             <a 
-              href="https://www.instagram.com/mirrorsmd/"
+              href="https://instagram.com/millory.ro?igshid=YmMyMTA2M2Y="
               target="blank"
               className="flex-grow"
             >
@@ -103,7 +103,7 @@ export default function ContacteMap ({lang}) {
             </a>
 
             <a 
-              href="https://www.tiktok.com/@mirrorsmd?lang=ru-RU&is_copy_url=1&is_from_webapp=v1"
+              href="https://www.tiktok.com/@millory.ro?lang=ro-RO"
               target="blank"
               className="flex-grow ml-2"
             >
