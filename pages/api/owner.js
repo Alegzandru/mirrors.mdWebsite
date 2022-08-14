@@ -43,11 +43,11 @@ export default async (req, res) => {
   const hours = paddedString(estDate.getHours())
   const time = hours + ':' + min + ':' + sec
 
-  const comandaRaw = await ReactPDF.renderToStream(<BlancComanda data={{...data, date, executionDate, id}} orders={orders}/>)
+  const comandaRaw = await ReactPDF.renderToStream(<BlancComanda data={{...data, date, executionDate, id, price: is_ro ? pret : pret_ro}} orders={is_ro ? orders_ro : orders}/>)
   const comanda = await stream2buffer(comandaRaw)
 
   const foiProducere = await Promise.all(orders.map(async(order, index) => {
-    const fileRaw = await ReactPDF.renderToStream(<FoaieOglinda data={{...data, id}} order={order}/>)
+    const fileRaw = await ReactPDF.renderToStream(<FoaieOglinda data={{...data, id, price: is_ro ? pret : pret_ro}} order={order}/>)
     const file = await stream2buffer(fileRaw)
     const name = `foaie-producere(${index+1}).pdf`
 
@@ -60,7 +60,7 @@ export default async (req, res) => {
   }))
 
   const blancuriProducere = await Promise.all(orders.map(async(order, index) => {
-    const fileRaw = await ReactPDF.renderToStream(<BlancProducere data={{...data, date, executionDate, id}} order={order}/>)
+    const fileRaw = await ReactPDF.renderToStream(<BlancProducere data={{...data, date, executionDate, id, price: is_ro ? pret : pret_ro}} order={order}/>)
     const file = await stream2buffer(fileRaw)
     const name = `blanc-producere(${index+1}).pdf`
 

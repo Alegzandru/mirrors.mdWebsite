@@ -53,13 +53,13 @@ export default async (req, res) => {
 
   try {
     console.log('gets to comanda')
-    let comandaRaw = await ReactPDF.renderToStream(<BlancComanda data={{...data, date, executionDate, id}} orders={orders}/>)
+    let comandaRaw = await ReactPDF.renderToStream(<BlancComanda data={{...data, date, executionDate, id, price: is_ro ? pret : pret_ro}} orders={is_ro ? orders_ro : orders}/>)
     const comanda = await stream2buffer(comandaRaw)
 
     console.log('gets after is made into buffer')
 
     const certificate = await Promise.all(orders.map(async(order, index) => {
-      let garantieRaw = await ReactPDF.renderToStream(<CertificatGarantie data={{...data, date, executionDate, id}} order={order}/>)
+      let garantieRaw = await ReactPDF.renderToStream(<CertificatGarantie data={{...data, date, executionDate, id, price: is_ro ? pret : pret_ro}} order={order}/>)
       const garantie = await stream2buffer(garantieRaw)
       return ({
         content: garantie.toString('base64'),

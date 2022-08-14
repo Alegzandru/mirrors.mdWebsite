@@ -197,11 +197,18 @@ const styles = StyleSheet.create({
   footer: {
     width: '100%',
     display: 'flex',
-    flexDirection: 'row'
+    flexDirection: 'row',
+    alignItems: 'flex-end'
   },
   footerText: {
     width: '50%',
-    marginTop: 20
+    marginTop: 20,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'flex-end'
+  },
+  stampText: {
+    width: '50%'
   },
   stamp: {
     width: 60,
@@ -287,7 +294,10 @@ export const BlancComanda = ({data, orders}) => {
         <View style={styles.productFirstRow}>
           <Text style={styles.numberValue}>Nr</Text>
           <Text style={styles.modelValue}>Denumirea (model)</Text>
-          <Text style={styles.sizeValue}>Dimensiunile: Inaltimea/Latimea</Text>
+          <View style={styles.sizeValue}>
+            <Text>Dimensiunile:</Text> 
+            <Text>Inaltimea/Latimea</Text>
+          </View>
           <Text style={styles.addOnsValue}>Suplimente adaugatoare</Text>
           <Text style={styles.quantityValue}>Buc</Text>
           <Text style={styles.priceValue}>Costul</Text>
@@ -353,7 +363,7 @@ export const BlancComanda = ({data, orders}) => {
       <View style={styles.footer}>
         <Text style={styles.footerText}>Beneficiar: {data.name}</Text>
         <View style={styles.footerText}>
-          <Text>Executor: Millory</Text>
+          <Text style={styles.stampText}>Executor: Millory</Text>
           {
             data.roDomain 
               ? <Image style={styles.stamp} src="https://res.cloudinary.com/dbh1vgas3/image/upload/v1660482970/milloryRoStampila_tr8bjl.png"/>
