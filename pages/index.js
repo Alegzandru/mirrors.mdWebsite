@@ -1,8 +1,10 @@
 import 'react-multi-carousel/lib/styles.css';
 
+import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
 
-import { DeviceTypeContext, PopupContext } from '../components/context';
+import { DeviceTypeContext } from '../components/context';
 import { HeadWithMeta } from '../components/HeadWithMeta';
 import Layout from '../components/layout';
 import Benefits from '../components/mainPage/benefits';
@@ -10,11 +12,9 @@ import Hero from '../components/mainPage/hero';
 import NewProducts from '../components/mainPage/newProducts';
 import Options from '../components/mainPage/options';
 import PopularProducts from '../components/mainPage/popularProducts';
-import { API_URL } from '../utils/urls';
-import Head from 'next/head';
 import PopupViva from '../components/mainPage/PopupViva';
-import { useRouter } from 'next/router'
 import Testimonials from '../components/mainPage/Testimonials/Testimonials';
+import { API_URL } from '../utils/urls';
 
 export default function MainPage({products}){
 

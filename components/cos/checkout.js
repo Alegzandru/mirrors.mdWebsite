@@ -52,7 +52,6 @@ export default function Checkout({lang}) {
   }, [] )
 
   const sendMailOwner = (data) => email.owner(data)
-
   const sendMailClient = (data) => email.client(data)
 
   const formRef = useRef(null);
@@ -127,10 +126,12 @@ export default function Checkout({lang}) {
         
         const response1 = await fetch(`https://mirrors-md-admin.herokuapp.com/orders`, requestOptions)
         const dataInside = await response1.json()
+        const hasPackaging = cartProduct.addOns.filter((addOn) => addOn.name === 'Împachetarea sigura').length !== 0
         orders.push(
           {
             ...dataInside,
-            image : dataInside.products[0].image.length === 0 ? "/product/placeholder.png" : dataInside.products[0].image[0].formats.small.url
+            image : dataInside.products[0].image.length === 0 ? "/product/placeholder.png" : dataInside.products[0].image[0].formats.small.url,
+            packaging: hasPackaging
           }
         )
           if(index == cart.length -1 ){
@@ -158,15 +159,19 @@ export default function Checkout({lang}) {
           const response2 = await fetch(`https://mirrors-md-admin.herokuapp.com/clients`, requestOptionsClient)
           const strapiData = await response2.json()
 
-          sendMailOwner({
-            ...strapiData,
-            orders : orders,
-            country: roDomain ? 'Romania' : 'Moldova'
-          })
+          console.log('strapiData : ', strapiData)
+          console.log('orders : ', orders)
+          console.log('data from form : ', data)
+
           sendMailClient({
-            ...strapiData,
-            orders: orders,
-            country: roDomain ? 'Romania' : 'Moldova'
+            data: {...strapiData, roDomain, city: data.oras},
+            orders : orders,
+            country: roDomain ? 'Romania' : 'Moldova',
+          })
+          sendMailOwner({
+            data: {...strapiData, roDomain, city: data.oras},
+            orders : orders,
+            country: roDomain ? 'Romania' : 'Moldova',
           })
 
           if(strapiData.mod_de_plata == "card") {
@@ -245,7 +250,7 @@ export default function Checkout({lang}) {
                 src="/branding/vivawallet.png"
                 height={55}
                 width={240}
-                alt="Vuva logo"
+                alt="Viva logo"
               ></Image>
               <a href={vivaLink} target="_blank" className="w-full" onClick={() => emptyCart()}>
                 <button className={`${vivaLink ? "flex" : "hidden"} flex-row justify-center items-center bg-accent-accent rounded-lg text-ui-white font-bold hover:bg-accent-light h-12 w-full transition duration-300 mt-4`}>

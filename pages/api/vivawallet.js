@@ -16,9 +16,9 @@ export default async function handler(req, res) {
       amount: amount,
       fullName: fullName,
       email: email,
-      customerTrns: "Mobilă de pe site-ul mirrors.md",
+      customerTrns: "Mobilă de pe site-ul millory.md",
       requestLang: "ro-RO",
-      sourceCode: process.env.NODE_ENV === 'production' ? "2585" : "8346"
+      sourceCode: process.env.NODE_ENV === 'production' ? "5801" : "8346"
     })
   }
   

@@ -131,3 +131,12 @@ export const uniq = (a) => {
       return objs.indexOf(item) >= 0 ? false : objs.push(item);
   });
 }
+
+export const stream2buffer = async(stream) => {
+  return new Promise((resolve, reject) => {
+    const buf = Array()
+    stream.on('data', (chunk) => buf.push(chunk))
+    stream.on('end', () => resolve(Buffer.concat(buf)))
+    stream.on('error', (err) => reject(new Error(`error converting stream - ${err}`)))
+  })
+}
