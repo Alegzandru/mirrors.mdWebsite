@@ -101,6 +101,26 @@ export default async (req, res) => {
           pret_ro,
           orders_ro
         }
+      },
+      {
+        to : 'millory.ro@gmail.com',
+        dynamic_template_data : {
+          subject: `Comandă nouă (Nume: ${name}, telefon: ${phone}, email: ${email})`,
+          name : name,
+          phone : phone,
+          address : address,
+          email : email,
+          pret : pret,
+          comentariu : comentariu,
+          mod_de_plata : mod_de_plata_new,
+          mod_de_livrare : mod_de_livrare_new,
+          orders : orders,
+          created_at : time,
+          country: country,
+          is_ro,
+          pret_ro,
+          orders_ro
+        }
       }
     ],
     template_id : "d-6ee1285df8ea4662a3264399a492a7ea"
