@@ -83,6 +83,9 @@ export const BlancProducere = ({data, order}) => (
     <Page size='A4' style={styles.page}>
       <View style={styles.topContainer}>
         <View style={styles.section}>
+          <Image src={order.image || 'https://res.cloudinary.com/dbh1vgas3/image/upload/v1660648520/placeholder_xvcg8b.png'} />
+        </View>
+        <View style={styles.section}>
           <View style={styles.firstRow}>
             <Text style={styles.smallRowName}>Nr. Comanda:</Text>
             <Text style={styles.smallRowValue}>{data.id}</Text>
@@ -91,12 +94,12 @@ export const BlancProducere = ({data, order}) => (
             <Text style={styles.smallRowName}>Dimensiuni:</Text>
             <View style={styles.smallRowValue}>
               <Text>Inaltime x Latime</Text>
-              <Text>{order.size.name}</Text>
+              <Text>{order.size ? order.size.name : ''}</Text>
             </View>
           </View>
           <View style={styles.row}>
             <Text style={styles.smallRowName}>Model:</Text>
-            <Text style={styles.smallRowValue}>{order.products[0].name}</Text>
+            <Text style={styles.smallRowValue}>{order.products ? order.products[0].name : ''}</Text>
           </View>
           <View style={styles.row}>
             <Text style={styles.smallRowName}>Data:</Text>
@@ -107,16 +110,13 @@ export const BlancProducere = ({data, order}) => (
             <Text style={styles.smallRowValue}>{data.executionDate || ''}</Text>
           </View>
         </View>
-        <View style={styles.section}>
-          <Image src={order.image} />
-        </View>
       </View>
       <View style={styles.bottomContainer}>
         <View style={styles.firstRow}>
           <Text style={styles.bigRowName}>Suplimente adaugatoare:</Text>
           <View style={styles.addOnContainer}>
             <Text style={styles.addOn}>Suplimente adaugatoare :</Text>
-            {order.add_ons.map((addOn) => <Text style={styles.addOn.name}>{addOn.name}</Text>)}
+            {order.add_ons && order.add_ons.map((addOn) => <Text style={styles.addOn.name}>{addOn.name}</Text>)}
           </View>
         </View>
         <View style={styles.row}>

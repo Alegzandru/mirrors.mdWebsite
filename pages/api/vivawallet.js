@@ -2,38 +2,61 @@ import { base64Credentials } from "../../utils/general"
 
 export default async function handler(req, res) {
 
-  const {amount, fullName, email} = req.body
+  const {amount, fullName, email, phone} = req.body
 
-  const orderUrl = process.env.NODE_ENV === 'production' ? 'https://www.vivapayments.com/api/orders' : 'https://demo.vivapayments.com/api/orders'
+  const tokenUrl = 'https://accounts.vivapayments.com/connect/token'
+
+  const tokenOptions = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': `Basic ${base64Credentials()}`
+    },
+    body: new URLSearchParams({
+      'grant_type': 'client_credentials'
+    })
+  }
+
+  const tokenRaw = await fetch(tokenUrl, tokenOptions)
+  
+  const token = await tokenRaw.json()
+  const {access_token} = token
+
+  const orderUrl = 'https://api.vivapayments.com/checkout/v2/orders'
   
   const options = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Basic ${base64Credentials()}`
+      'Authorization': `Bearer ${access_token}`,
+      'grant_type' : 'client_credentials'
     },
     body: JSON.stringify({
       amount: amount,
+      customerTrns: "Mobilă de pe site-ul www.onemillory.md",
       fullName: fullName,
-      email: email,
-      customerTrns: "Mobilă de pe site-ul millory.md",
+      customer: {
+        email,
+        fullName,
+        phone
+      },
       requestLang: "ro-RO",
-      sourceCode: process.env.NODE_ENV === 'production' ? "5801" : "8346"
+      sourceCode: "5801"
     })
   }
   
   const responseRaw = await fetch(orderUrl, options)
   const response = await responseRaw.json()
   
-  const { OrderCode, ErrorCode, ErrorText, Success } = response
-  
-  const checkoutUrl = process.env.NODE_ENV === 'production' ? `https://www.vivapayments.com/web/checkout?ref=${OrderCode}` : `https://demo.vivapayments.com/web/checkout?ref=${OrderCode}`
+  const { orderCode } = response
+    
+  const checkoutUrl = `https://www.vivapayments.com/web/checkout?ref=${orderCode}&color=${'515CAE'}`
 
-  if (!Success) {
-    return res.status(ErrorCode).json({
+  if (!orderCode) {
+    return res.status(500).json({
       success: false,
       link: '',
-      errorMessage: ErrorText
+      errorMessage: 'Missing orderCode'
     })
   }
 

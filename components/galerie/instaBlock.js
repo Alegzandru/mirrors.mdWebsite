@@ -48,13 +48,13 @@ export default function InstaBlock ({lang}) {
           />
         </div>
         <div className="font-extrabold text-lg-32 h-12 flex flex-row justify-center items-center gradient-instagram">
-          mirrorsmd
+          millory.ro
         </div>
       </div>
 
       <a className="https://instagram.com/millory.ro?igshid=YmMyMTA2M2Y=">
         <div className="font-Pacifico gradient-instagram text-lg-insta mx-auto text-center lg:hidden">
-          @mirrorsmd
+          @millory.ro
         </div>
       </a>
 

@@ -558,12 +558,12 @@ export default function Footer (props) {
             <div className="pb-4 mx-auto text-center text-lg-12 text-type-grey">
                 {   
                     props.lang == "ro" ?
-                    "© 2021 Elisei & Compani SRL. Toate drepturile sunt rezervate."
+                    "© 2022 Elisei & Compani SRL. Toate drepturile sunt rezervate."
                     :
                     props.lang == "ru" ?
-                    "© 2021 Elisei & Compani SRL. Все права защищены."
+                    "© 2022 Elisei & Compani SRL. Все права защищены."
                     :
-                    "© 2021 Elisei & Compani SRL. All rights reserved."
+                    "© 2022 Elisei & Compani SRL. All rights reserved."
                 }
             </div>
 

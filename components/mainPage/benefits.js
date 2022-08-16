@@ -20,7 +20,7 @@ const getColSpanMobile = (index) => {
 }
 
 export default function Benefits({lang}){
-  const renderCategory = ({nameRo, nameRu, nameEn, img, slug}, index) => (
+  const renderCategory = ({nameRo, nameRu, nameEn, img, slug}, index) => slug !== 'in-stoc' && (
     <div className={`w-full col-span-${getColSpanMobile(index)} md:col-span-${getColSpanTablet(index)} lg:col-auto`} key={index}>
       <Link
         href={

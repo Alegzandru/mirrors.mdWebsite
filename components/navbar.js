@@ -13,35 +13,9 @@ import { getCurrency, getCurrencyString, getIP, getPrice, getWithExpiry, isRoDom
 import { API_URL } from '../utils/urls';
 import { CartContext, DeviceTypeContext } from './context';
 import ChangingProgressProvider from './progress/ChangingProgressProvider';
+import { categories } from '../constants/benefits';
 
 var qs = require('qs');
-const categories = [
-  {
-    name : "Oglinzi",
-    nameru: "Зеркала",
-    nameen: "Mirrors",
-    slug: "oglinzi"
-  },
-  {
-    name : "Dulapuri",
-    nameru: "Шкафы",
-    nameen: "Wardrobe",
-    slug: "dulapuri"
-  },
-  {
-    name : "Mese pentru Make Up",
-    nameru: "Гримёрные",
-    nameen: "Make-up tables",
-    slug: "mesemakeup"
-  },
-  {
-    name : "Text Acrilic",
-    nameru: "Акриловый Текст",
-    nameen: "Acrylic text",
-    slug: "textacrilic"
-  }
-]
-
 
 export function Navbar (props) {
 
@@ -767,12 +741,12 @@ export function Navbar (props) {
                           <div className="p-4 text-type-manatee hover:text-type-dark hover:underline transition duration-300">
                             {
                               props.lang == "ro" ?
-                              category.name
+                              category.nameRo
                               :
                               props.lang == "ru" ?
-                              category.nameru
+                              category.nameRu
                               :
-                              category.nameen
+                              category.nameEn
                             }
                           </div>
                         </a>
@@ -780,31 +754,6 @@ export function Navbar (props) {
                     </div>
                     )
                   }
-                  <div>
-                    <Link href={
-                      props.lang == "ro" ? 
-                      `/in-stoc` 
-                      : 
-                      props.lang == "ru" ?
-                      `/ru/in-stoc`
-                      :
-                      `/en/in-stoc`
-                    }>
-                      <a>
-                        <div className="p-4 text-type-manatee hover:text-type-dark hover:underline transition duration-300">
-                          {
-                            props.lang == "ro" ?
-                            "În stoc"
-                            :
-                            props.lang == "ru" ?
-                            "В наличии"
-                            :
-                            "In stock"
-                          }
-                        </div>
-                      </a>
-                    </Link>
-                  </div>
                 </div>
               </div>
             </div>
@@ -1097,12 +1046,12 @@ export function Navbar (props) {
                                             <div className="py-4 px-40px">
                                                 {
                                                     props.lang == "ro" ?
-                                                    category.name
+                                                    category.nameRo
                                                     :
                                                     props.lang == "ru" ?
-                                                    category.nameru
+                                                    category.nameRu
                                                     :
-                                                    category.nameen
+                                                    category.nameEn
                                                 }
                                             </div>
                                         </a>
@@ -1110,31 +1059,6 @@ export function Navbar (props) {
                                 </div>
                                 )
                             }
-                            <div>
-                              <Link href={
-                                props.lang == "ro" ? 
-                                `/in-stoc` 
-                                : 
-                                props.lang == "ru" ?
-                                `/ru/in-stoc`
-                                :
-                                `/en/in-stoc`
-                              }>
-                                <a>
-                                  <div className="py-4 px-40px">
-                                    {
-                                      props.lang == "ro" ?
-                                      "În stoc"
-                                      :
-                                      props.lang == "ru" ?
-                                      "В наличии"
-                                      :
-                                      "In stock"
-                                    }
-                                  </div>
-                                </a>
-                              </Link>
-                            </div>
                         </li>
 
                         <Link href={

@@ -159,10 +159,6 @@ export default function Checkout({lang}) {
           const response2 = await fetch(`https://mirrors-md-admin.herokuapp.com/clients`, requestOptionsClient)
           const strapiData = await response2.json()
 
-          console.log('strapiData : ', strapiData)
-          console.log('orders : ', orders)
-          console.log('data from form : ', data)
-
           sendMailClient({
             data: {...strapiData, roDomain, city: data.oras},
             orders : orders,
@@ -175,15 +171,16 @@ export default function Checkout({lang}) {
           })
 
           if(strapiData.mod_de_plata == "card") {
-            const priceViva = roDomain ? Math.round(strapiData.pret / currency) * 100 : strapiData.pret * 100
+            const priceViva = Math.round(strapiData.pret / currency) * 100
             try {
               const linkRaw = await fetch("/api/vivawallet", {
                 "method": "POST",
                 "headers": { "content-type": "application/json" },
                 "body": JSON.stringify({
-                amount: priceViva,
-                fullName: userInfo.nume + ' ' + userInfo.prenume,
-                email: userInfo.email,
+                  amount: priceViva,
+                  fullName: userInfo.nume + ' ' + userInfo.prenume,
+                  email: userInfo.email,
+                  phone: userInfo.phone
                 })
               })
 
@@ -232,7 +229,7 @@ export default function Checkout({lang}) {
           <video
             autoPlay loop muted playsInline className="z-10 relative bg-ui-dark w-full h-full outline-none transform scale-105" 
           >
-            <source src="/checkout/done.mp4" type="video/mp4"/>
+            <source src={lang === 'ro' ? '/checkout/doneRo.mp4' : lang === 'ru' ? '/checkout/doneRu.mp4' : '/checkout/doneEn.mp4'} type="video/mp4"/>
           </video>              
         </div>
       </div>

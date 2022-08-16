@@ -81,8 +81,9 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row'
   },
-  rowName1: {
+  rowName: {
     width: '20%',
+    textAlign: 'center',
     borderRightWidth: 1,
     borderRightColor: 'black',
     borderRightStyle: 'solid',
@@ -96,8 +97,9 @@ const styles = StyleSheet.create({
     borderRightStyle: 'solid',
     padding: 5
   },
-  rowName2: {
+  rowName: {
     width: '20%',
+    textAlign: 'center',
     borderRightWidth: 1,
     borderRightColor: 'black',
     borderRightStyle: 'solid',
@@ -196,6 +198,8 @@ const styles = StyleSheet.create({
   },
   footer: {
     width: '100%',
+    paddingLeft: 30,
+    paddingRight: 30,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'flex-end'
@@ -207,12 +211,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-end'
   },
-  stampText: {
-    width: '50%'
+  footerTextExecutor: {
+    width: '50%',
+    marginTop: 20,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    justifyContent: 'flex-end'
   },
   stamp: {
-    width: 60,
-    height: 60
+    width: 80,
+    height: 80
   },
   logoImg: {
     width: 120,
@@ -257,7 +266,7 @@ export const BlancComanda = ({data, orders}) => {
 
             <Text style={styles.contact}>E-mail: <Link src="mailto:millory.ro@gmail.com">millory.ro@gmail.com</Link></Text>
             <Text style={styles.contact}>Tel: <Link src="tel:37369482034" style={styles.bold}>+373 694 820 34</Link></Text>
-            <Text style={styles.contact}>Adressa SHOWROOM: <Text style={styles.bold}>str. Sarmizegetusa 53</Text></Text>
+            <Text style={styles.contact}>Adressa SHOWROOM: <Text style={styles.bold}>str. Ismail 98</Text></Text>
           </View>
         }
       </View>
@@ -265,27 +274,27 @@ export const BlancComanda = ({data, orders}) => {
       <Text style={styles.paragraph}>Toate oglinzile sunt brandate cu logotipul Millory, in conformitate cu toate conditiile de garantie !!!</Text>
       <View style={styles.container}>
         <View style={styles.firstRow}>
-          <Text style={styles.rowName1}>Beneficiar:</Text>
+          <Text style={styles.rowName}>Beneficiar:</Text>
           <Text style={styles.rowValue1}>{data.name}</Text>
-          <Text style={styles.rowName2}>Nr. comanda:</Text>
+          <Text style={styles.rowName}>Nr. comanda:</Text>
           <Text style={styles.rowValue2}>{data.id}</Text>
         </View>
         <View style={styles.rowGrey}>
-          <Text style={styles.rowName1}>Adresa:</Text>
+          <Text style={styles.rowName}>Adresa:</Text>
           <Text style={styles.rowValue1}>{data.address}</Text>
-          <Text style={styles.rowName2}>Data:</Text>
+          <Text style={styles.rowName}>Data:</Text>
           <Text style={styles.rowValue2}>{data.date || ''}</Text>
         </View>
         <View style={styles.row}>
-          <Text style={styles.rowName1}>Tel:</Text>
+          <Text style={styles.rowName}>Tel:</Text>
           <Text style={styles.rowValue1}>{data.phone}</Text>
-          <Text style={styles.rowName2}>Data executare:</Text>
+          <Text style={styles.rowName}>Data executare:</Text>
           <Text style={styles.rowValue2}>{data.executionDate || ''}</Text>
         </View>
         <View style={styles.rowGrey}>
-          <Text style={styles.rowName1}>Email:</Text>
+          <Text style={styles.rowName}>Email:</Text>
           <Text style={styles.rowValue1}>{data.email}</Text>
-          <Text style={styles.rowName2}>Data montarii:</Text>
+          <Text style={styles.rowName}>Data montarii:</Text>
           <Text style={styles.rowValue2}></Text>
         </View>
       </View>
@@ -302,7 +311,7 @@ export const BlancComanda = ({data, orders}) => {
           <Text style={styles.quantityValue}>Buc</Text>
           <Text style={styles.priceValue}>Costul</Text>
         </View>
-        {orders.map((order) => {
+        {orders && orders.length && orders.map((order) => {
           index += 1
           return(
             <View style={styles.productRow}>
@@ -357,17 +366,19 @@ export const BlancComanda = ({data, orders}) => {
           <Text style={styles.priceValue}/>
         </View>
       </View>
-      <Text style={styles.paragraph}>
-        Prezentul act este perfectat in doua exeplare, cate unul pentru fiecare parte. Garantie 2 ani de zile – (transformator, iluminare led, suplimentele adaugatoare). Termenul de executare comenzii – 20 zile (lucratoare)
-      </Text>
+      <View style={styles.paragraph}>
+        <Text>Prezentul act este perfectat in doua exeplare, cate unul pentru fiecare parte.</Text>
+        <Text>Garantie 2 ani de zile – (transformator, iluminare led, suplimentele adaugatoare).</Text>
+        <Text>Termenul de executare comenzii – 20 zile (lucratoare)</Text>
+      </View>
       <View style={styles.footer}>
         <Text style={styles.footerText}>Beneficiar: {data.name}</Text>
-        <View style={styles.footerText}>
+        <View style={styles.footerTextExecutor}>
           <Text style={styles.stampText}>Executor: Millory</Text>
           {
             data.roDomain 
-              ? <Image style={styles.stamp} src="https://res.cloudinary.com/dbh1vgas3/image/upload/v1660482970/milloryRoStampila_tr8bjl.png"/>
-              : <Image style={styles.stamp} src="https://res.cloudinary.com/dbh1vgas3/image/upload/v1660482970/milloryMdStampila_tpdjju.png"/>
+            ? <Image style={styles.stamp} src="https://res.cloudinary.com/dbh1vgas3/image/upload/v1660482970/milloryRoStampila_tr8bjl.png"/>
+            : <Image style={styles.stamp} src="https://res.cloudinary.com/dbh1vgas3/image/upload/v1660482970/milloryMdStampila_tpdjju.png"/>
           }
         </View>
       </View>

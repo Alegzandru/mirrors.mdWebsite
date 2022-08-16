@@ -31,7 +31,14 @@ export const categories = [
     nameRo: 'Cabine de duș',
     nameRu: 'Душевые кабины',
     nameEn: 'Shower cabins',
-    slug: '',
+    slug: 'cabinedus',
+    img: 'cabine-dus.png'
+  },
+  {
+    nameRo: 'În stoc',
+    nameRu: 'В наличии',
+    nameEn: 'In stock',
+    slug: 'in-stoc',
     img: 'cabine-dus.png'
   }
 ]

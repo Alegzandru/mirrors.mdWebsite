@@ -73,7 +73,7 @@ export default async (req, res) => {
 
   const attachments = [{
       content: comanda.toString('base64'),
-      filename: "blanc-comanda.pdf",
+      filename: "Document Comanda.pdf",
       type: "application/pdf",
       disposition: "attachment"
     }, ...foiProducere, ...blancuriProducere,]

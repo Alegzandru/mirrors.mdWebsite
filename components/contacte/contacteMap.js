@@ -78,7 +78,7 @@ export default function ContacteMap ({lang}) {
                 />
 
                 <div className="text-lg-14 font-black mt-3" style={{color : "#1977F3"}}>
-                  mirrorsmd
+                  millory.ro
                 </div>
               </div>
             </a>
@@ -97,7 +97,7 @@ export default function ContacteMap ({lang}) {
                 />
 
                 <div className="text-lg-14 gradient-instagram font-black mt-3">
-                  mirrorsmd
+                  millory.ro
                 </div>
               </div>
             </a>
@@ -116,7 +116,7 @@ export default function ContacteMap ({lang}) {
                 />
 
                 <div className="text-lg-14 gradient-tiktok font-black mt-3">
-                  mirrorsmd
+                  millory.ro
                 </div>
               </div>
             </a>

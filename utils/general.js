@@ -103,7 +103,7 @@ export function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-export const base64Credentials = () => Buffer.from(`${process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_VIVA_ID_PROD : process.env.NEXT_PUBLIC_VIVA_ID_DEV}:${process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_VIVA_KEY_PROD : process.env.NEXT_PUBLIC_VIVA_KEY_DEV}`).toString('base64')
+export const base64Credentials = () => Buffer.from(`${process.env.NEXT_PUBLIC_VIVA_CHECKOUT_ID}:${process.env.NEXT_PUBLIC_VIVA_CHECKOUT_SECRET}`).toString('base64')
 
 export const useOutsideAlerter = (ref, callback) => {
   useEffect(() => {

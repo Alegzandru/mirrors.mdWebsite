@@ -52,11 +52,8 @@ export default async (req, res) => {
   const time = hours + ':' + min + ':' + sec
 
   try {
-    console.log('gets to comanda')
     let comandaRaw = await ReactPDF.renderToStream(<BlancComanda data={{...data, date, executionDate, id, price: is_ro ? pret : pret_ro}} orders={is_ro ? orders_ro : orders}/>)
     const comanda = await stream2buffer(comandaRaw)
-
-    console.log('gets after is made into buffer')
 
     const certificate = await Promise.all(orders.map(async(order, index) => {
       let garantieRaw = await ReactPDF.renderToStream(<CertificatGarantie data={{...data, date, executionDate, id, price: is_ro ? pret : pret_ro}} order={order}/>)
@@ -71,7 +68,7 @@ export default async (req, res) => {
 
     const attachments = [{
       content: comanda.toString('base64'),
-      filename: "blanc-comanda.pdf",
+      filename: "Document Comanda.pdf",
       type: "application/pdf",
       disposition: "attachment"
     }, ...certificate]
@@ -79,9 +76,6 @@ export default async (req, res) => {
     const msg = {
       from: 'manager.mirrors.md@gmail.com',
       to: "alexandru.codreanu.04@gmail.com",
-      subject: "Test message subject",
-      text: "Hello world!",
-      html: "<b>Hello world!</b>",
       attachments,
       personalizations : [
         {

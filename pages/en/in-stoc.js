@@ -4,9 +4,6 @@ import {API_URL} from "../../utils/urls"
 import { HeadWithMeta } from "../../components/HeadWithMeta"
 
 export default function Catalog ({products}) {
-
-  console.log(products)
-
   return (
     <Layout lang="en" category={'in-stoc'}>
       <HeadWithMeta
