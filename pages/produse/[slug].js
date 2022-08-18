@@ -1,12 +1,12 @@
 import Layout from "../../components/layout"
 import UAParser from "ua-parser-js";
 import ProductPage from "../../components/catalog/productPage"
-import {getAllProductPaths, getProductData} from "../../lib/products"
 import {API_URL} from "../../utils/urls"
 import { DeviceTypeContext, SeenRecentlyContext } from "../../components/context";
 import { useContext, useEffect } from "react";
 import {useRouter} from 'next/router'
 import { HeadWithMeta } from "../../components/HeadWithMeta";
+import { uniq } from "../../utils/general";
 
 export function DynamicProduct ({productData}) {
   const router = useRouter()
@@ -33,8 +33,8 @@ export function DynamicProduct ({productData}) {
   return (
       <Layout lang="ro" slug={productData[0].slug}>
           <HeadWithMeta
-            title={`${productData[0].name} | Millora`}
-            description={`${productData[0].name} - unul dintre produsele din colectia "${productData[0].category.name}" de pe site-ul Millora. Livram in Chisinau si restul Moldovei.`}
+            title={`${productData[0].name} | Millory`}
+            description={`${productData[0].name} - unul dintre produsele din colectia "${productData[0].category.name}" de pe site-ul Millory. Livram in Chisinau si restul Moldovei.`}
             img="https://res.cloudinary.com/dbh1vgas3/image/upload/v1629027820/logoMirrors2_rzmtcv.jpg"
             index={true}
           />
@@ -72,7 +72,7 @@ export async function getStaticProps({ params }) {
       if(option.group){
         return option.group
       }
-      else{
+      else {
         return option.name
       }
     })
@@ -81,7 +81,7 @@ export async function getStaticProps({ params }) {
       if(option.group){
         return option.groupru
       }
-      else{
+      else {
         return option.nameru
       }
     })
@@ -90,22 +90,10 @@ export async function getStaticProps({ params }) {
       if(option.group){
         return option.groupen
       }
-      else{
+      else {
         return option.nameen
       }
     })
-
-    function uniq(a) {
-      var prims = {"boolean":{}, "number":{}, "string":{}}, objs = [];
-  
-      return a.filter(function(item) {
-          var type = typeof item;
-          if(type in prims)
-              return prims[type].hasOwnProperty(item) ? false : (prims[type][item] = true);
-          else
-              return objs.indexOf(item) >= 0 ? false : objs.push(item);
-      });
-    }
   
     const optionNames = uniq(optionNamesUnfiltered)
     const optionNamesRu = uniq(optionNamesUnfilteredRu)

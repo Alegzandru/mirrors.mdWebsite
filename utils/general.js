@@ -12,7 +12,7 @@ export function getPrice(product, size) {
       else if(material.type == "m2"){
           price += material.price * size.height * size.width / 1000000
       }
-      else{
+      else {
           price += material.price
       }
   });
@@ -27,7 +27,7 @@ export function getPriceAddon(addon, size) {
   else if(addon.type == "m2"){
       price = addon.price * size.height * size.width / 1000000
   }
-  else{
+  else {
       price = addon.price
   }
 
@@ -103,7 +103,7 @@ export function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-export const base64Credentials = () => Buffer.from(`${process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_VIVA_ID_PROD : process.env.NEXT_PUBLIC_VIVA_ID_DEV}:${process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_VIVA_KEY_PROD : process.env.NEXT_PUBLIC_VIVA_KEY_DEV}`).toString('base64')
+export const base64Credentials = () => Buffer.from(`${process.env.NEXT_PUBLIC_VIVA_CHECKOUT_ID}:${process.env.NEXT_PUBLIC_VIVA_CHECKOUT_SECRET}`).toString('base64')
 
 export const useOutsideAlerter = (ref, callback) => {
   useEffect(() => {
@@ -118,4 +118,25 @@ export const useOutsideAlerter = (ref, callback) => {
           document.removeEventListener("mousedown", handleClickOutside);
       };
   }, [ref]);
+}
+
+export const uniq = (a) => {
+  var prims = {"boolean":{}, "number":{}, "string":{}}, objs = [];
+
+  return a.filter(function(item) {
+    var type = typeof item;
+    if(type in prims)
+      return prims[type].hasOwnProperty(item) ? false : (prims[type][item] = true);
+    else
+      return objs.indexOf(item) >= 0 ? false : objs.push(item);
+  });
+}
+
+export const stream2buffer = async(stream) => {
+  return new Promise((resolve, reject) => {
+    const buf = Array()
+    stream.on('data', (chunk) => buf.push(chunk))
+    stream.on('end', () => resolve(Buffer.concat(buf)))
+    stream.on('error', (err) => reject(new Error(`error converting stream - ${err}`)))
+  })
 }

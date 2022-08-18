@@ -30,7 +30,7 @@ export default function ProductPage ({deviceType, name, price, images, descripti
                 productData[0]
               ])
             }
-            else{
+            else {
               let mutableRecent = seenRecently.slice(1, seenRecently.length)
               setSeenRecently([
                 ...mutableRecent,
@@ -44,18 +44,21 @@ export default function ProductPage ({deviceType, name, price, images, descripti
     localStorage.setItem('seenRecently',JSON.stringify(seenRecently))
     }, [seenRecently])
 
-    useEffect(async() => {
-      setPopupOpen(addonOpen !== '')
-      if(addonOpen){
-        const addonRes = await fetch(`${API_URL}/add-ons?name_eq=${addonOpen}`)
-        const addon = await addonRes.json()
-        setPopupData(lang === "ro" ? addon[0].popup : lang == "ru" ? addon[0].popupru : addon[0].popupen)
-        setPopupName(lang === "ro" ? addon[0].name : lang == "ru" ? addon[0].nameru : addon[0].nameen)
+    useEffect(() => {
+      const withPopup = async () => {
+        setPopupOpen(addonOpen !== '')
+        if(addonOpen){
+          const addonRes = await fetch(`${API_URL}/add-ons?name_eq=${addonOpen}`)
+          const addon = await addonRes.json()
+          setPopupData(lang === "ro" ? addon[0].popup : lang == "ru" ? addon[0].popupru : addon[0].popupen)
+          setPopupName(lang === "ro" ? addon[0].name : lang == "ru" ? addon[0].nameru : addon[0].nameen)
+        }
+        else {
+          setPopupData('')
+          setPopupName('')
+        }
       }
-      else{
-        setPopupData('')
-        setPopupName('')
-      }
+      withPopup()
     }, [addonOpen])
 
     function useOutsideAlerter(ref) {

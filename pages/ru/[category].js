@@ -8,8 +8,8 @@ export default function Catalog ({category, products}) {
     return (
         <Layout lang="ru" category={category[0].slug}>
             <HeadWithMeta
-              title={`${category[0].nameru} | Millora`}
-              description={`На сайте Millora вы можете найти широкую коллекцию "${category[0].nameru}" которые идеально впишутся в любой холл, ванную комнату или спальню. Доставка в Кишинев и другие районы Молдовы.`}
+              title={`${category[0].nameru} | Millory`}
+              description={`На сайте Millory вы можете найти широкую коллекцию "${category[0].nameru}" которые идеально впишутся в любой холл, ванную комнату или спальню. Доставка в Кишинев и другие районы Молдовы.`}
               img="https://res.cloudinary.com/dbh1vgas3/image/upload/v1629027820/logoMirrors2_rzmtcv.jpg"
               index={true}
             />
@@ -33,9 +33,9 @@ export async function getStaticProps ({params}){
     const products_res = await fetch(`${API_URL}/products?category.name_eq=${category[0].name}`)
     const products_raw = await products_res.json()
     const products = products_raw.filter((product) => 
-      product.name && product.name !== "" &&
-      product.nameru && product.nameru !== "" &&
-      product.slug && product.slug !== "" &&
+      product.name &&
+      product.nameru &&
+      product.slug &&
       product.smallcoeficient && 
       product.mediumcoeficient && 
       product.bigcoeficient &&

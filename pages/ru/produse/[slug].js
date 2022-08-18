@@ -1,11 +1,11 @@
 import Layout from "../../../components/layout"
 import UAParser from "ua-parser-js";
 import ProductPage from "../../../components/catalog/productPage"
-import {getAllProductPaths, getProductData} from "../../../lib/products"
 import {API_URL} from "../../../utils/urls"
 import { DeviceTypeContext, SeenRecentlyContext } from "../../../components/context";
 import { useContext, useEffect } from "react";
 import { HeadWithMeta } from "../../../components/HeadWithMeta";
+import { uniq } from "../../../utils/general";
 
 export function DynamicProduct ({productData}) {
 
@@ -28,8 +28,8 @@ export function DynamicProduct ({productData}) {
   return (
       <Layout lang="ru" slug={productData[0].slug}>
           <HeadWithMeta
-            title={`${productData[0].nameru} | Millora`}
-            description={`${productData[0].nameru} - один из товаров из колекции "${productData[0].category.nameru}" на сайте Millora. Доставка в Кишинев и другие районы Молдовы.`}
+            title={`${productData[0].nameru} | Millory`}
+            description={`${productData[0].nameru} - один из товаров из колекции "${productData[0].category.nameru}" на сайте Millory. Доставка в Кишинев и другие районы Молдовы.`}
             img="https://res.cloudinary.com/dbh1vgas3/image/upload/v1629027820/logoMirrors2_rzmtcv.jpg"
             index={true}
           />
@@ -67,7 +67,7 @@ export async function getStaticProps({ params }) {
       if(option.group){
         return option.group
       }
-      else{
+      else {
         return option.name
       }
     })
@@ -76,7 +76,7 @@ export async function getStaticProps({ params }) {
       if(option.group){
         return option.groupru
       }
-      else{
+      else {
         return option.nameru
       }
     })
@@ -85,22 +85,10 @@ export async function getStaticProps({ params }) {
       if(option.group){
         return option.groupen
       }
-      else{
+      else {
         return option.nameen
       }
     })
-
-    function uniq(a) {
-      var prims = {"boolean":{}, "number":{}, "string":{}}, objs = [];
-  
-      return a.filter(function(item) {
-          var type = typeof item;
-          if(type in prims)
-              return prims[type].hasOwnProperty(item) ? false : (prims[type][item] = true);
-          else
-              return objs.indexOf(item) >= 0 ? false : objs.push(item);
-      });
-    }
   
     const optionNames = uniq(optionNamesUnfiltered)
     const optionNamesRu = uniq(optionNamesUnfilteredRu)

@@ -1,32 +1,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import { isRoDomain } from "../utils/general"
-const categories = [
-    {
-        name : "Oglinzi",
-        nameru: "Зеркала",
-        nameen: "Mirrors",
-        slug: "oglinzi"
-    },
-    {
-        name : "Dulapuri",
-        nameru: "Шкафы",
-        nameen: "Wardrobe",
-        slug: "dulapuri"
-    },
-    {
-        name : "Mese pentru Make Up",
-        nameru: "Гримёрные",
-        nameen: "Make Up Tables",
-        slug: "mesemakeup"
-    },
-    {
-        name : "Text Acrilic",
-        nameru: "Акриловый Текст",
-        nameen: "Acrylic text",
-        slug: "textacrilic"
-    }
-]
+import {categories} from "../constants/benefits"
 
 export default function Footer (props) {
 
@@ -37,19 +12,19 @@ export default function Footer (props) {
             <div className="flex flex-row items-center mdFooter:items-start justify-between">
                 <div className="hidden mdFooter:block">
                     <Image
-                        src="/branding/milloraLogo2.png"
-                        width={66}
+                        src="/branding/milloryFooterLogo.png"
+                        width={232}
                         height={66}
-                        alt="Logo Millora"
+                        alt="Logo Millory"
                     />
                 </div>
                 <div className="mdFooter:hidden">
                     <img
-                        src="/branding/milloraLogo2.png"
+                        src="/branding/milloryLogoLightMobile.png"
                         className="h-14 w-14 mdFooter:w-8 mdFooter:h-8"
                         height={56}
                         width={56}
-                        alt="Logo Millora"
+                        alt="Logo Millory"
                     />
                 </div>
                 <div className="text-type-grey hidden mdFooter:block">
@@ -82,12 +57,12 @@ export default function Footer (props) {
                                         <li className="mb-4 hover:text-ui-darkGrey hover:underline transition duration-300">
                                             {
                                                 props.lang == "ro" ?
-                                                category.name
+                                                category.nameRo
                                                 :
                                                 props.lang == "ru" ?
-                                                category.nameru
+                                                category.nameRu
                                                 :
-                                                category.nameen
+                                                category.nameEn
                                             }
                                         </li>
                                     </a>
@@ -274,19 +249,19 @@ export default function Footer (props) {
                                 }
                             </li>
                         </a>
-                        <a href={roDomain ? "mailto:officemirrorsro@gmail.com" : "mailto:spmirrors@gmail.com"} target="blank">
+                        <a href={roDomain ? "mailto:millory.ro@gmail.com" : "mailto:spmirrors@gmail.com"} target="blank">
                             <li className="mb-4 flex flex-row justify-start items-center hover:text-ui-darkGrey hover:underline transition duration-300">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
                                 </svg>
-                                {roDomain ? 'officemirrorsro@gmail.com' : 'spmirrors@gmail.com'}
+                                {roDomain ? 'millory.ro@gmail.com' : 'spmirrors@gmail.com'}
                             </li>
                         </a>
                     </ul>
                 </div>
                 <div className="flex flex-row items-start justify-between w-118px">
                     <a 
-                        href="https://www.facebook.com/mirrorsmd"
+                        href="https://m.facebook.com/millory.ro/"
                         target="blank"
                     >
                         <Image
@@ -297,7 +272,7 @@ export default function Footer (props) {
                         />
                     </a>
                     <a
-                        href="https://www.instagram.com/mirrorsmd/"
+                        href="https://instagram.com/millory.ro?igshid=YmMyMTA2M2Y="
                         target="blank"
                     >
                         <Image
@@ -308,7 +283,7 @@ export default function Footer (props) {
                         />
                     </a>
                     <a
-                        href="https://www.tiktok.com/@mirrorsmd?lang=ru-RU&is_copy_url=1&is_from_webapp=v1"
+                        href="https://www.tiktok.com/@millory.ro?lang=ro-RO"
                         target="blank"
                     >
                         <Image
@@ -345,12 +320,12 @@ export default function Footer (props) {
                                         <li className="mb-4">
                                             {
                                                 props.lang == "ro" ?
-                                                category.name
+                                                category.nameRo
                                                 :
                                                 props.lang == "ru" ?
-                                                category.nameru
+                                                category.nameRu
                                                 :
-                                                category.nameen
+                                                category.nameEn
                                             }
                                         </li>
                                     </a>
@@ -537,38 +512,34 @@ export default function Footer (props) {
                                 }
                             </li>
                         </a>
-                        <a href={roDomain ? "mailto:officemirrorsro@gmail.com" : "mailto:spmirrors@gmail.com"} target="blank">
+                        <a href={roDomain ? "mailto:millory.ro@gmail.com" : "mailto:spmirrors@gmail.com"} target="blank">
                             <li className="mb-4 flex flex-row justify-start items-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
                                 </svg>
-                                {roDomain ? 'officemirrorsro@gmail.com' : 'spmirrors@gmail.com'}
+                                {roDomain ? 'millory.ro@gmail.com' : 'spmirrors@gmail.com'}
                             </li>
                         </a>
                     </ul>
                 </div>
             </div>
 
-            {/* <div className="w-full h-320px mdFooter:h-560px mt-16 mb-8">
-                <iframe src="https://yandex.com/map-widget/v1/?um=constructor%3A79dbbe95bd2531da704341e99cfe83c018aa307df04f33dd9c1332b1fa43ef0f&amp;source=constructor" width="100%" height="100%" frameBorder="0"></iframe>
-            </div> */}
-
             <div className="h-px w-full bg-type-grey mb-4 mt-4"></div>
 
             <div className="pb-4 mx-auto text-center text-lg-12 text-type-grey">
                 {   
                     props.lang == "ro" ?
-                    "© 2021 Elisei & Compani SRL. Toate drepturile sunt rezervate."
+                    `© 2022 ${roDomain ? 'MIRRORS & GLASS SRL.' : 'Elisei & Compani SRL.'} Toate drepturile sunt rezervate.`
                     :
                     props.lang == "ru" ?
-                    "© 2021 Elisei & Compani SRL. Все права защищены."
+                    `© 2022 ${roDomain ? 'MIRRORS & GLASS SRL.' : 'Elisei & Compani SRL.'} Все права защищены.`
                     :
-                    "© 2021 Elisei & Compani SRL. All rights reserved."
+                    `© 2022 ${roDomain ? 'MIRRORS & GLASS SRL.' : 'Elisei & Compani SRL.'} All rights reserved.`
                 }
             </div>
 
             <a 
-                href="https://lira.md/"
+                href="https://www.lira.md/?utm_source=refferal&utm_medium=footer&utm_campaign=onemillory.ro"
                 target="blank"
                 style={{
                     textDecoration: "none",

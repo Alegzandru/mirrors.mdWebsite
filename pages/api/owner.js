@@ -1,10 +1,15 @@
+import ReactPDF from '@react-pdf/renderer';
 import sgMail from '@sendgrid/mail'
-import { capitalizeFirstLetter, getCurrency } from '../../utils/general';
+import { BlancComanda } from '../../components/email/blanc-comanda';
+import { BlancProducere } from '../../components/email/blanc-producere';
+import { FoaieOglinda } from '../../components/email/foaie-oglinda';
+import { capitalizeFirstLetter, getCurrency, stream2buffer } from '../../utils/general';
 
 sgMail.setApiKey(process.env.NEXT_PUBLIC_EMAIL_API_KEY);
 
 export default async (req, res) => {
-  const { name, phone, address, email, pret, orders, comentariu, mod_de_plata, mod_de_livrare, country} = req.body
+  const { data, orders, country} = req.body
+  const { name, phone, address, email, pret, comentariu, mod_de_plata, mod_de_livrare} = data
 
   const mod_de_plata_new = capitalizeFirstLetter(mod_de_plata.replace(/_/g, " "))
   const mod_de_livrare_new = capitalizeFirstLetter(mod_de_livrare.replace(/_/g, " "))
@@ -26,19 +31,46 @@ export default async (req, res) => {
 
   const dd = paddedString(estDate.getDate())
   const mm = paddedString(estDate.getMonth() + 1)
+  const nextmm = paddedString(estDate.getMonth() + 2)
   const yyyy = estDate.getFullYear()
   const date = dd + ' ' + mm + ' ' + yyyy
+  const executionDate = dd + ' ' + nextmm + ' ' + yyyy
+
+  const id = mm+dd+email
 
   const sec = paddedString(estDate.getSeconds())
   const min = paddedString(estDate.getMinutes())
   const hours = paddedString(estDate.getHours())
   const time = hours + ':' + min + ':' + sec
 
+  const comandaRaw = await ReactPDF.renderToStream(<BlancComanda data={{...data, date, executionDate, id, price: is_ro ? pret : pret_ro}} orders={is_ro ? orders_ro : orders}/>)
+  const comanda = await stream2buffer(comandaRaw)
+
+  const blancuriProducere = await Promise.all(orders.map(async(order, index) => {
+    const fileRaw = await ReactPDF.renderToStream(<BlancProducere data={{...data, date, executionDate, id, price: is_ro ? pret : pret_ro}} order={order}/>)
+    const file = await stream2buffer(fileRaw)
+    const name = `Blanc de producere (${index+1}).pdf`
+
+    return ({
+    content: file.toString('base64'),
+    filename: name,
+    type: "application/pdf",
+    disposition: "attachment"
+  })}))
+
+  const attachments = [{
+      content: comanda.toString('base64'),
+      filename: "Document Comanda.pdf",
+      type: "application/pdf",
+      disposition: "attachment"
+    }, ...blancuriProducere,]
+
   const msg = {
-    from: '<manager.mirrors.md@gmail.com',
+    from: 'manager.mirrors.md@gmail.com',
+    attachments,
     personalizations : [
       {
-        to : '<manager.mirrors.md@gmail.com',
+        to : 'manager.mirrors.md@gmail.com',
         dynamic_template_data : {
           subject: `Comandă nouă (Nume: ${name}, telefon: ${phone}, email: ${email})`,
           name : name,
@@ -50,7 +82,27 @@ export default async (req, res) => {
           mod_de_plata : mod_de_plata_new,
           mod_de_livrare : mod_de_livrare_new,
           orders : orders,
-          created_at : time,
+          created_at : date+" "+time,
+          country: country,
+          is_ro,
+          pret_ro,
+          orders_ro
+        }
+      },
+      {
+        to : 'millory.ro@gmail.com',
+        dynamic_template_data : {
+          subject: `Comandă nouă (Nume: ${name}, telefon: ${phone}, email: ${email})`,
+          name : name,
+          phone : phone,
+          address : address,
+          email : email,
+          pret : pret,
+          comentariu : comentariu,
+          mod_de_plata : mod_de_plata_new,
+          mod_de_livrare : mod_de_livrare_new,
+          orders : orders,
+          created_at : date+" "+time,
           country: country,
           is_ro,
           pret_ro,

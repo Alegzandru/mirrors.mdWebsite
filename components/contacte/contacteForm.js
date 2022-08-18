@@ -7,7 +7,6 @@ export default function ContacteForm ({lang}) {
     const { register, handleSubmit, watch, reset, formState: { errors } } = useForm();
 
     const sendMail = async (data) => {
-
         try {
             await fetch("/api/contact", {
                 "method": "POST",
@@ -17,10 +16,7 @@ export default function ContacteForm ({lang}) {
         }
         catch (error) {
         }
-    
     }
-
-    const [emailSent, setEmailSent] = useState(0)
 
     return(
         <form 

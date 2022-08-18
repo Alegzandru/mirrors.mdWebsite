@@ -11,6 +11,7 @@ import NewProducts from '../../components/mainPage/newProducts';
 import Options from '../../components/mainPage/options';
 import PopularProducts from '../../components/mainPage/popularProducts';
 import { API_URL } from '../../utils/urls';
+import Testimonials from '../../components/mainPage/Testimonials/Testimonials';
 
 export default function MainPage({products}){
 
@@ -19,8 +20,8 @@ export default function MainPage({products}){
     return (
         <Layout lang="en">
             <HeadWithMeta
-              title="Millora - Custom Mirrors in Chisinau"
-              description="On the Millora website you can find LED mirrors, cabinets and other furniture that will fit ideally in any hall, bathroom or bedroom. We deliver to Chisinau and the rest of Moldova."
+              title="Millory - Custom Mirrors in Chisinau"
+              description="On the Millory website you can find LED mirrors, cabinets and other furniture that will fit ideally in any hall, bathroom or bedroom. We deliver to Chisinau and the rest of Moldova."
               img="https://res.cloudinary.com/dbh1vgas3/image/upload/v1629027820/logoMirrors2_rzmtcv.jpg"
               index={true}
             />
@@ -35,6 +36,7 @@ export default function MainPage({products}){
             <Benefits
               lang="en"
             ></Benefits>
+            <Testimonials/>
             <NewProducts 
               lang="en"
               deviceType={deviceType}
@@ -52,9 +54,9 @@ export async function getStaticProps() {
   const products_res = await fetch(`${API_URL}/products`)
   const products_raw = await products_res.json()
   const products = products_raw.filter((product) => 
-    product.name && product.name !== "" &&
-    product.nameru && product.nameru !== "" &&
-    product.slug && product.slug !== "" &&
+    product.name &&
+    product.nameru &&
+    product.slug &&
     product.smallcoeficient && 
     product.mediumcoeficient && 
     product.bigcoeficient &&

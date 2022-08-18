@@ -30,16 +30,19 @@ function MyApp({ Component, pageProps }) {
     localStorage.setItem('seenRecently', JSON.stringify(seenRecently))
   }, [seenRecently])
 
-  useEffect(async () => {
+  useEffect(() => {
     TagManager.initialize({ gtmId: 'GTM-KQLD9P8' });
-    if(!getWithExpiry('country')){
-      const countryIP = await getIP()
-      setWithExpiry('country', countryIP, 120)
-      setCountry(getWithExpiry('country'))
+    const withCountry = async () => {
+      if (!getWithExpiry('country')) {
+        const countryIP = await getIP()
+        setWithExpiry('country', countryIP, 120)
+        setCountry(getWithExpiry('country'))
+      }
+      else {
+        setCountry(getWithExpiry('country'))
+      } 
     }
-    else{
-      setCountry(getWithExpiry('country'))
-    } 
+    withCountry()
   }, []);
 
   // if (typeof window === 'object') {

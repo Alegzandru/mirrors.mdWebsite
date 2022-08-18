@@ -19,16 +19,20 @@ export default function RecentProducts ({deviceType, lang}) {
         if(deviceType == "desktop"){
             setItemNr(4)
         }
-        else{
+        else {
             setItemNr(3)
         }
     }, [deviceType])
 
-    useEffect(async() => {
-      const currencyStrapi = await getCurrency()
-      setCurrency(currencyStrapi)
-    }, [])
-
+    useEffect(() => {
+      const withCurrency = async () => {
+        const currencyStrapi = await getCurrency()
+        setCurrency(currencyStrapi)
+      }
+  
+      withCurrency()
+    }, [] )
+    
     return (
         <div>
             {

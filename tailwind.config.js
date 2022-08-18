@@ -2,26 +2,27 @@ module.exports = {
   purge: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
   darkMode: false, // or 'media' or 'class'
   theme: {
-
     colors: {
       transparent: 'transparent',
       instafade: 'rgba(0, 0, 0, 0.6)',
       instatext : '#8C54FB',
+      waze: '#31C6F7',
       ui : {
         white : "#FFFFFF",
         grey: "#F7F7F7",
         darkGrey : "#F1F1F1",
         blueishGrey : "#C2D1D9",
         dark : "#111215",
-        black : "#000000"
+        black : "#000000",
+        darkGreen: "#1B1C1F"
       },
       accent : {
-        accent : "#16B45A",
-        transparent : "rgba(0, 218, 94, 0.11)",
-        dark : "#086A32",
+        accent : "#515CAE",
+        transparent : "rgba(140, 148, 208, 0.14)",
+        dark : "#2A3373",
         error : "#FF3654",
-        light : "#63D795",
-        text2 : "#0B4725"
+        light : "#9AA2F2",
+        text2 : "#1F254C",
       },
       type : {
         dark : "#03210A",
@@ -32,6 +33,9 @@ module.exports = {
         border:{
           color : "#E9E9E9",
         }
+      },
+      secondary: {
+        dust: "#C4C4C4"
       }
     },
 
@@ -91,7 +95,7 @@ module.exports = {
     },
 
     fill:{
-      'accent-transparent': 'rgba(0, 218, 94, 0.11)'
+      'accent-transparent': 'rgba(145, 156, 238, 0.11)'
     },
 
     extend: {
@@ -123,7 +127,7 @@ module.exports = {
       backgroundImage: theme => ({
         'hero-pattern': "url('/mainPage/hero/heroBg.jpg')",
         'icon5' : "url(/mainPage/benefits/greenHeart.png)",
-        'options' : "url(/mainPage/options/bgOptions.png)"
+        'options' : "url(/mainPage/options/bgOptions.jpg)"
       }),
 
       spacing : {
@@ -147,10 +151,13 @@ module.exports = {
         'popup-left-sm' : '0px',
         'checkout-top' : 'calc( (100vh - 240px) / 2 )',
         'checkout-left' : 'calc( (100vw - 288px) / 2 )',
+        'lg-image-ratio' : '119%',
+        'image-ratio' : '136%',
         '70vh' : '70vh',
         '1.5px' : '1.5px',
         '1050px' : '1050px',
         '981px' : '981px',
+        '825px' : '825px',
         '800px' : '800px',
         '776px' : '776px',
         '720px' : '720px',
@@ -163,6 +170,7 @@ module.exports = {
         '588px' : '588px',
         '560px' : '560px',
         '544px' : '544px',
+        '518px' : '518px',
         '504px' : '504px',
         '500px' : '500px',
         '488px' : '488px',
@@ -263,7 +271,8 @@ module.exports = {
       scale: ['group-hover'],
       display: ['group-hover'],
       fill: ['hover', 'focus'],
-      margin : ['group-hover']
+      margin : ['group-hover'],
+      translate: ['hover', 'group-hover']
     }
   },
   plugins: [

@@ -6,7 +6,7 @@ export default function Termeni (){
     return(
         <Layout lang="ro">
             <HeadWithMeta
-              title="Termeni si conditii | Millora"
+              title="Termeni si conditii | Millory"
               description=""
               img="https://res.cloudinary.com/dbh1vgas3/image/upload/v1629027820/logoMirrors2_rzmtcv.jpg"
               index={false}
