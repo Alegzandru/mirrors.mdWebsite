@@ -2,7 +2,7 @@ import { base64Credentials } from "../../utils/general"
 
 export default async function handler(req, res) {
 
-  const {amount, fullName, email, phone} = req.body
+  const {amount, fullName, email, phone, roDomain} = req.body
 
   const tokenUrl = 'https://accounts.vivapayments.com/connect/token'
 
@@ -33,7 +33,7 @@ export default async function handler(req, res) {
     },
     body: JSON.stringify({
       amount: amount,
-      customerTrns: "Mobilă de pe site-ul www.onemillory.md",
+      customerTrns: roDomain ? "Mobilă de pe site-ul onemillory.ro" : "Mobilă de pe site-ul www.onemillory.md",
       fullName: fullName,
       customer: {
         email,

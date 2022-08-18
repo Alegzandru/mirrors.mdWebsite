@@ -151,7 +151,8 @@ export default function Checkout({lang}) {
                   amount: priceViva,
                   fullName: userInfo.nume + ' ' + userInfo.prenume,
                   email: userInfo.email,
-                  phone: userInfo.phone
+                  phone: userInfo.phone,
+                  roDomain: roDomain
                 })
               })
 
@@ -690,12 +691,12 @@ export default function Checkout({lang}) {
               <div className="w-full text-lg-14 font-medium">
                 {
                   lang == "ro" ?
-                    "gratuit (în raza Chișinăului)"
+                    roDomain ? "gratuit" : "gratuit (în raza Chișinăului)"
                   :
                     lang == "en" ?
-                    "free (within Chisinau)"
+                    roDomain ? "free" : "free (within Chisinau)"
                   :
-                    "бесплатно (по Кишиневу)"
+                  roDomain ? "бесплатно" : "бесплатно (по Кишиневу)"
                 }
               </div>
             </label>
@@ -834,12 +835,12 @@ export default function Checkout({lang}) {
               <div className="flex-grow text-lg-14">
                 {
                   lang == "ro" ?
-                  <span><span>Transfer direct</span><span className='text-accent-error'>{" (suma va fi calculată în roni)"}</span></span>
+                  <span><span>Transfer direct</span><span className='text-accent-error'>{roDomain ? "" : " (suma va fi calculată în roni)"}</span></span>
                   :
                   lang == "ru" ?
-                  <span><span>Перевод с карты</span><span className='text-accent-error'>{" (сумма будет рассчитана в RON)"}</span></span>
+                  <span><span>Перевод с карты</span><span className='text-accent-error'>{roDomain ? "" : " (сумма будет рассчитана в RON)"}</span></span>
                   :
-                  <span><span>Direct transfer</span><span className='text-accent-error'>{" (the amount will be calculated in RON)"}</span></span>
+                  <span><span>Direct transfer</span><span className='text-accent-error'>{roDomain ? "" : " (the amount will be calculated in RON)"}</span></span>
                 }
               </div>
             </label>
