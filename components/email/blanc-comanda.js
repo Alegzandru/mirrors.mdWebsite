@@ -331,7 +331,7 @@ export const BlancComanda = ({data, orders}) => {
           <Text style={styles.sizeValue}/>
           <Text style={styles.addOnsValue}/>
           <Text style={styles.quantityValue}/>
-          <Text style={styles.priceValue}/>
+          <Text style={styles.priceValue}>{data.mod_de_livrare !== 'preluare_din_oficiu' ? 'Gratuita' : ''}</Text>
         </View>
         <View style={styles.productRow}>
           <Text style={styles.numberValue}>{index+2}</Text>

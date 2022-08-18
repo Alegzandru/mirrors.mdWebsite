@@ -37,7 +37,7 @@ export default async (req, res) => {
     const blancuriProducere = await Promise.all(orders.map(async(order, index) => {
       const fileRaw = await ReactPDF.renderToStream(<BlancProducere data={data} order={order}/>)
       const file = await stream2buffer(fileRaw)
-      const name = `blanc-producere(${index+1}_.pdf`
+      const name = `Blanc de Producere (${index+1}).pdf`
   
       return ({
       content: file,

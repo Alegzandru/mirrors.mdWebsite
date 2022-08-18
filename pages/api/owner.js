@@ -46,23 +46,10 @@ export default async (req, res) => {
   const comandaRaw = await ReactPDF.renderToStream(<BlancComanda data={{...data, date, executionDate, id, price: is_ro ? pret : pret_ro}} orders={is_ro ? orders_ro : orders}/>)
   const comanda = await stream2buffer(comandaRaw)
 
-  const foiProducere = await Promise.all(orders.map(async(order, index) => {
-    const fileRaw = await ReactPDF.renderToStream(<FoaieOglinda data={{...data, id, price: is_ro ? pret : pret_ro}} order={order}/>)
-    const file = await stream2buffer(fileRaw)
-    const name = `foaie-producere(${index+1}).pdf`
-
-    return ({
-      content: file.toString('base64'),
-      filename: name,
-      type: "application/pdf",
-      disposition: "attachment"
-    })
-  }))
-
   const blancuriProducere = await Promise.all(orders.map(async(order, index) => {
     const fileRaw = await ReactPDF.renderToStream(<BlancProducere data={{...data, date, executionDate, id, price: is_ro ? pret : pret_ro}} order={order}/>)
     const file = await stream2buffer(fileRaw)
-    const name = `blanc-producere(${index+1}).pdf`
+    const name = `Blanc de producere (${index+1}).pdf`
 
     return ({
     content: file.toString('base64'),
@@ -76,7 +63,7 @@ export default async (req, res) => {
       filename: "Document Comanda.pdf",
       type: "application/pdf",
       disposition: "attachment"
-    }, ...foiProducere, ...blancuriProducere,]
+    }, ...blancuriProducere,]
 
   const msg = {
     from: 'manager.mirrors.md@gmail.com',

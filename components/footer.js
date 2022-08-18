@@ -1,32 +1,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import { isRoDomain } from "../utils/general"
-const categories = [
-    {
-        name : "Oglinzi",
-        nameru: "Зеркала",
-        nameen: "Mirrors",
-        slug: "oglinzi"
-    },
-    {
-        name : "Dulapuri",
-        nameru: "Шкафы",
-        nameen: "Wardrobe",
-        slug: "dulapuri"
-    },
-    {
-        name : "Mese pentru Make Up",
-        nameru: "Гримёрные",
-        nameen: "Make Up Tables",
-        slug: "mesemakeup"
-    },
-    {
-        name : "Text Acrilic",
-        nameru: "Акриловый Текст",
-        nameen: "Acrylic text",
-        slug: "textacrilic"
-    }
-]
+import {categories} from "../constants/benefits"
 
 export default function Footer (props) {
 
@@ -82,12 +57,12 @@ export default function Footer (props) {
                                         <li className="mb-4 hover:text-ui-darkGrey hover:underline transition duration-300">
                                             {
                                                 props.lang == "ro" ?
-                                                category.name
+                                                category.nameRo
                                                 :
                                                 props.lang == "ru" ?
-                                                category.nameru
+                                                category.nameRu
                                                 :
-                                                category.nameen
+                                                category.nameEn
                                             }
                                         </li>
                                     </a>
@@ -345,12 +320,12 @@ export default function Footer (props) {
                                         <li className="mb-4">
                                             {
                                                 props.lang == "ro" ?
-                                                category.name
+                                                category.nameRo
                                                 :
                                                 props.lang == "ru" ?
-                                                category.nameru
+                                                category.nameRu
                                                 :
-                                                category.nameen
+                                                category.nameEn
                                             }
                                         </li>
                                     </a>
@@ -548,10 +523,6 @@ export default function Footer (props) {
                     </ul>
                 </div>
             </div>
-
-            {/* <div className="w-full h-320px mdFooter:h-560px mt-16 mb-8">
-                <iframe src="https://yandex.com/map-widget/v1/?um=constructor%3A79dbbe95bd2531da704341e99cfe83c018aa307df04f33dd9c1332b1fa43ef0f&amp;source=constructor" width="100%" height="100%" frameBorder="0"></iframe>
-            </div> */}
 
             <div className="h-px w-full bg-type-grey mb-4 mt-4"></div>
 

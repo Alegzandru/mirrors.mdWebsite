@@ -3,6 +3,8 @@ import sgMail from '@sendgrid/mail'
 import { BlancComanda } from '../../components/email/blanc-comanda';
 import { CertificatGarantie } from '../../components/email/certificat-garantie';
 import { capitalizeFirstLetter, getCurrency } from '../../utils/general';
+import path from 'path';
+import { promises as fs } from 'fs';
 
 sgMail.setApiKey(process.env.NEXT_PUBLIC_EMAIL_API_KEY);
 
@@ -60,15 +62,23 @@ export default async (req, res) => {
       const garantie = await stream2buffer(garantieRaw)
       return ({
         content: garantie.toString('base64'),
-        filename: `garantie(${index+1}).pdf`,
+        filename: `Certificat de Garantie(${index+1}).pdf`,
         type: "application/pdf",
         disposition: "attachment"
       })
     }))
 
+    const pdfDirectory = path.join(process.cwd(), 'pdf');
+    const montare = await fs.readFile(pdfDirectory + '/montare.pdf', 'base64');
+
     const attachments = [{
       content: comanda.toString('base64'),
       filename: "Document Comanda.pdf",
+      type: "application/pdf",
+      disposition: "attachment"
+    },{
+      content: montare.toString('base64'),
+      filename: "Instructie pentru montare.pdf",
       type: "application/pdf",
       disposition: "attachment"
     }, ...certificate]

@@ -9,12 +9,6 @@ import { coeficientFinder } from '../../lib/products';
 import { getCurrency, getCurrencyString, getPrice, getPriceAddon, isRoDomain } from '../../utils/general';
 import { CartContext, PopupContext } from '../context';
 
-var md5 = require('md5');
-// const ExternalId = (Math.floor(Math.random() * Date.now()))
-let PaymentId = 0
-let ExpiryDate = ""
-let Signature = ""
-
 export default function Checkout({lang}) {
 
   const roDomain = isRoDomain()
@@ -54,18 +48,6 @@ export default function Checkout({lang}) {
   const sendMailOwner = (data) => email.owner(data)
   const sendMailClient = (data) => email.client(data)
 
-  const formRef = useRef(null);
-
-  const fillInputs = (PaymentId, ExpiryDate, Signature) => {
-    const { elements: inputs } = formRef.current;
-
-    inputs.operation.value = PaymentId;
-    inputs.ExpiryDate.value = ExpiryDate;
-    inputs.Signature.value = Signature;
-    inputs.LinkUrlSuccess.value= "https://www.mirrors.md/"
-    inputs.LinkUrlCancel.value = "https://www.mirrors.md/cos"
-  }
-
   const emptyCart = () => {
     setPopupLoading(0)
     setPopupDone(1)
@@ -82,17 +64,6 @@ export default function Checkout({lang}) {
       setButtonClicked(2)
         
     }, 1200)
-  }
-
-  const redirectCall = async() => {
-    try {
-      fillInputs(PaymentId, ExpiryDate, Signature);
-      formRef.current.submit();
-      emptyCart() 
-    }
-    catch(error){
-      console.log("Error with redirect : ", error)
-    }
   }
 
   const onSubmit = async (data) => {
@@ -137,7 +108,7 @@ export default function Checkout({lang}) {
           if(index == cart.length -1 ){
           let ExternalId = Math.floor(Math.random() * Date.now())
 
-          userInfo.livrare == "nova_poshta" ? setPrice(priceTotal + 500) : setPrice(priceTotal)
+          setPrice(priceTotal)
           const requestOptionsClient = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -146,7 +117,7 @@ export default function Checkout({lang}) {
               phone : data.telefon,
               address : data.adresa,
               email : data.email,
-              pret : userInfo.livrare == "nova_poshta" ? priceTotal + 500 : priceTotal,
+              pret : priceTotal,
               mod_de_plata : data.plata,
               mod_de_livrare : data.livrare,
               orders : orders,
@@ -763,10 +734,11 @@ export default function Checkout({lang}) {
               </div>
               <div className="w-full text-lg-14 font-medium">
                 {
-                  lang == "ro" || lang == "en" ?
-                  "500 lei"
-                  :
-                  "500 лей"
+                  lang == "ro" 
+                  ? "gratuit"
+                  : lang == "en" 
+                  ? "free"
+                  : "бесплатно"
                 }
               </div>
             </label>}
@@ -862,12 +834,12 @@ export default function Checkout({lang}) {
               <div className="flex-grow text-lg-14">
                 {
                   lang == "ro" ?
-                  "Transfer direct"
+                  <span><span>Transfer direct</span><span className='text-accent-error'>{" (suma va fi calculată în roni)"}</span></span>
                   :
                   lang == "ru" ?
-                  "Перевод с карты"
+                  <span><span>Перевод с карты</span><span className='text-accent-error'>{" (сумма будет рассчитана в RON)"}</span></span>
                   :
-                  "Direct transfer"
+                  <span><span>Direct transfer</span><span className='text-accent-error'>{" (the amount will be calculated in RON)"}</span></span>
                 }
               </div>
             </label>
@@ -1009,7 +981,7 @@ export default function Checkout({lang}) {
                 <div className="text-type-manatee w-full">
                   <div className="mb-2 font-medium">
                     {
-                      userInfo.livrare == "livrare_la_usa" ?
+                      userInfo.livrare == "livrare_la_usa" || userInfo.livrare == "nova_poshta" ?
                         lang == "ro" ?
                           "livrare - gratuită"
                           :
@@ -1017,15 +989,6 @@ export default function Checkout({lang}) {
                           "доставка - бесплатно"
                           :
                           "delivery - free"
-                      :
-                      userInfo.livrare == "nova_poshta" ?
-                        lang == "ro" ?
-                          "livrare - 500 lei"
-                          :
-                          lang == "ru" ?
-                          "доставка - 500 лей"
-                          :
-                          "delivery - 500 lei"
                       :
                         lang == "ro" ?
                           "livrare - 0 lei"
@@ -1104,9 +1067,6 @@ export default function Checkout({lang}) {
                       Math.round(priceTotal / currency)
                       :
                       priceTotal
-                    :
-                    userInfo.livrare == "nova_poshta" ?
-                    priceTotal + 500
                     :
                     priceTotal
                   }

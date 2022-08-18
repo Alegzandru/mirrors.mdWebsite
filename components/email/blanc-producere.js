@@ -40,6 +40,11 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
     paddingRight: 5,
   },
+  container: {
+    marginTop: 50,
+    paddingLeft: 5,
+    paddingRight: 5,
+  },
   bigRowName: {
     width: '50%',
     borderRightWidth: 1,
@@ -111,6 +116,7 @@ export const BlancProducere = ({data, order}) => (
           </View>
         </View>
       </View>
+
       <View style={styles.bottomContainer}>
         <View style={styles.firstRow}>
           <Text style={styles.bigRowName}>Suplimente adaugatoare:</Text>
@@ -142,6 +148,33 @@ export const BlancProducere = ({data, order}) => (
         <View style={styles.row}>
           <Text style={styles.bigRowName}>Beneficiar:</Text>
           <Text style={styles.bigRowValue}>{data.name}</Text>
+        </View>
+      </View>
+
+      <View style={styles.container}>
+        <View style={styles.firstRow}>
+          <Text style={styles.bigRowName}>Nr comenzii:</Text>
+          <Text style={styles.bigRowValue}>{data.id}</Text>
+        </View>
+        <View style={styles.row}>
+          <Text style={styles.bigRowName}>Model:</Text>
+          <Text style={styles.bigRowValue}>{order.products && order.products[0] && order.products[0].name}</Text>
+        </View>
+        <View style={styles.row}>
+          <Text style={styles.bigRowName}>Beneficiar:</Text>
+          <Text style={styles.bigRowValue}>{data.name}</Text>
+        </View>
+        <View style={styles.row}>
+          <Text style={styles.bigRowName}>Adresa:</Text>
+          <Text style={styles.bigRowValue}>{data.address}</Text>
+        </View>
+        <View style={styles.row}>
+          <Text style={styles.bigRowName}>Tel:</Text>
+          <Text style={styles.bigRowValue}>{data.phone}</Text>
+        </View>
+        <View style={styles.row}>
+          <Text style={styles.bigRowName}>Localitatea:</Text>
+          <Text style={styles.bigRowValue}>{data.city || ''}</Text>
         </View>
       </View>
     </Page>
