@@ -107,7 +107,7 @@ export default function PopularProducts(props){
                         <div className="w-auto pb-image-ratio lg:pb-lg-image-ratio relative rounded-xl transform group-hover:scale-105 transition duration-300">
                           <Image
                             draggable={false}
-                            src={product.image.length === 0 ? "/product/placeholder.png" : product.image[0].formats.medium.url}
+                            src={product.image.length === 0 ? "/product/placeholder.png" : product.image[0].url}
                             layout="fill"
                             objectFit="cover"
                             alt={product.name}
