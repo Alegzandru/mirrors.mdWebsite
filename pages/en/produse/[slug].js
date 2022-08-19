@@ -1,15 +1,13 @@
-import Layout from "../../../components/layout"
-import UAParser from "ua-parser-js";
-import ProductPage from "../../../components/catalog/productPage"
-import {API_URL} from "../../../utils/urls"
-import { DeviceTypeContext, SeenRecentlyContext } from "../../../components/context";
-import { useContext, useEffect } from "react";
-import {HeadWithMeta} from '../../../components/HeadWithMeta'
-import { uniq } from "../../../utils/general";
+import { useContext, useEffect } from 'react';
+
+import ProductPage from '../../../components/catalog/productPage';
+import { DeviceTypeContext } from '../../../components/context';
+import { HeadWithMeta } from '../../../components/HeadWithMeta';
+import Layout from '../../../components/layout';
+import { uniq } from '../../../utils/general';
+import { API_URL } from '../../../utils/urls';
 
 export function DynamicProduct ({productData}) {
-
-  const {seenRecently, setSeenRecently} = useContext(SeenRecentlyContext)
 
   const {deviceType, setDeviceType} = useContext(DeviceTypeContext)
   const images = productData[0].image.length === 0 ?
@@ -21,7 +19,7 @@ export function DynamicProduct ({productData}) {
     :
     productData[0].image.map((imageObj) => {
     return {
-      src : imageObj.formats.medium.url
+      src : imageObj.url? imageObj.url : "/product/placeholder.png"
     }
   })
 
