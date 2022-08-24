@@ -261,7 +261,7 @@ export function Navbar (props) {
                       <CircularProgressbar
                         value={percentage}
                         styles={buildStyles({
-                          pathColor : "#16B45A",
+                          pathColor : "#515CAE",
                           pathTransitionDuration: 0.1
                         })}
                         strokeWidth={5}
@@ -520,7 +520,7 @@ export function Navbar (props) {
                                 <CircularProgressbar
                                   value={percentage}
                                   styles={buildStyles({
-                                    pathColor : "#16B45A",
+                                    pathColor : "#515CAE",
                                     pathTransitionDuration: 0.1
                                   })}
                                   strokeWidth={5}
