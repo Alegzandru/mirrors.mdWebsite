@@ -18,6 +18,7 @@ export const HeadWithMeta = ({title, description, img, index}) => {
       <meta name="twitter:title" content={title}/>
       <meta name="twitter:description" content={description}/>
       <meta name="twitter:image" content={img}/>
+      <meta name="facebook-domain-verification" content="9ecu31cg0nz2klaco1suixncxfsxq5" />
     </Head>
   )
 }
