@@ -1,7 +1,7 @@
 const Sitemap = () => {};
 
 export const getServerSideProps = async ({ res }) => {
-  const baseUrl = "https://www.mirrors.md"
+  const baseUrlRo = "https://onemillory.ro"
 
   const productsRes = await fetch("https://mirrors-md-admin.herokuapp.com/products");
   const products = await productsRes.json()
@@ -19,15 +19,15 @@ export const getServerSideProps = async ({ res }) => {
         staticPages.map((url) => {
           return `
             <url>
-              <loc>${baseUrl}/${url}</loc>
+              <loc>${baseUrlRo}/${url}</loc>
               <lastmod>2021-08-15T19:27:48.340Z</lastmod>
             </url>
             <url>
-              <loc>${baseUrl}/ru/${url}</loc>
+              <loc>${baseUrlRo}/ru/${url}</loc>
               <lastmod>2021-08-15T19:27:48.340Z</lastmod>
             </url>
             <url>
-              <loc>${baseUrl}/en/${url}</loc>
+              <loc>${baseUrlRo}/en/${url}</loc>
               <lastmod>2021-08-15T19:27:48.340Z</lastmod>
             </url>
           `
@@ -37,20 +37,17 @@ export const getServerSideProps = async ({ res }) => {
         .map(({ slug, updated_at }) => {
           return `
               <url>
-                <loc>${baseUrl}/produse/${slug}</loc>
+                <loc>${baseUrlRo}/produse/${slug}</loc>
                 <lastmod>${updated_at}</lastmod>
               </url>
-
               <url>
-                <loc>${baseUrl}/ru/produse/${slug}</loc>
+                <loc>${baseUrlRo}/ru/produse/${slug}</loc>
                 <lastmod>${updated_at}</lastmod>
               </url>
-
               <url>
-                <loc>${baseUrl}/en/produse/${slug}</loc>
+                <loc>${baseUrlRo}/en/produse/${slug}</loc>
                 <lastmod>${updated_at}</lastmod>
               </url>
-
             `;
         })
         .join("")}
@@ -58,20 +55,17 @@ export const getServerSideProps = async ({ res }) => {
         .map(({ slug, updated_at }) => {
           return `
               <url>
-                <loc>${baseUrl}/${slug}</loc>
+                <loc>${baseUrlRo}/${slug}</loc>
                 <lastmod>${updated_at}</lastmod>
               </url>
-
               <url>
-                <loc>${baseUrl}/ru/${slug}</loc>
+                <loc>${baseUrlRo}/ru/${slug}</loc>
                 <lastmod>${updated_at}</lastmod>
               </url>
-
               <url>
-                <loc>${baseUrl}/en/${slug}</loc>
+                <loc>${baseUrlRo}/en/${slug}</loc>
                 <lastmod>${updated_at}</lastmod>
               </url>
-
             `;
         })
         .join("")}
