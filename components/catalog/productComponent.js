@@ -297,7 +297,7 @@ export default function ProductComponent ({ name, images, options, optionVariant
 
       <div className="w-full bg-ui-grey flex flex-col lg:flex-row justify-between items-stretch">
         <div className="w-full lg:w-600px xl:w-720px">
-          <div className="relative h-288px md:h-1050px lg:h-825px w-full cursor-pointer">
+          <div className="pb-image-ratio md:pb-0 relative md:h-1050px lg:h-825px w-full cursor-pointer">
             <Image
               src={images[openImage].src}
               layout="fill"
@@ -528,7 +528,7 @@ export default function ProductComponent ({ name, images, options, optionVariant
           </form>
 
           {lightboxOpen 
-            ? <Lightbox doubleClickZoom={1.2} images={imagesLightbox} onClose={() => setLightboxOpen(0)}/>
+            ? <Lightbox doubleClickZoom={1.2} images={imagesLightbox} onClose={() => setLightboxOpen(0)} startIndex={openImage} />
             : "" 
           }
 

@@ -4,7 +4,7 @@ import { coeficientFinder } from '../../lib/products';
 import { getCurrency, getCurrencyString, getPrice, getPriceAddon, isRoDomain } from '../../utils/general';
 import { AddonPopupContext } from '../context';
 
-export default function DropdownProduct({sizeGlobal, textAcrilic, productData, price, setPrice, minWidth, maxWidth, maxHeight, minHeight, options, initialPrice, setSizeGlobal, lang, name, nameru, nameen, setTextAcrilic, register}) {
+export default function DropdownProduct2({sizeGlobal, textAcrilic, productData, price, setPrice, minWidth, maxWidth, maxHeight, minHeight, options, initialPrice, setSizeGlobal, lang, name, nameru, nameen, setTextAcrilic, register, optionsRaw}) {
 
   const roDomain = isRoDomain()
 
@@ -397,33 +397,27 @@ export default function DropdownProduct({sizeGlobal, textAcrilic, productData, p
 
           <div className="flex flex-row justify-between items-center">
             <div className="text-lg-17 lg:text-lg-14 font-medium text-type-dark mr-2 md:mr-2">
-              {
-                customSize ? 
-                  `${sizeGlobal.height}x${sizeGlobal.width}` 
-                  : 
-                  (asRadio || stockSize) ? 
-                    chosen ? 
-                      lang == "ro" ?
-                      chosen
-                      :
-                      lang == "ru" ?
-                      stockSize ? chosen : optionsRaw.filter((optionRaw, index) => optionRaw.typename == chosen )[0].typenameru 
-                      :
-                      stockSize ? chosen : optionsRaw.filter((optionRaw, index) => optionRaw.typename == chosen )[0].typenameen
-                      :
-                      "" 
-                    : 
-                    checked ? 
-                      lang == "ro" ? 
-                      "Da" 
-                      : 
-                      lang == "ru" ?
-                      "Да" 
-                      :
-                      "Yes"
-                      : 
-                      ""
-              }
+              { customSize 
+                  ? `${sizeGlobal.height}x${sizeGlobal.width}` 
+                  : (asRadio || stockSize) 
+                    ? chosen 
+                      ? lang == "ro" 
+                        ? chosen
+                        : lang == "ru" 
+                          ? stockSize 
+                            ? chosen 
+                            : optionsRaw.filter((optionRaw, index) => optionRaw.typename == chosen )[0].typenameru 
+                          : stockSize 
+                            ? chosen 
+                            : optionsRaw.filter((optionRaw, index) => optionRaw.typename == chosen )[0].typenameen
+                      : "" 
+                    : checked 
+                      ? lang == "ro" 
+                        ? "Da" 
+                        : lang == "ru" 
+                          ? "Да" 
+                          : "Yes"
+                      : "" }
             </div>
 
             <div className={`${name === "Dimensiuni recomandate" ? "block" : "hidden"}`}>

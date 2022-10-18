@@ -13,7 +13,7 @@ export default function GalerieComponent (props) {
       if(product.image.length === 0 ){
         return "/product/placeholder.png"
       }
-      else return product.image[0].formats.medium.url
+      else return product.image[0].url
     })
 
     function getColSpan(deviceType, index) {

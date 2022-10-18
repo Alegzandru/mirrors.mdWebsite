@@ -44,8 +44,8 @@ function MyApp({ Component, pageProps }) {
     }
     withCountry()
   }, []);
-
-  if (typeof window === 'object') {
+  
+  if (typeof window === 'object' && ['onemillory.ro', 'www.onemillory.md'].includes(window.location.hostname)) {
     document.addEventListener('contextmenu', function(e) {
       e.preventDefault();
     })

@@ -18,6 +18,8 @@ export default function ProductDescription ({
 }) {    
   const {deviceType} = useContext(DeviceTypeContext)
 
+  const maxRelated = deviceType === 'desktop' ? 4 : deviceType === 'tablet' ? 3 : 2
+
   const [page, setPage] = useState(0)
   const [lightboxOpen, setLightboxOpen] = useState(0)
   const imagesLightbox = images.map((image) => {
@@ -39,7 +41,7 @@ export default function ProductDescription ({
     setAutoHeight(!autoHeight)
   }
 
-  function getColSpan (deviceType, index) {
+  const getColSpan = (index) => {
     switch(deviceType){
       case "mobile" : 
         return index % 3 == 0 ? "col-span-12" : "col-span-6"
@@ -52,6 +54,22 @@ export default function ProductDescription ({
 
       default :
         return index % 3 == 0 ? "col-span-12" : "col-span-6"
+    }
+  }
+
+  const getColSpanRelated = () => {
+    switch(deviceType){
+      case "mobile" : 
+        return "col-span-6"
+
+      case "tablet" :
+        return "col-span-4"
+
+      case "desktop" :
+        return "col-span-3"
+
+      default :
+        return "col-span-6"
     }
   }
 
@@ -158,7 +176,7 @@ export default function ProductDescription ({
             return(
               <div 
                 key={index} 
-                className={`${getColSpan(deviceType, index)} h-224px md:h-268px lg:h-284px relative cursor-pointer`}
+                className={`${getColSpan(deviceType, index)} pb-image-ratio lg:pb-lg-image-ratio relative cursor-pointer`}
                 onClick={() => setLightboxOpen(1)}
               >
                 <Image
@@ -196,11 +214,10 @@ export default function ProductDescription ({
             }
           </div>
           <div className="w-full h-px bg-ui-blueishGrey mb-6"/>
-          <div className="flex flex-row justify-between items-start">
+          <div className="grid grid-flow-row grid-cols-12 gap-4 justify-start items-start">
             {productData[0].related_products.map((product, index) => {
               return (
-              deviceType == "desktop" ?
-                index < 4 &&
+                index < maxRelated &&
                 <Link href={
                   lang == "ro" ? 
                   `/produse/${product.slug}` 
@@ -210,139 +227,45 @@ export default function ProductDescription ({
                   :
                   `/en/produse/${product.slug}`
                 }>
-                  <a className="w-full mx-1">
-                    <div className=" bg-ui-white rounded-lg border border-ui-darkGrey w-full px-5 py-10px hover:shadow-md transition duration-300">
-                      <div className="w-full h-92px md:h-204px relative mb-6 rounded-lg overflow-hidden">
-                        <Image
-                          src={product.image.length === 0 ? "/product/placeholder.png" : product.image[0].formats.small.url}
-                          layout="fill"
-                          objectFit="cover"
-                          alt={name}
-                        />
-                      </div>
-                      <div className="w-full text-center text-lg-card-name text-type-dark mb-1 font-medium">
-                        {   
-                          lang == "ro" ?
-                          product.name
-                          :
-                          lang == "ru" ?
-                          product.nameru
-                          :
-                          product.nameen
-                        }
-                      </div>
-                    </div>
-                  </a>
-                </Link>
-              :
-              deviceType == "tablet" ?
-                index < 3 &&
-                <Link href={
-                  lang == "ro" ? 
-                  `/produse/${product.slug}` 
-                  : 
-                  lang == "ru" ?
-                  `/ru/produse/${product.slug}`
-                  :
-                  `/en/produse/${product.slug}`
-                }>
-                  <a className="w-full mx-1">
-                    <div className=" bg-ui-white rounded-lg border border-ui-darkGrey w-full px-5 py-10px hover:shadow-md transition duration-300">
-                      <div className="w-full h-92px md:h-204px relative mb-6 rounded-lg overflow-hidden">
-                        <Image
-                          src={product.image.length === 0 ? "/product/placeholder.png" : product.image[0].formats.small.url}
-                          layout="fill"
-                          objectFit="cover"
-                          alt={name}
-                        />
-                      </div>
-                      <div className="w-full text-center text-lg-card-name text-type-dark mb-1 font-medium">
-                        {
-                          lang == "ro" ?
-                          product.name
-                          :
-                          lang == "ru" ?
-                          product.nameru
-                          :
-                          product.nameen
-                        }
+                 <a className={getColSpanRelated()}>
+                    <div key={index} className="h-auto w-full">
+                      <div className="bg-ui-white rounded-xl p-5 border-2 border-transparent hover:border-accent-accent transition duration-300 group">
+                        <div className="w-auto pb-image-ratio lg:pb-lg-image-ratio relative transform group-hover:scale-105 transition duration-300 rounded-lg overflow-hidden">
+                          <Image
+                            draggable={false}
+                            src={product.image.length === 0 ? "/product/placeholder.png" : product.image[0].url}
+                            layout="fill"
+                            objectFit="cover"
+                            alt={product.name}
+                          />
+                        </div>
+                        <div className="text-sm-card-name md:text-lg-card-name-bold text-type-dark mt-6 md:mt-8 font-medium">
+                          {
+                            lang == "ro" ?
+                            product.name
+                            :
+                            lang == "ru" ?
+                            product.nameru
+                            :
+                            product.nameen
+                          }
+                        </div>
+                        <div className={`text-sm-p md:text-lg-p text-type-manatee font-normal mt-2 ${product.seria != null ? "" : "opacity-0"}`}>
+                          {
+                            lang == "ro" ?
+                            `Seria ${product.seria}`
+                            :
+                            lang == "ru" ?
+                            `Серия ${product.seria}`
+                            :
+                            `${product.seria} series`
+                          }
+                        </div>
                       </div>
                     </div>
                   </a>
                 </Link>
-              :
-              deviceType == "mobile" ?
-                index < 2 &&
-                <Link href={
-                  lang == "ro" ? 
-                  `/produse/${product.slug}` 
-                  : 
-                  lang == "ru" ?
-                  `/ru/produse/${product.slug}`
-                  :
-                  `/en/produse/${product.slug}`
-                }>
-                  <a className="w-full mx-1">
-                    <div className=" bg-ui-white rounded-lg border border-ui-darkGrey w-full px-5 py-10px mx-1 hover:shadow-md transition duration-300 min-h-216px">
-                    <div className="w-full h-92px md:h-204px relative mb-6 rounded-lg overflow-hidden">
-                      <Image
-                        src={product.image.length === 0 ? "/product/placeholder.png" : product.image[0].formats.small.url}
-                        layout="fill"
-                        objectFit="cover"
-                        alt={name}
-                      />
-                    </div>
-                    <div className="w-full text-center text-lg-card-name text-type-dark mb-1 font-medium">
-                      {
-                        lang == "ro" ?
-                        product.name
-                        :
-                        lang == "ru" ?
-                        product.nameru
-                        :
-                        product.nameen
-                      }
-                    </div>
-                    </div>
-                  </a>
-                </Link>
-              :
-                index < 2 &&
-                <Link href={
-                  lang == "ro" ? 
-                  `/produse/${product.slug}` 
-                  : 
-                  lang == "ru" ?
-                  `/ru/produse/${product.slug}`
-                  :
-                  `/en/produse/${product.slug}`
-                }>                  
-                  <a className="w-full mx-1">
-                    <div className=" bg-ui-white rounded-lg border border-ui-darkGrey w-full px-5 py-10px mx-1 hover:shadow-md transition duration-300">
-                    <div className="w-full h-92px md:h-204px relative mb-6 rounded-lg overflow-hidden">
-                      <Image
-                        src={product.image.length === 0 ? "/product/placeholder.png" : product.image[0].formats.small.url}
-                        layout="fill"
-                        objectFit="cover"
-                        alt={name}
-                      />
-                    </div>
-                    <div className="w-full text-center text-lg-card-name text-type-dark mb-1 font-medium">
-                      {
-                        lang == "ro" ?
-                        product.name
-                        :
-                        lang == "ru" ?
-                        product.nameru
-                        :
-                        product.nameen
-                      }
-                    </div>
-                    </div>
-                  </a>
-                </Link>
-              )
-            }
+              )}
             )}
           </div>
         </div>
