@@ -20,6 +20,7 @@ export default function CosProducts({lang}){
   const { reset, register, handleSubmit, formState: { errors } } = useForm();
 
   const {cart, setCart} = useContext(CartContext)
+
   const [totalPrice, setTotalPrice] = useState(0)
   const {popupOpen, setPopupOpen} = useContext(PopupContext)
   const [popupProduct , setPopupProduct] = useState(cart[0])
@@ -589,7 +590,9 @@ export default function CosProducts({lang}){
                         </div>
                         :
                         product.addOns.map((addOn) => {
-                          optionsPrice += getPriceAddon(addOn, product.size)
+                          if (!product.stock) {
+                            optionsPrice += getPriceAddon(addOn, product.size)
+                          }
                           return(
                             <div className="flex flex-row justify-between items-start mb-2">
                               <div className="max-w-130px">
@@ -603,20 +606,23 @@ export default function CosProducts({lang}){
                                   addOn.nameen
                                 }
                               </div>
-                              <div>
-                                {
-                                  roDomain ? 
-                                  currency === 4 ? 
-                                   '...'
-                                   :
-                                    Math.round(getPriceAddon(addOn, product.size) / currency) 
-                                  :
-                                  getPriceAddon(addOn, product.size)
-                                } 
-                                {
-                                  getCurrencyString(lang, roDomain)
-                                }
-                              </div>
+                              {
+                                !product.stock &&
+                                <div>
+                                  {
+                                    roDomain ? 
+                                    currency === 4 ? 
+                                    '...'
+                                    :
+                                      Math.round(getPriceAddon(addOn, product.size) / currency) 
+                                    :
+                                    getPriceAddon(addOn, product.size)
+                                  } 
+                                  {
+                                    getCurrencyString(lang, roDomain)
+                                  }
+                                </div>
+                              }
                             </div>
                           )
                         })

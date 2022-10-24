@@ -19,16 +19,14 @@ export default function Category({category, name, products, lang, nameru, nameen
 
   const [currency, setCurrency] = useState(4)
 
-  const getInStockPrice = (finished) => {
-    const prices = finished.map((product) => roDomain ? Math.round(product.price_ro / currency) : product.price)
-    return Math.min(...prices)
-  }
-
   const getProductPrice = (product) => {
-    if (inStock) return getInStockPrice(product.finished_products)
+    if (inStock) {
+      if (roDomain) return product.price_ro * currency
+      else product.price
+    }
     else if (roDomain) {
       if (currency === 4) return '...'
-      else return Math.round( getPrice(product, product.smallestsize) * (1 + product.smallcoeficient_ro) / currency) 
+      else return Math.round( getPrice(product, product.smallestsize) * (1 + product.smallcoeficient_ro)) 
     } else return Math.round( getPrice(product, product.smallestsize) * (1 + product.smallcoeficient)) 
   }
 
@@ -125,7 +123,7 @@ export default function Category({category, name, products, lang, nameru, nameen
     const filteredProducts = getFilteredProducts(products)
     const afterSorting = handleProductsSortingChange(filteredProducts)
     return afterSorting
-  }, [getFilteredProducts, handleProductsSortingChange])
+  }, [getFilteredProducts, handleProductsSortingChange, products])
 
   const getPages = () => {
     if (!productsApi || productsApi.length <= showNr) return 1
@@ -382,13 +380,12 @@ export default function Category({category, name, products, lang, nameru, nameen
                 <div key={index} className="h-auto w-full col-span-12 smCatalog:col-span-6 md:col-span-4 lg:col-span-3">
                   <Link href={{
                     pathname: lang == "ro" ? 
-                    `/produse/${product.slug}` 
+                    `/produse/${product.inStock ? 'stoc' : 'comanda'}/${product.slug}` 
                     : 
                     lang == "ru" ?
-                    `/ru/produse/${product.slug}`
+                    `/ru/produse/${product.inStock ? 'stoc' : 'comanda'}/${product.slug}`
                     :
-                    `/en/produse/${product.slug}`,
-                    query: {tip: inStock ? 'stoc' : 'comanda'},
+                    `/en/produse/${product.inStock ? 'stoc' : 'comanda'}/${product.slug}`,
                   }}>
                     <a>
                       <div className="bg-ui-white rounded-xl p-5 border-2 border-transparent hover:border-accent-accent transition duration-300 group">
@@ -433,7 +430,11 @@ export default function Category({category, name, products, lang, nameru, nameen
                             :
                             "from "
                           }
-                          {getProductPrice(product)} 
+                          {roDomain 
+                            ? currency === 4 
+                              ? '...'
+                              : Math.round(getProductPrice(product) / currency) 
+                            : getProductPrice(product)} 
                           {getCurrencyString(lang, roDomain)}
                         </div>
                       </div>

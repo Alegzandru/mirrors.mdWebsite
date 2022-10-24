@@ -95,12 +95,12 @@ export default function PopularProducts(props){
                 <SwiperSlide key={index} className="product-card">
                   <Link href={
                     props.lang == "ro" ? 
-                    `/produse/${product.slug}` 
+                    `/produse/comanda/${product.slug}` 
                     : 
                     props.lang == "ru" ?
-                    `/ru/produse/${product.slug}`
+                    `/ru/produse/comanda/${product.slug}`
                     :
-                    `/en/produse/${product.slug}`
+                    `/en/produse/comanda/${product.slug}`
                   }>
                     <a>
                       <div className="bg-ui-white rounded-xl p-5 border-2 border-transparent hover:border-accent-accent transition duration-300 group">

@@ -6,7 +6,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { PopupContext } from "../../components/context";
 import {API_URL} from '../../utils/urls'
 
-export default function ProductPage ({deviceType, name, price, images, description, category, options, optionVariants, productData, optionsRaw, lang, nameru, nameen, optionsRu, optionsEn, descriptionru, descriptionen}) {
+export default function ProductPage ({deviceType, name, images, description, category, options, optionVariants, productData, optionsRaw, lang, nameru, nameen, optionsRu, optionsEn, descriptionru, descriptionen, inStock}) {
 
     const {seenRecently, setSeenRecently} = useContext(SeenRecentlyContext)
     const [contor, setContor] = useState(productData[0].name)
@@ -113,7 +113,6 @@ export default function ProductPage ({deviceType, name, price, images, descripti
                 name={name}
                 nameru={nameru}
                 nameen={nameen}
-                price={price}
                 images={images}
                 category={category}
                 productData={productData}
@@ -121,6 +120,7 @@ export default function ProductPage ({deviceType, name, price, images, descripti
                 lang={lang}
                 optionsRu={optionsRu}
                 optionsEn={optionsEn}
+                inStock={inStock}
             />
             <ProductDescription 
                 deviceType={deviceType} 
@@ -135,8 +135,9 @@ export default function ProductPage ({deviceType, name, price, images, descripti
                 descriptionen={descriptionen}
                 productData={productData}
                 lang={lang}
+                inStock={inStock}
             />
-            <RecentProducts 
+            <RecentProducts
               deviceType={deviceType}
               lang={lang}
             >

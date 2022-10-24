@@ -1,22 +1,22 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState, useMemo } from 'react';
 import { coeficientFinder } from '../../lib/products';
 
 import { getCurrency, getCurrencyString, getPrice, getPriceAddon, isRoDomain } from '../../utils/general';
 import { AddonPopupContext } from '../context';
 
-export default function DropdownProduct2({sizeGlobal, textAcrilic, productData, price, setPrice, minWidth, maxWidth, maxHeight, minHeight, options, initialPrice, setSizeGlobal, lang, name, nameru, nameen, setTextAcrilic, register, optionsRaw}) {
+export default function DropdownProduct2({sizeGlobal, textAcrilic, productData, price, setPrice, minWidth, maxWidth, maxHeight, minHeight, options, initialPrice, setSizeGlobal, lang, name, nameru, nameen, setTextAcrilic, register, optionsRaw, activeAddons, setActiveAddons, inStock}) {
 
   const roDomain = isRoDomain()
 
   const customSize = name == "Dimensiuni recomandate"
-  const stockSize = name == "Dimensiuni:"
+  const stockSize = name === 'Dimensiune:'
 
   const {setAddonOpen} = useContext(AddonPopupContext)
 
   const [open, setOpen] = useState(true)
-  const [chosen , setChosen] = useState(0)
+  const [chosen , setChosen] = useState(inStock ? options[0].typename : 0)
   const [lastChosen, setLastChosen] = useState(0)
-  const [checked, setChecked] = useState(0)
+  const [checked, setChecked] = useState(inStock ? 1 : 0)
   const [inputValues, setInputValues] = useState({
     height : sizeGlobal.height,
     width: sizeGlobal.width
@@ -26,7 +26,7 @@ export default function DropdownProduct2({sizeGlobal, textAcrilic, productData, 
 
   const emptyTextAcrilic = textAcrilic === '' && productData.category.name === 'Text Acrilic'
 
-  const asRadio = options.length != 1 || stockSize
+  const asRadio = options.length !== 1 || stockSize || (options.length === 1 && inStock)
 
   const handleClick = (e) => {
     if (asRadio) {
@@ -105,27 +105,37 @@ export default function DropdownProduct2({sizeGlobal, textAcrilic, productData, 
   }, [inputValues])
 
   useEffect(() => {
-    if (checked === 0 ) return
-    else if (checked){
-      if (stockSize) {
-        setPrice(options[0].price)
-      } else setPrice(price + getPriceAddon(options[0], sizeGlobal) )
+    if (checked === 0 || inStock ) return
+    else if (checked) {
+      if (setActiveAddons) {
+        setActiveAddons([...activeAddons, options[0][addonName]])
+      }
+
+      setPrice(price + getPriceAddon(options[0], sizeGlobal) )
     }
     else {
-      if (stockSize) return
+      if (setActiveAddons) {
+        setActiveAddons(activeAddons.filter((name) => name != options[0][addonName]))
+      }
+
       setPrice(price - getPriceAddon(options[0], sizeGlobal) )
     }
   }, [checked])
 
+  const addonName = useMemo(() => lang === 'en' ? 'nameen' : lang === 'ru' ? 'nameru' : 'name', [lang])
+
   useEffect(() => {
-    if (chosen === 0){
-      if (stockSize) {
-        setPrice(initialPrice)
-      }
-      else if (lastChosen != 0 && !customSize){
+    if (inStock) return
+    else if (chosen === 0){
+      if (lastChosen != 0 && !customSize){
         let lastOptionRaw = options.filter((option) => option.typename == lastChosen)
         let lastOptionPrice = getPriceAddon(lastOptionRaw[0], sizeGlobal)
-      
+
+        
+        if (setActiveAddons) {
+          setActiveAddons(activeAddons.filter((name) => name != lastOptionRaw[0][addonName]))
+        }
+
         setPrice(price - lastOptionPrice)
         setLastChosen(0)
       }
@@ -133,14 +143,6 @@ export default function DropdownProduct2({sizeGlobal, textAcrilic, productData, 
     else {
       let optionRaw = options.filter((option) => option.typename == chosen)
       let optionPrice = 0
-      if (stockSize) {
-        setPrice(optionRaw[0].price)
-        setSizeGlobal({
-          height : optionRaw[0].height,
-          width : optionRaw[0].width
-        })
-        return
-      }
       if (customSize) {
         optionPrice = optionRaw[0].price
       }
@@ -150,6 +152,10 @@ export default function DropdownProduct2({sizeGlobal, textAcrilic, productData, 
 
       if (lastChosen === 0) {
         
+        if (setActiveAddons) {
+          setActiveAddons([...activeAddons, optionRaw[0][addonName]])
+        }
+
         if (customSize){
           setPrice(price + optionPrice - initialPrice)
           setSizeGlobal({
@@ -173,14 +179,18 @@ export default function DropdownProduct2({sizeGlobal, textAcrilic, productData, 
       else {
         let lastOptionRaw = options.filter((option) => option.typename == lastChosen)
         let lastOptionPrice = lastOptionRaw[0].price
+
         
+        if (setActiveAddons) {
+          setActiveAddons([...activeAddons.filter((name) => name != lastOptionRaw[0][addonName]), optionRaw[0][addonName]])
+        }
+
         if (customSize){
           setSizeGlobal({
             height : optionRaw[0].height,
             width : optionRaw[0].width
           })
         }
-        
         setPrice(price + optionPrice - lastOptionPrice)
         setLastChosen(chosen)
       }
@@ -399,17 +409,17 @@ export default function DropdownProduct2({sizeGlobal, textAcrilic, productData, 
             <div className="text-lg-17 lg:text-lg-14 font-medium text-type-dark mr-2 md:mr-2">
               { customSize 
                   ? `${sizeGlobal.height}x${sizeGlobal.width}` 
-                  : (asRadio || stockSize) 
+                  : (asRadio) 
                     ? chosen 
                       ? lang == "ro" 
                         ? chosen
-                        : lang == "ru" 
+                        : lang == "ru"
                           ? stockSize 
-                            ? chosen 
-                            : optionsRaw.filter((optionRaw, index) => optionRaw.typename == chosen )[0].typenameru 
+                            ? options.filter((option) => option.typename == chosen)[0].typenameru
+                            : optionsRaw.filter((optionRaw) => optionRaw.typename == chosen)[0].typenameru
                           : stockSize 
-                            ? chosen 
-                            : optionsRaw.filter((optionRaw, index) => optionRaw.typename == chosen )[0].typenameen
+                            ? options.filter((option) => option.typename == chosen)[0].typenameen
+                            : optionsRaw.filter((optionRaw) => optionRaw.typename == chosen)[0].typenameen
                       : "" 
                     : checked 
                       ? lang == "ro" 
@@ -420,7 +430,7 @@ export default function DropdownProduct2({sizeGlobal, textAcrilic, productData, 
                       : "" }
             </div>
 
-            <div className={`${name === "Dimensiuni recomandate" ? "block" : "hidden"}`}>
+            <div className={`${customSize ? "block" : "hidden"}`}>
               <svg xmlns="http://www.w3.org/2000/svg" className={`${open ? "hidden" : "block"} h-4 w-4 text-ui-blueishGrey group-hover:text-type-manatee transition duration-300`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
@@ -441,7 +451,7 @@ export default function DropdownProduct2({sizeGlobal, textAcrilic, productData, 
             className={`w-full h-auto py-3 flex flex-row justify-between items-start px-4 ${asRadio ? chosen==option.typename ? "text-type-dark":"text-type-grey hover:text-type-manatee" : checked ? "text-type-dark" : "text-type-grey hover:text-type-manatee"} transition duration-300`}
             key={index}
           >
-            <label className="flex-grow text-lg-17 lg:text-lg-14 flex flex-row justify-start items-center cursor-pointer">
+            <label className={`flex-grow text-lg-17 lg:text-lg-14 flex flex-row justify-start items-center ${inStock ? 'pointer-events-none' : 'cursor-pointer'}`}>
               {
                 asRadio ?
                 <input 
@@ -461,6 +471,7 @@ export default function DropdownProduct2({sizeGlobal, textAcrilic, productData, 
                   type="checkbox" 
                   className="h-3 w-3 border-2 border-type-grey checked:bg-accent-accent hover:bg-accent-transparent shadow-none outline-none mr-2 transition duration-300" 
                   name={name}
+                  checked={checked}
                   onClick={(e) => {
                     handleClick(e)
                   }}
@@ -478,18 +489,14 @@ export default function DropdownProduct2({sizeGlobal, textAcrilic, productData, 
                 }
               </div>
             </label>
-            <div className="flex flex-row justify-between items-center min-w-75px">
-              <div className="text-lg-17 lg:text-lg-14 font-medium">
-                {
-                roDomain ?
-                Math.round(getPriceAddon(option, sizeGlobal) / currency)
-                :
-                Math.round(getPriceAddon(option, sizeGlobal))
-                } 
-                {
-                getCurrencyString(lang, roDomain)
-                }
-              </div>
+            <div className={`flex flex-row ${inStock ? 'justify-end' : 'justify-between'} items-center min-w-75px`}>
+              {!inStock &&
+                (<div className="text-lg-17 lg:text-lg-14 font-medium">
+                  {roDomain 
+                    ? Math.round(getPriceAddon(option, sizeGlobal) / currency)
+                    : Math.round(getPriceAddon(option, sizeGlobal))} 
+                  {getCurrencyString(lang, roDomain)}
+                </div>)}
 
               {option[`popup${
               lang === 'ro' ? 

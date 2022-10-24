@@ -37,15 +37,15 @@ export const getServerSideProps = async ({ res }) => {
         .map(({ slug, updated_at }) => {
           return `
               <url>
-                <loc>${baseUrlMd}/produse/${slug}</loc>
+                <loc>${baseUrlMd}/produse/comanda/${slug}</loc>
                 <lastmod>${updated_at}</lastmod>
               </url>
               <url>
-                <loc>${baseUrlMd}/ru/produse/${slug}</loc>
+                <loc>${baseUrlMd}/ru/produse/comanda/${slug}</loc>
                 <lastmod>${updated_at}</lastmod>
               </url>
               <url>
-                <loc>${baseUrlMd}/en/produse/${slug}</loc>
+                <loc>${baseUrlMd}/en/produse/comanda/${slug}</loc>
                 <lastmod>${updated_at}</lastmod>
               </url>
             `;

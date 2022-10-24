@@ -6,14 +6,14 @@ import { DeviceTypeContext } from "../context";
 import Link from "next/link"
 
 export default function ProductDescription ({
-  images, 
-  name ,
-  description, 
+  images,
+  name,
+  description,
   productData, 
-  lang, 
-  nameru, 
-  nameen, 
-  descriptionru, 
+  lang,
+  nameru,
+  nameen,
+  descriptionru,
   descriptionen
 }) {    
   const {deviceType} = useContext(DeviceTypeContext)
@@ -200,7 +200,7 @@ export default function ProductDescription ({
       </div>
 
       {
-        productData[0].related_products.length != 0 &&  
+        productData[0].related_products && productData[0].related_products.length != 0 &&  
         <div className="w-full pt-40 pb-10">
           <div className="text-lg-32 text-type-dark font-medium mb-3">
             {
@@ -220,12 +220,12 @@ export default function ProductDescription ({
                 index < maxRelated &&
                 <Link href={
                   lang == "ro" ? 
-                  `/produse/${product.slug}` 
+                  `/produse/${productData[0].inStock ? 'stoc' : 'comanda'}/${product.slug}` 
                   : 
                   lang == "ru" ?
-                  `/ru/produse/${product.slug}`
+                  `/ru/produse/${productData[0].inStock ? 'stoc' : 'comanda'}/${product.slug}`
                   :
-                  `/en/produse/${product.slug}`
+                  `/en/produse/${productData[0].inStock ? 'stoc' : 'comanda'}/${product.slug}`
                 }>
                  <a className={getColSpanRelated()}>
                     <div key={index} className="h-auto w-full">

@@ -26,10 +26,13 @@ export default async (req, res) => {
 
   const is_ro = country === 'Romania' ? "true" : ""
   const currencyStrapi = await getCurrency()
+  console.log('currencyStrapi : ', currencyStrapi)
   const pret_ro = Math.round(pret / currencyStrapi)
+  console.log('pret_ro : ', pret_ro)
 
   const orders_ro = orders.map((order) => ({...order, price: Math.round(order.price / currencyStrapi)}))
-
+  console.log('orders_ro : ', orders_ro)
+  
   const today = new Date()
   const localOffset = new Date().getTimezoneOffset()
   const localOffsetMillis = 60 * 1000 * localOffset
@@ -54,11 +57,11 @@ export default async (req, res) => {
   const time = hours + ':' + min + ':' + sec
 
   try {
-    let comandaRaw = await ReactPDF.renderToStream(<BlancComanda data={{...data, date, executionDate, id, price: is_ro ? pret : pret_ro}} orders={is_ro ? orders_ro : orders}/>)
+    let comandaRaw = await ReactPDF.renderToStream(<BlancComanda data={{...data, date, executionDate, id, price: is_ro ? pret_ro : pret}} orders={is_ro ? orders_ro : orders}/>)
     const comanda = await stream2buffer(comandaRaw)
 
     const certificate = await Promise.all(orders.map(async(order, index) => {
-      let garantieRaw = await ReactPDF.renderToStream(<CertificatGarantie data={{...data, date, executionDate, id, price: is_ro ? pret : pret_ro}} order={order}/>)
+      let garantieRaw = await ReactPDF.renderToStream(<CertificatGarantie data={{...data, date, executionDate, id, price: is_ro ? pret_ro : pret}} order={order}/>)
       const garantie = await stream2buffer(garantieRaw)
       return ({
         content: garantie.toString('base64'),
@@ -96,16 +99,13 @@ export default async (req, res) => {
             phone : phone,
             address : address,
             email : email,
-            pret : pret,
+            pret : is_ro ? pret_ro : pret,
             comentariu : comentariu,
             mod_de_plata : mod_de_plata_new,
             mod_de_livrare : mod_de_livrare_new,
-            orders : orders,
+            orders : is_ro ? orders_ro : orders,
             created_at : date+" "+time,
             country: country,
-            is_ro,
-            pret_ro,
-            orders_ro
           }
         }
       ],

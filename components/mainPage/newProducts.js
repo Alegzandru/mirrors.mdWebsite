@@ -61,12 +61,12 @@ export default function NewProducts(props) {
               <SwiperSlide key={index} className="product-card">
                 <Link href={
                   props.lang == "ro" ? 
-                  `/produse/${product.slug}` 
+                  `/produse/comanda/${product.slug}` 
                   : 
                   props.lang == "ru" ?
-                  `/ru/produse/${product.slug}`
+                  `/ru/produse/comanda/${product.slug}`
                   :
-                  `/en/produse/${product.slug}`
+                  `/en/produse/comanda/${product.slug}`
                 }>
                   <a>
                     <div key={index} className="h-auto w-full">
