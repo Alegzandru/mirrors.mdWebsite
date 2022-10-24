@@ -22,12 +22,10 @@ export default function Category({category, name, products, lang, nameru, nameen
   const getProductPrice = (product) => {
     if (inStock) {
       if (roDomain) return product.price_ro * currency
-      else product.price
+      else return product.price
     }
-    else if (roDomain) {
-      if (currency === 4) return '...'
-      else return Math.round( getPrice(product, product.smallestsize) * (1 + product.smallcoeficient_ro)) 
-    } else return Math.round( getPrice(product, product.smallestsize) * (1 + product.smallcoeficient)) 
+    else if (roDomain) return Math.round( getPrice(product, product.smallestsize) * (1 + product.smallcoeficient_ro)) 
+    else return Math.round( getPrice(product, product.smallestsize) * (1 + product.smallcoeficient)) 
   }
 
   const smallCoeficient = roDomain ? 'smallcoeficient_ro' : 'smallcoeficient'
