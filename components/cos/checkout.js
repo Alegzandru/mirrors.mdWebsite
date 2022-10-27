@@ -808,42 +808,46 @@ export default function Checkout({lang}) {
           </div>
 
           <div className={`${step == 3 ? "block" : "hidden"} w-full bg-ui-white md:pt-14 px-6 py-10 md:pb-16 md:px-12 mb-12`}>
-            <label className="w-full py-20px border-1.5px border-ui-darkGrey flex flex-row justify-start items-center mb-6 text-type-grey focus-within:text-type-dark transition duration-300 cursor-pointer">
-              <input
-                type="radio"
-                name="plata"
-                value="card"
-                className="w-3 h-3 border-2 mx-4 border-ui-blueishGrey"
-                {...register("plata", { required: step == 3 ? true : false })}
-              />
-              <div className="h-8 w-14 relative">
-                <Image
-                  src="/checkout/visa.svg"
-                  layout="fill"
-                  objectFit="cover"
-                  alt="VISA"
+            {roDomain 
+              ? 
+              (<label className="w-full py-20px border-1.5px border-ui-darkGrey flex flex-row justify-start items-center mb-6 text-type-grey focus-within:text-type-dark transition duration-300 cursor-pointer">
+                <input
+                  type="radio"
+                  name="plata"
+                  value="card"
+                  className="w-3 h-3 border-2 mx-4 border-ui-blueishGrey"
+                  {...register("plata", { required: step == 3 ? true : false })}
                 />
-              </div>
-              <div className="h-8 w-10 relative mr-4">
-                <Image
-                  src="/checkout/mastercard.svg"
-                  layout="fill"
-                  objectFit="cover"
-                  alt="MASTERCARD"
-                />
-              </div>
-              <div className="flex-grow text-lg-14">
-                {
-                  lang == "ro" ?
-                  <span><span>Transfer direct</span><span className='text-accent-error'>{roDomain ? "" : " (suma va fi calculată în roni)"}</span></span>
-                  :
-                  lang == "ru" ?
-                  <span><span>Перевод с карты</span><span className='text-accent-error'>{roDomain ? "" : " (сумма будет рассчитана в RON)"}</span></span>
-                  :
-                  <span><span>Direct transfer</span><span className='text-accent-error'>{roDomain ? "" : " (the amount will be calculated in RON)"}</span></span>
-                }
-              </div>
-            </label>
+                <div className="h-8 w-14 relative">
+                  <Image
+                    src="/checkout/visa.svg"
+                    layout="fill"
+                    objectFit="cover"
+                    alt="VISA"
+                  />
+                </div>
+                <div className="h-8 w-10 relative mr-4">
+                  <Image
+                    src="/checkout/mastercard.svg"
+                    layout="fill"
+                    objectFit="cover"
+                    alt="MASTERCARD"
+                  />
+                </div>
+                <div className="flex-grow text-lg-14">
+                  {
+                    lang == "ro" ?
+                    <span><span>Transfer direct</span><span className='text-accent-error'>{roDomain ? "" : " (suma va fi calculată în roni)"}</span></span>
+                    :
+                    lang == "ru" ?
+                    <span><span>Перевод с карты</span><span className='text-accent-error'>{roDomain ? "" : " (сумма будет рассчитана в RON)"}</span></span>
+                    :
+                    <span><span>Direct transfer</span><span className='text-accent-error'>{roDomain ? "" : " (the amount will be calculated in RON)"}</span></span>
+                  }
+                </div>
+              </label>)
+              : null
+            }
 
             <label className="w-full py-20px border-1.5px border-ui-darkGrey flex flex-row justify-start items-center mb-6 text-type-grey focus-within:text-type-dark transition duration-300 cursor-pointer">
               <input

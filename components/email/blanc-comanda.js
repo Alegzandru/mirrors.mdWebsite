@@ -347,7 +347,7 @@ export const BlancComanda = ({data, orders}) => {
           <Text style={styles.sizeValue}/>
           <Text style={styles.addOnsValue}/>
           <Text style={styles.quantityValue}/>
-          <Text style={styles.priceValue}>{data.pret} lei</Text>
+          <Text style={styles.priceValue}>{data.price} lei</Text>
         </View>
         <View style={styles.productRow}>
           <Text style={styles.numberValue}>{index+3}</Text>

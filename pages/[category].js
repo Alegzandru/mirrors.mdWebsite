@@ -67,11 +67,11 @@ export async function getStaticPaths() {
   const categoryRes = await fetch(`${API_URL}/categories`)
   const categories = await categoryRes.json()
   const paths = categories.map((category, index) => {
-      return({
-          params : {
-              category : category.slug
-          }
-      })
+    return({
+      params : {
+        category : category.slug
+      }
+    })
   })
   return {
     paths,

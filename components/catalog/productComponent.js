@@ -21,9 +21,7 @@ var Element = Scroll.Element;
 export default function ProductComponent ({ name, images, options, optionVariants, productData, optionsRaw, lang, nameru, nameen, optionsRu, optionsEn}) {
   const roDomain = isRoDomain()
   const router = useRouter()
-  const queryKey = 'tip';
-  const queryValue = router.query[queryKey] || router.asPath.match(new RegExp(`[&?]${queryKey}=(.*)(&|$)`))
-  const inStock = queryValue ? typeof queryValue === 'string' ? queryValue === 'stoc' : queryValue.length ? queryValue.includes('stoc') : false : false
+  const {inStock} = productData
 
   const [lightboxOpen, setLightboxOpen] = useState(0)
   const imagesLightbox = images.map((image) => {
@@ -31,33 +29,41 @@ export default function ProductComponent ({ name, images, options, optionVariant
   })
       
   const [checkout, setCheckout] = useState(false)
-  const {cart, setCart} = useContext(CartContext)
-
-  const getSmallestPriceProduct = (finished) => {
-    const prices = finished.map((product) => roDomain ? product.price_ro : product.price)
-    const min = Math.min(...prices)
-    return finished.filter((product) => product.price === min)[0]
-  }
-
-  const smallestPriceProduct = useMemo(() => getSmallestPriceProduct(productData[0].finished_products), [getSmallestPriceProduct, productData])
-
-  const getInitialPrice = useCallback(() => {
-    if (inStock) {
-      return smallestPriceProduct.price
-    } else return Math.round(getPrice(productData[0], productData[0].defaultsize) * ( 1 + coeficientFinder(productData[0].defaultsize, productData[0], roDomain)))
-  }, [inStock, productData, getPrice, coeficientFinder, roDomain])
-
-  const [price, setPrice] = useState(getInitialPrice())
-
-  const getInitialSize = () => {
-    if (inStock) return ({ height: smallestPriceProduct.height, width: smallestPriceProduct.width})
-    else return productData[0].defaultsize
-  }
-
-  const [sizeGlobal, setSizeGlobal] = useState(getInitialSize())
+  const [openImage, setOpenImage] = useState(0)
   const [textAcrilic, setTextAcrilic] = useState('')
   const [openOptions, setOpenOptions] = useState(true)
   const [currency, setCurrency] = useState(4)
+
+  const addOnName = useMemo(() => lang === 'en' ? 'nameen' : lang === 'nameru' ? 'ru' : 'name', [lang])
+  const inStockChosen = optionsRaw.map((option) => option[addOnName])
+  const [activeAddons, setActiveAddons] = useState(inStock ? inStockChosen : [])
+
+  const {cart, setCart} = useContext(CartContext)
+
+  const stockProduct = useMemo(() => ({
+    price: roDomain ? productData[0].price_ro * currency : productData[0].price,
+    height: productData[0].height,
+    width: productData[0].width
+  }), [productData, roDomain, currency])
+
+  const initialPrice = useMemo(() => {
+    if (inStock) {
+      return stockProduct.price
+    } else return Math.round(getPrice(productData[0], productData[0].defaultsize) * ( 1 + coeficientFinder(productData[0].defaultsize, productData[0], roDomain)))
+  }, [inStock, productData, getPrice, coeficientFinder, roDomain, stockProduct])
+
+  const getInitialSize = () => {
+    if (inStock) return ({ height: stockProduct.height, width: stockProduct.width})
+    else return productData[0].defaultsize
+  }
+
+  const [price, setPrice] = useState(initialPrice)
+
+  useEffect(() => {
+    if (inStock) setPrice(initialPrice)
+  }, [initialPrice])
+
+  const [sizeGlobal, setSizeGlobal] = useState(getInitialSize())
 
   const emptyTextAcrilic = (textAcrilic === ' ' || !textAcrilic ) && productData[0].category.name === 'Text Acrilic'
 
@@ -71,6 +77,7 @@ export default function ProductComponent ({ name, images, options, optionVariant
   })
 
   const customSizes = useMemo(() => {
+    if (inStock) return []
     const sorted = sortBySize(productData[0].linkedsizes)
     return sorted.map((size) => {
     return (
@@ -83,26 +90,23 @@ export default function ProductComponent ({ name, images, options, optionVariant
         price : Math.round(getPrice(productData[0], size) * ( 1 + coeficientFinder(size, productData[0], roDomain)))
       }
     )
-  })}, [])
+  })}, [inStock, sortBySize, productData])
 
   const inStockSizes = useMemo(() => {
-    const sorted = sortBySize(productData[0].finished_products)
-    return sorted.map((product) => {
-      return (
-        {
-          height : product.height,
-          width : product.width,
-          typename : `${product.height}x${product.width}`,
-          typenameru : `${product.height}x${product.width}`,
-          typenameen: `${product.height}x${product.width}`,
-          price : product.price
-        }
-      )
-  })}, [])
+    if (!inStock) return []
+    return [({
+      height : productData[0].height,
+      width : productData[0].width,
+      typename : `${productData[0].height}x${productData[0].width}`,
+      typenameru : `${productData[0].height}x${productData[0].width}`,
+      typenameen: `${productData[0].height}x${productData[0].width}`,
+      price : productData[0].price
+    })]
+  }, [inStock, productData])
 
   const onSubmit = async (data) => {
     contorAddons = 1
-    const addOns = inStock ? [] : Object.entries(data).filter((addOn) => addOn[1] != null && addOn[1] != false && addOn[0] != "Dimensiuni recomandate")
+    const addOns = Object.entries(data).filter((addOn) => addOn[1] != null && addOn[1] != false && addOn[0] != "Dimensiuni recomandate")
     let size = productData[0].defaultsize
     size = await getSize(sizeGlobal.height, sizeGlobal.width)
 
@@ -177,8 +181,12 @@ export default function ProductComponent ({ name, images, options, optionVariant
               }
             }
 
-            productCart.addOns.push(addOnRaw[0])
-            addOnsPrice += getPriceAddon( addOnRaw[0] , productCart.size)
+            if (addOnRaw[0]) {
+              productCart.addOns.push(addOnRaw[0])
+              if (!inStock) {
+                addOnsPrice += getPriceAddon( addOnRaw[0] , productCart.size)
+              }
+            }
 
             if (index == addOns.length-1) {
               if( contorAddons && cart[cart.length - 1].size.name == `${size.height}x${size.width}` && productCart.textAcrilic == cart[cart.length - 1].textAcrilic){
@@ -220,8 +228,6 @@ export default function ProductComponent ({ name, images, options, optionVariant
 
     withCurrency()
   }, [] )
-      
-  const [openImage, setOpenImage] = useState(0)
 
   return (
     <div className="w-full h-auto px-container-sm md:px-container-md lg:px-container-lg xl:px-container-xl pt-128px md:pt-136px lg:pt-234px pb-88px md:pb-120px font-Ubuntu bg-ui-darkGrey">
@@ -250,33 +256,38 @@ export default function ProductComponent ({ name, images, options, optionVariant
           </a>
         </Link>
 
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-        </svg>
 
-        <Link href={
-          lang == "ro" ? 
-          `/${productData[0].category.slug}` 
-          : 
-          lang == "ru" ?
-          `/ru/${productData[0].category.slug}`
-          :
-          `/en/${productData[0].category.slug}`
-        }>
-          <a>
-            <span className="mr-1">
-              {
-                lang=="ro" ?
-                productData[0].category.name
-                :
-                lang == "ru" ?
-                productData[0].category.nameru
-                :
-                productData[0].category.nameen
-              }
-            </span>
-          </a>
-        </Link>
+        {
+          !inStock &&
+          <>
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+            <Link href={
+              lang == "ro" ? 
+              `/${productData[0].category.slug}` 
+              : 
+              lang == "ru" ?
+              `/ru/${productData[0].category.slug}`
+              :
+              `/en/${productData[0].category.slug}`
+            }>
+              <a>
+                <span className="mr-1">
+                  {
+                    lang=="ro" ?
+                    productData[0].category.name
+                    :
+                    lang == "ru" ?
+                    productData[0].category.nameru
+                    :
+                    productData[0].category.nameen
+                  }
+                </span>
+              </a>
+            </Link>
+          </>
+        }
 
         <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -338,28 +349,30 @@ export default function ProductComponent ({ name, images, options, optionVariant
           {
             inStock ?
             <DropdownProduct2
-              name={"Dimensiuni:"}
+              name={"Dimensiune:"}
               nameru={"Размеры"}
               nameen={"Sizes"}
-              options={inStock ? inStockSizes : customSizes}
+              options={inStockSizes}
               register={register}
               setPrice={setPrice}
               price={price}
               sizeGlobal={sizeGlobal}
               setSizeGlobal={setSizeGlobal}
-              initialPrice={getInitialPrice()}
+              initialPrice={initialPrice}
               coeficientFinder={coeficientFinder}
               productData={productData[0]}
               lang={lang}
               textAcrilic={textAcrilic}
               setTextAcrilic={setTextAcrilic}
+              inStock={inStock}
+              optionsRaw={optionsRaw}
             />
           :
             <DropdownProduct2
               name={"Dimensiuni recomandate"}
               nameru={"Рекомендуемые размеры"}
               nameen={"Recommended sizes"}
-              options={inStock ? inStockSizes : customSizes}
+              options={customSizes}
               register={register}
               setPrice={setPrice}
               price={price}
@@ -395,7 +408,7 @@ export default function ProductComponent ({ name, images, options, optionVariant
 
           <div className="text-lg-32 text-accent-accent mb-12">
             {
-              roDomain 
+              roDomain
               ? currency === 4 
                 ? '...'
                 : Math.round(price / currency) 
@@ -405,11 +418,29 @@ export default function ProductComponent ({ name, images, options, optionVariant
               getCurrencyString(lang, roDomain)
             }
           </div>
+
+          {activeAddons.length 
+            ? (<div className="text-md-p text-type-grey mb-4">
+                <span className="font-bold text-accent-accent">
+                  {
+                    lang == "ro" ?
+                    "Opțiuni alese : "
+                    :
+                    lang == "ru" ?
+                    "Дополнительные опции : "
+                    :
+                    "Chosen add-ons : "
+                  }
+                </span>
+                {activeAddons.join(', ')}
+              </div>)
+            : null
+          }
           
           <form onSubmit={handleSubmit(onSubmit)} className="">
 
             {
-              !inStock && <>
+              <>
                 <div 
                   className="w-full cursor-pointer"
                   onClick={() => setOpenOptions(!openOptions)}
@@ -462,6 +493,9 @@ export default function ProductComponent ({ name, images, options, optionVariant
                       lang={lang}
                       optionsRaw={optionsRaw}
                       sizeGlobal={sizeGlobal}
+                      activeAddons={activeAddons}
+                      setActiveAddons={setActiveAddons}
+                      inStock={inStock}
                     />
                   )}
                 </Element>

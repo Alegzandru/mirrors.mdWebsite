@@ -91,11 +91,11 @@ export function Navbar (props) {
   }
 
   useEffect(() => {
-    if(props.category != undefined){
+    if(props.category){
       setPath(router.pathname.replace("[category]", props.category))
     }
-    if(props.slug != undefined){
-      setPath(router.pathname.replace("[slug]", props.slug))
+    if(props.slug && props.stock){
+      setPath(router.pathname.replace("[stock]", props.stock).replace("[slug]", props.slug))
     }
 
     const withCurrency = async () => {
@@ -288,11 +288,11 @@ export function Navbar (props) {
               <div key={index}>
                 <Link href={
                   props.lang == "ro" ? 
-                  `/produse/${product.slug}` : 
+                  `/produse/comanda/${product.slug}` : 
                   props.lang == "ru" ?
-                  `/ru/produse/${product.slug}`
+                  `/ru/produse/comanda/${product.slug}`
                   :
-                  `/en/produse/${product.slug}`
+                  `/en/produse/comanda/${product.slug}`
                 }>
                   <a>   
                     <div className={`h-72px border-b-0 border-t-2 border-l-0 border-r-0 flex flex-row justify-start items-center px-4 py-14px ${search != "" ? "border-ui-darkGrey" : ""}`}>
@@ -547,12 +547,12 @@ export function Navbar (props) {
                         <div key={index}>
                           <Link href={
                             props.lang == "ro" ? 
-                            `/produse/${product.slug}` 
+                            `/produse/comanda/${product.slug}` 
                             : 
                             props.lang == "ru" ?
-                            `/ru/produse/${product.slug}`
+                            `/ru/produse/comanda/${product.slug}`
                             :
-                            `/en/produse/${product.slug}`
+                            `/en/produse/comanda/${product.slug}`
                           }>
                             <a>  
                               <div className={`h-72px border-b-0 border-t-2 border-l-0 border-r-0 flex flex-row justify-start items-center px-4 py-14px ${search != "" ? "border-ui-darkGrey" : ""}`}>
@@ -632,19 +632,15 @@ export function Navbar (props) {
                       </svg>
                     </div>
                     <Link href={
-                      props.lang == "ro" ? 
-                      `/ru${path}` 
-                      :
-                      path == "/ru" ?
-                      "/en"
-                      :
-                      props.lang == "ru" ?
-                      `/en${path.slice(3)}`
-                      :
-                      path == "/en" ?
-                      "/"
-                      :
-                      path.slice(3)
+                      props.lang == "ro" 
+                        ? `/ru${path}` 
+                        : path == "/ru" 
+                          ? "/en"
+                          : props.lang == "ru" 
+                            ? `/en${path.slice(3)}`
+                            : path == "/en" 
+                              ? "/"
+                              : path.slice(3)
                     }>
                       <a>
                         <div className="h-8 bg-ui-white text-type-grey px-2 text-lg-14 py-1 flex flex-row justify-start items-center transition-all duration-300 -mt-8 group-hover:mt-0 z-10 relative">
@@ -661,19 +657,15 @@ export function Navbar (props) {
                       </a>
                     </Link>
                     <Link href={
-                      props.lang == "ro" ? 
-                      `/en${path}` 
-                      :
-                      path == "/ru" ?
-                      "/"
-                      :
-                      props.lang == "ru" ? 
-                      path == "/en" ?
-                      "/ru"
-                      :
-                      path.slice(3)
-                      :
-                      `/ru${path.slice(3)}`
+                      props.lang == "ro" 
+                      ? `/en${path}` 
+                      : path == "/ru" 
+                        ? "/"
+                        : props.lang == "ru" 
+                          ? path == "/en" 
+                            ? "/ru"
+                            : path.slice(3)
+                          : `/ru${path.slice(3)}`
                     }>
                       <a>
                         <div className="h-8 bg-ui-white text-type-grey px-2 text-lg-14 py-1 flex flex-row justify-start items-center transition-all duration-300 -mt-8 group-hover:mt-0 z-10 relative">
@@ -729,13 +721,11 @@ export function Navbar (props) {
                     categories.map((category, index) => 
                     <div key={index}>
                       <Link href={
-                        props.lang == "ro" ? 
-                        `/${category.slug}` 
-                        : 
-                        props.lang == "ru" ?
-                        `/ru/${category.slug}`
-                        :
-                        `/en/${category.slug}`
+                        props.lang == "ro" 
+                          ? `/${category.slug}` 
+                          : props.lang == "ru" 
+                            ? `/ru/${category.slug}`
+                            : `/en/${category.slug}`
                       }>
                         <a>
                           <div className="p-4 text-type-manatee hover:text-type-dark hover:underline transition duration-300">
@@ -1156,19 +1146,15 @@ export function Navbar (props) {
                         </li>
 
                         <Link href={
-                          props.lang == "ro" ? 
-                          `/ru${path}` 
-                          :
-                          path == "/ru" ?
-                          "/en"
-                          :
-                          props.lang == "ru" ?
-                          `/en${path.slice(3)}`
-                          :
-                          path == "/en" ?
-                          "/"
-                          :
-                          path.slice(3)
+                          props.lang == "ro" 
+                            ? `/ru${path}` 
+                            : path == "/ru" 
+                              ? "/en"
+                              : props.lang == "ru" 
+                                ? `/en${path.slice(3)}`
+                                : path == "/en" 
+                                  ? "/"
+                                  : path.slice(3)
                         }>
                             <a>
                                 <li className={`w-full py-4 px-40px ${mobileLangOpen ? "block" : "hidden"}`}>
@@ -1186,19 +1172,15 @@ export function Navbar (props) {
                         </Link>
 
                         <Link href={
-                          props.lang == "ro" ? 
-                          `/en${path}` 
-                          :
-                          path == "/ru" ?
-                          "/"
-                          :
-                          props.lang == "ru" ? 
-                          path == "/en" ?
-                          "/ru"
-                          :
-                          path.slice(3)
-                          :
-                          `/ru${path.slice(3)}`
+                          props.lang == "ro" 
+                            ? `/en${path}` 
+                            : path == "/ru" 
+                              ? "/"
+                              : props.lang == "ru" 
+                                ? path == "/en" 
+                                  ? "/ru"
+                                  : path.slice(3)
+                                : `/ru${path.slice(3)}`
                         }>                            
                             <a>
                                 <li className={`w-full py-4 px-40px ${mobileLangOpen ? "block" : "hidden"}`}>

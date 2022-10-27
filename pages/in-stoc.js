@@ -26,15 +26,20 @@ export default function Catalog ({products}) {
 }
 
 export async function getStaticProps (){
-  const products_res = await fetch(`${API_URL}/products`)
-  const products_raw = await products_res.json()
-  const products = products_raw.filter((product) => 
-    product.name &&
-    product.nameru &&
-    product.nameen &&
+  const finishedProducts_res = await fetch(`${API_URL}/finished-products`)
+  const finishedProducts_raw = await finishedProducts_res.json()
+  const finishedProducts = finishedProducts_raw.filter((product) => 
     product.slug &&
-    product.finished_products && product.finished_products.length
+    product.product &&
+    product.height &&
+    product.width
   )
+
+  const products = finishedProducts.map((finishedProduct) => ({
+    ...finishedProduct.product, 
+    ...finishedProduct,
+    inStock: true
+  }))
 
   return {
     props : {
